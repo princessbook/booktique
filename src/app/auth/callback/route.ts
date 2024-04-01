@@ -8,6 +8,7 @@ export const GET = async (request: NextRequest) => {
   const code = requestUrl.searchParams.get('code');
 
   if (code) {
+    console.log('12312312');
     // 클라이언트에서 온 request에서 code가 있다면 쿠키를 만들고 세션으로 바꾸기
     const supabase = createRouteHandlerClient({ cookies });
     await supabase.auth.exchangeCodeForSession(code);

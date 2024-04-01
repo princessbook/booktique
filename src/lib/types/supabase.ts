@@ -9,23 +9,354 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      users: {
+      club_activities: {
         Row: {
-          email: string | null
-          id: number
-          nickname: string
+          club_id: string | null
+          id: string
+          progress: number | null
+          time: number | null
+          user_id: string
         }
         Insert: {
-          email?: string | null
-          id?: number
-          nickname: string
+          club_id?: string | null
+          id?: string
+          progress?: number | null
+          time?: number | null
+          user_id?: string
         }
         Update: {
-          email?: string | null
-          id?: number
-          nickname?: string
+          club_id?: string | null
+          id?: string
+          progress?: number | null
+          time?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_club_activities_club_id_fkey"
+            columns: ["club_id"]
+            isOneToOne: false
+            referencedRelation: "clubs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      club_like: {
+        Row: {
+          club_id: string | null
+          id: string
+          user_id: string
+        }
+        Insert: {
+          club_id?: string | null
+          id?: string
+          user_id?: string
+        }
+        Update: {
+          club_id?: string | null
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_club_like_club_id_fkey"
+            columns: ["club_id"]
+            isOneToOne: false
+            referencedRelation: "clubs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clubs: {
+        Row: {
+          archive: boolean | null
+          book_id: number | null
+          created_at: string
+          description: string | null
+          headline: string | null
+          id: string
+          max_member_count: number | null
+          reading_period: number | null
+          thumbnail: string | null
+        }
+        Insert: {
+          archive?: boolean | null
+          book_id?: number | null
+          created_at?: string
+          description?: string | null
+          headline?: string | null
+          id?: string
+          max_member_count?: number | null
+          reading_period?: number | null
+          thumbnail?: string | null
+        }
+        Update: {
+          archive?: boolean | null
+          book_id?: number | null
+          created_at?: string
+          description?: string | null
+          headline?: string | null
+          id?: string
+          max_member_count?: number | null
+          reading_period?: number | null
+          thumbnail?: string | null
         }
         Relationships: []
+      }
+      members: {
+        Row: {
+          club_id: string
+          id: string
+          role: Database["public"]["Enums"]["member_role"] | null
+          user_id: string | null
+        }
+        Insert: {
+          club_id: string
+          id?: string
+          role?: Database["public"]["Enums"]["member_role"] | null
+          user_id?: string | null
+        }
+        Update: {
+          club_id?: string
+          id?: string
+          role?: Database["public"]["Enums"]["member_role"] | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_members_club_id_fkey"
+            columns: ["club_id"]
+            isOneToOne: false
+            referencedRelation: "clubs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_members_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      post_comments: {
+        Row: {
+          content: string | null
+          created_at: string | null
+          id: string
+          post_id: string | null
+          user_id: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string | null
+          id?: string
+          post_id?: string | null
+          user_id: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string | null
+          id?: string
+          post_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_post_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      posts: {
+        Row: {
+          club_id: string | null
+          content: string | null
+          created_at: string
+          id: string
+          title: number | null
+          user_id: string | null
+        }
+        Insert: {
+          club_id?: string | null
+          content?: string | null
+          created_at?: string
+          id?: string
+          title?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          club_id?: string | null
+          content?: string | null
+          created_at?: string
+          id?: string
+          title?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_posts_club_id_fkey"
+            columns: ["club_id"]
+            isOneToOne: false
+            referencedRelation: "clubs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_posts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          display_name: string
+          id: string
+          interests: string | null
+          introduction: string | null
+          most_favorite_book: string | null
+          photo_URL: Json | null
+        }
+        Insert: {
+          display_name: string
+          id?: string
+          interests?: string | null
+          introduction?: string | null
+          most_favorite_book?: string | null
+          photo_URL?: Json | null
+        }
+        Update: {
+          display_name?: string
+          id?: string
+          interests?: string | null
+          introduction?: string | null
+          most_favorite_book?: string | null
+          photo_URL?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz: {
+        Row: {
+          club_id: string | null
+          creator_id: string
+          id: string
+          schema: Json | null
+          title: string | null
+        }
+        Insert: {
+          club_id?: string | null
+          creator_id?: string
+          id?: string
+          schema?: Json | null
+          title?: string | null
+        }
+        Update: {
+          club_id?: string | null
+          creator_id?: string
+          id?: string
+          schema?: Json | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_quiz_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sentence_comments: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          sentence_id: string
+          user_id: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          sentence_id?: string
+          user_id?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          sentence_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_sentence_comments_sentence_id_fkey"
+            columns: ["sentence_id"]
+            isOneToOne: false
+            referencedRelation: "sentences"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_sentence_comments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sentences: {
+        Row: {
+          club_id: string
+          created_at: string
+          id: string
+          sentence_content: string | null
+          user_id: string | null
+        }
+        Insert: {
+          club_id: string
+          created_at?: string
+          id?: string
+          sentence_content?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          club_id?: string
+          created_at?: string
+          id?: string
+          sentence_content?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_sentences_club_id_fkey"
+            columns: ["club_id"]
+            isOneToOne: false
+            referencedRelation: "clubs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_sentences_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -35,7 +366,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      member_role: "admin" | "member"
     }
     CompositeTypes: {
       [_ in never]: never

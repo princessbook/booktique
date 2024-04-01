@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <QueryProvider>
-    <html lang="en">
+    <html lang="en" className="w-[375px] mx-auto">
       <body className={inter.className}>{children}</body>
     </html>
     </QueryProvider>

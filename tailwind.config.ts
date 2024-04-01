@@ -11,12 +11,17 @@ const config: Config = {
       xs: "375px",
     },
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      screens: {
+        'layout': {'raw': '(min-width: 375px)'}, // 전체 layout에 xs 사이즈를 적용할 수 있도록 새로운 스크린을 추가합니다.
       },
     },
+    colors: {
+      mainblue : "#35A5F6",
+      subblue: "#59B9FF",
+      bookpurble: "#BA61FF",
+      bookyellow: "#E9FF8F",
+      bookwhite: "#F8F8FD",
+    }
   },
   plugins: [],
 };

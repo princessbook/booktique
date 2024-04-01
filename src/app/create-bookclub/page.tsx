@@ -32,6 +32,25 @@ const CreateBookPage = () => {
     }
   };
 
+  const insertBookClubDataToDB = async (storageImg: string) => {
+    try {
+      const { data, error } = await supabase.from('clubs').insert([
+        {
+          created_at: new Date().toISOString(),
+          book_id: 'isbn13',
+          description: description,
+          max_member_count: selectedParticipants,
+          archive: false,
+          thumbnail: storageImg // 이미지 URL도 데이터에 포함
+        }
+      ]);
+
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleClubNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setClubName(e.target.value);
   };
@@ -47,9 +66,11 @@ const CreateBookPage = () => {
     setSelectedParticipants(selected);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    const storageImg = await uploadImageStorage(selectedImage!);
+    if (!storageImg) return;
+    await insertBookClubDataToDB(storageImg);
     console.log(clubName);
     console.log(description);
     console.log(selectedParticipants);
@@ -135,7 +156,7 @@ const CreateBookPage = () => {
           </button>
         </div>
         <input
-          type='button'
+          type='submit'
           value='개설하기'
           className='mx-auto p-3 bg-mainblue'
         />

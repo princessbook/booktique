@@ -4,11 +4,17 @@ import Image from 'next/image';
 export default function Home() {
   return (
     <div className='flex flex-col'>
-      <h1>Homepage</h1>
-      <Button selected={false} text='dd' />
-      <Button
-        text='Button Text'
-        customStyle='w-[343px] bg-[#E9FF8F] text-black rounded-lg'></Button>
+      <h1>꿈을펼쳐봐</h1>
+      <Button selected={false} text='Small Button' small></Button>
+      <h1>꿈을펼쳐봐</h1>
+      <h1>꿈을펼쳐봐</h1>
+      <h1>꿈을펼쳐봐</h1>
+      <h1>꿈을펼쳐봐</h1>
+      <h1>꿈을펼쳐봐</h1>
+      <h1>꿈을펼쳐봐</h1>
+      <h1>꿈을펼쳐봐</h1>
+      <h1>꿈을펼쳐봐</h1>
+      <Button text='Large Button' large></Button>
     </div>
   );
 }

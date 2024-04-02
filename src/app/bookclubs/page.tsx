@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import { addOneMonth, extractDate } from '@/utils/time';
 import Link from 'next/link';
 
 const BookClubsPage = async () => {
@@ -11,12 +12,16 @@ const BookClubsPage = async () => {
       <h2 className='text-center'>전체 북클럽</h2>
       <section className='p-3'>
         {bookclubs.map((bookclub) => (
-          <Link key={bookclub.id} href={`/detail/${bookclub.id}`}>
+          <Link key={bookclub.id} href={`/bookclubs/detail/${bookclub.id}`}>
             <div className='flex bg-gray-100 justify-between p-3'>
               <div className=' flex-1'>
                 <h1 className='mb-1 text-lg'>{bookclub.name}</h1>
                 <h2 className='mb-1 text-lg'>책제목</h2>
-                <p className='mb-1 text-xs'>독서기간</p>
+                <p className='mb-1 text-xs'>
+                  독서기간:
+                  {extractDate(bookclub.created_at)}-
+                  {extractDate(addOneMonth(bookclub.created_at))}
+                </p>
                 <p className='text-xs'>장르</p>
                 <div className='flex justify-between'>
                   <div className='flex justify-between items-center mr-2'>

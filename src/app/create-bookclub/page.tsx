@@ -1,6 +1,6 @@
 'use client';
-
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
+// import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -17,6 +17,7 @@ const CreateBookPage = () => {
     const fileName = `${crypto.randomUUID()}.${fileExt}`;
 
     try {
+      const supabase = createClient();
       const { error } = await supabase.storage
         .from('images')
         .upload(`bookclub/${fileName}`, file);
@@ -33,6 +34,7 @@ const CreateBookPage = () => {
 
   const insertBookClubDataToDB = async (storageImg: string | undefined) => {
     try {
+      const supabase = createClient();
       const { data, error } = await supabase.from('clubs').insert([
         {
           created_at: new Date().toISOString(),

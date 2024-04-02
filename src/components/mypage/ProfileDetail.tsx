@@ -26,7 +26,7 @@ const ProfileDetail = ({
   const [introduction, setIntroduction] = useState(
     userProfile?.introduction || '내 간략한 소개를 해주세요.'
   );
-  const [photoUrl, setPhotoUrl] = useState(
+  const [photoUrl, setPhotoUrl] = useState<string | null>(
     userProfile?.photo_URL || '/default_img.png'
   );
   const [mostFavoriteBook, setMostFavoriteBook] = useState(
@@ -37,8 +37,8 @@ const ProfileDetail = ({
   const queryClient = useQueryClient();
   const { mutate: mutateToUpdateProfile } = useMutation({
     mutationFn: updateUserProfile,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profiles'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['profiles'] });
       setIsEdit(false);
     }
   });
@@ -55,6 +55,7 @@ const ProfileDetail = ({
     }
   };
   const handleSave = async () => {
+    setPhotoUrl(null);
     if (previewImg) {
       const storageImageUrl = await uploadAvatar(
         userProfile?.id || '',
@@ -65,8 +66,9 @@ const ProfileDetail = ({
       }
     }
     const formData = new FormData();
-
-    formData.append('photo_URL', photoUrl);
+    if (photoUrl) {
+      formData.append('photo_URL', photoUrl);
+    }
 
     formData.append('id', userProfile?.id || '');
     formData.append('display_name', displayName);
@@ -84,8 +86,8 @@ const ProfileDetail = ({
               <Image
                 src={photoUrl}
                 alt='미리보기'
-                width={100}
-                height={100}
+                width={96}
+                height={96}
                 className='rounded-full'
               />
             )}
@@ -144,7 +146,7 @@ const ProfileDetail = ({
       ) : (
         <div className='flex flex-col w-full max-w-md px-4 py-6 bg-white rounded-md shadow-md'>
           <Image
-            src={photoUrl}
+            src={photoUrl || '/default_img.png'}
             alt='사진'
             width={100}
             height={100}

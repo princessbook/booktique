@@ -1,6 +1,6 @@
 'use client';
 import { useInput } from '@/hooks/useInput';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import React from 'react';
 
 const RegisterPage = () => {
@@ -11,6 +11,7 @@ const RegisterPage = () => {
 
   const handleRegister = async () => {
     try {
+      const supabase = createClient();
       const { error } = await supabase.auth.signUp({
         email,
         password,

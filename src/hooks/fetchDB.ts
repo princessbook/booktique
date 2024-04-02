@@ -1,6 +1,6 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/utils/supabase/server';
 
-const supabase = createClientComponentClient();
+const supabase = createClient();
 export const fetchUser = async () => {
   const {
     data: { session }

@@ -1,8 +1,9 @@
-import { supabase } from '@/lib/supabase';
+import { createClient } from '../supabase/client';
 import { Tables } from '@/lib/types/supabase';
 type Profile = Tables<'profiles'>;
 export const getUserProfile = async (): Promise<Profile[] | null> => {
   try {
+    const supabase = createClient();
     const { data, error } = await supabase.from('profiles').select('*');
 
     if (error) {
@@ -22,6 +23,7 @@ export const updateUserProfile = async (formData: FormData) => {
   const photoUrl = formData.get('photo_URL') as string;
   const id = formData.get('id') as string;
   // Supabase를 사용하여 프로필 정보를 업데이트합니다.
+  const supabase = createClient();
   const { data, error } = await supabase
     .from('profiles')
     .update({

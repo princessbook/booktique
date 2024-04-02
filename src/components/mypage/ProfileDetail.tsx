@@ -32,7 +32,7 @@ const ProfileDetail = ({
   const [mostFavoriteBook, setMostFavoriteBook] = useState(
     userProfile?.most_favorite_book || '최애 책을 입력해주세요.'
   );
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewImg, setPreviewImg] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const { mutate: mutateToUpdateProfile } = useMutation({
@@ -46,7 +46,7 @@ const ProfileDetail = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setSelectedFile(file);
+      setPreviewImg(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoUrl(reader.result as string);
@@ -55,16 +55,19 @@ const ProfileDetail = ({
     }
   };
   const handleSave = async () => {
-    if (selectedFile) {
-      const photoUrl = await uploadAvatar(userProfile?.id || '', selectedFile);
-      if (photoUrl) {
-        setPhotoUrl(photoUrl);
+    if (previewImg) {
+      const storageImageUrl = await uploadAvatar(
+        userProfile?.id || '',
+        previewImg
+      );
+      if (storageImageUrl) {
+        setPhotoUrl(storageImageUrl);
       }
     }
     const formData = new FormData();
-    if (selectedFile) {
-      formData.append('photo_URL', photoUrl);
-    }
+
+    formData.append('photo_URL', photoUrl);
+
     formData.append('id', userProfile?.id || '');
     formData.append('display_name', displayName);
     formData.append('interests', interests);
@@ -81,8 +84,8 @@ const ProfileDetail = ({
               <Image
                 src={photoUrl}
                 alt='미리보기'
-                width={96}
-                height={96}
+                width={100}
+                height={100}
                 className='rounded-full'
               />
             )}
@@ -127,9 +130,6 @@ const ProfileDetail = ({
               className='w-full p-2 border rounded-md'
             />
           </div>
-          <div className='mb-4'>
-            <label>이메일: {userProfile?.email}</label>
-          </div>
           <div className='flex justify-center w-full'>
             <button className='mr-2 p-2 border rounded-md' onClick={handleSave}>
               저장
@@ -146,8 +146,8 @@ const ProfileDetail = ({
           <Image
             src={photoUrl}
             alt='사진'
-            width={96}
-            height={96}
+            width={100}
+            height={100}
             className='rounded-full mb-4'
           />
           <p className='mb-2'>Email: {userProfile?.email}</p>

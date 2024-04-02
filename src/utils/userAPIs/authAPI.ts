@@ -1,10 +1,12 @@
-import { supabase } from '@/lib/supabase';
+import { createClient } from '../supabase/client';
 import { Tables } from '@/lib/types/supabase';
 type Profile = Tables<'profiles'>;
 type Clubs = Tables<'clubs'>;
 type Sentences = Tables<'sentences'>;
+
 export const getUserId = async (): Promise<string | null> => {
   try {
+    const supabase = createClient();
     const {
       data: { user }
     } = await supabase.auth.getUser();
@@ -19,6 +21,7 @@ export const getUserProfile = async (
   userId: string
 ): Promise<Profile[] | null> => {
   try {
+    const supabase = createClient();
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
@@ -35,6 +38,7 @@ export const getUserProfile = async (
 
 export const getUserClubIds = async (userId: string): Promise<string[]> => {
   try {
+    const supabase = createClient();
     const { data, error } = await supabase
       .from('members')
       .select('club_id')
@@ -54,6 +58,7 @@ export const getUserClubIds = async (userId: string): Promise<string[]> => {
 
 export const getClubInfo = async (clubIds: string[]): Promise<Clubs[]> => {
   try {
+    const supabase = createClient();
     // clubIds 배열이 비어있으면 빈 배열 반환
     if (clubIds.length === 0) {
       return [];
@@ -76,6 +81,7 @@ export const getClubInfo = async (clubIds: string[]): Promise<Clubs[]> => {
 };
 export const getMySentences = async (userId: String): Promise<Sentences[]> => {
   try {
+    const supabase = createClient();
     const { data, error } = await supabase
       .from('sentences')
       .select('*')

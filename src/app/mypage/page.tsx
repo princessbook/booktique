@@ -35,7 +35,6 @@ const MyPage = () => {
   const goBack = () => {
     router.back();
   };
-  const userProfile = profiles?.find((profile) => profile.id === userId);
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(e.target.value);
   };

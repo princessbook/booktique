@@ -1,27 +1,17 @@
 import React from 'react';
-import { useState } from 'react';
 import Image from 'next/image';
-import { useEffect } from 'react';
+import Link from 'next/link';
 import { Tables } from '@/lib/types/supabase';
-import { getUserProfile } from '@/lib/api/Fns';
-import { getUserId } from '@/lib/api/authAPI';
-import { useQuery } from '@tanstack/react-query';
 import ProfileDetail from './ProfileDetail';
 type Profile = Tables<'profiles'>;
 
-const Profile = async () => {
-  const userId = await getUserId();
-  const {
-    data: profiles,
-    isLoading,
-    isError
-  } = useQuery({
-    queryKey: ['profile'],
-    queryFn: getUserProfile
-  });
-
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error fetching data</div>;
+const Profile = ({
+  profiles,
+  userId
+}: {
+  profiles: Profile[];
+  userId: string | null;
+}) => {
   const userProfile = profiles?.find((profile) => profile.id === userId);
   return (
     <div className='p-4 bg-bookwhite w-[350px] h-24'>
@@ -39,9 +29,10 @@ const Profile = async () => {
         <p className='text-lg font-semibold'>{userProfile?.display_name}</p>
       </div>
       <div className='flex justify-end'>
-        <button className='border rounded-md'>프로필 상세보기</button>
+        <Link href='/mypageDetail'>
+          <button className='border rounded-md'>프로필 상세보기</button>
+        </Link>
       </div>
-      <ProfileDetail userProfile={userProfile} />
     </div>
   );
 };

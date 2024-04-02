@@ -1,26 +1,25 @@
+'use client';
 import React from 'react';
 import { Tables } from '@/lib/types/supabase';
 import { useState } from 'react';
 type Sentences = Tables<'sentences'>;
-import { getMySentences, getUserId } from '@/lib/api/authAPI';
+import { getMySentences } from '@/utils/userAPIs/authAPI';
 import { useEffect } from 'react';
 
 const MAX_CONTENT_LENGTH = 100;
 
-const MySentencesStore = () => {
+const MySentencesStore = ({ userId }: { userId: string | null }) => {
   const [showFullContent, setShowFullContent] = useState<boolean>(false);
   const [userSentences, setUserSentences] = useState<Sentences[]>([]);
   useEffect(() => {
     const fetchSentences = async () => {
-      const userId = await getUserId();
       if (userId) {
         const sentences = await getMySentences(userId);
         setUserSentences(sentences); // 가져온 문자를 상태에 저장한다.
       }
     };
-
     fetchSentences();
-  }, []);
+  }, [userId]);
   const toggleContent = () => {
     setShowFullContent(!showFullContent);
   };

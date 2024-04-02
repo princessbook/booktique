@@ -1,22 +1,51 @@
 'use client';
+import { useEffect } from 'react';
+import { getUserId } from '@/utils/userAPIs/authAPI';
 import MyBookClub from '@/components/mypage/MyBookClub';
 import Profile from '@/components/mypage/Profile';
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getUserProfile } from '@/utils/userAPIs/Fns';
 import { useRouter } from 'next/navigation';
 import MySentencesStore from '@/components/mypage/MySentencesStore';
 import { useState } from 'react';
 import MyBook from '@/components/mypage/MyBook';
+import ProfileDetail from '@/components/mypage/ProfileDetail';
 const MyPage = () => {
+  const [userId, setUserId] = useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = useState('MySentencesStore');
   const router = useRouter();
+  const {
+    data: profiles,
+    isLoading,
+    isError
+  } = useQuery({
+    queryKey: ['profile'],
+    queryFn: getUserProfile
+  });
 
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const id = await getUserId();
+      setUserId(id);
+    };
+
+    fetchUserId();
+  }, []);
   const goBack = () => {
     router.back();
   };
-  const [selectedOption, setSelectedOption] = useState('MySentencesStore');
-
+  const userProfile = profiles?.find((profile) => profile.id === userId);
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(e.target.value);
   };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError || !profiles) {
+    return <div>Error fetching data</div>;
+  }
   return (
     //head부분
     <div className='flex flex-col h-screen'>
@@ -34,14 +63,14 @@ const MyPage = () => {
         <p className='text-lg'>마이페이지</p>
       </header>
       <div className='flex flex-col items-center justify-center'>
-        <Profile />
-        <MyBookClub />
+        <ProfileDetail profiles={profiles} userId={userId} />
+        <MyBookClub userId={userId} />
         <select value={selectedOption} onChange={handleOptionChange}>
           <option value='MySentencesStore'>내 문장 저장소</option>
           <option value='MyBook'>내 서재</option>
         </select>
         {selectedOption === 'MySentencesStore' ? (
-          <MySentencesStore />
+          <MySentencesStore userId={userId} />
         ) : (
           <MyBook />
         )}

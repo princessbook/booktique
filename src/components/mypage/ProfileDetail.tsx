@@ -1,16 +1,21 @@
+'use client';
 import React from 'react';
 import { Tables } from '@/lib/types/supabase';
 type Profile = Tables<'profiles'>;
 import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { useMutation } from '@tanstack/react-query';
-import { updateUserProfile } from '@/lib/api/Fns';
+import { updateUserProfile } from '@/utils/userAPIs/Fns';
 import { useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
-import { uploadAvatar } from '@/lib/api/storageAPI';
-const ProfileDetail: React.FC<{ userProfile?: Profile }> = ({
-  userProfile
+import { uploadAvatar } from '@/utils/userAPIs/storageAPI';
+const ProfileDetail = ({
+  profiles,
+  userId
+}: {
+  profiles: Profile[];
+  userId: string | null;
 }) => {
+  const userProfile = profiles?.find((profile) => profile.id === userId);
   const [isEdit, setIsEdit] = useState(false);
   const [displayName, setDisplayName] = useState(
     userProfile?.display_name || ''
@@ -25,7 +30,7 @@ const ProfileDetail: React.FC<{ userProfile?: Profile }> = ({
     userProfile?.photo_URL || '/default_img.png'
   );
   const [mostFavoriteBook, setMostFavoriteBook] = useState(
-    userProfile?.most_favorite_book || '최에 책을 선택해주세요.'
+    userProfile?.most_favorite_book || '최애 책을 입력해주세요.'
   );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -68,12 +73,10 @@ const ProfileDetail: React.FC<{ userProfile?: Profile }> = ({
     mutateToUpdateProfile(formData);
   };
   return (
-    <div>
+    <div className='flex flex-col items-center'>
       {isEdit ? (
-        <div>
-          <label>
-            Photo URL:
-            <input type='file' ref={fileInputRef} onChange={handleFileChange} />
+        <div className='flex flex-col items-center w-full max-w-md px-4 py-6 bg-white rounded-md shadow-md'>
+          <label className='mb-4'>
             {photoUrl && (
               <Image
                 src={photoUrl}
@@ -83,58 +86,87 @@ const ProfileDetail: React.FC<{ userProfile?: Profile }> = ({
                 className='rounded-full'
               />
             )}
+            <input type='file' ref={fileInputRef} onChange={handleFileChange} />
           </label>
-          <label>
-            닉네임:
+          <div className='mb-4 w-full'>
+            <label className='block mb-2'>닉네임:</label>
             <input
               type='text'
+              placeholder='닉네임을 입력해주세요.'
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
+              className='w-full p-2 border rounded-md'
             />
-          </label>
-          <label>
-            관심분야:
+          </div>
+          <div className='mb-4 w-full'>
+            <label className='block mb-2'>관심분야:</label>
             <input
               type='text'
+              placeholder='관심분야를 입력해주세요.'
               value={interests}
               onChange={(e) => setInterests(e.target.value)}
+              className='w-full p-2 border rounded-md'
             />
-          </label>
-          <label>
-            내 소개:
+          </div>
+          <div className='mb-4 w-full'>
+            <label className='block mb-2'>내 소개:</label>
             <textarea
               value={introduction}
+              placeholder='간단한 자기소개를 해주세요.'
               onChange={(e) => setIntroduction(e.target.value)}
+              className='w-full p-2 border rounded-md'
             />
-          </label>
-          <label>
-            내 최애 책:
+          </div>
+          <div className='mb-4 w-full'>
+            <label className='block mb-2'>내 최애 책:</label>
             <input
               type='text'
+              placeholder='최애 책을 입력해주세요.'
               value={mostFavoriteBook}
               onChange={(e) => setMostFavoriteBook(e.target.value)}
+              className='w-full p-2 border rounded-md'
             />
-          </label>
-          <label>
-            이메일:
-            {userProfile?.email}
-          </label>
-          <button onClick={handleSave}>Save</button>
+          </div>
+          <div className='mb-4'>
+            <label>이메일: {userProfile?.email}</label>
+          </div>
+          <div className='flex justify-center w-full'>
+            <button className='mr-2 p-2 border rounded-md' onClick={handleSave}>
+              저장
+            </button>
+            <button
+              className='p-2 border rounded-md'
+              onClick={() => setIsEdit(false)}>
+              취소
+            </button>
+          </div>
         </div>
       ) : (
-        <div>
+        <div className='flex flex-col w-full max-w-md px-4 py-6 bg-white rounded-md shadow-md'>
           <Image
             src={photoUrl}
             alt='사진'
             width={96}
             height={96}
-            className='rounded-full'
+            className='rounded-full mb-4'
           />
-          <p>Display Name: {displayName}</p>
-          <p>Interests: {interests}</p>
-          <p>Introduction: {introduction}</p>
-          <p>Email: {userProfile?.email}</p>
-          <button onClick={() => setIsEdit(true)}>Edit</button>
+          <p className='mb-2'>Email: {userProfile?.email}</p>
+          <p className='mb-2'>닉네임: {displayName}</p>
+          <p className='mb-2'>
+            관심 분야: {interests || '관심있는 분야를 입력해주세요.'}
+          </p>
+          <p className='mb-2'>
+            내 소개: {introduction || '간략한 소개를 해주세요.'}
+          </p>
+
+          <p className='mb-2'>
+            내 최애 책: {mostFavoriteBook || '최애 책을 입력해주세요.'}
+          </p>
+          <button
+            className='w-full border rounded-md'
+            onClick={() => setIsEdit(true)}>
+            프로필 수정
+          </button>
         </div>
       )}
     </div>

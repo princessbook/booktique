@@ -1,15 +1,15 @@
+'user client';
 import React, { useEffect, useState } from 'react';
 import { Tables } from '@/lib/types/supabase';
-import { getUserClubIds, getUserId } from '@/lib/api/authAPI';
+import { getUserClubIds, getUserId } from '@/utils/userAPIs/authAPI';
 type Clubs = Tables<'clubs'>;
-import { getClubInfo } from '@/lib/api/authAPI';
-const MyBookClub = () => {
+import { getClubInfo } from '@/utils/userAPIs/authAPI';
+const MyBookClub = ({ userId }: { userId: string | null }) => {
   const [clubs, setClubs] = useState<Clubs[]>([]);
   const [visibleClubs, setVisibleClubs] = useState<Clubs[]>([]);
   const [showMore, setShowMore] = useState(false);
   useEffect(() => {
     const fetchMyClubs = async () => {
-      const userId = await getUserId();
       if (userId) {
         const clubIds = await getUserClubIds(userId);
         if (clubIds.length > 0) {
@@ -23,7 +23,7 @@ const MyBookClub = () => {
       }
     };
     fetchMyClubs();
-  }, []);
+  }, [userId]);
   const handleShowMore = () => {
     setVisibleClubs(clubs); // 모든 클럽을 표시
     setShowMore(false); // 더 보기 버튼 숨기기
@@ -33,7 +33,6 @@ const MyBookClub = () => {
       <h2>My Book Clubs</h2>
       <ul>
         {visibleClubs.map((club) => (
-          //클럽이름..없다....
           <li key={club.id}>
             {club.name}
             <button>바로가기</button>

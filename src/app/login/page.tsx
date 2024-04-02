@@ -18,6 +18,7 @@ const LoginPage = () => {
     });
     if (data?.session) {
       router.refresh();
+      router.push('/');
       const userData = await fetchUser();
     }
   };

@@ -70,35 +70,32 @@ export type Database = {
       clubs: {
         Row: {
           archive: boolean | null;
-          book_id: number | null;
+          book_id: string | null;
           created_at: string;
           description: string | null;
-          headline: string | null;
           id: string;
           max_member_count: number | null;
-          reading_period: number | null;
+          name: string | null;
           thumbnail: string | null;
         };
         Insert: {
           archive?: boolean | null;
-          book_id?: number | null;
+          book_id?: string | null;
           created_at?: string;
           description?: string | null;
-          headline?: string | null;
           id?: string;
           max_member_count?: number | null;
-          reading_period?: number | null;
+          name?: string | null;
           thumbnail?: string | null;
         };
         Update: {
           archive?: boolean | null;
-          book_id?: number | null;
+          book_id?: string | null;
           created_at?: string;
           description?: string | null;
-          headline?: string | null;
           id?: string;
           max_member_count?: number | null;
-          reading_period?: number | null;
+          name?: string | null;
           thumbnail?: string | null;
         };
         Relationships: [];
@@ -216,6 +213,7 @@ export type Database = {
       profiles: {
         Row: {
           display_name: string;
+          email: string | null;
           id: string;
           interests: string | null;
           introduction: string | null;
@@ -224,6 +222,7 @@ export type Database = {
         };
         Insert: {
           display_name: string;
+          email?: string | null;
           id?: string;
           interests?: string | null;
           introduction?: string | null;
@@ -232,6 +231,7 @@ export type Database = {
         };
         Update: {
           display_name?: string;
+          email?: string | null;
           id?: string;
           interests?: string | null;
           introduction?: string | null;

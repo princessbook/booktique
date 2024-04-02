@@ -23,7 +23,7 @@ export default function RootLayout({
       lang='en'
       className='w-[375px] min-w-[375px] h-[812px] mx-auto border-2 '>
       <body className={inter.className}>
-        <Header />
+        {/* <Header /> */}
         <QueryProvider>{children} </QueryProvider>
         <Footer />
       </body>

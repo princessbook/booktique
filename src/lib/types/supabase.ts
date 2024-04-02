@@ -70,35 +70,29 @@ export type Database = {
       clubs: {
         Row: {
           archive: boolean | null
-          book_id: number | null
+          book_id: string | null
           created_at: string
           description: string | null
-          headline: string | null
           id: string
           max_member_count: number | null
-          reading_period: number | null
           thumbnail: string | null
         }
         Insert: {
           archive?: boolean | null
-          book_id?: number | null
+          book_id?: string | null
           created_at?: string
           description?: string | null
-          headline?: string | null
           id?: string
           max_member_count?: number | null
-          reading_period?: number | null
           thumbnail?: string | null
         }
         Update: {
           archive?: boolean | null
-          book_id?: number | null
+          book_id?: string | null
           created_at?: string
           description?: string | null
-          headline?: string | null
           id?: string
           max_member_count?: number | null
-          reading_period?: number | null
           thumbnail?: string | null
         }
         Relationships: []
@@ -216,27 +210,30 @@ export type Database = {
       profiles: {
         Row: {
           display_name: string
+          email: string | null
           id: string
           interests: string | null
           introduction: string | null
           most_favorite_book: string | null
-          photo_URL: Json | null
+          photo_URL: string | null
         }
         Insert: {
           display_name: string
+          email?: string | null
           id?: string
           interests?: string | null
           introduction?: string | null
           most_favorite_book?: string | null
-          photo_URL?: Json | null
+          photo_URL?: string | null
         }
         Update: {
           display_name?: string
+          email?: string | null
           id?: string
           interests?: string | null
           introduction?: string | null
           most_favorite_book?: string | null
-          photo_URL?: Json | null
+          photo_URL?: string | null
         }
         Relationships: [
           {

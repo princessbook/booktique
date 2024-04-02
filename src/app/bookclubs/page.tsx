@@ -1,8 +1,9 @@
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/server';
 import { addOneMonth, extractDate } from '@/utils/time';
 import Link from 'next/link';
 
 const BookClubsPage = async () => {
+  const supabase = createClient();
   const { data: bookclubs, error } = await supabase.from('clubs').select('*');
   if (error) {
     throw error;

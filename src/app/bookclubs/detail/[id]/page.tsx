@@ -1,9 +1,10 @@
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/server';
 import { addOneMonth, extractDate } from '@/utils/time';
 import React from 'react';
 
 const BookClubDetail = async (props: { params: { id: string } }) => {
   const id = props.params.id;
+  const supabase = createClient();
   const { data: bookclub, error } = await supabase
     .from('clubs')
     .select('*')

@@ -10,7 +10,7 @@ export async function GET(
       process.env.NEXT_PUBLIC_BOOK_API_KEY
     }&Query=${encodeURIComponent(
       keyword
-    )}&QueryType=Title&MaxResults=10&start=1&SearchTarget=Book&output=js&Version=20131101`;
+    )}&QueryType=Title&MaxResults=10&Cover=Mini&start=1&SearchTarget=Book&output=js&Version=20131101`;
     const response = await fetch(targetUrl);
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);

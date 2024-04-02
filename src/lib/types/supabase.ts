@@ -75,6 +75,7 @@ export type Database = {
           description: string | null;
           id: string;
           max_member_count: number | null;
+          name: string | null;
           thumbnail: string | null;
         };
         Insert: {
@@ -84,6 +85,7 @@ export type Database = {
           description?: string | null;
           id?: string;
           max_member_count?: number | null;
+          name?: string | null;
           thumbnail?: string | null;
         };
         Update: {
@@ -93,6 +95,7 @@ export type Database = {
           description?: string | null;
           id?: string;
           max_member_count?: number | null;
+          name?: string | null;
           thumbnail?: string | null;
         };
         Relationships: [];

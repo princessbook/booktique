@@ -40,7 +40,7 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
       </section>
       <section className='p-3'>
         <h2 className='mb-4'>{`참여인원(0/${bookclub.max_member_count})`}</h2>
-        <div className='grid grid-cols-4'>
+        <div className='grid grid-cols-4 gap-3'>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((val, index) => (
             <div
               className='flex flex-col justify-center items-center'

@@ -8,12 +8,11 @@ const CreateBookPage = () => {
   //저장할 북아이디 isbn13
   const [clubName, setClubName] = useState('');
   const [description, setDiscription] = useState('');
-  const [selectedParticipants, setSelectedParticipants] = useState(0);
+  const [selectedParticipants, setSelectedParticipants] = useState(1);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const uploadImageStorage = async (file: File) => {
-    console.log('file', file);
     const fileExt = file?.name.split('.').pop();
     const fileName = `${crypto.randomUUID()}.${fileExt}`;
 
@@ -32,11 +31,12 @@ const CreateBookPage = () => {
     }
   };
 
-  const insertBookClubDataToDB = async (storageImg: string) => {
+  const insertBookClubDataToDB = async (storageImg: string | undefined) => {
     try {
       const { data, error } = await supabase.from('clubs').insert([
         {
           created_at: new Date().toISOString(),
+          name: clubName,
           book_id: 'isbn13',
           description: description,
           max_member_count: selectedParticipants,
@@ -44,7 +44,7 @@ const CreateBookPage = () => {
           thumbnail: storageImg // 이미지 URL도 데이터에 포함
         }
       ]);
-
+      console.log('성공적으로 업로드되었음');
       return data;
     } catch (error) {
       console.log(error);
@@ -68,12 +68,11 @@ const CreateBookPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!description || !clubName) {
+      alert('빈칸을 채워주세요.');
+    }
     const storageImg = await uploadImageStorage(selectedImage!);
-    if (!storageImg) return;
     await insertBookClubDataToDB(storageImg);
-    console.log(clubName);
-    console.log(description);
-    console.log(selectedParticipants);
   };
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -142,18 +141,9 @@ const CreateBookPage = () => {
           <input className='border' type='file' onChange={handleImageChange} />
           {previewUrl && (
             <div>
-              <Image src={previewUrl} alt='Preview' width='100' height='100' />
+              <Image src={previewUrl} alt='preview' width='100' height='100' />
             </div>
           )}
-          <button
-            className='bg-mainblue'
-            onClick={() => {
-              if (selectedImage) {
-                uploadImageStorage(selectedImage);
-              }
-            }}>
-            파일등록
-          </button>
         </div>
         <input
           type='submit'

@@ -75,6 +75,7 @@ export type Database = {
           description: string | null;
           id: string;
           max_member_count: number | null;
+          name: string | null;
           thumbnail: string | null;
         };
         Insert: {
@@ -84,6 +85,7 @@ export type Database = {
           description?: string | null;
           id?: string;
           max_member_count?: number | null;
+          name?: string | null;
           thumbnail?: string | null;
         };
         Update: {
@@ -93,6 +95,7 @@ export type Database = {
           description?: string | null;
           id?: string;
           max_member_count?: number | null;
+          name?: string | null;
           thumbnail?: string | null;
         };
         Relationships: [];
@@ -210,27 +213,30 @@ export type Database = {
       profiles: {
         Row: {
           display_name: string;
+          email: string | null;
           id: string;
           interests: string | null;
           introduction: string | null;
           most_favorite_book: string | null;
-          photo_URL: Json | null;
+          photo_URL: string | null;
         };
         Insert: {
           display_name: string;
+          email?: string | null;
           id?: string;
           interests?: string | null;
           introduction?: string | null;
           most_favorite_book?: string | null;
-          photo_URL?: Json | null;
+          photo_URL?: string | null;
         };
         Update: {
           display_name?: string;
+          email?: string | null;
           id?: string;
           interests?: string | null;
           introduction?: string | null;
           most_favorite_book?: string | null;
-          photo_URL?: Json | null;
+          photo_URL?: string | null;
         };
         Relationships: [
           {

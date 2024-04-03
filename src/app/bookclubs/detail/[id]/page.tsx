@@ -17,6 +17,11 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
     throw error;
   }
 
+  const { data: clubMembers, error: membersError } = await supabase
+    .from(MEMBERS_TABLE)
+    .select('*')
+    .eq('club_id', id);
+
   if (!bookclub) return;
   return (
     <div>
@@ -44,7 +49,9 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
         </div>
       </section>
       <section className='p-3'>
-        <h2 className='mb-4'>{`참여인원(0/${bookclub.max_member_count})`}</h2>
+        <h2 className='mb-4'>{`참여인원(${
+          clubMembers ? clubMembers.length : 0
+        }/${bookclub.max_member_count})`}</h2>
         <div className='grid grid-cols-4 gap-3'>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((val, index) => (
             <div

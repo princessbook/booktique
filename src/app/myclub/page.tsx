@@ -3,7 +3,7 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import booktiqueread from '../../../public/booktiqueread.png';
 import Button from '@/common/Button';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import LoadingOverlay from '../../common/LoadingOverlay';
 
@@ -16,6 +16,7 @@ const MyBookClub = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const supabase = createClient();
         let supabaseTableData = supabase.from('profiles').select('*');
         const { data, error } = await supabaseTableData;
         if (error) {

@@ -1,21 +1,58 @@
 'use client';
+import { useState } from 'react';
 import QuizAnswer from './QuizAnswer';
 import { Quiz } from './page';
+import { v4 as uuidv4 } from 'uuid';
 
 type QuizQuestionProps = {
+  index: number;
   quiz: Quiz;
-  handleDeleteQuiz: (id: number) => void;
+  handleDeleteQuiz: (id: string) => void;
   setQuiz: React.Dispatch<React.SetStateAction<Quiz[]>>;
 };
 const QuizQuestion = ({
   quiz,
   handleDeleteQuiz,
-  setQuiz
+  setQuiz,
+  index
 }: QuizQuestionProps) => {
+  const [questionInput, setQuestionInput] = useState('');
+
+  const handleQuestionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuestionInput(event.target.value);
+    const updatedQuiz = { ...quiz, question: event.target.value };
+    setQuiz((prevQuizes) =>
+      prevQuizes.map((prevQuiz) =>
+        prevQuiz.id === quiz.id ? updatedQuiz : prevQuiz
+      )
+    );
+  };
+
+  const handleAnswerChange = (
+    id: string,
+    value: string,
+    isCorrect: boolean
+  ) => {
+    const updatedAnswers = quiz.answer.map((answer) =>
+      answer.id === id ? { ...answer, value, isCorrect } : answer
+    );
+    const updatedQuiz = { ...quiz, answer: updatedAnswers };
+    setQuiz((prevQuizes) =>
+      prevQuizes.map((prevQuiz) =>
+        prevQuiz.id === quiz.id ? updatedQuiz : prevQuiz
+      )
+    );
+  };
+
   const handleAddAnswer = () => {
     // 새로운 보기 생성
+
+    if (quiz.answer.length === 5) {
+      //alert('최대 5개의 보기를 추가할 수 없습니다.');
+      return;
+    }
     const newAnswer = {
-      id: quiz.answer.length + 1, // 기존 보기의 마지막 ID에 +1
+      id: uuidv4(), // 기존 보기의 마지막 ID에 +1
       value: '', // 보기의 내용은 비워둠
       isCorrect: false // 보기의 정답 여부는 기본적으로 false로 설정
     };
@@ -33,6 +70,16 @@ const QuizQuestion = ({
       )
     );
   };
+
+  const handleDeleteAnswer = (id: string) => {
+    const updatedAnswers = quiz.answer.filter((answer) => answer.id !== id);
+    const updatedQuiz = { ...quiz, answer: updatedAnswers };
+    setQuiz((prevQuizes) =>
+      prevQuizes.map((prevQuiz) =>
+        prevQuiz.id === quiz.id ? updatedQuiz : prevQuiz
+      )
+    );
+  };
   return (
     <section className='border border-black mb-3'>
       <p
@@ -43,11 +90,23 @@ const QuizQuestion = ({
         퀴즈삭제하기
       </p>
       <div>
-        <p>{quiz.id}번</p>
+        <p>{index + 1}번</p>
         문제:
-        <input className='border' />
+        <input
+          className='border'
+          value={questionInput}
+          onChange={handleQuestionChange}
+        />
         {quiz.answer.map((answer, idx) => {
-          return <QuizAnswer answer={answer} key={answer.id} />;
+          return (
+            <QuizAnswer
+              index={idx}
+              answer={answer}
+              key={answer.id}
+              handleAnswerChange={handleAnswerChange}
+              handleDeleteAnswer={handleDeleteAnswer}
+            />
+          );
         })}
       </div>
       <p onClick={handleAddAnswer}>보기추가</p>

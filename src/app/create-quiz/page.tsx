@@ -1,40 +1,49 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import QuizQuestion from './QuizQuestion';
+import { v4 as uuidv4 } from 'uuid';
 
 export type Quiz = {
-  id: number;
+  id: string;
   question: string;
-  answer: Array<{ id: number; value: string; isCorrect: boolean }>;
+  answer: Array<{ id: string; value: string; isCorrect: boolean }>;
 };
 const BookClubQuiz = () => {
   const initialQuiz = [
     {
-      id: 1,
+      id: uuidv4(),
       question: '',
-      answer: [{ id: 1, value: '', isCorrect: false }]
+      answer: [{ id: uuidv4(), value: '', isCorrect: false }]
     }
   ];
   const [quizes, setQuizes] = useState<Array<Quiz>>(initialQuiz);
 
+  useEffect(() => {
+    console.log('quiz', quizes);
+  }, [quizes]);
+
   const handleAddQuiz = () => {
+    if (quizes.length === 10) {
+      return;
+    }
     const newQuiz = {
-      id: quizes.length + 1,
+      id: uuidv4(),
       question: '',
-      answer: [{ id: 1, value: '', isCorrect: false }]
+      answer: [{ id: uuidv4(), value: '', isCorrect: false }]
     };
     setQuizes([...quizes, newQuiz]);
   };
-  const handleDeleteQuiz = (id: number) => {
+  const handleDeleteQuiz = (id: string) => {
     setQuizes(quizes.filter((quiz) => quiz.id !== id));
   };
   return (
-    <section>
+    <section className=' overflow-scroll'>
       <form>
         <h1>퀴즈조지기</h1>
         {quizes.map((quiz, index) => {
           return (
             <QuizQuestion
+              index={index}
               setQuiz={setQuizes}
               handleDeleteQuiz={handleDeleteQuiz}
               quiz={quiz}

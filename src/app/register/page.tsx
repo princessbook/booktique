@@ -7,7 +7,7 @@ const RegisterPage = async () => {
   const { data, error } = await supabase.auth.getUser();
 
   if (data.user) {
-    redirect('/');
+    redirect('/myclub');
     return null;
   }
   return (

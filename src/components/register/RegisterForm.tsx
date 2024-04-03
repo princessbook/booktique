@@ -23,28 +23,6 @@ const RegisterForm = () => {
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const passwordConfirmInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const supabase = createClient();
-      const {
-        data: { user }
-      } = await supabase.auth.getUser();
-      try {
-        const { error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', user?.id || '');
-        if (error) {
-          throw error;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
   const handleRegister = async () => {
     try {
       // 이메일 유효성 검사
@@ -172,7 +150,7 @@ const RegisterForm = () => {
   return (
     <>
       {isEmailVerified ? (
-        <SelectForm id={userId} />
+        <SelectForm />
       ) : (
         <div className='bg-mainblue h-screen text-[#fff] px-[1rem]'>
           <section>

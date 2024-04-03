@@ -30,7 +30,7 @@ const JoinBtn = ({ clubId }: PropsWithChildren<{ clubId: string }>) => {
       }
     };
     userIsClubMember();
-  }, []);
+  }, [clubId, supabase]);
 
   const handleJoin = async () => {
     if (isMember) return;

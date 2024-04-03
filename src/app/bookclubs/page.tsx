@@ -2,6 +2,7 @@ import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/server';
 import { addOneMonth, extractDate } from '@/utils/time';
 import Link from 'next/link';
+import GetClubMembers from './GetClubMembers';
 
 const BookClubsPage = async () => {
   const supabase = createClient();
@@ -14,14 +15,7 @@ const BookClubsPage = async () => {
     <div>
       <h2 className='text-center'>전체 북클럽</h2>
       <section className='p-3'>
-        {bookclubs.map(async (bookclub) => {
-          const { data: clubMembers, error } = await supabase
-            .from(MEMBERS_TABLE)
-            .select('*')
-            .eq('club_id', bookclub.id);
-
-          console.log('club_id', clubMembers);
-
+        {bookclubs.map((bookclub) => {
           return (
             <Link key={bookclub.id} href={`/bookclubs/detail/${bookclub.id}`}>
               <div className='flex bg-gray-100 justify-between p-3'>
@@ -40,7 +34,10 @@ const BookClubsPage = async () => {
                       <span>방장닉네임</span>
                     </div>
                     <div className='mr-3'>
-                      {clubMembers?.length}/{bookclub.max_member_count}
+                      <div>
+                        <GetClubMembers clubId={bookclub.id} />/
+                        {bookclub.max_member_count}
+                      </div>
                     </div>
                   </div>
                 </div>

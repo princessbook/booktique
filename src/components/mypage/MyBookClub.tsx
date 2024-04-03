@@ -1,4 +1,4 @@
-'user client';
+'use client';
 import React, { useEffect, useState } from 'react';
 import { Tables } from '@/lib/types/supabase';
 import { getUserClubIds, getUserId } from '@/utils/userAPIs/authAPI';
@@ -30,12 +30,12 @@ const MyBookClub = ({ userId }: { userId: string | null }) => {
   };
   return (
     <div>
-      <h2>My Book Clubs</h2>
+      <h2>내 북클럽</h2>
       <ul>
         {visibleClubs.map((club) => (
           <li key={club.id}>
             {club.name}
-            <button className='pl-2 border'>바로가기</button>
+            <button className='ml-2 border-2'>바로가기</button>
           </li>
         ))}
       </ul>

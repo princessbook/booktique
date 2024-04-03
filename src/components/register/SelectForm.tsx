@@ -7,6 +7,10 @@ const SelectForm = () => {
   const [, , clearNickname] = useInput();
   const supabase = createClient();
 
+  const handleNickname = async () => {
+    const { data, error } = await supabase.from('profiles').select('*');
+  };
+
   return (
     <div className='px-[12px]'>
       <input

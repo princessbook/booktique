@@ -3,6 +3,7 @@ import { createClient } from '@/utils/supabase/server';
 import { addOneMonth, extractDate } from '@/utils/time';
 import React from 'react';
 import JoinBtn from './JoinBtn';
+import GetClubMember from './GetClubMember';
 
 const BookClubDetail = async (props: { params: { id: string } }) => {
   const id = props.params.id;
@@ -21,6 +22,8 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
     .from(MEMBERS_TABLE)
     .select('*')
     .eq('club_id', id);
+
+  console.log(clubMembers);
 
   if (!bookclub) return;
   return (
@@ -53,14 +56,10 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
           clubMembers ? clubMembers.length : 0
         }/${bookclub.max_member_count})`}</h2>
         <div className='grid grid-cols-4 gap-3'>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((val, index) => (
-            <div
-              className='flex flex-col justify-center items-center'
-              key={index}>
-              <div className='w-10 h-10 bg-gray-500 rounded-full'></div>
-              <div>닉네임</div>
-            </div>
-          ))}
+          {clubMembers &&
+            clubMembers.map((member, index) => {
+              return <GetClubMember member={member} key={index} />;
+            })}
         </div>
       </section>
       {clubMembers!.length === bookclub.max_member_count ? (

@@ -18,6 +18,7 @@ const CreateBookPage = () => {
     const fileName = `${crypto.randomUUID()}.${fileExt}`;
 
     try {
+      const supabase = createClient();
       const { error } = await supabase.storage
         .from('images')
         .upload(`bookclub/${fileName}`, file);

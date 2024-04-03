@@ -7,7 +7,6 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
 
     './src/**/*.{js,ts,jsx,tsx,mdx}'
-
   ],
   theme: {
     screens: {
@@ -22,7 +21,8 @@ const config: Config = {
         subblue: '#59B9FF',
         bookpurble: '#BA61FF',
         bookyellow: '#E9FF8F',
-        bookwhite: '#F8F8FD'
+        bookwhite: '#F8F8FD',
+        lime: '#CFFF45'
       }
     }
     // extend안으로

@@ -98,3 +98,23 @@ export const getMySentences = async (userId: String): Promise<Sentences[]> => {
     return [];
   }
 };
+
+export const getAllSentences = async (clubId: string): Promise<Sentences[]> => {
+  try {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from('sentences')
+      .select('*')
+      .eq('club_id', clubId);
+
+    if (error) {
+      console.error('Error fetching all sentences:', error.message);
+      return [];
+    }
+    console.log(data);
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching all sentences:', error);
+    return [];
+  }
+};

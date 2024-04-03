@@ -66,50 +66,54 @@ const MyClubInfo = () => {
   }
   console.log(clubInfo);
   return (
-    <div>
-      <select
-        value={selectedClubId || ''}
-        onChange={handleClubChange}
-        className='p-2 m-2'>
-        {clubInfo.map((club) => (
-          <option key={club.id} value={club.id}>
-            {club.name}
-          </option>
-        ))}
-      </select>
+    <div className='w-[375px]'>
+      <div className='fixed top-0 left-0 right-0 z-10 bg-white  flex flex-col justify-between'>
+        {/* 북클럽 셀렉트 박스 */}
+        <select
+          value={selectedClubId || ''}
+          onChange={handleClubChange}
+          className='p-2 m-2'>
+          {clubInfo.map((club) => (
+            <option key={club.id} value={club.id}>
+              {club.name}
+            </option>
+          ))}
+        </select>
 
-      <div className='flex flex-row w-full mb-4'>
-        {' '}
-        {/* 탭 버튼들을 감싸는 컨테이너 */}
-        <button
-          className={`flex-1 px-4 py-2 focus:outline-none text-center ${
-            selectedTab === 'home'
-              ? 'bg-gray-300 border-b-4 border-gray-500'
-              : 'bg-gray-200'
-          }`}
-          onClick={() => handleTabChange('home')}>
-          홈 탭
-        </button>
-        <button
-          className={`px-4 py-2 focus:outline-none ${
-            selectedTab === 'sentenceStorage'
-              ? 'bg-gray-300 border-b-4 border-gray-500'
-              : 'bg-gray-200'
-          }`}
-          onClick={() => handleTabChange('sentenceStorage')}>
-          문장 저장소 탭
-        </button>
-        <button
-          className={`px-4 py-2 focus:outline-none ${
-            selectedTab === 'board'
-              ? 'bg-gray-300 border-b-4 border-gray-500'
-              : 'bg-gray-200'
-          }`}
-          onClick={() => handleTabChange('board')}>
-          자유 게시판 탭
-        </button>
+        {/* 탭 버튼들 */}
+        <div className='flex flex-row justify-between w-full'>
+          <button
+            className={`flex-1 px-4 py-2 focus:outline-none ${
+              selectedTab === 'home'
+                ? 'bg-gray-300 border-b-4 border-gray-500'
+                : 'bg-gray-200'
+            }`}
+            onClick={() => handleTabChange('home')}>
+            홈 탭
+          </button>
+          <button
+            className={`flex-1 px-4 py-2 focus:outline-none ${
+              selectedTab === 'sentenceStorage'
+                ? 'bg-gray-300 border-b-4 border-gray-500'
+                : 'bg-gray-200'
+            }`}
+            onClick={() => handleTabChange('sentenceStorage')}>
+            문장 저장소 탭
+          </button>
+          <button
+            className={`flex-1 px-4 py-2 focus:outline-none ${
+              selectedTab === 'board'
+                ? 'bg-gray-300 border-b-4 border-gray-500'
+                : 'bg-gray-200'
+            }`}
+            onClick={() => handleTabChange('board')}>
+            자유 게시판 탭
+          </button>
+        </div>
       </div>
-      {renderSelectedTab()}
+
+      {/* 탭 컨텐츠 */}
+      <div className='mt-16'>{renderSelectedTab()}</div>
     </div>
   );
 };

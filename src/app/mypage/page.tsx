@@ -30,6 +30,7 @@ const MyPage = () => {
     };
     fetchUserId();
   }, []);
+
   const goBack = () => {
     router.back();
   };

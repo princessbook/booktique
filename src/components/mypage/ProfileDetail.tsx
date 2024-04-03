@@ -16,21 +16,20 @@ const ProfileDetail = ({
   userId: string | null;
 }) => {
   const userProfile = profiles?.find((profile) => profile.id === userId);
+  // console.log('?????', userProfile);
   const [isEdit, setIsEdit] = useState(false);
   const [displayName, setDisplayName] = useState(
-    userProfile?.display_name || ''
+    userProfile?.display_name ?? ''
   );
-  const [interests, setInterests] = useState(
-    userProfile?.interests || '관심있는 분야를 입력해주세요.'
-  );
+  const [interests, setInterests] = useState(userProfile?.interests ?? '');
   const [introduction, setIntroduction] = useState(
-    userProfile?.introduction || '내 간략한 소개를 해주세요.'
+    userProfile?.introduction ?? ''
   );
   const [photoUrl, setPhotoUrl] = useState<string | null>(
-    userProfile?.photo_URL || '/default_img.png'
+    userProfile?.photo_URL ?? ''
   );
   const [mostFavoriteBook, setMostFavoriteBook] = useState(
-    userProfile?.most_favorite_book || '최애 책을 입력해주세요.'
+    userProfile?.most_favorite_book ?? ''
   );
   const [previewImg, setPreviewImg] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -42,7 +41,6 @@ const ProfileDetail = ({
       setIsEdit(false);
     }
   });
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -62,14 +60,15 @@ const ProfileDetail = ({
         previewImg
       );
       if (storageImageUrl) {
+        console.log(storageImageUrl);
         setPhotoUrl(storageImageUrl);
+        console.log(photoUrl);
       }
     }
     const formData = new FormData();
     if (photoUrl) {
       formData.append('photo_URL', photoUrl);
     }
-
     formData.append('id', userProfile?.id || '');
     formData.append('display_name', displayName);
     formData.append('interests', interests);
@@ -146,24 +145,17 @@ const ProfileDetail = ({
       ) : (
         <div className='flex flex-col w-full max-w-md px-4 py-6 bg-white rounded-md shadow-md'>
           <Image
-            src={photoUrl || '/default_img.png'}
+            src={userProfile?.photo_URL ?? '/default_img.png'}
             alt='사진'
             width={100}
             height={100}
             className='rounded-full mb-4'
           />
           <p className='mb-2'>Email: {userProfile?.email}</p>
-          <p className='mb-2'>닉네임: {displayName}</p>
-          <p className='mb-2'>
-            관심 분야: {interests || '관심있는 분야를 입력해주세요.'}
-          </p>
-          <p className='mb-2'>
-            내 소개: {introduction || '간략한 소개를 해주세요.'}
-          </p>
-
-          <p className='mb-2'>
-            내 최애 책: {mostFavoriteBook || '최애 책을 입력해주세요.'}
-          </p>
+          <p className='mb-2'>닉네임: {userProfile?.display_name}</p>
+          <p className='mb-2'>관심 분야: {userProfile?.interests}</p>
+          <p className='mb-2'>내 소개: {userProfile?.introduction}</p>
+          <p className='mb-2'>내 최애 책: {userProfile?.most_favorite_book}</p>
           <button
             className='w-full border rounded-md'
             onClick={() => setIsEdit(true)}>
@@ -174,5 +166,4 @@ const ProfileDetail = ({
     </div>
   );
 };
-
 export default ProfileDetail;

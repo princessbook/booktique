@@ -7,7 +7,12 @@ import React, { PropsWithChildren, useEffect, useState } from 'react';
 const GetClubMember = ({
   member
 }: {
-  member: { id: string; club_id: string; user_id: string; role: string };
+  member: {
+    id: string;
+    club_id: string;
+    user_id: string;
+    role: 'admin' | 'member';
+  };
 }) => {
   console.log('member', member);
   const [userProfile, setUserProfile] = useState<{

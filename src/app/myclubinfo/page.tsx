@@ -5,9 +5,14 @@ import { getUserClubIds } from '@/utils/userAPIs/authAPI';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import HomeTab from '@/components/myclubinfo/HomeTab';
+import Board from '@/components/myclubinfo/Board';
+import { Tables } from '@/lib/types/supabase';
 import SentenceStorage from '@/components/myclubinfo/SentenceStorage';
+import NonMyClub from '@/components/myclubinfo/NonMyClub';
+type Clubs = Tables<'clubs'>;
 const MyClubInfo = () => {
-  const [clubInfo, setClubInfo] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [clubInfo, setClubInfo] = useState<Clubs[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState('home');
   const [selectedClubId, setSelectedClubId] = useState<string | null>(null);
@@ -33,7 +38,10 @@ const MyClubInfo = () => {
 
     fetchData();
   }, []);
-
+  //   if (loading) {
+  //     // 데이터를 받아오는 동안 로딩 중인 화면
+  //     return <div>Loading...</div>;
+  //   }
   const handleClubChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedClubId(event.target.value);
   };
@@ -46,14 +54,23 @@ const MyClubInfo = () => {
         return <HomeTab clubId={selectedClubId} />;
       case 'sentenceStorage':
         return <SentenceStorage clubId={selectedClubId} />;
+      case 'board':
+        return <Board clubId={selectedClubId} />;
       default:
         return null;
     }
   };
+  if (clubInfo.length === 0) {
+    // 북클럽 없는 경우에 대한 처리
+    return <NonMyClub />;
+  }
   console.log(clubInfo);
   return (
     <div>
-      <select value={selectedClubId || ''} onChange={handleClubChange}>
+      <select
+        value={selectedClubId || ''}
+        onChange={handleClubChange}
+        className='p-2 m-2'>
         {clubInfo.map((club) => (
           <option key={club.id} value={club.id}>
             {club.name}
@@ -61,17 +78,37 @@ const MyClubInfo = () => {
         ))}
       </select>
 
-      <div>
-        <button className='border' onClick={() => handleTabChange('home')}>
+      <div className='flex flex-row w-full mb-4'>
+        {' '}
+        {/* 탭 버튼들을 감싸는 컨테이너 */}
+        <button
+          className={`flex-1 px-4 py-2 focus:outline-none text-center ${
+            selectedTab === 'home'
+              ? 'bg-gray-300 border-b-4 border-gray-500'
+              : 'bg-gray-200'
+          }`}
+          onClick={() => handleTabChange('home')}>
           홈 탭
         </button>
         <button
-          className='border'
+          className={`px-4 py-2 focus:outline-none ${
+            selectedTab === 'sentenceStorage'
+              ? 'bg-gray-300 border-b-4 border-gray-500'
+              : 'bg-gray-200'
+          }`}
           onClick={() => handleTabChange('sentenceStorage')}>
           문장 저장소 탭
         </button>
+        <button
+          className={`px-4 py-2 focus:outline-none ${
+            selectedTab === 'board'
+              ? 'bg-gray-300 border-b-4 border-gray-500'
+              : 'bg-gray-200'
+          }`}
+          onClick={() => handleTabChange('board')}>
+          자유 게시판 탭
+        </button>
       </div>
-
       {renderSelectedTab()}
     </div>
   );

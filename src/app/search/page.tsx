@@ -1,13 +1,11 @@
-import SearchForm from "@/components/search/SearchForm"
-
+import SearchForm from '@/components/search/SearchForm';
 
 const page = () => {
-
   return (
     <div>
-      <SearchForm/>
+      <p>dsd</p>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

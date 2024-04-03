@@ -1,10 +1,13 @@
+import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/server';
 import { addOneMonth, extractDate } from '@/utils/time';
 import React from 'react';
+import JoinBtn from './JoinBtn';
 
 const BookClubDetail = async (props: { params: { id: string } }) => {
   const id = props.params.id;
   const supabase = createClient();
+
   const { data: bookclub, error } = await supabase
     .from('clubs')
     .select('*')
@@ -13,6 +16,7 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
   if (error) {
     throw error;
   }
+
   if (!bookclub) return;
   return (
     <div>
@@ -52,9 +56,7 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
           ))}
         </div>
       </section>
-      <button className='fixed bottom-32 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full bg-blue-500 text-white'>
-        참가하기
-      </button>
+      <JoinBtn clubId={id} />
     </div>
   );
 };

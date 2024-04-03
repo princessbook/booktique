@@ -63,7 +63,11 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
           ))}
         </div>
       </section>
-      <JoinBtn clubId={id} />
+      {clubMembers!.length === bookclub.max_member_count ? (
+        '모집인원꽉참'
+      ) : (
+        <JoinBtn clubId={id} />
+      )}
     </div>
   );
 };

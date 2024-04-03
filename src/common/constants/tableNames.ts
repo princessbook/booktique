@@ -1,0 +1,10 @@
+export const CLUBS_TABLE = 'clubs';
+export const MEMBERS_TABLE = 'members';
+export const CLUB_ACTIVITIES_TABLE = 'club_activities';
+export const CLUB_LIKE_TABLE = 'club_like';
+export const POSTS_TABLE = 'posts';
+export const POST_COMMENTS_TABLE = 'post_comments';
+export const PROFILES_TABLE = 'profiles';
+export const QUIZ_TABLE = 'quiz';
+export const SENTENCE_COMMENTS_TABLE = 'sentence_comments';
+export const SENTENCES_TABLE = 'sentences';

@@ -35,7 +35,7 @@ const MyBookClub = ({ userId }: { userId: string | null }) => {
         {visibleClubs.map((club) => (
           <li key={club.id}>
             {club.name}
-            <button>바로가기</button>
+            <button className='pl-2 border'>바로가기</button>
           </li>
         ))}
       </ul>

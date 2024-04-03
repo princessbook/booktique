@@ -62,7 +62,7 @@ const ProfileDetail = ({
       if (storageImageUrl) {
         console.log(storageImageUrl);
         setPhotoUrl(storageImageUrl);
-        console.log(photoUrl);
+        // console.log(photoUrl);
       }
     }
     const formData = new FormData();

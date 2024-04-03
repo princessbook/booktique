@@ -1,5 +1,4 @@
 import { createClient } from '@/utils/supabase/server';
-import { login, signup } from './action';
 import { redirect } from 'next/navigation';
 import LoginForm from '@/components/login/LoginForm';
 
@@ -8,7 +7,7 @@ export default async function LoginPage() {
   const { data, error } = await supabase.auth.getUser();
 
   if (data.user) {
-    redirect('/');
+    redirect('/myclub');
     return null;
   }
   return (

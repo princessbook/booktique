@@ -18,13 +18,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang='en'
-      className='w-[375px] min-w-[375px] h-[812px] mx-auto border-2 '>
-      <body className={inter.className}>
-        {/* <Header /> */}
+    <html lang='en'>
+      <body
+        className={`${inter.className} w-[375px] flex flex-col h-screen items-center`}>
         <QueryProvider>
-          {children}
+          {/* <Header /> */}
+          <main className='w-full flex-1 overflow-y-auto'>{children}</main>
           <Footer />
         </QueryProvider>
       </body>

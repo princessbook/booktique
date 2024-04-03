@@ -6,8 +6,8 @@ export async function GET(
   console.log(id);
 
   try {
-    const targetUrl = `${process.env.NEXT_PUBLIC_BOOK_INFO_API_URL}?ttbkey=${
-      process.env.NEXT_PUBLIC_BOOK_API_KEY
+    const targetUrl = `${process.env.ALADIN_BOOK_INFO_API_URL}?ttbkey=${
+      process.env.ALADIN_BOOK_API_KEY
     }&itemIdType=ISBN13&ItemId=${encodeURIComponent(
       id
     )}&output=js&Version=20131101&OptResult=ebookList,usedList,reviewList`;

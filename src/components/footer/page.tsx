@@ -7,12 +7,12 @@ const Footer = () => {
       <div className='mx-auto flex justify-center'>
         <ul className='flex space-x-4 '>
           <li>
-            <Link href='/' className='hover:text-white'>
+            <Link href='/myclub' className='hover:text-white'>
               내 북클럽
             </Link>
           </li>
           <li>
-            <Link href='/' className='hover:text-white'>
+            <Link href='/readbook' className='hover:text-white'>
               책 읽기
             </Link>
           </li>

@@ -3,7 +3,7 @@ import { createClient } from '@/utils/supabase/server';
 import { addOneMonth, extractDate } from '@/utils/time';
 import React from 'react';
 import JoinBtn from './JoinBtn';
-import GetClubMember from './GetClubMember';
+import ClubMemberProfile from './ClubMemberProfile';
 
 const BookClubDetail = async (props: { params: { id: string } }) => {
   const id = props.params.id;
@@ -58,7 +58,7 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
         <div className='grid grid-cols-4 gap-3'>
           {clubMembers &&
             clubMembers.map((member, index) => {
-              return <GetClubMember member={member} key={index} />;
+              return <ClubMemberProfile member={member} key={index} />;
             })}
         </div>
       </section>

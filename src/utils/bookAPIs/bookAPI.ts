@@ -15,7 +15,7 @@ export const searchBookKeywords = async (keyword: string) => {
   }
 };
 
-export const getBookInfoAPI = async (id: number) => {
+export const getBookInfoAPI = async (id: string) => {
   try {
     const response = await fetch(`/api/getBookInfo/${id}`);
     if (response.ok) {

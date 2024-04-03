@@ -17,7 +17,7 @@ const BookClubsPage = async () => {
       <section className='p-3'>
         {bookclubs.map((bookclub) => {
           return (
-            <Link key={bookclub.id} href={`/bookclubs/detail/${bookclub.id}`}>
+            <Link key={bookclub.id} href={`/bookclubs/${bookclub.id}`}>
               <div className='flex bg-gray-100 justify-between p-3'>
                 <div className=' flex-1'>
                   <h1 className='mb-1 text-lg'>{bookclub.name}</h1>

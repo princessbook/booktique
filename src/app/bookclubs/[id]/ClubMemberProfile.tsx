@@ -5,7 +5,7 @@ import { Tables } from '@/lib/types/supabase';
 import { createClient } from '@/utils/supabase/client';
 import React, { useEffect, useState } from 'react';
 
-const ClubMemberInfo = ({ member }: { member: Tables<'members'> }) => {
+const ClubMemberProfile = ({ member }: { member: Tables<'members'> }) => {
   const [userProfile, setUserProfile] = useState<Tables<'profiles'> | null>();
   useEffect(() => {
     const getUserProfile = async (userId: string) => {
@@ -43,4 +43,4 @@ const ClubMemberInfo = ({ member }: { member: Tables<'members'> }) => {
   );
 };
 
-export default ClubMemberInfo;
+export default ClubMemberProfile;

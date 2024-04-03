@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import QueryProvider from './provider';
-
 import Footer from '@/components/footer/page';
 import Header from '@/components/header/page';
 
@@ -24,8 +23,10 @@ export default function RootLayout({
       className='w-[375px] min-w-[375px] h-[812px] mx-auto border-2 '>
       <body className={inter.className}>
         {/* <Header /> */}
-        <QueryProvider>{children} </QueryProvider>
-        <Footer />
+        <QueryProvider>
+          {children}
+          <Footer />
+        </QueryProvider>
       </body>
     </html>
   );

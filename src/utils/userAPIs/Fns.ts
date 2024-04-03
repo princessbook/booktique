@@ -22,7 +22,7 @@ export const updateUserProfile = async (formData: FormData) => {
   const mostFavoriteBook = formData.get('most_favorite_book') as string;
   const photoUrl = formData.get('photo_URL') as string;
   const id = formData.get('id') as string;
-  // console.log(photoUrl);
+
   // Supabase를 사용하여 프로필 정보를 업데이트합니다.
   const supabase = createClient();
   const { data, error } = await supabase

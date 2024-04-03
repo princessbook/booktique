@@ -3,7 +3,7 @@ import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
 import React, { useEffect, useState } from 'react';
 
-const GetClubMembersNumber = ({ clubId }: { clubId: string }) => {
+const ClubMembersCount = ({ clubId }: { clubId: string }) => {
   const [clubMembers, setClubMembers] = useState<number | undefined>(0);
 
   useEffect(() => {
@@ -23,4 +23,4 @@ const GetClubMembersNumber = ({ clubId }: { clubId: string }) => {
   return <span>{clubMembers}</span>;
 };
 
-export default GetClubMembersNumber;
+export default ClubMembersCount;

@@ -2,7 +2,7 @@ import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/server';
 import { addOneMonth, extractDate } from '@/utils/time';
 import Link from 'next/link';
-import GetClubMembersNumber from './GetClubMembersNumber';
+import ClubMembersCount from './ClubMembersCount';
 
 const BookClubsPage = async () => {
   const supabase = createClient();
@@ -35,7 +35,7 @@ const BookClubsPage = async () => {
                     </div>
                     <div className='mr-3'>
                       <div>
-                        <GetClubMembersNumber clubId={bookclub.id} />/
+                        <ClubMembersCount clubId={bookclub.id} />/
                         {bookclub.max_member_count}
                       </div>
                     </div>

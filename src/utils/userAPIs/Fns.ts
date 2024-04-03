@@ -1,6 +1,7 @@
 import { createClient } from '../supabase/client';
 import { Tables } from '@/lib/types/supabase';
 type Profile = Tables<'profiles'>;
+type Clubs = Tables<'clubs'>;
 export const getUserProfile = async (): Promise<Profile[] | null> => {
   try {
     const supabase = createClient();
@@ -42,3 +43,14 @@ export const updateUserProfile = async (formData: FormData) => {
 
   return data;
 };
+// export const getBookClubs = async (): Promise<Clubs[] | null> => {
+//   const supabase = createClient();
+//   const { data, error } = await supabase.from('clubs').select('*');
+//   if (error) {
+//     throw new Error('데이터를 불러오는 도중 오류가 발생했습니다.');
+//   }
+//   if (data && data.length > 0) {
+//     return data;
+//   }
+//   return null;
+// };

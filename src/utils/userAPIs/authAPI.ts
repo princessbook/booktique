@@ -48,7 +48,7 @@ export const getUserClubIds = async (userId: string): Promise<string[]> => {
       console.error('유저의 클럽아이디들 불러오기실패:', error.message);
       return [];
     }
-    console.log(data);
+    // console.log(data);
     return data?.map((row: any) => row.club_id) || [];
   } catch (error) {
     console.error('유저의 클럽아이디들 불러오기실패:', error);

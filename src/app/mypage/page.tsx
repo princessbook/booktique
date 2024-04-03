@@ -58,7 +58,7 @@ const MyPage = () => {
         </svg>
         <p className='text-lg'>마이페이지</p>
       </header>
-      <div className='flex flex-col items-center justify-center text-center'>
+      <div className='flex flex-col items-center justify-center text-center mx-2'>
         <ProfileDetail profiles={profiles} userId={userId} />
         <MyBookClub userId={userId} />
         <select value={selectedOption} onChange={handleOptionChange}>

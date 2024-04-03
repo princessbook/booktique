@@ -44,7 +44,7 @@ const MySentencesStore = ({ userId }: { userId: string | null }) => {
                           MAX_CONTENT_LENGTH
                         )}...`
                       : sentence.sentence_content}
-                    <button onClick={toggleContent}>
+                    <button onClick={toggleContent} className='border'>
                       {showFullContent ? '간략히 보기' : '더 보기'}
                     </button>
                   </>

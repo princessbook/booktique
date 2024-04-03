@@ -6,8 +6,8 @@ export async function GET(
   console.log(keyword);
 
   try {
-    const targetUrl = `${process.env.NEXT_PUBLIC_BOOK_API_URL}?ttbkey=${
-      process.env.NEXT_PUBLIC_BOOK_API_KEY
+    const targetUrl = `${process.env.ALADIN_BOOK_SEARCH_API_URL}?ttbkey=${
+      process.env.ALADIN_BOOK_API_KEY
     }&Query=${encodeURIComponent(
       keyword
     )}&QueryType=Title&MaxResults=10&Cover=Mini&start=1&SearchTarget=Book&output=js&Version=20131101`;

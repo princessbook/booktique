@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { updateUserProfile } from '@/utils/userAPIs/Fns';
 import { useQueryClient } from '@tanstack/react-query';
 import { uploadAvatar } from '@/utils/userAPIs/storageAPI';
+import { createClient } from '@/utils/supabase/client';
 const ProfileDetail = ({
   profiles,
   userId
@@ -41,6 +42,11 @@ const ProfileDetail = ({
       setIsEdit(false);
     }
   });
+  const supabase = createClient();
+  const handleSignout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = '/login';
+  };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -160,6 +166,9 @@ const ProfileDetail = ({
             className='w-full border rounded-md'
             onClick={() => setIsEdit(true)}>
             프로필 수정
+          </button>
+          <button className='w-full border rounded-md' onClick={handleSignout}>
+            로그아웃
           </button>
         </div>
       )}

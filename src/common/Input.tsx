@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 type InputProps = {
   label: string;
+  inputRef: React.RefObject<HTMLInputElement>;
   type: string;
   placeholder: string;
   value: string;
@@ -12,6 +13,7 @@ type InputProps = {
 
 const Input: React.FC<InputProps> = ({
   label,
+  inputRef,
   type,
   placeholder,
   value,
@@ -35,6 +37,7 @@ const Input: React.FC<InputProps> = ({
       <div className='relative'>
         <input
           className='px-3 py-[12px] mb-3 text-white placeholder-white placeholder-opacity-60 rounded-[10px] w-full bg-subblue'
+          ref={inputRef}
           id={label}
           type={type}
           placeholder={placeholder}

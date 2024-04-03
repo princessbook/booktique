@@ -1,6 +1,6 @@
 'use client';
+
 import { createClient } from '@/utils/supabase/client';
-// import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -11,6 +11,7 @@ const CreateBookPage = () => {
   const [selectedParticipants, setSelectedParticipants] = useState(1);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const supabase = createClient();
 
   const uploadImageStorage = async (file: File) => {
     const fileExt = file?.name.split('.').pop();
@@ -34,20 +35,54 @@ const CreateBookPage = () => {
 
   const insertBookClubDataToDB = async (storageImg: string | undefined) => {
     try {
-      const supabase = createClient();
-      const { data, error } = await supabase.from('clubs').insert([
+      const { data, error } = await supabase
+        .from('clubs')
+        .insert([
+          {
+            created_at: new Date().toISOString(),
+            name: clubName,
+            book_id: 'isbn13',
+            description: description,
+            max_member_count: selectedParticipants,
+            archive: false,
+            thumbnail: storageImg // 이미지 URL도 데이터에 포함
+          }
+        ])
+        .select();
+
+      console.log('성공적으로 업로드되었음');
+      if (error) {
+        throw error;
+      }
+      if (data) {
+        const bookclubData = JSON.stringify(data[0]);
+        console.log('bookclubdata id: ' + JSON.parse(bookclubData).id);
+        insertDataToMembers(JSON.parse(bookclubData).id);
+      }
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const insertDataToMembers = async (clubId: string) => {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+    console.log('user', user);
+    if (!user) return;
+    try {
+      const { error } = await supabase.from('members').insert([
         {
-          created_at: new Date().toISOString(),
-          name: clubName,
-          book_id: 'isbn13',
-          description: description,
-          max_member_count: selectedParticipants,
-          archive: false,
-          thumbnail: storageImg // 이미지 URL도 데이터에 포함
+          club_id: clubId,
+          user_id: user.id,
+          role: 'admin'
         }
       ]);
-      console.log('성공적으로 업로드되었음');
-      return data;
+      console.log('클럽아이디와 유저아이디가 멤버데이터에 삽입되었음');
+      if (error) {
+        throw error;
+      }
     } catch (error) {
       console.log(error);
     }

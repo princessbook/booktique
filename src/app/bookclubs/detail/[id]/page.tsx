@@ -1,9 +1,14 @@
-import { supabase } from '@/lib/supabase';
+import { MEMBERS_TABLE } from '@/common/constants/tableNames';
+import { createClient } from '@/utils/supabase/server';
 import { addOneMonth, extractDate } from '@/utils/time';
 import React from 'react';
+import JoinBtn from './JoinBtn';
+import GetClubMember from './GetClubMember';
 
 const BookClubDetail = async (props: { params: { id: string } }) => {
   const id = props.params.id;
+  const supabase = createClient();
+
   const { data: bookclub, error } = await supabase
     .from('clubs')
     .select('*')
@@ -12,6 +17,14 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
   if (error) {
     throw error;
   }
+
+  const { data: clubMembers, error: membersError } = await supabase
+    .from(MEMBERS_TABLE)
+    .select('*')
+    .eq('club_id', id);
+
+  console.log(clubMembers);
+
   if (!bookclub) return;
   return (
     <div>
@@ -39,21 +52,21 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
         </div>
       </section>
       <section className='p-3'>
-        <h2 className='mb-4'>{`참여인원(0/${bookclub.max_member_count})`}</h2>
+        <h2 className='mb-4'>{`참여인원(${
+          clubMembers ? clubMembers.length : 0
+        }/${bookclub.max_member_count})`}</h2>
         <div className='grid grid-cols-4 gap-3'>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((val, index) => (
-            <div
-              className='flex flex-col justify-center items-center'
-              key={index}>
-              <div className='w-10 h-10 bg-gray-500 rounded-full'></div>
-              <div>닉네임</div>
-            </div>
-          ))}
+          {clubMembers &&
+            clubMembers.map((member, index) => {
+              return <GetClubMember member={member} key={index} />;
+            })}
         </div>
       </section>
-      <button className='fixed bottom-32 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full bg-blue-500 text-white'>
-        참가하기
-      </button>
+      {clubMembers!.length === bookclub.max_member_count ? (
+        '모집인원꽉참'
+      ) : (
+        <JoinBtn clubId={id} />
+      )}
     </div>
   );
 };

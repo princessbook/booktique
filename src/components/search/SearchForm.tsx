@@ -1,35 +1,26 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction } from 'react';
 
-const SearchForm = () => {
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const router = useRouter();
-
-  const id = 9788958285342;
-
+const SearchForm = ({
+  setSearchKeyword
+}: {
+  setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const handleSearchInputChange = (e: {
     target: { value: SetStateAction<string> };
   }) => {
     setSearchKeyword(e.target.value);
   };
 
-  const handleSearchSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    router.push(`/search/${searchKeyword}`);
-  };
-
   return (
-    <div>
-      <form onSubmit={handleSearchSubmit}>
-        <input
-          placeholder='책 제목 또는 저자.'
-          type='text'
-          value={searchKeyword}
-          onChange={handleSearchInputChange}
-        />
-      </form>
+    <div className='flex justify-center'>
+      <input
+        className='border-2'
+        placeholder='책 제목 또는 저자.'
+        type='text'
+        onChange={handleSearchInputChange}
+      />
     </div>
   );
 };

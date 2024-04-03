@@ -145,7 +145,7 @@ const ProfileDetail = ({
       ) : (
         <div className='flex flex-col w-full max-w-md px-4 py-6 bg-white rounded-md shadow-md'>
           <Image
-            src={userProfile?.photo_URL ?? '/default_img.png'}
+            src={userProfile?.photo_URL ?? '/booktique.png'}
             alt='사진'
             width={100}
             height={100}

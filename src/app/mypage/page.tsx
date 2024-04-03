@@ -20,16 +20,14 @@ const MyPage = () => {
     isLoading,
     isError
   } = useQuery({
-    queryKey: ['profile'],
+    queryKey: ['profiles'],
     queryFn: getUserProfile
   });
-
   useEffect(() => {
     const fetchUserId = async () => {
       const id = await getUserId();
       setUserId(id);
     };
-
     fetchUserId();
   }, []);
   const goBack = () => {
@@ -41,7 +39,6 @@ const MyPage = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
   if (isError || !profiles) {
     return <div>Error fetching data</div>;
   }
@@ -61,7 +58,7 @@ const MyPage = () => {
         </svg>
         <p className='text-lg'>마이페이지</p>
       </header>
-      <div className='flex flex-col items-center justify-center'>
+      <div className='flex flex-col items-center justify-center text-center'>
         <ProfileDetail profiles={profiles} userId={userId} />
         <MyBookClub userId={userId} />
         <select value={selectedOption} onChange={handleOptionChange}>
@@ -77,5 +74,4 @@ const MyPage = () => {
     </div>
   );
 };
-
 export default MyPage;

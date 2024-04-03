@@ -212,7 +212,7 @@ export type Database = {
       };
       profiles: {
         Row: {
-          display_name: string;
+          display_name: string | null;
           email: string | null;
           id: string;
           interests: string | null;
@@ -221,7 +221,7 @@ export type Database = {
           photo_URL: string | null;
         };
         Insert: {
-          display_name: string;
+          display_name?: string | null;
           email?: string | null;
           id?: string;
           interests?: string | null;
@@ -230,7 +230,7 @@ export type Database = {
           photo_URL?: string | null;
         };
         Update: {
-          display_name?: string;
+          display_name?: string | null;
           email?: string | null;
           id?: string;
           interests?: string | null;

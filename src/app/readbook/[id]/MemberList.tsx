@@ -4,6 +4,7 @@ import { Tables } from '@/lib/types/supabase';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import EndButton from './EndButton';
 
 interface MemberListProps {
   clubMembers: Tables<'members'>[] | null;
@@ -39,37 +40,33 @@ const MemberList = ({ clubMembers }: MemberListProps) => {
         setLoading(false);
       }
     };
-
     fetchProfiles();
   }, [clubMembers, supabase]);
   if (loading) {
     return <LoadingOverlay show={loading} />;
   }
   return (
-    <div>
-      <div>
-        북클럽 멤버
-        <div className='mx-auto flex flex-wrap gap-2 justify-center'>
-          {profiles?.map((profile, index) => (
-            <div
-              key={index}
-              className='flex flex-col border-2 border-b-gray-200'>
-              {profile?.photo_URL && (
-                <div className='relative h-[100px] w-[100px]'>
-                  <Image
-                    src={profile.photo_URL}
-                    layout='fill'
-                    objectFit='cover'
-                    alt='프로필 이미지'
-                  />
-                </div>
-              )}
-              {profile?.display_name}
-              타이머
-            </div>
-          ))}
-        </div>
+    <div className=' flex flex-col '>
+      <div className='mt-[230px] mb-[16px]'> 북클럽 멤버</div>
+      <div className='flex flex-wrap ml-[16px] gap-[8px] justify-start'>
+        {profiles?.map((profile, index) => (
+          <div key={index} className='flex flex-col bg-[#d9d9d9]'>
+            {profile?.photo_URL && (
+              <figure className='relative w-[109px] h-[150px] mt-[15px]'>
+                <Image
+                  src={profile.photo_URL}
+                  width={'56'}
+                  height={'56'}
+                  alt='프로필 이미지'
+                  className='mx-[auto] rounded-full object-contain'
+                />
+                {profile?.display_name}
+              </figure>
+            )}
+          </div>
+        ))}
       </div>
+      <EndButton />
     </div>
   );
 };

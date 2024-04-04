@@ -120,7 +120,7 @@ export type Database = {
           club_id: string;
           id: string;
           role: Database['public']['Enums']['member_role'] | null;
-          user_id: string | null;
+          user_id: string | null; // 대연.
         };
         Insert: {
           club_id: string;

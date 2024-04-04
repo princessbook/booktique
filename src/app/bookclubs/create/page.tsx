@@ -1,17 +1,23 @@
 'use client';
 
+import SearchModal from '@/components/search/SearchModal';
+import { BookInfo } from '@/lib/types/BookAPI';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const CreateBookPage = () => {
-  //저장할 북아이디 isbn13
   const [clubName, setClubName] = useState('');
   const [description, setDiscription] = useState('');
   const [selectedParticipants, setSelectedParticipants] = useState(1);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const supabase = createClient();
+  const [bookInfo, setBookInfo] = useState<BookInfo | undefined>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const router = useRouter();
 
   const uploadImageStorage = async (file: File) => {
     const fileExt = file?.name.split('.').pop();
@@ -34,6 +40,10 @@ const CreateBookPage = () => {
   };
 
   const insertBookClubDataToDB = async (storageImg: string | undefined) => {
+    if (!bookInfo) {
+      alert('북클럽에서 읽을 책을 선택해 주세요');
+      return;
+    }
     try {
       const { data, error } = await supabase
         .from('clubs')
@@ -41,11 +51,16 @@ const CreateBookPage = () => {
           {
             created_at: new Date().toISOString(),
             name: clubName,
-            book_id: 'isbn13',
             description: description,
             max_member_count: selectedParticipants,
             archive: false,
-            thumbnail: storageImg // 이미지 URL도 데이터에 포함
+            thumbnail: storageImg,
+            book_id: bookInfo.isbn13,
+            book_title: bookInfo.title,
+            book_author: bookInfo.author,
+            book_category: bookInfo.categoryName.split('>')[1],
+            book_cover: bookInfo.cover,
+            book_page: bookInfo.itemPage
           }
         ])
         .select();
@@ -110,6 +125,7 @@ const CreateBookPage = () => {
     }
     const storageImg = await uploadImageStorage(selectedImage!);
     await insertBookClubDataToDB(storageImg);
+    router.push('/bookclubs');
   };
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -129,19 +145,31 @@ const CreateBookPage = () => {
   return (
     <section>
       <h1 className=' text-center'>북클럽 만들기</h1>
-      <div className='flex bg-bookpurble mb-3 p-3'>
-        <div className='mr-5'>
-          이미지들어갈자리
-          <div className=''></div>
-          {/* <Image src="/" alt="img"/> */}
+      <button
+        onClick={() => {
+          setIsModalOpen(true);
+        }}>
+        책검색
+      </button>
+      <SearchModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        setBookInfo={setBookInfo}
+      />
+      {bookInfo && (
+        <div className='flex bg-gray-300 mb-3 p-3'>
+          <div className='mr-5'>
+            <div className=''></div>
+            <Image src={bookInfo.cover} width={200} height={300} alt='img' />
+          </div>
+          <div>
+            <h1>{bookInfo.title}</h1>
+            <p>{bookInfo.author}</p>
+            <p>{bookInfo.categoryName.split('>')[1]}</p>
+            <p>{bookInfo.itemPage}p</p>
+          </div>
         </div>
-        <div>
-          <h1>책 제목</h1>
-          <p>저자명</p>
-          <p>장르</p>
-          <p>페이지수</p>
-        </div>
-      </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div className='p-3'>
           <label className='mr-3'>북클럽 이름</label>

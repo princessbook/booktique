@@ -17,7 +17,7 @@ const Footer = () => {
             </Link>
           </li>
           <li>
-            <Link href='/create-bookclub' className='hover:text-white'>
+            <Link href='/bookclubs' className='hover:text-white'>
               북클럽 찾기
             </Link>
           </li>

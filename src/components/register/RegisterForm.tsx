@@ -5,7 +5,7 @@ import { useInput } from '@/hooks/useInput';
 import { createClient } from '@/utils/supabase/client';
 import { redirect } from 'next/navigation';
 import SelectForm from '@/components/register/SelectForm';
-import booktique from '../../../public/booktique.png';
+import { generateUniqueNickname } from '@/utils/nicknameGenerator';
 
 const RegisterForm = () => {
   const [email, setEmail] = useState<string>('');
@@ -58,40 +58,14 @@ const RegisterForm = () => {
       await supabase
         .from('profiles')
         .insert([{ email, display_name: nickname }]);
+
       alert('회원가입이 완료되었습니다');
-      setIsEmailVerified(true);
+      window.location.href = '/nickname';
     } catch (error) {
       console.error(error);
     }
   };
 
-  const generateUniqueNickname = async () => {
-    const baseNickname = '북티크';
-    let randomSuffix = '';
-
-    for (let i = 0; i < 7; i++) {
-      randomSuffix += Math.floor(Math.random() * 10);
-    }
-    let randomNickname = baseNickname + randomSuffix;
-    while (true) {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('display_name', nickname);
-      if (error) {
-        console.error(error);
-        return '';
-      }
-      if (!data || data.length === 0) {
-        return randomNickname;
-      }
-      randomSuffix = '';
-      for (let i = 0; i < 7; i++) {
-        randomSuffix += Math.floor(Math.random() * 10);
-      }
-      randomNickname = baseNickname + randomSuffix;
-    }
-  };
   const validateEmail = (inputEmail: string) => {
     // Email 형식 유효성 검사
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -149,53 +123,49 @@ const RegisterForm = () => {
   };
   return (
     <>
-      {isEmailVerified ? (
-        <SelectForm />
-      ) : (
-        <div className='bg-mainblue h-screen text-[#fff] px-[1rem]'>
-          <section>
-            <div className='font-bold mb-[30px] py-[15px] text-center'>
-              <h1>회원가입</h1>
-            </div>
+      <div className='bg-mainblue h-screen text-[#fff] px-[1rem]'>
+        <section>
+          <div className='font-bold mb-[30px] py-[15px] text-center'>
+            <h1>회원가입</h1>
+          </div>
 
-            <div className='mb-10'>
-              <Input
-                inputRef={emailInputRef}
-                label='email'
-                type='email'
-                placeholder='e-mail'
-                value={email}
-                onChange={handleEmailChange}
-              />
-              <p className=' text-bookyellow text-[12px]'>{emailError}</p>
-            </div>
-            <div className='mb-10'>
-              <Input
-                inputRef={passwordInputRef}
-                label='비밀번호'
-                type='password'
-                placeholder='비밀번호'
-                value={password}
-                onChange={handlePasswordChange}
-              />
-              <Input
-                inputRef={passwordConfirmInputRef}
-                label=''
-                type='password'
-                placeholder='비밀번호 확인'
-                value={passwordConfirm}
-                onChange={handlePasswordConfirmChange}
-              />
-              <p className='text-bookyellow text-[12px]'>{passwordError}</p>
-            </div>
-            <button
-              onClick={handleRegister}
-              className='w-full py-4 bg-bookyellow text-black font-bold rounded-[10px] mt-48'>
-              회원가입 하기
-            </button>
-          </section>
-        </div>
-      )}
+          <div className='mb-10'>
+            <Input
+              inputRef={emailInputRef}
+              label='email'
+              type='email'
+              placeholder='e-mail'
+              value={email}
+              onChange={handleEmailChange}
+            />
+            <p className=' text-bookyellow text-[12px]'>{emailError}</p>
+          </div>
+          <div className='mb-10'>
+            <Input
+              inputRef={passwordInputRef}
+              label='비밀번호'
+              type='password'
+              placeholder='비밀번호'
+              value={password}
+              onChange={handlePasswordChange}
+            />
+            <Input
+              inputRef={passwordConfirmInputRef}
+              label=''
+              type='password'
+              placeholder='비밀번호 확인'
+              value={passwordConfirm}
+              onChange={handlePasswordConfirmChange}
+            />
+            <p className='text-bookyellow text-[12px]'>{passwordError}</p>
+          </div>
+          <button
+            onClick={handleRegister}
+            className='w-full py-4 bg-bookyellow text-black font-bold rounded-[10px] mt-48'>
+            회원가입 하기
+          </button>
+        </section>
+      </div>
     </>
   );
 };

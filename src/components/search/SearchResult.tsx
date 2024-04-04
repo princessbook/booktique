@@ -12,7 +12,7 @@ const SearchResult = ({
   setIsModalOpen
 }: {
   searchKeyword: string;
-  setBookInfo: React.Dispatch<React.SetStateAction<BookInfo>>;
+  setBookInfo: React.Dispatch<React.SetStateAction<BookInfo | undefined>>;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [bookItems, setBookItems] = useState<BookResponse[]>([]);

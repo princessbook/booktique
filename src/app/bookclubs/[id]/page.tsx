@@ -3,7 +3,8 @@ import { createClient } from '@/utils/supabase/server';
 import { addOneMonth, extractDate } from '@/utils/time';
 import React from 'react';
 import JoinBtn from './JoinBtn';
-import ClubMemberInfo from './ClubMemberInfo';
+import ClubMemberProfile from './ClubMemberProfile';
+import Image from 'next/image';
 
 const BookClubDetail = async (props: { params: { id: string } }) => {
   const id = props.params.id;
@@ -35,30 +36,39 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
           {/* <p>모집중</p> */}
         </div>
         <div className='flex'>
-          <div className='bg-gray-600 w-24 h-32 mr-3'>책사진</div>
+          <div className='bg-gray-600 w-24 h-32 mr-3'>
+            {bookclub.book_cover && (
+              <Image
+                src={bookclub.book_cover}
+                alt='북커버'
+                width={200}
+                height={200}
+              />
+            )}
+          </div>
           <div>
-            <h2 className='mb-3 font-bold'>지적 대화를 위한 넓고 얕은 지식1</h2>
+            <h2 className='mb-3 font-bold'>{bookclub.book_title}</h2>
             {/* <p>모집기간:</p> */}
             <p>시작:{extractDate(bookclub.created_at)}</p>
             <p>종료:{extractDate(addOneMonth(bookclub.created_at))}</p>
-            <p>400p</p>
+            <p>{bookclub.book_page}p</p>
           </div>
         </div>
       </section>
       <section className='p-3'>
-        <div className='mb-3'>
-          <h2 className='mb-3 h-32'>소개</h2>
+        <div className='mb-3 h-32'>
+          <h2 className='mb-3 font-bold'>소개</h2>
           <p>{bookclub.description}</p>
         </div>
       </section>
       <section className='p-3'>
-        <h2 className='mb-4'>{`참여인원(${
+        <h2 className='mb-4 font-bold'>{`참여인원(${
           clubMembers ? clubMembers.length : 0
         }/${bookclub.max_member_count})`}</h2>
         <div className='grid grid-cols-4 gap-3'>
           {clubMembers &&
             clubMembers.map((member, index) => {
-              return <ClubMemberInfo member={member} key={index} />;
+              return <ClubMemberProfile member={member} key={index} />;
             })}
         </div>
       </section>

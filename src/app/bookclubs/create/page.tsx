@@ -4,24 +4,20 @@ import SearchModal from '@/components/search/SearchModal';
 import { BookInfo } from '@/lib/types/BookAPI';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const CreateBookPage = () => {
-  //저장할 북아이디 isbn13
   const [clubName, setClubName] = useState('');
   const [description, setDiscription] = useState('');
   const [selectedParticipants, setSelectedParticipants] = useState(1);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const supabase = createClient();
-  //이 state를 외부에서 사용하실 때 가져가서 써주세요
-  const [bookInfo, setBookInfo] = useState<BookInfo>();
+  const [bookInfo, setBookInfo] = useState<BookInfo | undefined>();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //테스트용 콘솔. 책을 검색 후 선택을 클릭해보세요
-  useEffect(() => {
-    console.table(bookInfo);
-  }, [bookInfo]);
+  const router = useRouter();
 
   const uploadImageStorage = async (file: File) => {
     const fileExt = file?.name.split('.').pop();
@@ -129,6 +125,7 @@ const CreateBookPage = () => {
     }
     const storageImg = await uploadImageStorage(selectedImage!);
     await insertBookClubDataToDB(storageImg);
+    router.push('/bookclubs');
   };
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {

@@ -8,10 +8,12 @@ import Image from 'next/image';
 
 const SearchResult = ({
   searchKeyword,
-  setBookInfo
+  setBookInfo,
+  setIsModalOpen
 }: {
   searchKeyword: string;
-  setBookInfo: React.Dispatch<React.SetStateAction<BookInfo>>;
+  setBookInfo: React.Dispatch<React.SetStateAction<BookInfo | undefined>>;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [bookItems, setBookItems] = useState<BookResponse[]>([]);
 
@@ -40,6 +42,7 @@ const SearchResult = ({
       categoryName: response.item[0].categoryName,
       author: response.item[0].author
     });
+    setIsModalOpen(false);
   };
 
   return (

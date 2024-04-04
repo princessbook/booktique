@@ -3,7 +3,7 @@ import closeInput from '../../public/icon_input.png';
 import Image from 'next/image';
 
 type InputProps = {
-  label: string;
+  label?: string | null;
   inputRef: React.RefObject<HTMLInputElement>;
   type: string;
   placeholder: string;
@@ -31,14 +31,16 @@ const Input: React.FC<InputProps> = ({
   }, [type]);
   return (
     <div>
-      <label className='opacity-60' htmlFor={label}>
-        {label}
-      </label>
+      {label && (
+        <label className='opacity-60' htmlFor={label}>
+          {label}
+        </label>
+      )}
       <div className='relative'>
         <input
           className='px-3 py-[12px] mb-3 text-white placeholder-white placeholder-opacity-60 rounded-[10px] w-full bg-subblue'
           ref={inputRef}
-          id={label}
+          id={label || ''}
           type={type}
           placeholder={placeholder}
           value={value}

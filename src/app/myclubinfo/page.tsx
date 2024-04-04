@@ -66,54 +66,48 @@ const MyClubInfo = () => {
   }
   console.log(clubInfo);
   return (
-    <div className='w-[375px]'>
-      <div className='fixed top-0 left-0 right-0 z-10 bg-white  flex flex-col justify-between'>
+    <div>
+      <div className='sticky top-0 left-0 right-0 z-10 bg-white flex flex-col justify-between'>
         {/* 북클럽 셀렉트 박스 */}
         <select
           value={selectedClubId || ''}
           onChange={handleClubChange}
-          className='p-2 m-2'>
+          className='p-2 m-2 w-[200px] font-bold'>
           {clubInfo.map((club) => (
-            <option key={club.id} value={club.id}>
+            <option key={club.id} value={club.id} className='w-[200px]'>
               {club.name}
             </option>
           ))}
         </select>
 
         {/* 탭 버튼들 */}
-        <div className='flex flex-row justify-between w-full'>
+        <div className='flex flex-row justify-between w-full border-b-2 border-gray-200 font-bold'>
           <button
             className={`flex-1 px-4 py-2 focus:outline-none ${
-              selectedTab === 'home'
-                ? 'bg-gray-300 border-b-4 border-gray-500'
-                : 'bg-gray-200'
+              selectedTab === 'home' ? ' border-b-2 border-black' : ''
             }`}
             onClick={() => handleTabChange('home')}>
-            홈 탭
+            홈
           </button>
           <button
             className={`flex-1 px-4 py-2 focus:outline-none ${
-              selectedTab === 'sentenceStorage'
-                ? 'bg-gray-300 border-b-4 border-gray-500'
-                : 'bg-gray-200'
+              selectedTab === 'sentenceStorage' ? 'border-b-2 border-black' : ''
             }`}
             onClick={() => handleTabChange('sentenceStorage')}>
-            문장 저장소 탭
+            문장 저장소
           </button>
           <button
             className={`flex-1 px-4 py-2 focus:outline-none ${
-              selectedTab === 'board'
-                ? 'bg-gray-300 border-b-4 border-gray-500'
-                : 'bg-gray-200'
+              selectedTab === 'board' ? 'border-b-2 border-black' : ''
             }`}
             onClick={() => handleTabChange('board')}>
-            자유 게시판 탭
+            자유 게시판
           </button>
         </div>
       </div>
 
       {/* 탭 컨텐츠 */}
-      <div className='mt-16'>{renderSelectedTab()}</div>
+      <div>{renderSelectedTab()}</div>
     </div>
   );
 };

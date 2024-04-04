@@ -35,7 +35,11 @@ const MyBookClub = ({ userId }: { userId: string | null }) => {
         {visibleClubs.map((club) => (
           <li key={club.id}>
             {club.name}
-            <button className='ml-2 border-2'>바로가기</button>
+            {club.archive ? (
+              <button className='ml-2 border-2'>종료됌</button>
+            ) : (
+              <button className='ml-2 border-2'>바로가기</button>
+            )}
           </li>
         ))}
       </ul>

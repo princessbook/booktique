@@ -70,7 +70,12 @@ export type Database = {
       clubs: {
         Row: {
           archive: boolean | null;
+          book_author: string | null;
+          book_category: string | null;
+          book_cover: string | null;
           book_id: string | null;
+          book_page: number | null;
+          book_title: string | null;
           created_at: string;
           description: string | null;
           id: string;
@@ -80,7 +85,12 @@ export type Database = {
         };
         Insert: {
           archive?: boolean | null;
+          book_author?: string | null;
+          book_category?: string | null;
+          book_cover?: string | null;
           book_id?: string | null;
+          book_page?: number | null;
+          book_title?: string | null;
           created_at?: string;
           description?: string | null;
           id?: string;
@@ -90,7 +100,12 @@ export type Database = {
         };
         Update: {
           archive?: boolean | null;
+          book_author?: string | null;
+          book_category?: string | null;
+          book_cover?: string | null;
           book_id?: string | null;
+          book_page?: number | null;
+          book_title?: string | null;
           created_at?: string;
           description?: string | null;
           id?: string;
@@ -105,7 +120,7 @@ export type Database = {
           club_id: string;
           id: string;
           role: Database['public']['Enums']['member_role'] | null;
-          user_id: string | null;
+          user_id: string | null; // 대연.
         };
         Insert: {
           club_id: string;

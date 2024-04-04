@@ -7,7 +7,7 @@ const Footer = () => {
       <div className='mx-auto flex justify-center'>
         <ul className='flex space-x-4 '>
           <li>
-            <Link href='/myclub' className='hover:text-white'>
+            <Link href='/myclubinfo' className='hover:text-white'>
               내 북클럽
             </Link>
           </li>
@@ -17,7 +17,7 @@ const Footer = () => {
             </Link>
           </li>
           <li>
-            <Link href='/create-bookclub' className='hover:text-white'>
+            <Link href='/bookclubs' className='hover:text-white'>
               북클럽 찾기
             </Link>
           </li>

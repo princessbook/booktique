@@ -7,38 +7,52 @@ import white from '../../../public/booktiquereadwhite.png';
 import ReadBookLayout from './layout';
 import LoadingOverlay from '@/common/LoadingOverlay';
 import { Tables } from '@/lib/types/supabase';
+import ClubList from './ClubList';
+import { useRouter } from 'next/navigation';
+import Slider from 'react-slick';
+import ReadButton from './ReadButton';
 
 const supabase = createClient();
 
-const MyBookClub = () => {
+const ReadBook = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [clubData, setClubData] = useState<Tables<'clubs'>[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [allClubData, setAllClubData] = useState<Tables<'clubs'>[]>([]);
+  const [activityData, setActivityData] = useState<Tables<'club_activities'>[]>(
+    []
+  );
+  const router = useRouter();
 
-  const [allClubData, setAllClubData] = useState<Tables<'clubs'>[]>([]); // allClubData 상태 추가
-  const [clubId, setClubId] = useState<string>(''); // 클럽 ID 상태 추가
-
-  console.log('userId111111', userId);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const id = await getUserId();
         setUserId(id);
-        console.log('id', id);
-        if (!id) return;
+        if (!id) {
+          // const isFirstVisit = sessionStorage.getItem('isFirstVisit');
+          // if (!isFirstVisit) {
+          //   sessionStorage.setItem('isFirstVisit', 'true');
+          //   alert('로그인이 필요합니다');
+          // }
+          router.push('/');
+          alert('로그인이 필요합니다');
+          return;
+        }
 
         const { data: memberData, error: memberError } = await supabase
           .from('members')
           .select('club_id')
           .eq('user_id', id);
-
+        console.log('memberData', memberData);
         if (memberError) {
-          throw new Error('멤버십 정보를 가져오는 도중 오류가 발생했습니다.');
+          throw new Error(
+            '해당 회원의 클럽정보를 가져오는 도중 오류가 발생했습니다.'
+          );
         }
 
         if (!memberData || memberData.length === 0) {
-          throw new Error('해당 회원의 멤버십 정보를 찾을 수 없습니다.');
+          throw new Error('해당 회원의 클럽정보를 찾을 수 없습니다.');
         }
 
         const clubDataPromises = memberData.map(async (member) => {
@@ -48,54 +62,66 @@ const MyBookClub = () => {
             .select('*')
             .eq('id', clubId)
             .single();
-          console.log('clubData', clubData);
+
           if (clubError) {
             throw new Error('클럽 정보를 가져오는 도중 오류가 발생했습니다.');
           }
-
           return clubData;
         });
 
         const allClubData = await Promise.all(clubDataPromises);
-        setClubData(allClubData);
-
-        setAllClubData(allClubData); // allClubData 상태 업데이트
-
-        setLoading(false);
         console.log('allClubData', allClubData);
+        setClubData(allClubData);
+        setAllClubData(allClubData);
+        setLoading(false);
+
+        const { data: activitiesData, error: activitiesError } = await supabase
+          .from('club_activities')
+          .select('*')
+          .eq('user_id', id);
+
+        if (activitiesError) {
+          throw new Error('클럽 활동을 가져오는 도중 오류가 발생했습니다.');
+        }
+
+        setActivityData(activitiesData || []);
       } catch (error) {
-        console.error(error);
-        setError('클럽 정보를 가져오는 도중 오류가 발생했습니다.');
+        console.error('알수없는 오류가 발생했습니다 새로고침 해주세요');
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
-  console.log(1);
+  }, [router]);
+
   const handleBookRead = async (clubId: string) => {
-    console.log('눌림');
-    console.log('userId', userId);
-    console.log('clubId', clubId);
+    console.log('1', 1);
     try {
       if (!userId || !clubId) return;
+
+      const existingActivity = activityData.find(
+        (activity) => activity.user_id === userId && activity.club_id === clubId
+      );
+      if (existingActivity) {
+        router.push(`/readbook/${clubId}`);
+        console.log('이미 클럽 활동이 있습니다.');
+        return;
+      }
       const validClubId = clubData.find((club) => club.id === clubId);
       if (!validClubId) {
         console.error('유효하지 않은 클럽 ID입니다.');
         return;
       }
-      // 클럽 활동 추가
+      console.log('2', 2);
       await supabase.from('club_activities').insert([
         {
           user_id: userId,
           club_id: clubId,
           progress: 0,
           time: Date.now()
-          // 다른 필요한 데이터도 여기에 추가
         }
       ]);
-
-      // 성공적으로 클럽 활동이 추가되면 어떤 액션을 취할 수 있습니다.
+      router.push(`/readbook/${clubId}`);
       console.log('클럽 활동 추가되었습니다.');
     } catch (error) {
       console.error('클럽 활동 추가 중 오류:', error);
@@ -105,42 +131,37 @@ const MyBookClub = () => {
   if (loading) {
     return <LoadingOverlay show={loading} />;
   }
-
-  if (error) {
-    return <div>에러가 발생했습니다: {error}</div>;
-  }
-
+  var settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false
+  };
   return (
     <ReadBookLayout>
+      {/* <Slider {...settings}> */}
       <div className='flex flex-col'>
         <Image
           src={white}
           width={134}
           height={26}
           alt={'booktique'}
-          className='m-auto mt-[80px]'
+          className='mt-[80px] mx-auto'
           priority={true}
         />
+        {/* <Slider {...settings} className='flex flex-col w-[375px]'> */}
 
-        <div className='bg-emerald-500 m-auto'>
-          {allClubData.length > 0 && (
-            <>
-              <div>
-                {allClubData.map((club) => (
-                  <div key={club.id}>
-                    {club.description}
-                    <button onClick={() => handleBookRead(club.id)}>
-                      북클럽 책읽기
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
+        <ClubList
+          handleBookRead={handleBookRead}
+          clubActivities={activityData}
+          allClubData={allClubData}
+        />
       </div>
+      {/* </Slider> */}
     </ReadBookLayout>
   );
 };
 
-export default MyBookClub;
+export default ReadBook;

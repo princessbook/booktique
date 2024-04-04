@@ -32,9 +32,12 @@ const ClubAdminProfile = ({ clubId }: { clubId: string }) => {
             const { data: member, error } = await supabase
               .from('members')
               .update({ role: 'admin' })
+              .eq('club_id', clubId)
               .eq('user_id', members[0].user_id as string);
 
-            console.log('멤버롤이 어드민으로 업그레이드 됨');
+            console.log(
+              '방장이 나가면 남아 있는 멤버 중 한명이 어드민으로 업그레이드 됨'
+            );
           }
 
           console.log('남은멤버들', members);
@@ -65,14 +68,16 @@ const ClubAdminProfile = ({ clubId }: { clubId: string }) => {
       <span className='bg-gray-300 w-5 h-5 rounded-full flex items-center justify-center '>
         <Image
           src={
-            adminProfile ? (adminProfile.photo_URL as string) : '/booktique.png'
+            adminProfile && adminProfile.photo_URL
+              ? (adminProfile.photo_URL as string)
+              : '/booktique.png'
           }
           width={100}
           height={100}
           alt='방장프로필'
         />
       </span>
-      {adminProfile?.display_name}
+      {adminProfile ? adminProfile.display_name : ''}
     </div>
   );
 };

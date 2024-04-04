@@ -11,6 +11,7 @@ import MySentencesStore from '@/components/mypage/MySentencesStore';
 import { useState } from 'react';
 import MyBook from '@/components/mypage/MyBook';
 import ProfileDetail from '@/components/mypage/ProfileDetail';
+export const dynamic = 'force-dynamic';
 const MyPage = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedOption, setSelectedOption] = useState('MySentencesStore');

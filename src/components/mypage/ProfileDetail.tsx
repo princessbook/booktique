@@ -9,6 +9,7 @@ import { updateUserProfile } from '@/utils/userAPIs/Fns';
 import { useQueryClient } from '@tanstack/react-query';
 import { uploadAvatar } from '@/utils/userAPIs/storageAPI';
 import { createClient } from '@/utils/supabase/client';
+import { revalidatePath } from 'next/cache';
 const ProfileDetail = ({
   profiles,
   userId
@@ -40,6 +41,7 @@ const ProfileDetail = ({
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['profiles'] });
       setIsEdit(false);
+      // revalidatePath('/mypage');
     }
   });
   const supabase = createClient();
@@ -66,29 +68,33 @@ const ProfileDetail = ({
         previewImg
       );
       if (storageImageUrl) {
-        console.log(storageImageUrl);
+        console.log('storageUrl', storageImageUrl);
         setPhotoUrl(storageImageUrl);
+        const formData = new FormData();
+        formData.append('photo_URL', storageImageUrl);
+        formData.append('id', userProfile?.id || '');
+        formData.append('display_name', displayName);
+        formData.append('interests', interests);
+        formData.append('introduction', introduction);
+        formData.append('most_favorite_book', mostFavoriteBook);
+        mutateToUpdateProfile(formData);
         // console.log(photoUrl);
       }
     }
-    const formData = new FormData();
-    if (photoUrl) {
-      formData.append('photo_URL', photoUrl);
-    }
-    formData.append('id', userProfile?.id || '');
-    formData.append('display_name', displayName);
-    formData.append('interests', interests);
-    formData.append('introduction', introduction);
-    formData.append('most_favorite_book', mostFavoriteBook);
-    mutateToUpdateProfile(formData);
+
+    // const formData = new FormData();
+    // if (photoUrl) {
+    //   formData.append('photo_URL', photoUrl);
+    // }
   };
+  console.log(userProfile);
   return (
     <div className='flex flex-col items-center w-full'>
       {isEdit ? (
         <div className='flex flex-col items-center w-full px-4 py-6 bg-white rounded-md shadow-md'>
           <label className='mb-4'>
             {photoUrl && (
-              <Image
+              <img
                 src={photoUrl}
                 alt='미리보기'
                 width={96}
@@ -150,13 +156,22 @@ const ProfileDetail = ({
         </div>
       ) : (
         <div className='flex flex-col w-full max-w-md px-3 py-6 bg-white rounded-md shadow-md items-center'>
-          <Image
+          {userProfile?.photo_URL && (
+            <img
+              src={userProfile?.photo_URL}
+              alt='미리보기'
+              width={96}
+              height={96}
+              className='rounded-full'
+            />
+          )}
+          {/* <img
             src={userProfile?.photo_URL ?? '/booktique.png'}
             alt='사진'
             width={100}
             height={100}
             className='rounded-full mb-4'
-          />
+          /> */}
           <p className='mb-2'>Email: {userProfile?.email}</p>
           <p className='mb-2'>닉네임: {userProfile?.display_name}</p>
           <p className='mb-2'>관심 분야: {userProfile?.interests}</p>

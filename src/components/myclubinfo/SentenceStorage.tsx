@@ -1,29 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tables } from '@/lib/types/supabase';
-type Sentences = Tables<'sentences'>;
-import { useState } from 'react';
-import { getAllSentences } from '@/utils/userAPIs/authAPI';
 import { useRouter } from 'next/navigation';
+import { getAllSentences, getSentenceComments } from '@/utils/userAPIs/authAPI';
+
+type Sentences = Tables<'sentences'>;
+
 const SentenceStorage = ({ clubId }: { clubId: string | null }) => {
   const router = useRouter();
-  // console.log(clubId);
   const [sentences, setSentences] = useState<Sentences[]>([]);
+  const [commentCounts, setCommentCounts] = useState<{
+    [sentenceId: string]: number;
+  }>({});
+
   useEffect(() => {
-    const fetchSentences = async () => {
+    const fetchData = async () => {
       if (clubId) {
         const sentences = await getAllSentences(clubId);
         setSentences(sentences);
+        fetchCommentCounts(sentences);
       }
     };
-    fetchSentences();
+    fetchData();
   }, [clubId]);
-  const handleSentenceClick = (id: string) => {
-    // 클릭한 문장의 id를 기반으로 다른 탭으로 이동하는 로직 추가
-    router.push(`/sentences/${id}`); // 예시 URL
+
+  const fetchCommentCounts = async (sentences: Sentences[]) => {
+    const newCommentCountMap: { [sentenceId: string]: number } = {};
+    for (const sentence of sentences) {
+      const comments = await getSentenceComments(sentence.id);
+      newCommentCountMap[sentence.id] = comments !== null ? comments.length : 0;
+    }
+    setCommentCounts(newCommentCountMap);
   };
+
+  const handleSentenceClick = (id: string) => {
+    router.push(`/sentences/${id}`);
+  };
+
   return (
     <div>
-      <ul className='p-4 mt-16'>
+      <ul className='p-4'>
         {sentences.map((sentence) => (
           <li
             key={sentence.id}
@@ -35,12 +50,15 @@ const SentenceStorage = ({ clubId }: { clubId: string | null }) => {
             <div className='text-sm text-gray-500'>
               {sentence.created_at}, {sentence.user_id}
             </div>
+            <div className='text-sm text-gray-500'>
+              댓글 수: {commentCounts[sentence.id] || 0}
+            </div>
           </li>
         ))}
       </ul>
 
       <div className='fixed bottom-32 right-8'>
-        <button className='bg-lime text-black p-2 px-4 rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold'>
+        <button className='bg-lime text-black p-2 px-4 rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer'>
           문장 공유하기
         </button>
       </div>

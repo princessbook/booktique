@@ -3,6 +3,7 @@ import { Tables } from '@/lib/types/supabase';
 type Profile = Tables<'profiles'>;
 type Clubs = Tables<'clubs'>;
 type Sentences = Tables<'sentences'>;
+type Sentence_Comments = Tables<'sentence_comments'>;
 
 export const getUserId = async (): Promise<string | null> => {
   try {
@@ -88,13 +89,13 @@ export const getMySentences = async (userId: String): Promise<Sentences[]> => {
       .eq('user_id', userId);
 
     if (error) {
-      console.error('Error fetching user sentences:', error.message);
+      console.error('내 문장 불러오기 실패:', error.message);
       return [];
     }
 
     return data || [];
   } catch (error) {
-    console.error('Error fetching user sentences:', error);
+    console.error('내 문장 불러오기 실패:', error);
     return [];
   }
 };
@@ -108,13 +109,93 @@ export const getAllSentences = async (clubId: string): Promise<Sentences[]> => {
       .eq('club_id', clubId);
 
     if (error) {
-      console.error('Error fetching all sentences:', error.message);
+      console.error('북클럽의 모든 문장 불러오기 실패:', error.message);
+      return [];
+    }
+    return data || [];
+  } catch (error) {
+    console.error('북클럽의 모든 문장 불러오기 실패:', error);
+    return [];
+  }
+};
+export const getSentenceComments = async (
+  sentenceId: string
+): Promise<Sentence_Comments[] | null> => {
+  try {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from('sentence_comments')
+      .select('*')
+      .eq('sentence_id', sentenceId);
+    if (error) {
+      console.error('문장의 댓글들 불러오기 실패', error.message);
+      return [];
+    }
+    return data || [];
+  } catch (error) {
+    console.error('문장의 댓글들 불러오기 실패:', error);
+    return [];
+  }
+};
+export const getClubActivityProgress = async (
+  clubId: string,
+  userId: string
+): Promise<number | null> => {
+  try {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from('club_activities')
+      .select('progress')
+      .eq('club_id', clubId)
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('내 진척상황 불러오기 실패', error);
+      return null;
+    }
+    console.log(data[0].progress);
+    return data[0].progress;
+  } catch (error) {
+    console.error('Error fetching club activities:', error);
+    return null;
+  }
+};
+export const getBookPage = async (clubId: string): Promise<number | null> => {
+  try {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from('clubs')
+      .select('book_page')
+      .eq('id', clubId)
+      .single();
+    if (error) {
+      console.error('클럽의 책의 모든페이지 수 불러오기 실패:', error);
+      return null;
+    }
+    console.log(data.book_page);
+    return data.book_page;
+  } catch (error) {
+    console.error('클럽의 책의 모든페이지 수 불러오기 실패:', error);
+    return null;
+  }
+};
+export const getBookClubMembers = async (
+  clubId: string
+): Promise<{ user_id: string | null }[]> => {
+  try {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from('members')
+      .select('user_id')
+      .eq('club_id', clubId);
+    if (error) {
+      console.error('클럽멤버 불러오기 실패:', error);
       return [];
     }
     console.log(data);
     return data || [];
   } catch (error) {
-    console.error('Error fetching all sentences:', error);
+    console.error('클럽멤버 불러오기 실패:', error);
     return [];
   }
 };

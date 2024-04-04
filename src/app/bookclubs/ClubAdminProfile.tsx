@@ -50,7 +50,7 @@ const ClubAdminProfile = ({ clubId }: { clubId: string }) => {
   return (
     <div className='flex justify-between items-center mr-2'>
       <span className='bg-gray-300 w-5 h-5 rounded-full flex items-center justify-center '>
-        <Image
+        <img
           src={adminProfile?.photo_URL as string}
           width={100}
           height={100}

@@ -83,9 +83,9 @@ const ProfileDetail = ({
     mutateToUpdateProfile(formData);
   };
   return (
-    <div className='flex flex-col items-center'>
+    <div className='flex flex-col items-center w-full'>
       {isEdit ? (
-        <div className='flex flex-col items-center w-full max-w-md px-4 py-6 bg-white rounded-md shadow-md'>
+        <div className='flex flex-col items-center w-full px-4 py-6 bg-white rounded-md shadow-md'>
           <label className='mb-4'>
             {photoUrl && (
               <Image
@@ -149,7 +149,7 @@ const ProfileDetail = ({
           </div>
         </div>
       ) : (
-        <div className='flex flex-col w-full max-w-md px-4 py-6 bg-white rounded-md shadow-md'>
+        <div className='flex flex-col w-full max-w-md px-3 py-6 bg-white rounded-md shadow-md items-center'>
           <Image
             src={userProfile?.photo_URL ?? '/booktique.png'}
             alt='사진'

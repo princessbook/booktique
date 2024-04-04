@@ -16,17 +16,36 @@ const LoginForm = () => {
     const response = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `http://localhost:3000`
+        redirectTo: `http://localhost:3000/nickname`,
+        queryParams: { access_type: 'offline', prompt: 'consent' }
       }
     });
-
     console.log('response => ', response);
+    // const user = response.data;
+    // try {
+    //   const { data, error } = await supabase
+    //     .from('profiles')
+    //     .insert({ display_name: '123', email: user.url });
+    //   if (error) {
+    //     console.error('프로필 저장 에러:', error.message);
+    //     return;
+    //   }
+
+    //   console.log('프로필이 성공적으로 저장되었습니다:', data);
+
+    //   // 이후 로그인 성공 후에 어떤 동작을 수행하려면 이곳에 작성합니다.
+    // } catch (error) {
+    //   console.error('프로필 저장 과정에서 오류가 발생했습니다:', error);
+    // }
   };
 
   const kakaoLogin = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'kakao',
-      options: { queryParams: { access_type: 'offline', prompt: 'consent' } }
+      options: {
+        redirectTo: `http://localhost:3000/nickname`,
+        queryParams: { access_type: 'offline', prompt: 'consent' }
+      }
     });
     if (data) {
       return console.log('카카오 로그인 성공');

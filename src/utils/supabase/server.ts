@@ -32,3 +32,5 @@ export function createClient(): SupabaseClient<Database> {
     }
   );
 }
+
+export const supabaseSSR = createClient();

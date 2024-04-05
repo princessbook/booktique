@@ -1,60 +1,79 @@
-import { useEffect, useState } from 'react';
-import {
-  getUserId,
-  getClubActivityProgress,
-  getBookPage
-} from '@/utils/userAPIs/authAPI';
-const ProgressBar = ({ clubId }: { clubId: string | undefined }) => {
-  const [progress, setProgress] = useState<number | null>(null);
+// import { useEffect, useState } from 'react';
+// import { getClubActivityProgress, getUserId } from '@/utils/userAPIs/authAPI';
+// import { createClient } from '@/utils/supabase/client';
+// import { CLUB_ACTIVITIES_TABLE } from '@/common/constants/tableNames';
+// const ProgressBar = async ({ clubId }: { clubId: string }) => {
+//   const userId = await getUserId();
+//   //   const percentage = await getClubActivityProgress(clubId, userId);
+//   const supabase = createClient();
+//   const { data: activity, error: activityError } = await supabase
+//     .from(CLUB_ACTIVITIES_TABLE)
+//     .select('progress')
+//     .eq('user_id', userId)
+//     .eq('club_id', clubId)
+//     .order('progress', { ascending: false })
+//     .single();
+//   if (activityError) {
+//     throw activityError;
+//   }
+//   const percentage = activity?.progress || 0;
+//    const { data: activity } = await supabase
+//      .from(CLUB_ACTIVITIES_TABLE)
+//       .select('progress')
+//       .eq('user_id', userId)
+//      .eq('club_id', clubId)
+//       .single();
+//    if (activity) {
+//      const percentage = activity;
+//       setProgress(percentage);
+//     }
+//     useEffect(() => {
+//       const fetchProgressData = async () => {
+//         try {
+//           const userId = await getUserId();
+//          if (!userId) {
+//            console.error('유저아이디 없음.');
+//             return;
+//        }
+//           // 클럽의 책 페이지 가져오기
+//            if (clubId) {
+//              // 클럽 활동에서 오늘까지 읽은 페이지 수 가져오기
+//             const supabase = createClient();
+//              const { data: activity } = await supabase
+//                .from(CLUB_ACTIVITIES_TABLE)
+//                .select('progress')
+//                .eq('user_id', userId)
+//                .eq('club_id', clubId)
+//                .single();
+//              if (activity) {
+//                const percentage = activity.progress;
+//                setProgress(percentage);
+//              }
+//            }
+//          } catch (error) {
+//            console.error('Error fetching progress data:', error);
+//          }
+//        };
+//        fetchProgressData();
+//      }, [clubId]);
 
-  useEffect(() => {
-    const fetchProgressData = async () => {
-      try {
-        const userId = await getUserId();
-        if (!userId) {
-          console.error('유저아이디 없음.');
-          return;
-        }
-        // 클럽의 책 페이지 가져오기
-        if (clubId) {
-          const TotalBookPage = await getBookPage(clubId ?? '');
-          if (TotalBookPage === null) {
-            console.error('전체 페이지 쪽수가 없으면 안될거같긴한데 없음');
-            return;
-          }
-          // 클럽 활동에서 오늘까지 읽은 페이지 수 가져오기
-          const activityProgress = await getClubActivityProgress(
-            clubId,
-            userId
-          );
-          // 오늘까지 읽은 페이지 수와 전체 책 페이지 수를 기반으로 진행률 계산, 만약 activityProgress가 퍼센테이지값으로 들어온다면 그냥 activityProgress만 쓰면댐
-          const percentage = activityProgress;
-          setProgress(percentage);
-        }
-      } catch (error) {
-        console.error('Error fetching progress data:', error);
-      }
-    };
-    fetchProgressData();
-  }, [clubId]);
+//   return (
+//     <div className='w-full'>
+//       <p className='flex flex-row font-bold mb-3'>
+//         내 독서 진행률{' '}
+//         <p className=' text-subblue ml-2'>
+//           {percentage !== null ? percentage : 'Loading...'}%
+//         </p>
+//       </p>
+//       <div className='w-full h-3 bg-white rounded-full overflow-hidden'>
+//         <div
+//           className='h-full bg-subblue rounded-full'
+//           style={{
+//             width: `${percentage !== null ? percentage : 0}%`
+//           }}></div>
+//       </div>
+//     </div>
+//   );
+// };
 
-  return (
-    <div className='w-full'>
-      <p className='flex flex-row font-bold mb-3'>
-        내 독서 진행률{' '}
-        <p className=' text-subblue ml-2'>
-          {progress !== null ? progress.toFixed(2) : 'Loading...'}%
-        </p>
-      </p>
-      <div className='w-full h-3 bg-white rounded-full overflow-hidden'>
-        <div
-          className='h-full bg-subblue rounded-full'
-          style={{
-            width: `${progress !== null ? progress : 0}%`
-          }}></div>
-      </div>
-    </div>
-  );
-};
-
-export default ProgressBar;
+// export default ProgressBar;

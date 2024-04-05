@@ -5,15 +5,17 @@ import Image from 'next/image';
 import white from '../../../public/booktiquereadwhite.png';
 import Slider from 'react-slick';
 import ReadButton from './ReadButton';
-
+import blue from '../../../public/booktiquereadblue.png';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 const ClubList = ({
-  allClubData,
   handleBookRead,
-  clubActivities
+  clubActivities,
+  filteredBookClubsData
 }: {
-  allClubData: Tables<'clubs'>[];
   handleBookRead: (clubId: string) => void;
   clubActivities: Tables<'club_activities'>[];
+  filteredBookClubsData: Tables<'clubs'>[];
 }) => {
   var settings = {
     dots: false,
@@ -22,35 +24,54 @@ const ClubList = ({
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
-    vertical: false // 좌우로 스크롤 가능하도록 설정
+    vertical: false
   };
   return (
     <>
-      {/* <Slider {...settings}> */}
-      <div className='flex bg-yellow-200 '>
-        {/* Flexbox 설정 */}
-
-        {allClubData.map((club) => (
-          <div key={club.id} className='flex flex-col w-full h-full mr-4'>
-            {/* Flexbox 설정 및 가로로 나열되도록 스타일 추가 */}
-
-            <div className='h-[204px] bg-red-400' />
-            {/* 클럽 설명을 표시합니다. */}
-            {club.description}
-            <ProgressBar
-              progress={
-                clubActivities.find((activity) => activity.club_id === club.id)
-                  ?.progress || 0
-              }
+      {/* <div className='flex flex-col'> */}
+      <Slider {...settings}>
+        {filteredBookClubsData.map((club) => (
+          <div key={club.id}>
+            <Image
+              src={blue}
+              width={134}
+              height={26}
+              alt={'booktique'}
+              className='mt-[80px] mx-auto mb-[24px]'
+              priority={true}
             />
-            <ReadButton
-              clubId={club.id}
-              onClick={() => handleBookRead(club.id)}
-            />
+            <div className='bg-white mb-[40px] w-[302px] h-[464px] text-center mx-auto rounded-[20px] font-bold text-gray-700'>
+              {club.book_title && (
+                // null or undefined
+                <div className='pt-[32px]'>
+                  {club.book_title.length > 15
+                    ? club.book_title.substring(0, 15) + '...'
+                    : club.book_title}
+                </div>
+              )}
+              <img
+                src={club.book_cover || ''}
+                alt='북이미지'
+                className='mx-[53px] mt-[15.84px] mb-[16px] w-[196px] h-[304px]'
+              />
+              <ProgressBar
+                progress={
+                  clubActivities.find(
+                    (activity) => activity.club_id === club.id
+                  )?.progress || 0
+                }
+              />
+            </div>
+            <div className='mb-[40px] justify-center flex'>
+              <ReadButton
+                clubId={club.id}
+                onClick={() => handleBookRead(club.id)}
+              />
+            </div>
           </div>
         ))}
-      </div>
-      {/* </Slider> */}
+      </Slider>
+      {/* </div> */}
     </>
   );
 };

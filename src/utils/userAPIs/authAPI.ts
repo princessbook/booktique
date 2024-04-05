@@ -154,32 +154,14 @@ export const getClubActivityProgress = async (
       console.error('내 진척상황 불러오기 실패', error);
       return null;
     }
-    console.log(data[0].progress);
+    // console.log(data[0].progress);
     return data[0].progress;
   } catch (error) {
     console.error('Error fetching club activities:', error);
     return null;
   }
 };
-export const getBookPage = async (clubId: string): Promise<number | null> => {
-  try {
-    const supabase = createClient();
-    const { data, error } = await supabase
-      .from('clubs')
-      .select('book_page')
-      .eq('id', clubId)
-      .single();
-    if (error) {
-      console.error('클럽의 책의 모든페이지 수 불러오기 실패:', error);
-      return null;
-    }
-    console.log(data.book_page);
-    return data.book_page;
-  } catch (error) {
-    console.error('클럽의 책의 모든페이지 수 불러오기 실패:', error);
-    return null;
-  }
-};
+
 export const getBookClubMembers = async (clubId: string): Promise<Member[]> => {
   try {
     const supabase = createClient();
@@ -191,7 +173,6 @@ export const getBookClubMembers = async (clubId: string): Promise<Member[]> => {
       console.error('클럽멤버 불러오기 실패:', error);
       return [];
     }
-    console.log(data);
     return data || [];
   } catch (error) {
     console.error('클럽멤버 불러오기 실패:', error);

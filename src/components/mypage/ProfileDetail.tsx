@@ -9,7 +9,6 @@ import { updateUserProfile } from '@/utils/userAPIs/Fns';
 import { useQueryClient } from '@tanstack/react-query';
 import { uploadAvatar } from '@/utils/userAPIs/storageAPI';
 import { createClient } from '@/utils/supabase/client';
-import { revalidatePath } from 'next/cache';
 const ProfileDetail = ({
   profiles,
   userId
@@ -41,7 +40,6 @@ const ProfileDetail = ({
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['profiles'] });
       setIsEdit(false);
-      // revalidatePath('/mypage');
     }
   });
   const supabase = createClient();
@@ -50,14 +48,15 @@ const ProfileDetail = ({
     window.location.href = '/login';
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setPreviewImg(file);
+    if (e.target.files && e.target.files[0]) {
+      const selectedFile = e.target.files?.[0];
+      setPreviewImg(selectedFile);
       const reader = new FileReader();
+      console.log(reader);
       reader.onloadend = () => {
         setPhotoUrl(reader.result as string);
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(selectedFile);
     }
   };
   const handleSave = async () => {
@@ -85,6 +84,17 @@ const ProfileDetail = ({
     // if (photoUrl) {
     //   formData.append('photo_URL', photoUrl);
     // }
+
+    const formData = new FormData();
+    if (photoUrl) {
+      formData.append('photo_URL', photoUrl);
+    }
+    formData.append('id', userProfile?.id || '');
+    formData.append('display_name', displayName);
+    formData.append('interests', interests);
+    formData.append('introduction', introduction);
+    formData.append('most_favorite_book', mostFavoriteBook);
+    mutateToUpdateProfile(formData);
   };
   return (
     <div className='flex flex-col items-center w-full'>
@@ -92,7 +102,7 @@ const ProfileDetail = ({
         <div className='flex flex-col items-center w-full px-4 py-6 bg-white rounded-md shadow-md'>
           <label className='mb-4'>
             {photoUrl && (
-              <img
+              <Image
                 src={photoUrl}
                 alt='미리보기'
                 width={96}

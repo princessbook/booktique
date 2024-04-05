@@ -1,6 +1,7 @@
 import React from 'react';
 import Members from '@/components/myclubinfo/Members';
 import ClubBook from '@/components/myclubinfo/ClubBook';
+import { Tables } from '@/lib/types/supabase';
 import { createClient } from '@/utils/supabase/server';
 import { getBookClubMembers } from '@/utils/userAPIs/authAPI';
 const HomeTab = async (props: { params: { id: string } }) => {
@@ -32,11 +33,11 @@ const HomeTab = async (props: { params: { id: string } }) => {
   const formattedEndDate = formatDate(endDate);
   return (
     <div>
-      <div className='p-5'>
-        <p className=' font-medium'>함께 읽고 있는 책</p>
+      <div>
+        <p className='px-5 font-medium'>함께 읽고 있는 책</p>
         <ClubBook club={clubinfo} />
         <div>
-          <p className='mb-2 mt-3 font-medium'>멤버별 독서 진행률</p>
+          <p className='px-5 mb-2 mt-3 font-medium'>멤버별 독서 진행률</p>
           <div className='flex flex-wrap justify-center gap-2'>
             {clubMembers &&
               clubMembers.map((member, index) => {

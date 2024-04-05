@@ -13,30 +13,13 @@ const LoginForm = () => {
   const supabase = createClient();
   const signInWithGoogle = async (e: any) => {
     e.preventDefault();
-    const response = await supabase.auth.signInWithOAuth({
+    await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `http://localhost:3000/nickname`,
         queryParams: { access_type: 'offline', prompt: 'consent' }
       }
     });
-    console.log('response => ', response);
-    // const user = response.data;
-    // try {
-    //   const { data, error } = await supabase
-    //     .from('profiles')
-    //     .insert({ display_name: '123', email: user.url });
-    //   if (error) {
-    //     console.error('프로필 저장 에러:', error.message);
-    //     return;
-    //   }
-
-    //   console.log('프로필이 성공적으로 저장되었습니다:', data);
-
-    //   // 이후 로그인 성공 후에 어떤 동작을 수행하려면 이곳에 작성합니다.
-    // } catch (error) {
-    //   console.error('프로필 저장 과정에서 오류가 발생했습니다:', error);
-    // }
   };
 
   const kakaoLogin = async () => {
@@ -62,19 +45,6 @@ const LoginForm = () => {
     const inputPassword = e.target.value;
     setPassword(inputPassword);
   };
-  // useEffect(() => {
-  //   const useProfile = async() => {
-  //     try{
-  //       const {data: {user}} = await supabase.auth.getUser();
-  //       if(user){
-  //         const {data: profiles, error} = await supabase
-  //         .from("profiles")
-  //       }
-  //     }catch(error){
-  //       console.error(error)
-  //     }
-  //   }
-  // })
   return (
     <div className='flex items-center justify-center'>
       <form className='w-full max-w-md'>

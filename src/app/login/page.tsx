@@ -11,7 +11,7 @@ export default async function LoginPage() {
     return null;
   }
   return (
-    <div className='bg-mainblue h-full'>
+    <div className=' h-full'>
       <LoginForm />
     </div>
   );

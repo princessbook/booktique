@@ -79,8 +79,8 @@ const LoginForm = () => {
     <div className='flex items-center justify-center'>
       <form className='w-full max-w-md'>
         <div className='mt-[135px]'>
-          <img className='mx-auto' src='/logo_asset.png' alt='로그인화면로고' />
-          <span className='block text-center text-bookyellow font-bold my-8'>
+          <img className='mx-auto' src='/login_logo.png' alt='로그인화면로고' />
+          <span className='block text-center text-mainblue text-[17px] font-bold my-8'>
             북티크에서 같이 읽으면
             <br />더 이상 책이 어렵지 않아요!
           </span>

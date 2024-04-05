@@ -9,7 +9,6 @@ import { updateUserProfile } from '@/utils/userAPIs/Fns';
 import { useQueryClient } from '@tanstack/react-query';
 import { uploadAvatar } from '@/utils/userAPIs/storageAPI';
 import { createClient } from '@/utils/supabase/client';
-import { revalidatePath } from 'next/cache';
 const ProfileDetail = ({
   profiles,
   userId
@@ -41,7 +40,6 @@ const ProfileDetail = ({
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['profiles'] });
       setIsEdit(false);
-      // revalidatePath('/mypage');
     }
   });
   const supabase = createClient();
@@ -50,51 +48,49 @@ const ProfileDetail = ({
     window.location.href = '/login';
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setPreviewImg(file);
+    if (e.target.files && e.target.files[0]) {
+      const selectedFile = e.target.files?.[0];
+      setPreviewImg(selectedFile);
       const reader = new FileReader();
+      console.log(reader);
       reader.onloadend = () => {
         setPhotoUrl(reader.result as string);
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(selectedFile);
     }
   };
   const handleSave = async () => {
-    setPhotoUrl(null);
-    if (previewImg) {
-      const storageImageUrl = await uploadAvatar(
-        userProfile?.id || '',
-        previewImg
-      );
-      if (storageImageUrl) {
-        console.log('storageUrl', storageImageUrl);
-        setPhotoUrl(storageImageUrl);
-        const formData = new FormData();
-        formData.append('photo_URL', storageImageUrl);
-        formData.append('id', userProfile?.id || '');
-        formData.append('display_name', displayName);
-        formData.append('interests', interests);
-        formData.append('introduction', introduction);
-        formData.append('most_favorite_book', mostFavoriteBook);
-        mutateToUpdateProfile(formData);
-        // console.log(photoUrl);
-      }
-    }
-
-    // const formData = new FormData();
-    // if (photoUrl) {
-    //   formData.append('photo_URL', photoUrl);
+    // setPhotoUrl(null);
+    // if (previewImg) {
+    //   const storageImageUrl = await uploadAvatar(
+    //     userProfile?.id || '',
+    //     previewImg
+    //   );
+    //   if (storageImageUrl) {
+    //     console.log('storageImageUrl', storageImageUrl);
+    //     setPhotoUrl(storageImageUrl);
+    //     // console.log(photoUrl);
+    //   }
     // }
+
+    const formData = new FormData();
+    if (photoUrl) {
+      formData.append('photo_URL', photoUrl);
+    }
+    formData.append('id', userProfile?.id || '');
+    formData.append('display_name', displayName);
+    formData.append('interests', interests);
+    formData.append('introduction', introduction);
+    formData.append('most_favorite_book', mostFavoriteBook);
+    mutateToUpdateProfile(formData);
   };
-  console.log(userProfile);
   return (
     <div className='flex flex-col items-center w-full'>
       {isEdit ? (
         <div className='flex flex-col items-center w-full px-4 py-6 bg-white rounded-md shadow-md'>
           <label className='mb-4'>
             {photoUrl && (
-              <img
+              <Image
                 src={photoUrl}
                 alt='미리보기'
                 width={96}
@@ -156,22 +152,13 @@ const ProfileDetail = ({
         </div>
       ) : (
         <div className='flex flex-col w-full max-w-md px-3 py-6 bg-white rounded-md shadow-md items-center'>
-          {userProfile?.photo_URL && (
-            <img
-              src={userProfile?.photo_URL}
-              alt='미리보기'
-              width={96}
-              height={96}
-              className='rounded-full'
-            />
-          )}
-          {/* <img
+          <Image
             src={userProfile?.photo_URL ?? '/booktique.png'}
             alt='사진'
             width={100}
             height={100}
             className='rounded-full mb-4'
-          /> */}
+          />
           <p className='mb-2'>Email: {userProfile?.email}</p>
           <p className='mb-2'>닉네임: {userProfile?.display_name}</p>
           <p className='mb-2'>관심 분야: {userProfile?.interests}</p>

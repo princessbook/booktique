@@ -32,18 +32,14 @@ const AvatarPage = () => {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files?.[0];
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
       setSelectedImage(selectedFile);
-      if (selectedFile) {
-        // FileReader를 사용하여 이미지 파일의 URL을 읽어와서 미리보기를 표시
-        const reader = new FileReader();
-        reader.onload = () => {
-          setPreviewUrl(reader.result as string);
-        };
-        reader.readAsDataURL(selectedFile);
-        console.log('selectedFile', selectedFile);
-      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(selectedFile);
     }
   };
   const insertProfile = async (storageImg: string | undefined) => {
@@ -60,6 +56,9 @@ const AvatarPage = () => {
     const storageImg = await uploadImageStorage(selectedImage!);
     console.log('storage이미지', storageImg);
     await insertProfile(storageImg);
+  };
+  const handleSkip = () => {
+    window.location.href = '/myclub'; // '/myclub' 페이지로 이동
   };
   // const saveImgFile = async () => {
   //   const file = imgRef.current?.files?.[0];
@@ -113,12 +112,16 @@ const AvatarPage = () => {
   //   }
   // };
   return (
-    <div>
+    <div className='px-4'>
       avatarPage
-      {photoUrl ? (
-        <img src={photoUrl} alt='Uploaded Avatar' />
+      {previewUrl !== null ? (
+        <img
+          src={previewUrl}
+          alt='Preview Avatar'
+          style={{ maxWidth: '300px' }}
+        />
       ) : (
-        <img src='/booktique.png' alt='df' />
+        <img src='/booktique.png' alt='Default Avatar' />
       )}
       <form>
         <input
@@ -130,6 +133,12 @@ const AvatarPage = () => {
         />
         <button type='button' onClick={saveImgFile}>
           등록하기
+        </button>
+        <button
+          className='w-full bg-mainblue h-[48px] rounded-[999px] text-[#fff]'
+          type='button'
+          onClick={handleSkip}>
+          건너뛰기
         </button>
       </form>
     </div>

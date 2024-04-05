@@ -148,35 +148,14 @@ const ReadBook = () => {
   if (loading) {
     return <LoadingOverlay show={loading} />;
   }
-  var settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false
-  };
+
   return (
     <ReadBookLayout>
-      {/* <Slider {...settings}> */}
-      {/* <div className='flex flex-col'> */}
-      <Image
-        src={blue}
-        width={134}
-        height={26}
-        alt={'booktique'}
-        className='mt-[80px] mx-auto'
-        priority={true}
-      />
-      {/* <Slider {...settings} className='flex flex-col w-[375px]'> */}
       <ClubList
         handleBookRead={handleBookRead}
         clubActivities={activityData}
-        allClubData={allClubData}
         filteredBookClubsData={filteredBookClubsData}
       />
-      {/* </div> */}
-      {/* </Slider> */}
     </ReadBookLayout>
   );
 };

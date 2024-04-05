@@ -5,7 +5,9 @@ interface ReadButtonProps {
 }
 const ReadButton = ({ clubId, onClick }: ReadButtonProps) => {
   return (
-    <button className='bg-bookyellow' onClick={onClick}>
+    <button
+      className='bg-mainblue w-[302px] h-[56px] rounded-full text-bookyellow'
+      onClick={onClick}>
       북클럽 책읽기
     </button>
   );

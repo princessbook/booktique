@@ -8,9 +8,10 @@ import EndButton from './EndButton';
 
 interface MemberListProps {
   clubMembers: Tables<'members'>[] | null;
+  id: string;
 }
 
-const MemberList = ({ clubMembers }: MemberListProps) => {
+const MemberList = ({ clubMembers, id }: MemberListProps) => {
   const supabase = createClient();
   const [profiles, setProfiles] = useState<Tables<'profiles'>[]>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -66,7 +67,7 @@ const MemberList = ({ clubMembers }: MemberListProps) => {
           </div>
         ))}
       </div>
-      <EndButton />
+      <EndButton id={id} />
     </div>
   );
 };

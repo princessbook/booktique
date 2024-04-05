@@ -151,6 +151,14 @@ const ReadBook = () => {
 
   return (
     <ReadBookLayout>
+      <Image
+        src={blue}
+        width={134}
+        height={26}
+        alt={'booktique'}
+        className='pt-[80px] mx-auto pb-[24px]'
+        priority={true}
+      />
       <ClubList
         handleBookRead={handleBookRead}
         clubActivities={activityData}

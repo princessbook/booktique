@@ -54,12 +54,10 @@ const MemberList = ({ clubMembers, id }: MemberListProps) => {
           <div key={index} className='flex flex-col bg-[#d9d9d9]'>
             {profile?.photo_URL && (
               <figure className='relative w-[109px] h-[150px] mt-[15px]'>
-                <Image
+                <img
                   src={profile.photo_URL}
-                  width={'56'}
-                  height={'56'}
                   alt='프로필 이미지'
-                  className='mx-[auto] rounded-full object-contain'
+                  className='mx-[auto] rounded-full object-contain w-[56px] h-[56px]'
                 />
                 {profile?.display_name}
               </figure>

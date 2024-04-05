@@ -17,7 +17,9 @@ const SaveCard = ({
   matchingActivities: Tables<'club_activities'>[];
 }) => {
   const [recordPage, setRecordPage] = useState('');
-  const [progress, setProgress] = useState(matchingActivities[0].progress || 0);
+  const [progress, setProgress] = useState(
+    matchingActivities[0]?.progress as number
+  );
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

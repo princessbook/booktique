@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ProgressBar from './ProgressBar';
 import { Tables } from '@/lib/types/supabase';
 import Image from 'next/image';
-import white from '../../../public/booktiquereadwhite.png';
 import Slider from 'react-slick';
 import ReadButton from './ReadButton';
-import blue from '../../../public/booktiquereadblue.png';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+
 const ClubList = ({
   handleBookRead,
   clubActivities,
@@ -17,6 +16,9 @@ const ClubList = ({
   clubActivities: Tables<'club_activities'>[];
   filteredBookClubsData: Tables<'clubs'>[];
 }) => {
+  // 현재 슬라이드 인덱스를 추적
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+
   var settings = {
     dots: false,
     infinite: false,
@@ -24,31 +26,23 @@ const ClubList = ({
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
-    vertical: false
+    vertical: false,
+    // 슬라이드가 변경될 때마다 현재 슬라이드 인덱스를 업데이트
+    afterChange: (current: number) => setCurrentSlide(current)
   };
+
   return (
     <>
-      {/* <div className='flex flex-col'> */}
       <Slider {...settings}>
-        {filteredBookClubsData.map((club) => (
+        {filteredBookClubsData.map((club, index) => (
           <div key={club.id}>
-            <Image
-              src={blue}
-              width={134}
-              height={26}
-              alt={'booktique'}
-              className='mt-[80px] mx-auto mb-[24px]'
-              priority={true}
-            />
             <div className='bg-white mb-[40px] w-[302px] h-[464px] text-center mx-auto rounded-[20px] font-bold text-gray-700'>
-              {club.book_title && (
-                // null or undefined
-                <div className='pt-[32px]'>
-                  {club.book_title.length > 15
+              <div className='pt-[32px]'>
+                {club.book_title &&
+                  (club.book_title.length > 15
                     ? club.book_title.substring(0, 15) + '...'
-                    : club.book_title}
-                </div>
-              )}
+                    : club.book_title)}
+              </div>
               <img
                 src={club.book_cover || ''}
                 alt='북이미지'
@@ -62,16 +56,19 @@ const ClubList = ({
                 }
               />
             </div>
-            <div className='mb-[40px] justify-center flex'>
-              <ReadButton
-                clubId={club.id}
-                onClick={() => handleBookRead(club.id)}
-              />
-            </div>
           </div>
         ))}
       </Slider>
-      {/* </div> */}
+
+      <div className='mb-[40px] justify-center flex'>
+        {/* 현재 슬라이드의 클럽 정보를 가져와서 버튼을 생성 */}
+        <ReadButton
+          clubId={filteredBookClubsData[currentSlide]?.id}
+          onClick={() =>
+            handleBookRead(filteredBookClubsData[currentSlide]?.id)
+          }
+        />
+      </div>
     </>
   );
 };

@@ -1,5 +1,4 @@
 const ProgressBar = ({ progress }: { progress: number }) => {
-  // console.log('progress', progress);
   return (
     <div className='w-[196px] h-[4px] mt-4 j mx-auto relative'>
       <div

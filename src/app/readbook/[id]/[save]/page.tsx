@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import React from 'react';
 import BookInfo from './BookInfo';
+import PageInput from './SaveCard';
 
 const page = async ({ params: { id } }: { params: { id: string } }) => {
   //   const page = async ({
@@ -60,8 +61,8 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
   const matchingActivities = clubActivities.filter(
     (activity) => activity.club_id === id
   );
-
   console.log('matchingActivities', matchingActivities);
+
   // clubs 테이블에서 클럽 ID와 param(코드 최상단)에 해당하는 데이터 조회
   const { data: clubData, error: clubError } = await supabase
     .from('clubs')
@@ -77,9 +78,11 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
   return (
     <>
       <BookInfo clubData={clubData} />
-      <>페이지인풋</>
-      <>독서프로그레스바</>
-      <>저장버튼</>
+      <PageInput
+        clubData={clubData}
+        matchingActivities={matchingActivities}
+        id={id}
+      />
     </>
   );
 };

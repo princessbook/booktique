@@ -5,34 +5,46 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import ClubBook from './ClubBook';
 import { Tables } from '@/lib/types/supabase';
+import { getBookClubMembers } from '@/utils/userAPIs/authAPI';
 type Clubs = Tables<'clubs'>;
-import { getClubInfo } from '@/utils/userAPIs/authAPI';
-const HomeTab = ({ clubId }: { clubId: string | null }) => {
-  const [clubInfo, setClubInfo] = useState<Clubs | null>(null);
+const HomeTab = ({ club }: { club: Clubs | null }) => {
+  const [showMore, setShowMore] = useState(false);
+  const [clubMembers, setClubMembers] = useState<Tables<'members'>[]>([]);
   useEffect(() => {
-    const fetchClubInfo = async () => {
-      try {
-        const info = await getClubInfo(clubId);
-        setClubInfo(info);
-      } catch (error) {
-        console.error('클럽 정보를 가져오는 데 실패했습니다:', error);
+    const fetchClubMembers = async () => {
+      if (club?.id) {
+        const clubMem = await getBookClubMembers(club.id);
+        setClubMembers(clubMem);
       }
     };
-    fetchClubInfo();
-  }, [clubId]);
+    fetchClubMembers();
+  }, [club]);
+
   return (
     <div>
       <div>
         <div className='bg-[#EEEFF3] m-4 p-5 rounded-xl'>
-          <ProgressBar clubId={clubId} />
+          <ProgressBar clubId={club?.id} />
         </div>
 
         <div>
           <p className='px-5 mb-2 font-medium'>전체 독서 진행률</p>
-          <Members clubId={clubId} />
+          <div className='flex flex-wrap justify-center gap-2'>
+            {clubMembers &&
+              clubMembers.map((member, index) => {
+                return <Members member={member} key={index} />;
+              })}
+          </div>
+          {!showMore && clubMembers.length > 6 && (
+            <button
+              onClick={() => setShowMore(true)}
+              className='bg-subblue text-white px-4 py-1 rounded-md mt-2'>
+              더 보기
+            </button>
+          )}
         </div>
         <div>
-          <ClubBook clubInfo={clubInfo} />
+          <ClubBook club={club} />
         </div>
       </div>
     </div>

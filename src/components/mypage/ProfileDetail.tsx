@@ -81,13 +81,11 @@ const ProfileDetail = ({
         // console.log(photoUrl);
       }
     }
-
     // const formData = new FormData();
     // if (photoUrl) {
     //   formData.append('photo_URL', photoUrl);
     // }
   };
-  console.log(userProfile);
   return (
     <div className='flex flex-col items-center w-full'>
       {isEdit ? (
@@ -156,9 +154,17 @@ const ProfileDetail = ({
         </div>
       ) : (
         <div className='flex flex-col w-full max-w-md px-3 py-6 bg-white rounded-md shadow-md items-center'>
-          {userProfile?.photo_URL && (
+          {userProfile?.photo_URL ? (
             <img
-              src={userProfile?.photo_URL}
+              src={`${userProfile.photo_URL}?${new Date().getTime()}`}
+              alt='미리보기'
+              width={96}
+              height={96}
+              className='rounded-full'
+            />
+          ) : (
+            <img
+              src='/booktique.png'
               alt='미리보기'
               width={96}
               height={96}

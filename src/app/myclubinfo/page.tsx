@@ -25,7 +25,7 @@ const MyClubInfo = () => {
         if (fetchedUserId) {
           const fetchedClubIds = await getUserClubIds(fetchedUserId);
           const fetchClubInfo = await getClubInfo(fetchedClubIds);
-          console.log(fetchClubInfo);
+          //   console.log(fetchClubInfo);
           setClubInfo(fetchClubInfo);
           if (fetchedClubIds.length > 0) {
             setSelectedClubId(fetchedClubIds[0]);
@@ -48,23 +48,30 @@ const MyClubInfo = () => {
   const handleTabChange = (tab: string) => {
     setSelectedTab(tab);
   };
+  const getSelectClasses = () => {
+    if (clubInfo.length <= 1) {
+      return 'appearance-none w-[200px] font-bold p-2 text-lg';
+    }
+    return 'border p-2 w-[200px] font-bold';
+  };
   const renderSelectedTab = () => {
-    switch (selectedTab) {
+    const selectedClub = clubInfo.find((club) => club.id === selectedClubId);
+    if (!selectedClub) {
+      return <NonMyClub />;
+    }
+    switch (
+      selectedTab //quiz tab 추가해야함.
+    ) {
       case 'home':
-        return <HomeTab clubId={selectedClubId} />;
+        return <HomeTab club={selectedClub} />;
       case 'sentenceStorage':
-        return <SentenceStorage clubId={selectedClubId} />;
+        return <SentenceStorage club={selectedClub} />;
       case 'board':
-        return <Board clubId={selectedClubId} />;
+        return <Board club={selectedClub} />;
       default:
         return null;
     }
   };
-  if (clubInfo.length === 0) {
-    // 북클럽 없는 경우에 대한 처리
-    return <NonMyClub />;
-  }
-  console.log(clubInfo);
   return (
     <div>
       <div className='sticky top-0 left-0 right-0 z-10 bg-white flex flex-col justify-between'>
@@ -72,7 +79,14 @@ const MyClubInfo = () => {
         <select
           value={selectedClubId || ''}
           onChange={handleClubChange}
-          className='p-2 m-2 w-[200px] font-bold'>
+          className={getSelectClasses()}
+          //   disabled={clubInfo.length <= 1}
+        >
+          {clubInfo.length === 0 && (
+            <option value='' className='w-[200px]'>
+              내 북클럽
+            </option>
+          )}
           {clubInfo.map((club) => (
             <option key={club.id} value={club.id} className='w-[200px]'>
               {club.name}

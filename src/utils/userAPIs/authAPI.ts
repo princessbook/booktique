@@ -4,6 +4,7 @@ type Profile = Tables<'profiles'>;
 type Clubs = Tables<'clubs'>;
 type Sentences = Tables<'sentences'>;
 type Sentence_Comments = Tables<'sentence_comments'>;
+type Member = Tables<'members'>;
 
 export const getUserId = async (): Promise<string | null> => {
   try {
@@ -179,14 +180,12 @@ export const getBookPage = async (clubId: string): Promise<number | null> => {
     return null;
   }
 };
-export const getBookClubMembers = async (
-  clubId: string
-): Promise<{ user_id: string | null }[]> => {
+export const getBookClubMembers = async (clubId: string): Promise<Member[]> => {
   try {
     const supabase = createClient();
     const { data, error } = await supabase
       .from('members')
-      .select('user_id')
+      .select('*')
       .eq('club_id', clubId);
     if (error) {
       console.error('클럽멤버 불러오기 실패:', error);

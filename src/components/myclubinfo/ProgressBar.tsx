@@ -4,7 +4,7 @@ import {
   getClubActivityProgress,
   getBookPage
 } from '@/utils/userAPIs/authAPI';
-const ProgressBar = ({ clubId }: { clubId: string | null }) => {
+const ProgressBar = ({ clubId }: { clubId: string | undefined }) => {
   const [progress, setProgress] = useState<number | null>(null);
 
   useEffect(() => {
@@ -27,8 +27,8 @@ const ProgressBar = ({ clubId }: { clubId: string | null }) => {
             clubId,
             userId
           );
-          // 오늘까지 읽은 페이지 수와 전체 책 페이지 수를 기반으로 진행률 계산
-          const percentage = ((activityProgress ?? 0) / TotalBookPage) * 100;
+          // 오늘까지 읽은 페이지 수와 전체 책 페이지 수를 기반으로 진행률 계산, 만약 activityProgress가 퍼센테이지값으로 들어온다면 그냥 activityProgress만 쓰면댐
+          const percentage = activityProgress;
           setProgress(percentage);
         }
       } catch (error) {

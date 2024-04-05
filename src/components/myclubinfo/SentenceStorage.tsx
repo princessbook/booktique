@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Tables } from '@/lib/types/supabase';
 import { useRouter } from 'next/navigation';
 import { getAllSentences, getSentenceComments } from '@/utils/userAPIs/authAPI';
-
+type Clubs = Tables<'clubs'>;
 type Sentences = Tables<'sentences'>;
 
-const SentenceStorage = ({ clubId }: { clubId: string | null }) => {
+const SentenceStorage = ({ club }: { club: Clubs }) => {
   const router = useRouter();
   const [sentences, setSentences] = useState<Sentences[]>([]);
   const [commentCounts, setCommentCounts] = useState<{
@@ -14,14 +14,14 @@ const SentenceStorage = ({ clubId }: { clubId: string | null }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (clubId) {
-        const sentences = await getAllSentences(clubId);
+      if (club.id) {
+        const sentences = await getAllSentences(club.id);
         setSentences(sentences);
         fetchCommentCounts(sentences);
       }
     };
     fetchData();
-  }, [clubId]);
+  }, [club.id]);
 
   const fetchCommentCounts = async (sentences: Sentences[]) => {
     const newCommentCountMap: { [sentenceId: string]: number } = {};

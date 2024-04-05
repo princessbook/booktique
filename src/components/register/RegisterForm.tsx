@@ -123,7 +123,7 @@ const RegisterForm = () => {
   };
   return (
     <>
-      <div className='bg-mainblue h-screen text-[#fff] px-[1rem]'>
+      <div className='px-[1rem]'>
         <section>
           <div className='font-bold mb-[30px] py-[15px] text-center'>
             <h1>회원가입</h1>
@@ -138,7 +138,7 @@ const RegisterForm = () => {
               value={email}
               onChange={handleEmailChange}
             />
-            <p className=' text-bookyellow text-[12px]'>{emailError}</p>
+            <p className=' text-[#939393] text-[12px]'>{emailError}</p>
           </div>
           <div className='mb-10'>
             <Input
@@ -157,11 +157,11 @@ const RegisterForm = () => {
               value={passwordConfirm}
               onChange={handlePasswordConfirmChange}
             />
-            <p className='text-bookyellow text-[12px]'>{passwordError}</p>
+            <p className='text-[#939393] text-[12px]'>{passwordError}</p>
           </div>
           <button
             onClick={handleRegister}
-            className='w-full py-4 bg-bookyellow text-black font-bold rounded-[10px] mt-48'>
+            className='w-full py-4 bg-mainblue text-bookyellow font-bold rounded-[10px] mt-40'>
             회원가입 하기
           </button>
         </section>

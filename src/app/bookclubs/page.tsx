@@ -14,6 +14,9 @@ const BookClubsPage = async () => {
   if (error) {
     throw error;
   }
+  if (!bookclubs) {
+    return <div>loading...</div>;
+  }
 
   return (
     <div>

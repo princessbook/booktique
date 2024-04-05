@@ -1,36 +1,25 @@
 'use client';
 import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, {
+  PropsWithChildren,
+  SetStateAction,
+  useEffect,
+  useState
+} from 'react';
 
-const JoinBtn = ({ clubId }: PropsWithChildren<{ clubId: string }>) => {
+const JoinBtn = ({
+  clubId,
+  isMember,
+  setUserIsClubMember,
+  setIsJoinOrResign
+}: PropsWithChildren<{
+  clubId: string;
+  isMember: boolean;
+  setUserIsClubMember: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsJoinOrResign: React.Dispatch<React.SetStateAction<boolean>>;
+}>) => {
   const supabase = createClient();
-  const [isMember, setIsMember] = useState(false);
-  useEffect(() => {
-    const userIsClubMember = async () => {
-      try {
-        const {
-          data: { user }
-        } = await supabase.auth.getUser();
-        if (user) {
-          const { data: members, error } = await supabase
-            .from(MEMBERS_TABLE)
-            .select('*')
-            .eq('user_id', user.id)
-            .eq('club_id', clubId);
-          if (members && members.length > 0) {
-            setIsMember(true);
-          }
-          if (error) {
-            console.log(error);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    userIsClubMember();
-  }, [clubId, supabase]);
 
   const handleJoin = async () => {
     if (isMember) return;
@@ -42,6 +31,8 @@ const JoinBtn = ({ clubId }: PropsWithChildren<{ clubId: string }>) => {
         .from(MEMBERS_TABLE)
         .insert([{ club_id: clubId, user_id: user?.id, role: 'member' }]);
       console.log('성공');
+      setUserIsClubMember(true);
+      setIsJoinOrResign(true);
       if (error) {
         throw error;
       }

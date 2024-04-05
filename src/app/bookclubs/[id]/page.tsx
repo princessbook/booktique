@@ -3,12 +3,9 @@ import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/server';
 import { addOneMonth, extractDate } from '@/utils/time';
 import React from 'react';
-import JoinBtn from './JoinBtn';
-import ClubMemberProfile from './ClubMemberProfile';
 import Image from 'next/image';
-import ResignBtn from './ResignBtn';
-import JoinAndResignBtn from './JoinAndResignBtn';
-import BookClubCSR from './BookClubCSR';
+
+import BookClubDetailCSR from './BookClubCSR';
 
 const BookClubDetail = async (props: { params: { id: string } }) => {
   const id = props.params.id;
@@ -75,7 +72,7 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
           <p>{bookclub.description}</p>
         </div>
       </section>
-      <BookClubCSR id={id} isMember={isMember} />
+      <BookClubDetailCSR id={id} isMember={isMember} />
     </div>
   );
 };

@@ -6,7 +6,13 @@ import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/lib/types/supabase';
 
-const BookClubCSR = ({ id, isMember }: { id: string; isMember: boolean }) => {
+const BookClubDetailCSR = ({
+  id,
+  isMember
+}: {
+  id: string;
+  isMember: boolean;
+}) => {
   const [clubMembers, setClubMembers] = useState<Tables<'members'>[]>();
   const [bookclub, setBookClub] = useState<Tables<'clubs'>>();
   const supabase = createClient();
@@ -71,4 +77,4 @@ const BookClubCSR = ({ id, isMember }: { id: string; isMember: boolean }) => {
   );
 };
 
-export default BookClubCSR;
+export default BookClubDetailCSR;

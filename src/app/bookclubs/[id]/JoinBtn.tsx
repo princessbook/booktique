@@ -1,12 +1,7 @@
 'use client';
 import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
-import React, {
-  PropsWithChildren,
-  SetStateAction,
-  useEffect,
-  useState
-} from 'react';
+import React, { PropsWithChildren } from 'react';
 
 const JoinBtn = ({
   clubId,

@@ -1,13 +1,7 @@
 'use client';
 import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
-import React, {
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
-  useEffect,
-  useState
-} from 'react';
+import React, { Dispatch, PropsWithChildren, SetStateAction } from 'react';
 
 const ResignBtn = ({
   clubId,

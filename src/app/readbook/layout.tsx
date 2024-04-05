@@ -12,7 +12,7 @@ const ReadBookLayout = ({ children }: { children: React.ReactNode }) => {
   };
   return (
     // <Slider {...settings}>
-    <div className='h-full bg-red-200'>{children}</div>
+    <div className='h-full bg-gray-200'>{children}</div>
     // {/* </Slider> */}
   );
 };

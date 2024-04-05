@@ -3,7 +3,7 @@ import { getUserId } from '@/utils/userAPIs/authAPI';
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
-import white from '../../../public/booktiquereadwhite.png';
+import blue from '../../../public/booktiquereadblue.png';
 import ReadBookLayout from './layout';
 import LoadingOverlay from '@/common/LoadingOverlay';
 import { Tables } from '@/lib/types/supabase';
@@ -22,6 +22,9 @@ const ReadBook = () => {
   const [activityData, setActivityData] = useState<Tables<'club_activities'>[]>(
     []
   );
+  const [filteredBookClubsData, setFilteredBookClubsData] = useState<
+    Tables<'clubs'>[]
+  >([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -47,7 +50,7 @@ const ReadBook = () => {
         console.log('memberData', memberData);
         if (memberError) {
           throw new Error(
-            '해당 회원의 클럽정보를 가져오는 도중 오류가 발생했습니다.'
+            '해당 회원이 등록된 클럽정보를 가져오는 도중 오류가 발생했습니다.'
           );
         }
 
@@ -85,6 +88,20 @@ const ReadBook = () => {
         }
 
         setActivityData(activitiesData || []);
+
+        const { data: bookClubsData, error: bookClubsError } = await supabase
+          .from('clubs')
+          .select('*');
+
+        console.log('bookClubsData', bookClubsData);
+        if (bookClubsError) {
+          throw new Error('책 정보를 가져오는 도중 오류가 발생했습니다.');
+        }
+        const filteredBookClubsData = bookClubsData.filter((bookClub) => {
+          return allClubData.some((club) => club.id === bookClub.id);
+        });
+        setFilteredBookClubsData(filteredBookClubsData);
+        console.log('Filtered Book Clubs Data:', filteredBookClubsData);
       } catch (error) {
         console.error('알수없는 오류가 발생했습니다 새로고침 해주세요');
         setLoading(false);
@@ -131,35 +148,14 @@ const ReadBook = () => {
   if (loading) {
     return <LoadingOverlay show={loading} />;
   }
-  var settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false
-  };
+
   return (
     <ReadBookLayout>
-      {/* <Slider {...settings}> */}
-      <div className='flex flex-col'>
-        <Image
-          src={white}
-          width={134}
-          height={26}
-          alt={'booktique'}
-          className='mt-[80px] mx-auto'
-          priority={true}
-        />
-        {/* <Slider {...settings} className='flex flex-col w-[375px]'> */}
-
-        <ClubList
-          handleBookRead={handleBookRead}
-          clubActivities={activityData}
-          allClubData={allClubData}
-        />
-      </div>
-      {/* </Slider> */}
+      <ClubList
+        handleBookRead={handleBookRead}
+        clubActivities={activityData}
+        filteredBookClubsData={filteredBookClubsData}
+      />
     </ReadBookLayout>
   );
 };

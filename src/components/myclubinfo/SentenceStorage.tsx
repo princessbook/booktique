@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Tables } from '@/lib/types/supabase';
 import { useRouter } from 'next/navigation';
 import { getAllSentences, getSentenceComments } from '@/utils/userAPIs/authAPI';
+import { createClient } from '@/utils/supabase/client';
 
 type Sentences = Tables<'sentences'>;
 
@@ -11,13 +12,20 @@ const SentenceStorage = ({ clubId }: { clubId: string | null }) => {
   const [commentCounts, setCommentCounts] = useState<{
     [sentenceId: string]: number;
   }>({});
-
+  console.log('clubid', clubId);
   useEffect(() => {
     const fetchData = async () => {
       if (clubId) {
-        const sentences = await getAllSentences(clubId);
+        const sentences = await getAllSentences(clubId); // clubId를 사용하여 문장 리스트를 가져옴
         setSentences(sentences);
-        fetchCommentCounts(sentences);
+
+        // 각 문장에 대한 댓글 수 가져오기
+        const commentCountsMap: { [sentenceId: string]: number } = {};
+        for (const sentence of sentences) {
+          const comments = await getSentenceComments(sentence.id); // 문장에 대한 댓글 가져오기
+          commentCountsMap[sentence.id] = comments ? comments.length : 0; // 댓글 수를 저장
+        }
+        setCommentCounts(commentCountsMap); // 댓글 수 상태 업데이트
       }
     };
     fetchData();
@@ -31,6 +39,7 @@ const SentenceStorage = ({ clubId }: { clubId: string | null }) => {
     }
     setCommentCounts(newCommentCountMap);
   };
+  console.log('fetchCommentCounts', fetchCommentCounts);
 
   const handleSentenceClick = (id: string) => {
     router.push(`/sentences/${id}`);

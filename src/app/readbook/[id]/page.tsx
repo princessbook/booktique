@@ -3,8 +3,13 @@ import MemberList from './MemberList';
 import { createClient } from '@/utils/supabase/server';
 import EndButton from './EndButton';
 
-const ReadBookDetail = async (props: { params: { id: string } }) => {
-  const id = props.params.id;
+const ReadBookDetail = async ({
+  params: { id }
+}: {
+  params: { id: string };
+}) => {
+  const param = id;
+  console.log('param111111111111111111', param);
   const supabase = createClient();
 
   const { data: clubMembers, error: membersError } = await supabase
@@ -16,7 +21,7 @@ const ReadBookDetail = async (props: { params: { id: string } }) => {
   }
   return (
     <div className='relative h-full '>
-      <MemberList clubMembers={clubMembers} />
+      <MemberList id={id} clubMembers={clubMembers} />
     </div>
   );
 };

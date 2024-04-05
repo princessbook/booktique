@@ -1,13 +1,12 @@
 const ProgressBar = ({ progress }: { progress: number }) => {
   return (
-    <div className='flex w-full h-4 mt-4'>
+    <div className='w-[196px] h-[4px] mt-4 j mx-auto relative'>
       <div
-        className='h-full bg-blue-500 rounded-full'
-        style={{ width: `${progress}%` }}>
-        {' '}
-        {progress}%
-      </div>
-      <div className=' w-full h-full bg-gray-300 rounded-full'></div>
+        className='w-full h-full bg-blue-500 rounded-full absolute'
+        style={{ width: `${progress}%` }}></div>
+      {/* <div className={`h-full bg-blue-500 rounded-full w-${progress}%`} /> */}
+      <div className='w-full h-full bg-gray-300 rounded-full'></div>
+      <div className='text-end text-subblue'> {progress}%</div>
     </div>
   );
 };

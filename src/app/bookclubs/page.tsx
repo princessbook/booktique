@@ -5,6 +5,7 @@ import ClubMembersCount from './ClubMembersCount';
 import Image from 'next/image';
 import ClubAdminProfile from './ClubAdminProfile';
 
+export const revalidate = 0;
 const BookClubsPage = async () => {
   const supabase = createClient();
   const { data: bookclubs, error } = await supabase

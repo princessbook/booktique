@@ -34,7 +34,7 @@ const ResignBtn = ({
           .eq('club_id', clubId)
           .eq('user_id', user.id);
         setUserIsClubMember(false);
-        setIsJoinOrResign(false);
+        setIsJoinOrResign((prev) => !prev);
       } catch (error) {
         console.log(error);
       }

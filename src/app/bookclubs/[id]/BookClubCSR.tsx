@@ -41,6 +41,9 @@ const BookClubCSR = ({ id, isMember }: { id: string; isMember: boolean }) => {
     };
     fetchBookClub();
   }, [id, supabase, isJoinOrResign]);
+  if (!clubMembers || !bookclub) {
+    return <div>loading...</div>;
+  }
   return (
     <>
       <section className='p-3'>

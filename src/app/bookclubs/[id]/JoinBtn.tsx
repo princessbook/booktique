@@ -32,7 +32,7 @@ const JoinBtn = ({
         .insert([{ club_id: clubId, user_id: user?.id, role: 'member' }]);
       console.log('성공');
       setUserIsClubMember(true);
-      setIsJoinOrResign(true);
+      setIsJoinOrResign((prev) => !prev);
       if (error) {
         throw error;
       }

@@ -6,6 +6,8 @@ import { createClient } from '@/utils/supabase/client';
 import { redirect } from 'next/navigation';
 import SelectForm from '@/components/register/SelectForm';
 import { generateUniqueNickname } from '@/utils/nicknameGenerator';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const RegisterForm = () => {
   const [email, setEmail] = useState<string>('');
@@ -55,12 +57,18 @@ const RegisterForm = () => {
       if (error) {
         throw error;
       }
+      const { data: userData, error: userError } =
+        await supabase.auth.getUser();
+      if (userData && userData.user?.id) {
+        window.location.href = `/register/${userData.user.id}`;
+      } else {
+        throw new Error('회원의 ID를 가져올 수 없습니다.');
+      }
       await supabase
         .from('profiles')
         .insert([{ email, display_name: nickname }]);
 
       alert('회원가입이 완료되었습니다');
-      window.location.href = '/nickname';
     } catch (error) {
       console.error(error);
     }
@@ -161,7 +169,7 @@ const RegisterForm = () => {
           </div>
           <button
             onClick={handleRegister}
-            className='w-full py-4 bg-mainblue text-bookyellow font-bold rounded-[10px] mt-40'>
+            className='w-full block text-center py-4 bg-mainblue text-bookyellow font-bold rounded-[10px] mt-40'>
             회원가입 하기
           </button>
         </section>

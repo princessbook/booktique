@@ -4,6 +4,8 @@ import { createClient } from '@/utils/supabase/client';
 import { getUserId } from '@/utils/userAPIs/authAPI';
 import ProgressBar from '../../ProgressBar';
 import { Tables } from '@/lib/types/supabase';
+import { useRouter } from 'next/navigation';
+import SaveProgressBar from './SaveProgressBar';
 
 const supabase = createClient();
 
@@ -21,7 +23,7 @@ const SaveCard = ({
     matchingActivities[0]?.progress as number
   );
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const router = useRouter();
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -32,14 +34,14 @@ const SaveCard = ({
 
   const handleSave = async () => {
     const memberId = await getUserId();
-    console.log('memberId', memberId);
-    console.log('저장!');
+    // console.log('memberId', memberId);
+    // console.log('저장!');
 
     if (!/^\d+$/.test(recordPage)) {
       alert('숫자만 입력해주세요.');
       return;
     }
-    console.log('recordPage', recordPage);
+    // console.log('recordPage', recordPage);
     const result = Math.floor(
       (Number(recordPage) / (clubData.book_page as number)) * 100
     );
@@ -77,7 +79,7 @@ const SaveCard = ({
         );
       }
 
-      console.log('club_activities 테이블의 행을 업데이트 완료');
+      // console.log('club_activities 테이블의 행을 업데이트 완료');
     } else {
       // 삽입된 데이터가 없다면 새로운 행을 삽입(db에서 지우지않는한무조건 있기는함).
       const { data: insertedData, error: insertError } = await supabase
@@ -90,25 +92,30 @@ const SaveCard = ({
         throw new Error('club_activities 테이블에 삽입하는 중 오류 발생:');
       }
 
-      console.log('club_activities 테이블에 새로운 행 삽입 완료', insertedData);
+      // console.log('club_activities 테이블에 새로운 행 삽입 완료', insertedData);
     }
     setProgress(result);
+    router.push('/myclubinfo');
   };
 
   return (
-    <>
+    <div className='flex flex-col justify-center'>
       <input
         value={recordPage}
         onChange={handleInputChange}
         type='number'
         placeholder='오늘 읽은 페이지를 입력해주세요'
-        className='flex mx-auto w-[334px] h-[44px] mt-[65px]'
+        className='flex mx-auto w-[334px] h-[44px] mt-[65px] bg-[#EDEEF2] px-[16px] py-[14px] rounded-[10px]'
         ref={inputRef}
       />
-      <div>내 독서 진행률</div>
-      <ProgressBar progress={progress} />
-      <button onClick={handleSave}>저장</button>
-    </>
+      <div className='mt-[49px] ml-[16px]'>내 독서 진행률</div>
+      <SaveProgressBar progress={progress} />
+      <button
+        onClick={handleSave}
+        className='bottom-0 mb-[137px] mx-auto w-[343px] h-[56px] rounded-full bg-subblue text-white'>
+        저장
+      </button>
+    </div>
   );
 };
 

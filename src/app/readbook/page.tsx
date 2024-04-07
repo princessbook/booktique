@@ -9,8 +9,6 @@ import LoadingOverlay from '@/common/LoadingOverlay';
 import { Tables } from '@/lib/types/supabase';
 import ClubList from './ClubList';
 import { useRouter } from 'next/navigation';
-import Slider from 'react-slick';
-import ReadButton from './ReadButton';
 
 const supabase = createClient();
 

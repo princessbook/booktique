@@ -8,21 +8,20 @@ const EndModal = ({ onClose, id }: ModalProps) => {
   const router = useRouter();
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
-      <div className='bg-white w-[302px] h-[252px] rounded-lg flex flex-col items-center'>
-        <h2 className=' mb-4 font-bold text-2xl text-blue-500'>
-          책 읽기를 종료하고 싶으신가요?
+      <div className='bg-white w-[327px] h-[332px] rounded-[20px] flex flex-col items-center'>
+        <h2 className=' mb-4 font-bold text-[16px] text-center text-blue-500'>
+          아직 책 읽기로한 시간을 채우지 못했어요
         </h2>
-        <div className='flex mx-auto'>
+        <div className='flex flex-col gap-3 w-[279px] '>
           <button
-            className='px-4 py-2 bg-gray-200 rounded-lg '
-            onClick={() => router.push(`/readbook/${id}/save`)}>
-            책 읽기 종료하기
-          </button>
-          {/* 모달 닫기 버튼 */}
-          <button
-            className='px-4 py-2 bg-blue-500 text-white rounded-lg'
+            className='px-4 py-2 text-white bg-subblue rounded-full text-[14px]'
             onClick={onClose}>
-            확인
+            계속 읽기
+          </button>
+          <button
+            className='px-4 py-2 text-[#8A9DB3] rounded-full border border-[#DBE3EB] text-[14px]'
+            onClick={() => router.push(`/readbook/${id}/save`)}>
+            그만 읽기
           </button>
         </div>
       </div>
@@ -31,3 +30,26 @@ const EndModal = ({ onClose, id }: ModalProps) => {
 };
 
 export default EndModal;
+/* btn */
+
+// box-sizing: border-box;
+
+// /* Auto layout */
+// display: flex;
+// flex-direction: row;
+// justify-content: center;
+// align-items: center;
+// padding: 12px 43px;
+// gap: 10px;
+
+// width: 279px;
+// height: 44px;
+
+// /* line gray */
+// border: 1px solid #DBE3EB;
+// border-radius: 9999px;
+
+// /* Inside auto layout */
+// flex: none;
+// order: 1;
+// flex-grow: 0;

@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import ProgressBar from './ProgressBar';
 import { Tables } from '@/lib/types/supabase';
@@ -18,7 +19,7 @@ const ClubList = ({
 }) => {
   // 현재 슬라이드 인덱스를 추적
   const [currentSlide, setCurrentSlide] = useState<number>(0);
-
+  const [loading, setLoading] = useState<boolean>(true);
   var settings = {
     dots: false,
     infinite: false,
@@ -31,10 +32,13 @@ const ClubList = ({
     afterChange: (current: number) => setCurrentSlide(current)
   };
 
+  // if (loading) {
+  //   return <LoadingOverlay show={loading} />;
+  // }
   return (
     <>
       <Slider {...settings}>
-        {filteredBookClubsData.map((club, index) => (
+        {filteredBookClubsData.map((club) => (
           <div key={club.id}>
             <div className='bg-white mb-[40px] w-[302px] h-[464px] text-center mx-auto rounded-[20px] font-bold text-gray-700'>
               <div className='pt-[32px]'>
@@ -43,10 +47,12 @@ const ClubList = ({
                     ? club.book_title.substring(0, 15) + '...'
                     : club.book_title)}
               </div>
-              <img
+              <Image
                 src={club.book_cover || ''}
                 alt='북이미지'
-                className='mx-[53px] mt-[15.84px] mb-[16px] w-[196px] h-[304px]'
+                width={196}
+                height={304}
+                className='mx-[53px] mt-[15.84px] mb-[16px] '
               />
               <ProgressBar
                 progress={

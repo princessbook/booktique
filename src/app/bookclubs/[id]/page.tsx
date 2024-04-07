@@ -1,10 +1,11 @@
+'use server';
 import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/server';
 import { addOneMonth, extractDate } from '@/utils/time';
 import React from 'react';
-import JoinBtn from './JoinBtn';
-import ClubMemberProfile from './ClubMemberProfile';
 import Image from 'next/image';
+
+import BookClubDetailCSR from './BookClubCSR';
 
 const BookClubDetail = async (props: { params: { id: string } }) => {
   const id = props.params.id;
@@ -19,12 +20,22 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
     throw error;
   }
 
-  const { data: clubMembers, error: membersError } = await supabase
-    .from(MEMBERS_TABLE)
-    .select('*')
-    .eq('club_id', id);
-
-  console.log(clubMembers);
+  let isMember = false;
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+  if (user) {
+    const { data: members, error } = await supabase
+      .from(MEMBERS_TABLE)
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('club_id', id);
+    if (members && members.length > 0) {
+      isMember = true;
+    } else {
+      isMember = false;
+    }
+  }
 
   if (!bookclub) return;
   return (
@@ -61,22 +72,7 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
           <p>{bookclub.description}</p>
         </div>
       </section>
-      <section className='p-3'>
-        <h2 className='mb-4 font-bold'>{`참여인원(${
-          clubMembers ? clubMembers.length : 0
-        }/${bookclub.max_member_count})`}</h2>
-        <div className='grid grid-cols-4 gap-3'>
-          {clubMembers &&
-            clubMembers.map((member, index) => {
-              return <ClubMemberProfile member={member} key={index} />;
-            })}
-        </div>
-      </section>
-      {clubMembers!.length === bookclub.max_member_count ? (
-        '모집인원꽉참'
-      ) : (
-        <JoinBtn clubId={id} />
-      )}
+      <BookClubDetailCSR id={id} isMember={isMember} />
     </div>
   );
 };

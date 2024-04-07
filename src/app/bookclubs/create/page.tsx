@@ -126,6 +126,7 @@ const CreateBookPage = () => {
     const storageImg = await uploadImageStorage(selectedImage!);
     await insertBookClubDataToDB(storageImg);
     router.push('/bookclubs');
+    router.refresh();
   };
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {

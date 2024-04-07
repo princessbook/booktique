@@ -8,7 +8,7 @@ const BookInfo = ({
   id,
   clubMembers
 }: {
-  clubData: Tables<'clubs'>;
+  clubData: Tables<'clubs'>[];
   id: string;
   clubMembers: Tables<'members'>[];
 }) => {
@@ -16,11 +16,13 @@ const BookInfo = ({
 
   return (
     <>
-      <div>헤더</div>
-      <div className='flex flex-col items-center bg-subblue'>
-        <div>독서중 : 타이머</div>
-        <div className='h-[150px] sticky'>{clubData[0].name}</div>
-        <div className='flex w-full justify-center bg-white text-center border-b '>
+      <div className='sticky top-0 z-10'>
+        <div className='h-[42px] bg-subblue'>헤더</div>
+        <div className='flex flex-col h-[102px] bg-subblue items-center '>
+          <div className='mt-[16px]'>독서중 : 타이머</div>
+          <div className='text-white h-[22px] mt-[8px]'>{clubData[0].name}</div>
+        </div>
+        <div className='flex w-full justify-center bg-white text-center border-b h-[49px] '>
           {/* 탭 구현 */}
           <div
             className={`cursor-pointer w-1/2 py-[15px] ${
@@ -43,10 +45,11 @@ const BookInfo = ({
           </div>
         </div>
       </div>
+
       {activeTab === '책읽기' && (
-        <div>
+        <>
           <MemberList id={id} clubMembers={clubMembers} />
-        </div>
+        </>
       )}
       {activeTab === '퀴즈' && <div>퀴즈 내용 </div>}
     </>

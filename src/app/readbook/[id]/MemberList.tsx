@@ -1,11 +1,8 @@
 'use client';
-import LoadingOverlay from '@/common/LoadingOverlay';
 import { Tables } from '@/lib/types/supabase';
 import { createClient } from '@/utils/supabase/client';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import EndButton from './EndButton';
-import badge from '../../../../public/badge.png';
 
 interface MemberListProps {
   clubMembers: Tables<'members'>[];
@@ -28,7 +25,7 @@ const MemberList = ({ clubMembers, id }: MemberListProps) => {
           const { data, error } = await supabase
             .from('profiles')
             .select('*')
-            .eq('id', clubMember.user_id)
+            .eq('id', clubMember.user_id as string)
             .single();
           // console.log('data', data);
           if (error) {
@@ -71,6 +68,7 @@ const MemberList = ({ clubMembers, id }: MemberListProps) => {
 
   return (
     <div className='flex flex-col'>
+      {/* 나중에 멤버데이터많으면 여기 h-full확인 */}
       <div className='mt-[32px] mb-[16px] ml-[16px] font-bold text-[16px] leading-[22px]'>
         함께 책 읽기
       </div>

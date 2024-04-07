@@ -24,7 +24,7 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
-      .eq('id', clubMember.user_id)
+      .eq('id', clubMember.user_id as string)
       .single();
     console.log('data', data);
     if (error) {

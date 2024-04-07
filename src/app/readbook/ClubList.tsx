@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import ProgressBar from './ProgressBar';
 import { Tables } from '@/lib/types/supabase';
-import Image from 'next/image';
+// import Image from 'next/image';
 import Slider from 'react-slick';
 import ReadButton from './ReadButton';
 import 'slick-carousel/slick/slick.css';
@@ -39,7 +39,7 @@ const ClubList = ({
     <>
       <Slider {...settings}>
         {filteredBookClubsData.map((club) => (
-          <div key={club.id}>
+          <div key={club.id} className='h-full'>
             <div className='bg-white mb-[40px] w-[302px] h-[464px] text-center mx-auto rounded-[20px] font-bold text-gray-700'>
               <div className='pt-[32px]'>
                 {club.book_title &&
@@ -47,12 +47,13 @@ const ClubList = ({
                     ? club.book_title.substring(0, 15) + '...'
                     : club.book_title)}
               </div>
-              <Image
+              <img
                 src={club.book_cover || ''}
                 alt='북이미지'
-                width={196}
-                height={304}
-                className='mx-[53px] mt-[15.84px] mb-[16px] '
+                //넥스트 이미지쓰면 height가 제대로 안먹힘
+                // width={196}
+                // height={304}
+                className='mx-[53px] mt-[15.84px] mb-[16px] w-[196px] h-[304px]'
               />
               <ProgressBar
                 progress={

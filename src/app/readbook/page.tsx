@@ -149,12 +149,13 @@ const ReadBook = () => {
 
   return (
     <ReadBookLayout>
+      <div className='h-[42px]'>헤더</div>
       <Image
         src={blue}
         width={134}
         height={26}
         alt={'booktique'}
-        className='pt-[80px] mx-auto pb-[24px]'
+        className='pt-[38px] mx-auto pb-[24px]'
         priority={true}
       />
       <ClubList

@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { getUserId } from '@/utils/userAPIs/authAPI';
-import ProgressBar from '../../ProgressBar';
 import { Tables } from '@/lib/types/supabase';
 import { useRouter } from 'next/navigation';
 import SaveProgressBar from './SaveProgressBar';
@@ -34,7 +33,7 @@ const SaveCard = ({
 
   const handleSave = async () => {
     const memberId = await getUserId();
-    // console.log('memberId', memberId);
+    console.log('memberId', memberId);
     // console.log('저장!');
 
     if (!/^\d+$/.test(recordPage)) {
@@ -105,14 +104,14 @@ const SaveCard = ({
         onChange={handleInputChange}
         type='number'
         placeholder='오늘 읽은 페이지를 입력해주세요'
-        className='flex mx-auto w-[334px] h-[44px] mt-[65px] bg-[#EDEEF2] px-[16px] py-[14px] rounded-[10px]'
+        className='flex mx-auto w-[334px] h-[48px] mt-[28px] bg-[#EDEEF2] px-[16px] py-[14px] rounded-[10px]'
         ref={inputRef}
       />
       <div className='mt-[49px] ml-[16px]'>내 독서 진행률</div>
       <SaveProgressBar progress={progress} />
       <button
         onClick={handleSave}
-        className='bottom-0 mb-[137px] mx-auto w-[343px] h-[56px] rounded-full bg-subblue text-white'>
+        className='bottom-0 mt-[190px] mx-auto w-[343px] h-[56px] rounded-full bg-subblue text-white'>
         저장
       </button>
     </div>

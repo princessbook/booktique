@@ -1,5 +1,7 @@
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import badege from '../../../../public/badge.png';
 interface ModalProps {
   onClose: () => void;
   id: string;
@@ -7,11 +9,18 @@ interface ModalProps {
 const EndModal = ({ onClose, id }: ModalProps) => {
   const router = useRouter();
   return (
-    <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
+    <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20'>
       <div className='bg-white w-[327px] h-[332px] rounded-[20px] flex flex-col items-center'>
-        <h2 className=' mb-4 font-bold text-[16px] text-center text-blue-500'>
+        <Image
+          src={badege}
+          alt='end'
+          width={68}
+          height={89}
+          className='mt-[34px] mb-[13px]'
+        />
+        <h1 className=' mb-4 font-bold text-[16px] text-center text-blue-500'>
           아직 책 읽기로한 시간을 채우지 못했어요
-        </h2>
+        </h1>
         <div className='flex flex-col gap-3 w-[279px] '>
           <button
             className='px-4 py-2 text-white bg-subblue rounded-full text-[14px]'
@@ -30,26 +39,3 @@ const EndModal = ({ onClose, id }: ModalProps) => {
 };
 
 export default EndModal;
-/* btn */
-
-// box-sizing: border-box;
-
-// /* Auto layout */
-// display: flex;
-// flex-direction: row;
-// justify-content: center;
-// align-items: center;
-// padding: 12px 43px;
-// gap: 10px;
-
-// width: 279px;
-// height: 44px;
-
-// /* line gray */
-// border: 1px solid #DBE3EB;
-// border-radius: 9999px;
-
-// /* Inside auto layout */
-// flex: none;
-// order: 1;
-// flex-grow: 0;

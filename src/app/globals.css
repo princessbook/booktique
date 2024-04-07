@@ -1,6 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css');
+
+/* Body 요소에 Wanted Sans Variable 폰트를 적용합니다. */
+body {
+  font-family: 'Wanted Sans Variable', sans-serif;
+}
 // input type='number'할때 오른쪽에 생기는 화살표 제거
 @layer base {
   input[type='number']::-webkit-outer-spin-button,

@@ -11,7 +11,6 @@ const NicknameForm = async () => {
     .select('*')
     .eq('id', userData?.user?.id || '');
   if (profilesError || !profilesData || profilesData.length === 0) {
-    console.log('????????????????');
   } else {
     redirect('/myclub');
     return null;

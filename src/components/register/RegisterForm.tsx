@@ -130,14 +130,15 @@ const RegisterForm = () => {
   };
   return (
     <>
-      <div className='px-[1rem]'>
+      <div className='px-[1rem] h-full relative'>
         <section>
-          <div className='font-bold mb-[30px] py-[15px] text-center'>
+          <div className='font-bold mb-[30px] py-[15px] text-center border-b-[1px]'>
             <h1>회원가입</h1>
           </div>
 
           <div className='mb-10'>
             <Input
+              name='email'
               inputRef={emailInputRef}
               label='email'
               type='email'
@@ -149,6 +150,7 @@ const RegisterForm = () => {
           </div>
           <div className='mb-10'>
             <Input
+              name='password'
               inputRef={passwordInputRef}
               label='비밀번호'
               type='password'
@@ -157,6 +159,7 @@ const RegisterForm = () => {
               onChange={handlePasswordChange}
             />
             <Input
+              name='passwordCheck'
               inputRef={passwordConfirmInputRef}
               label=''
               type='password'

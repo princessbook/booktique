@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import closeInput from '../../public/close_input.png';
+import closeInput from '../../public/closeInput.svg';
 import Image from 'next/image';
 
 type InputProps = {
+  name: string;
   label?: string | null;
   inputRef: React.RefObject<HTMLInputElement>;
   type: string;
@@ -13,6 +14,7 @@ type InputProps = {
 };
 
 const Input: React.FC<InputProps> = ({
+  name,
   label,
   inputRef,
   type,
@@ -52,6 +54,7 @@ const Input: React.FC<InputProps> = ({
           className='bg-gray-200 px-3 py-[12px] mb-3 placeholder-opacity-60 rounded-[10px] w-full'
           ref={inputRef}
           id={label || ''}
+          name={name}
           type={type}
           placeholder={placeholder}
           value={value}

@@ -12,15 +12,15 @@ export async function login(formData: FormData) {
     email: formData.get('email') as string,
     password: formData.get('password') as string
   };
-
+  console.log(data);
   const { error } = await supabase.auth.signInWithPassword(data);
-
+  console.log('1');
   if (error) {
-    redirect('/error');
+    console.log(error);
   }
 
   revalidatePath('/', 'layout');
-  redirect('/myclub');
+  // redirect('/myclub');
 }
 
 export async function signup(formData: FormData) {

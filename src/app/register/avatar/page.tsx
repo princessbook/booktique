@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRef } from 'react';
 import { createClient } from '@/utils/supabase/client';
+import Image from 'next/image';
 
 const AvatarPage = () => {
   const [photoUrl, setPhotoUrl] = useState('');
@@ -42,6 +43,9 @@ const AvatarPage = () => {
       reader.readAsDataURL(selectedFile);
     }
   };
+  const handleImageClick = () => {
+    imgRef.current?.click();
+  };
   const insertProfile = async (storageImg: string | undefined) => {
     try {
       const { data, error } = await supabase
@@ -61,17 +65,29 @@ const AvatarPage = () => {
     window.location.href = '/myclub'; // '/myclub' 페이지로 이동
   };
   return (
-    <div className='px-4'>
+    <div className='mx-4 relative h-full'>
       avatarPage
-      {previewUrl !== null ? (
-        <img
-          src={previewUrl}
-          alt='Preview Avatar'
-          style={{ maxWidth: '300px' }}
-        />
-      ) : (
-        <img src='/booktique.png' alt='Default Avatar' />
-      )}
+      <div className='relative w-40 h-40 flex justify-center items-center rounded-full overflow-hidden'>
+        {previewUrl !== null ? (
+          <Image
+            src={previewUrl}
+            alt='Preview Avatar'
+            style={{ objectFit: 'cover' }}
+            fill={true}
+            sizes='160px'
+            onClick={handleImageClick}
+          />
+        ) : (
+          <Image
+            src='/booktique.png'
+            alt='Default Avatar'
+            style={{ objectFit: 'cover' }}
+            fill={true}
+            sizes='160px'
+            onClick={handleImageClick}
+          />
+        )}
+      </div>
       <form>
         <input
           type='file'
@@ -79,12 +95,13 @@ const AvatarPage = () => {
           name='images'
           onChange={handleImageChange}
           ref={imgRef}
+          className='hidden'
         />
         <button type='button' onClick={saveImgFile}>
           등록하기
         </button>
         <button
-          className='w-full bg-mainblue h-[48px] rounded-[999px] text-[#fff]'
+          className='w-full bg-mainblue h-[48px] rounded-[999px] text-[#fff] absolute bottom-14 left-0'
           type='button'
           onClick={handleSkip}>
           건너뛰기

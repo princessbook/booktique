@@ -10,13 +10,13 @@ const EndModal = ({ onClose, id }: ModalProps) => {
   const router = useRouter();
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20'>
-      <div className='bg-white w-[327px] h-[332px] rounded-[20px] flex flex-col items-center'>
+      <div className='bg-white w-[327px] h-[352px] rounded-[20px] flex flex-col items-center'>
         <Image
           src={badege}
           alt='end'
           width={68}
           height={89}
-          className='mt-[34px] mb-[13px]'
+          className='mt-[30px] mb-[13px]'
         />
         <h1 className=' mb-4 font-bold text-[16px] text-center text-blue-500'>
           아직 책 읽기로한 시간을 채우지 못했어요

@@ -118,6 +118,7 @@ export const getAllSentences = async (clubId: string): Promise<Sentences[]> => {
     return [];
   }
 };
+
 export const getSentenceComments = async (
   sentenceId: string
 ): Promise<Sentence_Comments[] | null> => {

@@ -4,7 +4,6 @@ import Input from '@/common/Input';
 import { useInput } from '@/hooks/useInput';
 import { createClient } from '@/utils/supabase/client';
 import { redirect } from 'next/navigation';
-import SelectForm from '@/components/register/SelectForm';
 import { generateUniqueNickname } from '@/utils/nicknameGenerator';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

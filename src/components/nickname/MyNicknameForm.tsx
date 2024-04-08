@@ -17,9 +17,10 @@ const MyNicknameForm = () => {
       // 현재 글자 수 업데이트
       setCharCount(inputText.length);
       // 입력된 닉네임 업데이트
-      setNewNickname(inputText);
+      setNickname(inputText);
     }
   };
+
   useEffect(() => {
     const fetchUserData = async () => {
       const supabase = createClient();
@@ -51,12 +52,12 @@ const MyNicknameForm = () => {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .update({ display_name: newNickname })
+        .update({ display_name: nickname })
         .eq('id', user?.id || '');
       if (error) {
         throw error;
       }
-      setNickname(newNickname);
+      setNickname(nickname);
       setNewNickname('');
       window.location.href = '/register/avatar';
     } catch (error) {
@@ -83,7 +84,7 @@ const MyNicknameForm = () => {
           className='py-[12px] pl-2 border-b-black border-b-2 text-black w-full'
           type='text'
           placeholder='닉네임'
-          value={newNickname !== '' ? newNickname : nickname ?? ''}
+          value={nickname || ''}
           onChange={handleNicknameChange}
         />
         <div className='text-[12px] absolute right-10 top-1/2 translate-y-[-50%]'>{`${charCount}/${maxChar}`}</div>

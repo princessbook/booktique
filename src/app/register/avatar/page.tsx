@@ -60,7 +60,6 @@ const AvatarPage = () => {
   const handleSkip = () => {
     window.location.href = '/myclub'; // '/myclub' 페이지로 이동
   };
-
   return (
     <div className='px-4'>
       avatarPage

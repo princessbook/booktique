@@ -44,6 +44,7 @@ const SentenceStorage = ({
     }
     setCommentCounts(newCommentCountMap);
   };
+  console.log('fetchCommentCounts', fetchCommentCounts);
 
   const handleSentenceClick = (id: string) => {
     router.push(`/sentences/${id}`);

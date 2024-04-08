@@ -5,17 +5,16 @@ import { redirect } from 'next/navigation';
 const NicknameForm = async () => {
   const supabase = createClient();
   const { data: userData, error: userError } = await supabase.auth.getUser();
-  console.log('data.', userData.user);
-  const { data: profilesData, error: profilesError } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', userData?.user?.id || '');
-  if (profilesError || !profilesData || profilesData.length === 0) {
-    console.log('????????????????');
-  } else {
-    redirect('/myclub');
-    return null;
-  }
+  // const { data: profilesData, error: profilesError } = await supabase
+  //   .from('profiles')
+  //   .select('*')
+  //   .eq('id', userData?.user?.id || '');
+  // if (profilesError || !profilesData || profilesData.length === 0) {
+  //   console.log('????????????????');
+  // } else {
+  //   redirect('/myclub');
+  //   return null;
+  // }
   // if (data.user) {
   //   redirect('/myclub');
   //   return null;

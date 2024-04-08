@@ -8,14 +8,14 @@ import HomeTab from '@/components/myclubinfo2/HomeTab';
 import Board from '@/components/myclubinfo/Board';
 import { Tables } from '@/lib/types/supabase';
 import SentenceStorage from '@/components/myclubinfo2/SentenceStorage';
-import NonMyClub from '@/components/myclubinfo/NonMyClub';
+import NonMyClub from '@/components/myclubinfo2/NonMyClub';
 type Clubs = Tables<'clubs'>;
 const MyClubInfo = () => {
   const [loading, setLoading] = useState(true);
   const [clubInfo, setClubInfo] = useState<Clubs[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState('home');
-  const [selectedClubId, setSelectedClubId] = useState<string | null>(null);
+  const [selectedClubId, setSelectedClubId] = useState<string>('');
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -62,7 +62,7 @@ const MyClubInfo = () => {
       case 'home':
         return <HomeTab club={selectedClub} />;
       case 'sentenceStorage':
-        return <SentenceStorage club={selectedClub} />;
+        return <SentenceStorage clubId={selectedClubId} userId={userId} />;
       case 'board':
         return <Board club={selectedClub} />;
       default:

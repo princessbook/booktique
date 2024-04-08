@@ -17,6 +17,7 @@ const MemberList = ({ clubMembers, id }: MemberListProps) => {
     []
   );
   console.log('clubMembers', clubMembers);
+  console.log('profiles', profiles);
 
   useEffect(() => {
     const fetchProfiles = async () => {
@@ -72,35 +73,37 @@ const MemberList = ({ clubMembers, id }: MemberListProps) => {
       <div className='mt-[32px] mb-[16px] ml-[16px] font-bold text-[16px] leading-[22px]'>
         함께 책 읽기
       </div>
-      <div className='flex flex-wrap ml-[16px] gap-[8px] justify-start'>
+      <div className='flex flex-wrap ml-[16px] gap-[10px] justify-start'>
         {profiles?.map((profile, index) => (
           <div
             key={index}
-            className='flex flex-col bg-[#d9d9d9] rounded-[10px]'>
-            {profile?.photo_URL && (
-              <figure className='w-[109px] h-[150px] mt-[15px] relative'>
-                <div className='relative'>
-                  <img
-                    src={profile.photo_URL}
-                    alt='프로필 이미지'
-                    className='mx-auto rounded-full object-cover w-[56px] h-[56px]'
-                  />
-                  {clubMembers[index]?.role === 'admin' && (
-                    <img
-                      src='/badge.png'
-                      alt='admin'
-                      className='absolute w-[16px] h-[16px] right-[24px] bottom-0'
-                    />
-                  )}
-                </div>
-                <p className='text-center mt-[4px] font-bold text-xs leading-4'>
-                  {profile?.display_name}
-                </p>
-                <div className='text-center mt-2 font-bold text-lg leading-6 text-subblue'>
-                  {activitiesData[index]?.progress}%
-                </div>
-              </figure>
+            className='flex flex-col bg-[#d9d9d9] rounded-[10px] w-[108px] h-[146px] '>
+            {profile?.photo_URL ? (
+              <img
+                src={profile.photo_URL}
+                alt='프로필 이미지'
+                className='mx-auto rounded-full object-cover w-[56px] h-[56px] mt-[11px] '
+              />
+            ) : (
+              <img
+                src='/default_profile_image.png' // 디폴트 이미지 경로로 수정하세요.
+                alt='디폴트 프로필 이미지'
+                className='mx-auto rounded-full object-cover w-[56px] h-[56px] mt-[11px]'
+              />
             )}
+            {clubMembers[index]?.role === 'admin' && (
+              <img
+                src='/badge.png'
+                alt='admin'
+                className='absolute w-[16px] h-[16px] right-[24px] bottom-0'
+              />
+            )}
+            <p className='text-center mt-[4px] font-bold text-xs leading-4 h-[36px]'>
+              {profile?.display_name}
+            </p>
+            <div className='text-center mt-2 font-bold text-lg leading-6 text-subblue'>
+              {activitiesData[index]?.progress}%
+            </div>
           </div>
         ))}
       </div>
@@ -110,3 +113,5 @@ const MemberList = ({ clubMembers, id }: MemberListProps) => {
 };
 
 export default MemberList;
+/* img_bookContainer */
+/* img_bookContainer */

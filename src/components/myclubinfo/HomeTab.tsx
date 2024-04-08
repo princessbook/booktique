@@ -4,6 +4,13 @@ import ClubBook from '@/components/myclubinfo/ClubBook';
 import { createClient } from '@/utils/supabase/server';
 import { getBookClubMembers } from '@/utils/userAPIs/authAPI';
 import { CLUB_ACTIVITIES_TABLE } from '@/common/constants/tableNames';
+type MembersType = {
+  club_id: string;
+  id: string;
+  role: 'admin' | 'member' | null;
+  user_id: string;
+  progress?: number | null; // progress 필드 추가
+};
 const HomeTab = async (props: { params: { id: string } }) => {
   //id는 클럽아이디임
   const id = props.params.id;

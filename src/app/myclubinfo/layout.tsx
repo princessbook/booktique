@@ -10,11 +10,11 @@ import { useTabStore } from '@/store/zustandStore';
 type Clubs = Tables<'clubs'>;
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const { selectedTab, setSelectedTab } = useTabStore();
+  //   const { selectedTab, setSelectedTab } = useTabStore();
   const [clubInfo, setClubInfo] = useState<Clubs[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedClubId, setSelectedClubId] = useState<string | null>(null);
-  //   const [selectedTab, setSelectedTab] = useState('home');
+  const [selectedTab, setSelectedTab] = useState('home');
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,21 +37,21 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     fetchData();
   }, []);
   useEffect(() => {
-    // Pathname에 따라 selectedTab을 설정합니다.
-    const { pathname } = window.location;
-    if (pathname.includes('sentencestorage')) {
-      setSelectedTab('sentencestorage');
-    } else if (pathname.includes('board')) {
-      setSelectedTab('board');
-    } else {
-      setSelectedTab('home');
+    if (typeof window !== 'undefined') {
+      const { pathname } = window.location;
+      if (pathname.includes('sentencestorage')) {
+        setSelectedTab('sentencestorage');
+      } else if (pathname.includes('board')) {
+        setSelectedTab('board');
+      } else {
+        setSelectedTab('home');
+      }
     }
-  }, [window.location.pathname]);
+  }, []);
 
   const handleClubChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedClubId(event.target.value);
   };
-
   const handleTabChange = (tab: string) => {
     setSelectedTab(tab);
   };

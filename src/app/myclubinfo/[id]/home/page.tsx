@@ -3,13 +3,15 @@ import Members from '@/components/myclubinfo/Members';
 import ClubBook from '@/components/myclubinfo/ClubBook';
 import { Tables } from '@/lib/types/supabase';
 import { createClient } from '@/utils/supabase/server';
-import { getBookClubMembers } from '@/utils/userAPIs/authAPI';
 const HomeTab = async (props: { params: { id: string } }) => {
   //id는 클럽아이디임
   const id = props.params.id;
   const supabase = createClient();
+  const { data: clubMembers } = await supabase
+    .from('members')
+    .select('*')
+    .eq('club_id', id);
 
-  const clubMembers = await getBookClubMembers(id);
   const { data: clubinfo, error } = await supabase
     .from('clubs')
     .select('*')

@@ -1,55 +1,28 @@
-'use client';
 import React from 'react';
 import { Tables } from '@/lib/types/supabase';
-import { useState } from 'react';
+
 type Sentences = Tables<'sentences'>;
-import { getMySentences } from '@/utils/userAPIs/authAPI';
-import { useEffect } from 'react';
 
-const MAX_CONTENT_LENGTH = 100;
+import { createClient } from '@/utils/supabase/server';
 
-const MySentencesStore = ({ userId }: { userId: string | null }) => {
-  const [showFullContent, setShowFullContent] = useState<boolean>(false);
-  const [userSentences, setUserSentences] = useState<Sentences[]>([]);
-  useEffect(() => {
-    const fetchSentences = async () => {
-      if (userId) {
-        const sentences = await getMySentences(userId);
-        setUserSentences(sentences); // 가져온 문자를 상태에 저장한다.
-      }
-    };
-    fetchSentences();
-  }, [userId]);
-  const toggleContent = () => {
-    setShowFullContent(!showFullContent);
-  };
+const MySentencesStore = async ({ userId }: { userId: string }) => {
+  const supabase = createClient();
+  const { data: userSentences, error } = await supabase
+    .from('sentences')
+    .select('*')
+    .eq('user_id', userId);
+
   return (
     <div>
       <h2>내가 작성한 문장</h2>
       <ul>
-        {userSentences.map((sentence) => (
+        {userSentences?.map((sentence) => (
           <li key={sentence.id} className='border'>
             {sentence.sentence_content && ( // sentence_content가 null이 아닌 경우에만 표시
-              <>
-                {showFullContent ? (
-                  <>
-                    {sentence.sentence_content}
-                    <p className='text-xs'>{sentence.created_at}</p>
-                  </>
-                ) : (
-                  <>
-                    {sentence.sentence_content.length > MAX_CONTENT_LENGTH
-                      ? `${sentence.sentence_content.slice(
-                          0,
-                          MAX_CONTENT_LENGTH
-                        )}...`
-                      : sentence.sentence_content}
-                    <button onClick={toggleContent} className='border'>
-                      {showFullContent ? '간략히 보기' : '더 보기'}
-                    </button>
-                  </>
-                )}
-              </>
+              <div>
+                {sentence.sentence_content}
+                <p className='text-xs'>{sentence.created_at}</p>
+              </div>
             )}
           </li>
         ))}

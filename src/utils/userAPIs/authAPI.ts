@@ -5,7 +5,13 @@ type Clubs = Tables<'clubs'>;
 type Sentences = Tables<'sentences'>;
 type Sentence_Comments = Tables<'sentence_comments'>;
 type Member = Tables<'members'>;
-
+type MembersType = {
+  club_id: string;
+  id: string;
+  role: 'admin' | 'member' | null;
+  user_id: string;
+  progress?: number | null; // progress 필드 추가
+};
 export const getUserId = async (): Promise<string | null> => {
   try {
     const supabase = createClient();
@@ -162,7 +168,9 @@ export const getClubActivityProgress = async (
   }
 };
 
-export const getBookClubMembers = async (clubId: string): Promise<Member[]> => {
+export const getBookClubMembers = async (
+  clubId: string
+): Promise<MembersType[]> => {
   try {
     const supabase = createClient();
     const { data, error } = await supabase

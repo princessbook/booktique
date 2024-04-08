@@ -47,7 +47,9 @@ const Members = async ({ member }: { member: Tables<'members'> }) => {
               {member.role === 'admin' ? '방장' : '일반멤버'}
             </p>
             <p className='text-subblue font-bold text-center overflow-hidden whitespace-nowrap overflow-ellipsis'>
-              {activity?.progress !== null ? `${activity?.progress}%` : '0%'}
+              {activity?.progress !== undefined
+                ? `${activity?.progress}%`
+                : '0%'}
             </p>
           </div>
         </div>

@@ -15,9 +15,6 @@ const MyClubInfo = () => {
   //       router.replace(`/myclub/${clubId}/home`);
   //     }
   //   }, []);
-
-  // 나머지 컴포넌트 코드
-  // …
 };
 
 export default MyClubInfo;

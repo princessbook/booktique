@@ -3,12 +3,21 @@ import Members from '@/components/myclubinfo/Members';
 import ClubBook from '@/components/myclubinfo/ClubBook';
 import { createClient } from '@/utils/supabase/server';
 import { getBookClubMembers } from '@/utils/userAPIs/authAPI';
+import { CLUB_ACTIVITIES_TABLE } from '@/common/constants/tableNames';
 const HomeTab = async (props: { params: { id: string } }) => {
   //id는 클럽아이디임
   const id = props.params.id;
   const supabase = createClient();
 
-  const clubMembers = await getBookClubMembers(id);
+  let clubMembers = await getBookClubMembers(id);
+  clubMembers = await Promise.all(
+    clubMembers.map(async (member) => {
+      const progress = await getUserProgress(member.user_id, id);
+      return { ...member, progress };
+    })
+  );
+  clubMembers.sort((a, b) => (b.progress || 0) - (a.progress || 0)); // 내림차순 정렬
+
   const { data: clubinfo, error } = await supabase
     .from('clubs')
     .select('*')
@@ -17,6 +26,25 @@ const HomeTab = async (props: { params: { id: string } }) => {
   if (error) {
     throw error;
   }
+  const getUserProgress = async (userId: string, clubId: string) => {
+    try {
+      const supabase = createClient();
+      const { data: activity, error: activityError } = await supabase
+        .from(CLUB_ACTIVITIES_TABLE)
+        .select('progress')
+        .eq('club_id', clubId)
+        .eq('user_id', userId)
+        .order('progress', { ascending: false });
+
+      if (activityError) {
+        throw activityError;
+      }
+      return activity[0]?.progress || 0; // progress 값이 없을 경우 0 반환
+    } catch (error) {
+      console.error('Error fetching user progress:', error);
+      return 0;
+    }
+  };
   const formatDate = (date: Date): string => {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');

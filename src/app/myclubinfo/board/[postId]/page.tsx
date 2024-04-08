@@ -1,7 +1,7 @@
-import React from 'react';
+const page = async ({ params }: { params: { postId: string } }) => {
+  const { postId } = params;
 
-const page = () => {
-  return <div>page</div>;
+  return <div>{postId}</div>;
 };
 
 export default page;

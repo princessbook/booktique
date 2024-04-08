@@ -10,7 +10,7 @@ type MembersType = {
   club_id: string;
   id: string;
   role: 'admin' | 'member' | null;
-  user_id: string;
+  user_id: string | null;
   progress?: number | null; // progress 필드 추가
 };
 const Members = ({ member, index }: { member: MembersType; index: number }) => {

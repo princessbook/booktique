@@ -10,7 +10,7 @@ type MembersType = {
   club_id: string;
   id: string;
   role: 'admin' | 'member' | null;
-  user_id: string;
+  user_id: string | null;
   progress?: number | null; // progress 필드 추가
 };
 
@@ -21,7 +21,6 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
     const fetchClubMembers = async () => {
       if (club?.id) {
         let clubMem = await getBookClubMembers(club.id);
-
         // 각 멤버의 progress 값을 가져와 추가
         clubMem = await Promise.all(
           clubMem.map(async (member) => {
@@ -41,7 +40,8 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
     fetchClubMembers();
   }, [club]);
 
-  const getUserProgress = async (userId: string, clubId: string) => {
+  const getUserProgress = async (userId: string | null, clubId: string) => {
+    if (!userId) return 0;
     try {
       const supabase = createClient();
       const { data: activity, error: activityError } = await supabase

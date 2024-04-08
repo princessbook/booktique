@@ -9,7 +9,7 @@ const LogoutButton = () => {
   };
   return (
     <button
-      className='w-full border rounded-md text-gray-400'
+      className='mt-6 w-full p-4 border text-gray-400'
       onClick={handleSignout}>
       로그아웃
     </button>

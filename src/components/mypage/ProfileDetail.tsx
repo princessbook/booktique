@@ -47,7 +47,15 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
       setIsEdit(false);
     }
   });
-
+  const handleEditProfile = () => {
+    setDisplayName(userProfile?.display_name ?? '');
+    // setInterests(userProfile?.interests ?? '');
+    // setIntroduction(userProfile?.introduction ?? '');
+    // setMostFavoriteBook(userProfile?.most_favorite_book ?? '');
+    setPhotoUrl(userProfile?.photo_URL ?? '');
+    setPreviewImg(null);
+    setIsEdit(true);
+  };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files?.[0];
@@ -81,21 +89,6 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
         // console.log(photoUrl);
       }
     }
-    // const formData = new FormData();
-    // if (photoUrl) {
-    //   formData.append('photo_URL', photoUrl);
-    // }
-
-    const formData = new FormData();
-    if (photoUrl) {
-      formData.append('photo_URL', photoUrl);
-    }
-    formData.append('id', userProfile?.id || '');
-    formData.append('display_name', displayName);
-    formData.append('interests', interests);
-    formData.append('introduction', introduction);
-    formData.append('most_favorite_book', mostFavoriteBook);
-    mutateToUpdateProfile(formData);
   };
   return (
     <div className='flex flex-col w-full bg-[#F6F7F9] rounded-md p-2'>
@@ -200,7 +193,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
           <p className='mb-2'>내 최애 책: {userProfile?.most_favorite_book}</p> */}
             <button
               className='w-full text-[#3F3E4E]'
-              onClick={() => setIsEdit(true)}>
+              onClick={handleEditProfile}>
               프로필 수정
             </button>
           </div>

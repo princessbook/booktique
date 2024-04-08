@@ -6,11 +6,9 @@ type QuizAnswerProps = {
   handleDeleteAnswer: (id: string) => void;
   index: number;
 };
-const QuizAnswer = ({
+const QuizShortAnswer = ({
   answer,
-  index,
-  handleAnswerChange,
-  handleDeleteAnswer
+  handleAnswerChange
 }: PropsWithChildren<QuizAnswerProps>) => {
   const [answerInput, setAnswerInput] = useState(answer.value);
   const [isChecked, setIsChecked] = useState(answer.isCorrect);
@@ -26,22 +24,14 @@ const QuizAnswer = ({
 
   return (
     <div>
-      <span>{index + 1}번.</span>
-      <label>보기</label>
-      <input className='border' value={answerInput} onChange={handleChange} />
       <input
-        type='checkbox'
-        checked={isChecked}
-        onChange={handleCheckboxChange}
+        className='rounded-md w-full p-2'
+        value={answerInput}
+        onChange={handleChange}
+        placeholder='정답을 입력해 주세요'
       />
-      <span
-        onClick={() => {
-          handleDeleteAnswer(answer.id);
-        }}>
-        보기 삭제
-      </span>
     </div>
   );
 };
 
-export default QuizAnswer;
+export default QuizShortAnswer;

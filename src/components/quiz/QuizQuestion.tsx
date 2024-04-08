@@ -1,24 +1,34 @@
 'use client';
 import { useState } from 'react';
 import QuizAnswer from './QuizAnswer';
-import { Quiz } from './page';
-import { v4 as uuidv4 } from 'uuid';
 
+import { v4 as uuidv4 } from 'uuid';
+import QuizShortAnswer from './QuizShortAnswer';
+export type Quiz = {
+  id: string;
+  type: string;
+  question: string;
+  answer: Array<{ id: string; value: string; isCorrect: boolean }>;
+};
 type QuizQuestionProps = {
   index: number;
   quiz: Quiz;
   handleDeleteQuiz: (id: string) => void;
   setQuiz: React.Dispatch<React.SetStateAction<Quiz[]>>;
+  isMultiple: boolean;
 };
 const QuizQuestion = ({
   quiz,
-  handleDeleteQuiz,
+  // handleDeleteQuiz,
   setQuiz,
-  index
+  index,
+  isMultiple
 }: QuizQuestionProps) => {
   const [questionInput, setQuestionInput] = useState('');
 
-  const handleQuestionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQuestionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setQuestionInput(event.target.value);
     const updatedQuiz = { ...quiz, question: event.target.value };
     setQuiz((prevQuizes) =>
@@ -45,25 +55,22 @@ const QuizQuestion = ({
   };
 
   const handleAddAnswer = () => {
-    // 새로운 보기 생성
+    if (!isMultiple) return;
 
-    if (quiz.answer.length === 5) {
-      //alert('최대 5개의 보기를 추가할 수 없습니다.');
+    if (quiz.answer.length === 4) {
       return;
     }
     const newAnswer = {
-      id: uuidv4(), // 기존 보기의 마지막 ID에 +1
-      value: '', // 보기의 내용은 비워둠
-      isCorrect: false // 보기의 정답 여부는 기본적으로 false로 설정
+      id: uuidv4(),
+      value: '',
+      isCorrect: false
     };
 
-    // 기존 퀴즈에 새로운 보기를 추가하여 업데이트
     const updatedQuiz = {
       ...quiz,
       answer: [...quiz.answer, newAnswer]
     };
 
-    // 업데이트된 퀴즈를 상태에 설정
     setQuiz((prevQuizes) =>
       prevQuizes.map((prevQuiz) =>
         prevQuiz.id === quiz.id ? updatedQuiz : prevQuiz
@@ -81,35 +88,55 @@ const QuizQuestion = ({
     );
   };
   return (
-    <section className='border border-black mb-3'>
-      <p
+    <section>
+      {/* <p
         onClick={() => {
           handleDeleteQuiz(quiz.id);
         }}
         className='text-right'>
         퀴즈삭제하기
-      </p>
+      </p> */}
       <div>
-        <p>{index + 1}번</p>
-        문제:
-        <input
-          className='border'
+        {/* <p>{index + 1}번</p> */}
+        {/* 문제: */}
+        <textarea
+          placeholder='문제를 입력해 주세요'
+          className='mb-5 w-full resize-none'
           value={questionInput}
           onChange={handleQuestionChange}
         />
+
         {quiz.answer.map((answer, idx) => {
-          return (
-            <QuizAnswer
-              index={idx}
-              answer={answer}
-              key={answer.id}
-              handleAnswerChange={handleAnswerChange}
-              handleDeleteAnswer={handleDeleteAnswer}
-            />
-          );
+          if (isMultiple) {
+            return (
+              <QuizAnswer
+                index={idx}
+                answer={answer}
+                key={answer.id}
+                handleAnswerChange={handleAnswerChange}
+                handleDeleteAnswer={handleDeleteAnswer}
+              />
+            );
+          } else {
+            return (
+              <QuizShortAnswer
+                index={idx}
+                answer={answer}
+                key={answer.id}
+                handleAnswerChange={handleAnswerChange}
+                handleDeleteAnswer={handleDeleteAnswer}
+              />
+            );
+          }
         })}
       </div>
-      <p onClick={handleAddAnswer}>보기추가</p>
+      {isMultiple && (
+        <p
+          className='w-full border-solid border-2 border-[#B3C1CC] text-[#8A9DB3] p-2 rounded-full text-center'
+          onClick={handleAddAnswer}>
+          보기추가
+        </p>
+      )}
     </section>
   );
 };

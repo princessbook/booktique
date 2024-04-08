@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import MemberList from './MemberList';
 import { Tables } from '@/lib/types/supabase';
+import QuizContainer from '@/components/quiz/QuizContainer';
 
 const BookInfo = ({
   clubData,
@@ -51,7 +52,7 @@ const BookInfo = ({
           <MemberList id={id} clubMembers={clubMembers} />
         </>
       )}
-      {activeTab === '퀴즈' && <div>퀴즈 내용 </div>}
+      {activeTab === '퀴즈' && <QuizContainer clubId={id} />}
     </>
   );
 };

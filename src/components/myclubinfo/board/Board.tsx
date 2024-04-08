@@ -1,4 +1,3 @@
-import PostCard from './PostCard';
 import { Tables } from '@/lib/types/supabase';
 import { createClient } from '@/utils/supabase/server';
 import Image from 'next/image';
@@ -22,13 +21,6 @@ const Board = async ({ clubId }: { clubId: string | null }) => {
     <div>
       {posts.map((post) => (
         <Link href={`/myclubinfo/board/${post.id}`}>
-          {/* <PostCard
-            key={post.id}
-            post={post}
-            id={id}
-            display_name={post.profile?.display_name}
-            photo_URL={post.profile?.photo_URL}
-          /> */}
           <div key={post.id} className='border'>
             <p>{post.title}</p>
             <p>{post.content}</p>
@@ -52,32 +44,3 @@ const Board = async ({ clubId }: { clubId: string | null }) => {
 };
 
 export default Board;
-
-// { clubId }: { clubId: string | null }
-
-// async function fetchData(id: string) {
-//   const supabaseClient = createClient();
-//   const query = supabaseClient
-//     .from('posts')
-//     .select(
-//       `
-//     id,
-//     title,
-//     content,
-//     profiles: user_id (id, photo_URL, display_name)
-//   `
-//     )
-//     .eq('club_id', id);
-
-//   type PostsWithProfiles = QueryData<typeof query>;
-
-//   const { data, error } = await query;
-
-//   if (error) {
-//     console.error(error);
-//     return [];
-//   }
-
-//   const postsWithProfiles: PostsWithProfiles = data;
-//   return postsWithProfiles;
-// }

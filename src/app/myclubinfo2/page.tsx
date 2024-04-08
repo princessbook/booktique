@@ -69,6 +69,8 @@ const MyClubInfo = () => {
         );
       case 'board':
         return <Board club={selectedClub} />;
+      case 'quiz':
+      // return <Quiz club={selectedClub} />;
       default:
         return null;
     }
@@ -98,25 +100,32 @@ const MyClubInfo = () => {
         {/* 탭 버튼들 */}
         <div className='flex flex-row justify-between w-full border-b-2 border-gray-200 font-bold'>
           <button
-            className={`flex-1 px-4 py-2 focus:outline-none ${
+            className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'home' ? ' border-b-2 border-black' : ''
             }`}
             onClick={() => handleTabChange('home')}>
             홈
           </button>
           <button
-            className={`flex-1 px-4 py-2 focus:outline-none ${
+            className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'sentenceStorage' ? 'border-b-2 border-black' : ''
             }`}
             onClick={() => handleTabChange('sentenceStorage')}>
             문장 저장소
           </button>
           <button
-            className={`flex-1 px-4 py-2 focus:outline-none ${
+            className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'board' ? 'border-b-2 border-black' : ''
             }`}
             onClick={() => handleTabChange('board')}>
             자유 게시판
+          </button>
+          <button
+            className={`flex-1 px-2 py-2 focus:outline-none ${
+              selectedTab === 'quiz' ? 'border-b-2 border-black' : ''
+            }`}
+            onClick={() => handleTabChange('quiz')}>
+            퀴즈
           </button>
         </div>
       </div>

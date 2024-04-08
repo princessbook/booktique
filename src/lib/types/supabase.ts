@@ -22,7 +22,7 @@ export type Database = {
           id?: string;
           progress?: number | null;
           time?: number | null;
-          user_id?: string;
+          user_id: string;
         };
         Update: {
           club_id?: string | null;
@@ -266,6 +266,7 @@ export type Database = {
       quiz: {
         Row: {
           club_id: string | null;
+          created_at: string | null;
           creator_id: string;
           id: string;
           schema: Json | null;
@@ -273,6 +274,7 @@ export type Database = {
         };
         Insert: {
           club_id?: string | null;
+          created_at?: string | null;
           creator_id?: string;
           id?: string;
           schema?: Json | null;
@@ -280,6 +282,7 @@ export type Database = {
         };
         Update: {
           club_id?: string | null;
+          created_at?: string | null;
           creator_id?: string;
           id?: string;
           schema?: Json | null;

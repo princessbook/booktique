@@ -60,7 +60,7 @@ const LoginForm = () => {
           inputRef={emailInputRef}
           name='email'
           type='email'
-          placeholder='e-mail'
+          placeholder='이메일을 입력해주세요'
           value={email}
           onChange={handleEmailChange}
         />
@@ -68,7 +68,7 @@ const LoginForm = () => {
           name='password'
           inputRef={passwordInputRef}
           type='password'
-          placeholder='password'
+          placeholder='비밀번호를 입력해주세요'
           value={password}
           onChange={handlePasswordChange}
         />

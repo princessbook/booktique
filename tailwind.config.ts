@@ -23,6 +23,9 @@ const config: Config = {
         bookyellow: '#E9FF8F',
         bookwhite: '#F8F8FD',
         lime: '#CFFF45'
+      },
+      fontFamily: {
+        wanted: ['WantedSans', 'sans-serif']
       }
     }
     // extend안으로

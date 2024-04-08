@@ -189,7 +189,7 @@ export type Database = {
           content: string | null;
           created_at: string;
           id: string;
-          title: number | null;
+          title: string | null;
           user_id: string | null;
         };
         Insert: {
@@ -197,7 +197,7 @@ export type Database = {
           content?: string | null;
           created_at?: string;
           id?: string;
-          title?: number | null;
+          title?: string | null;
           user_id?: string | null;
         };
         Update: {
@@ -205,7 +205,7 @@ export type Database = {
           content?: string | null;
           created_at?: string;
           id?: string;
-          title?: number | null;
+          title?: string | null;
           user_id?: string | null;
         };
         Relationships: [
@@ -340,6 +340,7 @@ export type Database = {
           created_at: string;
           id: string;
           sentence_content: string | null;
+          sentence_page: number | null;
           user_id: string | null;
         };
         Insert: {
@@ -347,6 +348,7 @@ export type Database = {
           created_at?: string;
           id?: string;
           sentence_content?: string | null;
+          sentence_page?: number | null;
           user_id?: string | null;
         };
         Update: {
@@ -354,6 +356,7 @@ export type Database = {
           created_at?: string;
           id?: string;
           sentence_content?: string | null;
+          sentence_page?: number | null;
           user_id?: string | null;
         };
         Relationships: [

@@ -7,63 +7,8 @@ import { generateUniqueNickname } from '@/utils/nicknameGenerator';
 const MyNicknameForm = () => {
   const [nickname, setNickname] = useState<string | null>(null);
   const [newNickname, setNewNickname] = useState<string>('');
-  const [isRegistered, setIsRegistered] = useState(false);
   const [charCount, setCharCount] = useState(0);
   const maxChar = 12; // 최대 글자 수
-
-  useEffect(() => {
-    const getUniqueNickname = async () => {
-      const uniqueNickname = await generateUniqueNickname();
-      setNickname(uniqueNickname);
-    };
-    getUniqueNickname();
-  }, []);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const supabase = createClient();
-        const { data: userData, error } = await supabase.auth.getUser();
-        if (error) {
-          throw error;
-        }
-
-        // 사용자의 프로필 정보 가져오기
-        const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', userData?.user.id || '');
-
-        if (profileError) {
-          throw profileError;
-        }
-
-        if (profileData && profileData.length > 0) {
-          // 프로필 정보가 존재하는 경우에는 닉네임 설정 및 등록 상태 설정
-          setNickname(profileData[0].display_name);
-          console.log('profileData', profileData);
-          console.log('profileData.length', profileData.length);
-
-          // setIsRegistered(true);
-        } else {
-          const email = userData.user.email || '';
-          const uniqueNickname = await generateUniqueNickname();
-          setNickname(uniqueNickname);
-          await supabase.from('profiles').insert([
-            {
-              id: userData.user.id,
-              email,
-              display_name: uniqueNickname
-            }
-          ]);
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputText = e.target.value;
@@ -72,68 +17,51 @@ const MyNicknameForm = () => {
       // 현재 글자 수 업데이트
       setCharCount(inputText.length);
       // 입력된 닉네임 업데이트
-      setNewNickname(inputText);
+      setNickname(inputText);
     }
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const supabase = createClient();
+      const {
+        data: { user }
+      } = await supabase.auth.getUser();
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user?.id || '');
+        if (error) {
+          throw error;
+        }
+        if (data && data.length > 0) {
+          setNickname(data[0].display_name);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUserData();
+  }, []);
   const handleUpdateNickname = async () => {
+    const supabase = createClient();
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
     try {
-      const supabase = createClient();
-      const { data: userData } = await supabase.auth.getUser();
-
-      // 프로필 업데이트
-      const { data: updateData, error } = await supabase
+      const { data, error } = await supabase
         .from('profiles')
-        .upsert({ display_name: newNickname })
-        .eq('id', userData?.user?.id || '');
-
+        .update({ display_name: nickname })
+        .eq('id', user?.id || '');
       if (error) {
         throw error;
       }
-
-      // 닉네임 업데이트 및 폼 초기화
-      setNickname(newNickname);
+      setNickname(nickname);
       setNewNickname('');
+      window.location.href = '/register/avatar';
     } catch (error) {
-      console.error('Error updating nickname:', error);
-    }
-  };
-
-  const handleGoogleLoginInsert = async () => {
-    try {
-      const supabase = createClient();
-      const { data: userData } = await supabase.auth.getUser();
-
-      // 프로필 삽입
-      const { data, error } = await supabase.from('profiles').insert({
-        display_name: newNickname,
-        id: userData?.user?.id,
-        email: userData?.user?.email
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      // 회원가입 단계로 이동
-      redirect('/register/avatar');
-    } catch (error) {
-      console.error('Error inserting profile:', error);
-    }
-  };
-
-  const handleButtonClick = async () => {
-    // 새로운 닉네임이 입력되었는지 확인
-    if (newNickname !== '') {
-      const supabase = createClient();
-      const { data: userData } = await supabase.auth.getUser();
-
-      // 사용자가 이메일을 통해 가입한 경우 닉네임 업데이트
-      if (userData?.user?.app_metadata?.provider === 'email') {
-        handleUpdateNickname();
-      } else {
-        // 구글 등의 다른 인증 방식으로 가입한 경우 프로필 삽입
-        handleGoogleLoginInsert();
-      }
+      console.error(error);
     }
   };
   return (
@@ -156,7 +84,7 @@ const MyNicknameForm = () => {
           className='py-[12px] pl-2 border-b-black border-b-2 text-black w-full'
           type='text'
           placeholder='닉네임'
-          value={newNickname}
+          value={nickname || ''}
           onChange={handleNicknameChange}
         />
         <div className='text-[12px] absolute right-10 top-1/2 translate-y-[-50%]'>{`${charCount}/${maxChar}`}</div>
@@ -166,7 +94,7 @@ const MyNicknameForm = () => {
       </span>
       <button
         className='w-full bg-mainblue h-[48px] rounded-[999px] text-[#fff]'
-        onClick={handleButtonClick}>
+        onClick={handleUpdateNickname}>
         다음
       </button>
     </div>

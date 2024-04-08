@@ -11,10 +11,12 @@ type Sentences = Tables<'sentences'>;
 
 const SentenceStorage = ({
   clubId,
-  userId
+  userId,
+  bookpage
 }: {
   clubId: string;
   userId: string | null;
+  bookpage: number | null;
 }) => {
   const router = useRouter();
   const supabase = createClient();
@@ -23,7 +25,6 @@ const SentenceStorage = ({
     [sentenceId: string]: number;
   }>({});
   const [isModal, setIsModal] = useState(false);
-
   useEffect(() => {
     fetchData();
   }, [clubId]);
@@ -82,14 +83,14 @@ const SentenceStorage = ({
         ))}
       </ul>
 
-      <div className='fixed bottom-32 right-8'>
-        <button
-          onClick={handleSentenceSaveBtn}
-          className='bg-mainblue py-[15px] px-9 text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer'>
-          문장 공유하기
-        </button>
-      </div>
+      <button
+        onClick={handleSentenceSaveBtn}
+        className='bg-mainblue py-[15px] px-[20px] absolute bottom-24 right-4 text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer'>
+        문장 공유하기
+      </button>
+
       <SentenceModal
+        bookpage={bookpage}
         isModal={isModal}
         onClose={handleCloseModal}
         clubId={clubId}

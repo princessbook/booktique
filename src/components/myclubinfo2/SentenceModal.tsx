@@ -6,12 +6,14 @@ const SentenceModal = ({
   isModal,
   onClose,
   clubId,
-  userId
+  userId,
+  bookpage
 }: {
   isModal: boolean;
   clubId: string;
   onClose: () => void;
   userId: string | null;
+  bookpage: number | null;
 }) => {
   const supabase = createClient();
   const [content, setContent] = useState('');
@@ -23,14 +25,20 @@ const SentenceModal = ({
     setContent(event.target.value);
   };
 
+  const handlePageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    // 입력된 값이 숫자인지 확인
+    if (/^\d+$/.test(inputValue)) {
+      // 숫자인 경우 페이지 상태 업데이트
+      setPage(parseInt(inputValue));
+    } else {
+      // 숫자가 아닌 경우 0으로 설정
+      setPage(0);
+    }
+  };
+
   const characterCount = content.length;
   const handleSave = async () => {
-    console.log('-------------------');
-    console.log(content);
-    console.log(page);
-    console.log(userId);
-    console.log(clubId);
-    console.log('-------------------');
     // 400자 이상인지 확인
     if (characterCount > 400) {
       alert('400자 이상 입력할 수 없습니다.');
@@ -40,6 +48,11 @@ const SentenceModal = ({
     if (page <= 0 || isNaN(page)) {
       // 페이지가 0보다 작거나 NaN인 경우에 대한 유효성 검사 추가
       alert('유효한 페이지 번호를 입력해주세요.');
+      return;
+    }
+    // 페이지 번호가 책 페이지 수를 초과하는지 확인
+    if (bookpage !== null && page > bookpage) {
+      alert('현재 클럽의 책 페이지 수를 초과하여 저장할 수 없습니다.');
       return;
     }
     // Supabase에 데이터 삽입
@@ -98,8 +111,8 @@ const SentenceModal = ({
           <input
             className='w-full bg-[#F6F7F9] px-4 py-[10px] text-[14px]'
             placeholder='페이지를 입력해주세요(숫자만)'
-            value={page.toString()} // 숫자를 문자열로 변환하여 출력
-            onChange={(e) => setPage(parseInt(e.target.value))} // 입력된 문자열을 숫자로 변환하여 저장
+            value={page === 0 ? '' : page.toString()} // 숫자를 문자열로 변환하여 출력, 0인 경우 빈 문자열 출력
+            onChange={handlePageChange} // 페이지 입력값 변경 핸들러
           />
           <button
             className='w-full bg-mainblue py-4 rounded-[10px] mt-6'

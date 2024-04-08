@@ -27,7 +27,7 @@ const Members = async ({ member }: { member: Tables<'members'> }) => {
 
   return (
     <div className='mb-4 w-1/4'>
-      <div className='bg-[#EDEEF2] rounded-lg p-2'>
+      <div className='bg-[#EDEEF2] rounded-lg p-2 '>
         <div className='flex flex-col items-center space-y-2'>
           <div className='w-20 h-20 max-w-full max-h-full rounded-full overflow-hidden'>
             <Image

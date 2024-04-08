@@ -12,6 +12,7 @@ import { useState } from 'react';
 import MyBook from '@/components/mypage/MyBook';
 import ProfileDetail from '@/components/mypage/ProfileDetail';
 export const dynamic = 'force-dynamic';
+
 const MyPage = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedOption, setSelectedOption] = useState('MySentencesStore');
@@ -24,6 +25,7 @@ const MyPage = () => {
     queryKey: ['profiles'],
     queryFn: getUserProfile
   });
+
   useEffect(() => {
     const fetchUserId = async () => {
       const id = await getUserId();

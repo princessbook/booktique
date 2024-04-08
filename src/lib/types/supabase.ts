@@ -120,8 +120,7 @@ export type Database = {
           club_id: string;
           id: string;
           role: Database['public']['Enums']['member_role'] | null;
-          // user_id: string | null; // 대연.
-          user_id: string; // 대연.
+          user_id: string | null;
         };
         Insert: {
           club_id: string;
@@ -190,7 +189,7 @@ export type Database = {
           content: string | null;
           created_at: string;
           id: string;
-          title: number | null;
+          title: string | null;
           user_id: string | null;
         };
         Insert: {
@@ -198,7 +197,7 @@ export type Database = {
           content?: string | null;
           created_at?: string;
           id?: string;
-          title?: number | null;
+          title?: string | null;
           user_id?: string | null;
         };
         Update: {
@@ -206,7 +205,7 @@ export type Database = {
           content?: string | null;
           created_at?: string;
           id?: string;
-          title?: number | null;
+          title?: string | null;
           user_id?: string | null;
         };
         Relationships: [
@@ -341,6 +340,7 @@ export type Database = {
           created_at: string;
           id: string;
           sentence_content: string | null;
+          sentence_page: number | null;
           user_id: string | null;
         };
         Insert: {
@@ -348,6 +348,7 @@ export type Database = {
           created_at?: string;
           id?: string;
           sentence_content?: string | null;
+          sentence_page?: number | null;
           user_id?: string | null;
         };
         Update: {
@@ -355,6 +356,7 @@ export type Database = {
           created_at?: string;
           id?: string;
           sentence_content?: string | null;
+          sentence_page?: number | null;
           user_id?: string | null;
         };
         Relationships: [

@@ -1,14 +1,20 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { redirect } from 'next/navigation';
-import { generateUniqueNickname } from '@/utils/nicknameGenerator';
+import closeInput from '../../public/closeInput.svg';
+import Input from '@/common/Input';
+import { useRouter } from 'next/navigation';
+import { getUserId } from '@/utils/userAPIs/authAPI';
 
 const MyNicknameForm = () => {
   const [nickname, setNickname] = useState<string | null>(null);
   const [newNickname, setNewNickname] = useState<string>('');
+  const nicknameInputRef = useRef<HTMLInputElement>(null);
   const [charCount, setCharCount] = useState(0);
   const maxChar = 12; // 최대 글자 수
+  const router = useRouter();
+
+  const [userId, setuserId] = useState<string | null>(null);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputText = e.target.value;
@@ -24,14 +30,13 @@ const MyNicknameForm = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       const supabase = createClient();
-      const {
-        data: { user }
-      } = await supabase.auth.getUser();
       try {
+        const fetchUserId = await getUserId();
+        setuserId(fetchUserId);
         const { data, error } = await supabase
           .from('profiles')
           .select('*')
-          .eq('id', user?.id || '');
+          .eq('id', fetchUserId || '');
         if (error) {
           throw error;
         }
@@ -59,15 +64,16 @@ const MyNicknameForm = () => {
       }
       setNickname(nickname);
       setNewNickname('');
-      window.location.href = '/register/avatar';
+      // window.location.href = '/register/avatar';
+      router.push(`/register/${userId}/avatar`);
     } catch (error) {
       console.error(error);
     }
   };
   return (
-    <div className='px-[12px] h-full '>
+    <div className='mx-[12px] h-full relative'>
       <img
-        className='mt-[114px] mb-5'
+        className='mb-5 pt-[72px]'
         src='/login_logo.png'
         alt='닉네임화면로고'
       />
@@ -79,21 +85,21 @@ const MyNicknameForm = () => {
         프로필을 작성하고 북클럽을 찾아보세요
       </label>
       <div className='relative'>
-        <input
-          id='nickname'
-          className='py-[12px] pl-2 border-b-black border-b-2 text-black w-full'
+        <Input
           type='text'
+          name='nickname'
+          inputRef={nicknameInputRef}
           placeholder='닉네임'
           value={nickname || ''}
           onChange={handleNicknameChange}
         />
-        <div className='text-[12px] absolute right-10 top-1/2 translate-y-[-50%]'>{`${charCount}/${maxChar}`}</div>
+        <div className='text-[12px] absolute right-10 top-1/3 translate-y-[-20%]'>{`${charCount}/${maxChar}`}</div>
       </div>
       <span className='text-[12px] text-red-500'>
         북클럽 활동시 표시되는 이름으로 추후 변경 가능합니다.
       </span>
       <button
-        className='w-full bg-mainblue h-[48px] rounded-[999px] text-[#fff]'
+        className='w-full absolute bottom-[58px] left-0 bg-mainblue h-[48px] rounded-[999px] text-[#fff]'
         onClick={handleUpdateNickname}>
         다음
       </button>

@@ -1,28 +1,25 @@
 'use client';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Input from '@/common/Input';
-import { useInput } from '@/hooks/useInput';
 import { createClient } from '@/utils/supabase/client';
-import { redirect } from 'next/navigation';
 import { generateUniqueNickname } from '@/utils/nicknameGenerator';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import ToastUi from '@/common/ToastUi';
 
 const RegisterForm = () => {
   const [email, setEmail] = useState<string>('');
-  const [, , clearNickname] = useInput();
   const [password, setPassword] = useState<string>('');
   const [passwordError, setPasswordError] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [nickname, setNickname] = useState<string>('');
   const [emailError, setEmailError] = useState('');
-  const supabase = createClient();
-  const [userId, setUserId] = useState<string | null>(null);
-
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const passwordConfirmInputRef = useRef<HTMLInputElement>(null);
+  const [toastMessage, setToastMessage] = useState<string>('');
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handleRegister = async () => {
     try {
@@ -66,10 +63,10 @@ const RegisterForm = () => {
       await supabase
         .from('profiles')
         .insert([{ email, display_name: nickname }]);
-
-      alert('회원가입이 완료되었습니다');
+      setToastMessage('회원가입이 완료되었습니다!');
     } catch (error) {
       console.error(error);
+      setToastMessage('회원가입에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -128,9 +125,20 @@ const RegisterForm = () => {
       setPasswordError('');
     }
   };
+
+  useEffect(() => {
+    // 이메일, 비밀번호, 비밀번호 확인의 유효성 검사를 통해 버튼 활성/비활성 상태를 설정
+    setIsButtonDisabled(
+      !(
+        validateEmail(email) &&
+        validatePassword(password) &&
+        password === passwordConfirm
+      )
+    );
+  }, [email, password, passwordConfirm]);
   return (
     <>
-      <div className='px-[1rem] h-full relative'>
+      <div className='mx-[1rem] h-full relative'>
         <section>
           <div className='font-bold mb-[30px] py-[15px] text-center border-b-[1px]'>
             <h1>회원가입</h1>
@@ -171,9 +179,17 @@ const RegisterForm = () => {
           </div>
           <button
             onClick={handleRegister}
-            className='w-full block text-center py-4 bg-mainblue text-bookyellow font-bold rounded-[10px] mt-40'>
+            disabled={isButtonDisabled} // 버튼의 disabled 속성을 동적으로 설정
+            className={`w-full block text-center py-4 bg-mainblue text-bookyellow font-bold rounded-[10px] mt-40 absolute bottom-14 ${
+              isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''
+            }`}>
             회원가입 하기
           </button>
+          <ToastUi
+            onClose={() => setToastMessage('')}
+            message={toastMessage}
+            isSuccess={!toastMessage.startsWith('회원가입에 실패')}
+          />
         </section>
       </div>
     </>

@@ -29,15 +29,38 @@ const ToastUi: React.FC<Props> = ({ message, onClose, isSuccess }) => {
         isVisible ? 'block' : 'hidden'
       }`}>
       {isSuccess ? (
-        <Image
-          className='ml-4'
-          src={success}
-          alt='fail'
-          width={16}
-          height={16}
-        />
+        <svg
+          width='16'
+          height='16'
+          viewBox='0 0 16 16'
+          fill='none'
+          xmlns='http://www.w3.org/2000/svg'>
+          <circle cx='8' cy='8' r='7' fill='#00DA71' />
+          <path
+            d='M4.5 7.5L7.38414 10.2998L11.5 5.5'
+            stroke='white'
+            stroke-linecap='round'
+          />
+        </svg>
       ) : (
-        <Image className='ml-4' src={fail} alt='fail' width={16} height={16} />
+        <svg
+          width='14'
+          height='14'
+          viewBox='0 0 14 14'
+          fill='none'
+          xmlns='http://www.w3.org/2000/svg'>
+          <circle cx='7' cy='7' r='7' fill='#FF645A' />
+          <path
+            d='M9.75195 4.24707L4.24609 9.75293'
+            stroke='white'
+            stroke-linecap='round'
+          />
+          <path
+            d='M4.24805 4.24707L9.75391 9.75293'
+            stroke='white'
+            stroke-linecap='round'
+          />
+        </svg>
       )}
       <div className='ml-[6px] toast text-white text-[14px]'>{message}</div>
     </div>

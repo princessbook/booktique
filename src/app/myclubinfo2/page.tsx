@@ -5,10 +5,10 @@ import { getUserClubIds } from '@/utils/userAPIs/authAPI';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import HomeTab from '@/components/myclubinfo2/HomeTab';
-import Board from '@/components/myclubinfo/Board';
 import { Tables } from '@/lib/types/supabase';
 import SentenceStorage from '@/components/myclubinfo2/SentenceStorage';
 import NonMyClub from '@/components/myclubinfo2/NonMyClub';
+import Board from '@/components/myclubinfo2/board/Board';
 type Clubs = Tables<'clubs'>;
 const MyClubInfo = () => {
   const [loading, setLoading] = useState(true);
@@ -64,7 +64,7 @@ const MyClubInfo = () => {
       case 'sentenceStorage':
         return <SentenceStorage clubId={selectedClubId} userId={userId} />;
       case 'board':
-        return <Board club={selectedClub} />;
+        return <Board clubId={selectedClubId} />;
       case 'quiz':
       // return <Quiz club={selectedClub} />;
       default:

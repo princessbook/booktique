@@ -3,6 +3,7 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { login, signup } from '@/app/login/action';
 import { createClient } from '@/utils/supabase/client';
 import Input from '@/common/Input';
+import Image from 'next/image';
 
 const LoginForm = () => {
   const [isProfile, setIsProfile] = useState('');
@@ -46,7 +47,7 @@ const LoginForm = () => {
     setPassword(inputPassword);
   };
   return (
-    <div className='flex items-center justify-center'>
+    <div className='flex items-center justify-center px-4'>
       <form className='w-full max-w-md'>
         <div className='mt-[135px]'>
           <img className='mx-auto' src='/login_logo.png' alt='로그인화면로고' />
@@ -57,12 +58,14 @@ const LoginForm = () => {
         </div>
         <Input
           inputRef={emailInputRef}
+          name='email'
           type='email'
           placeholder='e-mail'
           value={email}
           onChange={handleEmailChange}
         />
         <Input
+          name='password'
           inputRef={passwordInputRef}
           type='password'
           placeholder='password'
@@ -70,17 +73,25 @@ const LoginForm = () => {
           onChange={handlePasswordChange}
         />
         <button formAction={login}>Log in</button>
-        <button formAction={signup}>Sign up</button>
+        <Image src='/snsTitle.png' width={344} height={24} alt='snstitle' />
+
+        {/* <button formAction={signup}>Sign up</button> */}
         <div className='flex justify-center my-5'>
-          <img src='/sns.png' alt='sns' />
+          <Image src='/sns.png' width={100} height={50} alt='sns' />
         </div>
         <div className='flex justify-center'>
           <a className='mr-4' onClick={signInWithGoogle}>
-            <img src='/logo_google.png' alt='google' />
+            <Image src='/logo_google.png' width={60} height={60} alt='google' />
           </a>
           <a className='ml-4' onClick={kakaoLogin}>
-            <img src='/login_kakao.png' alt='kakao' />
+            <Image src='/login_kakao.png' width={60} height={60} alt='kakao' />
           </a>
+        </div>
+        <div className='text-[#939393] text-center'>
+          <span>아직 북티크 회원이 아니신가요?</span>
+          <button className='font-bold' formAction={signup}>
+            회원가입
+          </button>
         </div>
       </form>
     </div>

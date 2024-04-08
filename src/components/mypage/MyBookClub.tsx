@@ -1,49 +1,54 @@
-'use client';
 import React, { useEffect, useState } from 'react';
 import { Tables } from '@/lib/types/supabase';
-import { getUserClubIds, getUserId } from '@/utils/userAPIs/authAPI';
 type Clubs = Tables<'clubs'>;
-import { getClubInfo } from '@/utils/userAPIs/authAPI';
-const MyBookClub = ({ userId }: { userId: string | null }) => {
-  const [clubs, setClubs] = useState<Clubs[]>([]);
-  const [visibleClubs, setVisibleClubs] = useState<Clubs[]>([]);
-  const [showMore, setShowMore] = useState(false);
-  useEffect(() => {
-    const fetchMyClubs = async () => {
-      if (userId) {
-        const clubIds = await getUserClubIds(userId);
-        if (clubIds.length > 0) {
-          const clubData = await getClubInfo(clubIds);
-          setClubs(clubData);
-          setVisibleClubs(clubData.slice(0, 3)); // 처음 세 개의 클럽만 표시
-          if (clubData.length > 3) {
-            setShowMore(true); // 클럽이 세 개 이상인 경우 더 보기 버튼 표시
-          }
-        }
-      }
-    };
-    fetchMyClubs();
-  }, [userId]);
-  const handleShowMore = () => {
-    setVisibleClubs(clubs); // 모든 클럽을 표시
-    setShowMore(false); // 더 보기 버튼 숨기기
-  };
+import { createClient } from '@/utils/supabase/server';
+const MyBookClub = async ({ userId }: { userId: string }) => {
+  const supabase = createClient();
+
+  const { data } = await supabase
+    .from('members')
+    .select('club_id')
+    .eq('user_id', userId);
+  const clubIds = data?.map((row: any) => row.club_id) || [];
+  if (clubIds.length === 0) {
+    return [];
+  }
+  const { data: clubData } = await supabase
+    .from('clubs')
+    .select('*')
+    .in('id', clubIds);
+
   return (
-    <div>
-      <h2>내 북클럽</h2>
+    <div className='mt-6'>
+      <div className='flex flex-row mb-4'>
+        <h2 className='font-bold'>내 북클럽</h2>
+        <p className='ml-auto'>더보기</p>
+      </div>
+
       <ul>
-        {visibleClubs.map((club) => (
-          <li key={club.id}>
-            {club.name}
-            {club.archive ? (
-              <button className='ml-2 border-2'>종료됌</button>
-            ) : (
-              <button className='ml-2 border-2'>바로가기</button>
-            )}
+        {clubData?.map((club) => (
+          <li
+            key={club.id}
+            className='bg-[#F6F7F9] rounded-lg p-4 mt-2 flex flex-row items-center'>
+            <div className='flex flex-col'>
+              {club.archive ? (
+                <p className='text-center px-1 border w-12 text-sm text-white bg-subblue rounded-md'>
+                  진행중
+                </p>
+              ) : (
+                <p className='text-center px-1 border w-12 text-sm text-white bg-[#B3C1CC] rounded-md'>
+                  종료
+                </p>
+              )}
+              {club.name}
+            </div>
+
+            <div className='ml-auto'>
+              <button>바로가기</button>
+            </div>
           </li>
         ))}
       </ul>
-      {showMore && <button onClick={handleShowMore}>더 보기</button>}
     </div>
   );
 };

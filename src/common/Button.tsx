@@ -13,9 +13,11 @@ const Button = ({ large, small, selected, text, onClick }: ButtonProps) => {
     <button
       className={`${small && selected ? 'bg-blue-600 ' : 'bg-blue-400'} 
        ${
-         large ? 'w-[343px] bg-bookyellow rounded-lg text-black' : 'text-white'
+         large
+           ? 'w-[343px] bg-bookyellow rounded-lg text-black'
+           : 'text-lime font-bold'
        } 
-      w-[302px] h-[56px] relative left-1/2 transform -translate-x-1/2  rounded-full`}>
+      w-[302px] h-[56px] relative left-1/2 transform -translate-x-1/2  rounded-full mt-6`}>
       {text}
     </button>
   );

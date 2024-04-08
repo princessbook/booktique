@@ -1,22 +1,16 @@
 import React from 'react';
 import Members from '@/components/myclubinfo/Members';
 import ClubBook from '@/components/myclubinfo/ClubBook';
+import { Tables } from '@/lib/types/supabase';
 import { createClient } from '@/utils/supabase/server';
-import { getBookClubMembers } from '@/utils/userAPIs/authAPI';
-import { CLUB_ACTIVITIES_TABLE } from '@/common/constants/tableNames';
 const HomeTab = async (props: { params: { id: string } }) => {
   //id는 클럽아이디임
   const id = props.params.id;
   const supabase = createClient();
-
-  let clubMembers = await getBookClubMembers(id);
-  clubMembers = await Promise.all(
-    clubMembers.map(async (member) => {
-      const progress = await getUserProgress(member.user_id, id);
-      return { ...member, progress };
-    })
-  );
-  clubMembers.sort((a, b) => (b.progress || 0) - (a.progress || 0)); // 내림차순 정렬
+  const { data: clubMembers } = await supabase
+    .from('members')
+    .select('*')
+    .eq('club_id', id);
 
   const { data: clubinfo, error } = await supabase
     .from('clubs')
@@ -26,25 +20,6 @@ const HomeTab = async (props: { params: { id: string } }) => {
   if (error) {
     throw error;
   }
-  const getUserProgress = async (userId: string, clubId: string) => {
-    try {
-      const supabase = createClient();
-      const { data: activity, error: activityError } = await supabase
-        .from(CLUB_ACTIVITIES_TABLE)
-        .select('progress')
-        .eq('club_id', clubId)
-        .eq('user_id', userId)
-        .order('progress', { ascending: false });
-
-      if (activityError) {
-        throw activityError;
-      }
-      return activity[0]?.progress || 0; // progress 값이 없을 경우 0 반환
-    } catch (error) {
-      console.error('Error fetching user progress:', error);
-      return 0;
-    }
-  };
   const formatDate = (date: Date): string => {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -60,11 +35,11 @@ const HomeTab = async (props: { params: { id: string } }) => {
   const formattedEndDate = formatDate(endDate);
   return (
     <div>
-      <div className='p-5'>
-        <p className=' font-medium'>함께 읽고 있는 책</p>
+      <div>
+        <p className='px-5 font-medium'>함께 읽고 있는 책</p>
         <ClubBook club={clubinfo} />
         <div>
-          <p className='mb-2 mt-3 font-medium'>멤버별 독서 진행률</p>
+          <p className='px-5 mb-2 mt-3 font-medium'>멤버별 독서 진행률</p>
           <div className='flex flex-wrap justify-center gap-2'>
             {clubMembers &&
               clubMembers.map((member, index) => {

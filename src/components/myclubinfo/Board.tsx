@@ -1,7 +1,8 @@
 import React from 'react';
-
-const Board = ({ clubId }: { clubId: string | null }) => {
-  console.log(clubId);
+import { Tables } from '@/lib/types/supabase';
+type Clubs = Tables<'clubs'>;
+const Board = ({ club }: { club: Clubs }) => {
+  console.log(club.id);
   return <div>Board</div>;
 };
 

@@ -9,13 +9,18 @@ import { updateUserProfile } from '@/utils/userAPIs/Fns';
 import { useQueryClient } from '@tanstack/react-query';
 import { uploadAvatar } from '@/utils/userAPIs/storageAPI';
 import { createClient } from '@/utils/supabase/client';
-const ProfileDetail = ({
-  profiles,
-  userId
-}: {
-  profiles: Profile[];
-  userId: string | null;
-}) => {
+import { useQuery } from '@tanstack/react-query';
+import { getUserProfile } from '@/utils/userAPIs/Fns';
+
+const ProfileDetail = ({ userId }: { userId: string | null }) => {
+  const {
+    data: profiles,
+    isLoading,
+    isError
+  } = useQuery({
+    queryKey: ['profiles'],
+    queryFn: getUserProfile
+  });
   const userProfile = profiles?.find((profile) => profile.id === userId);
   // console.log('?????', userProfile);
   const [isEdit, setIsEdit] = useState(false);
@@ -42,11 +47,7 @@ const ProfileDetail = ({
       setIsEdit(false);
     }
   });
-  const supabase = createClient();
-  const handleSignout = async () => {
-    await supabase.auth.signOut();
-    window.location.href = '/login';
-  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files?.[0];
@@ -60,17 +61,29 @@ const ProfileDetail = ({
     }
   };
   const handleSave = async () => {
-    // setPhotoUrl(null);
-    // if (previewImg) {
-    //   const storageImageUrl = await uploadAvatar(
-    //     userProfile?.id || '',
-    //     previewImg
-    //   );
-    //   if (storageImageUrl) {
-    //     console.log('storageImageUrl', storageImageUrl);
-    //     setPhotoUrl(storageImageUrl);
-    //     // console.log(photoUrl);
-    //   }
+    setPhotoUrl(null);
+    if (previewImg) {
+      const storageImageUrl = await uploadAvatar(
+        userProfile?.id || '',
+        previewImg
+      );
+      if (storageImageUrl) {
+        console.log('storageUrl', storageImageUrl);
+        setPhotoUrl(storageImageUrl);
+        const formData = new FormData();
+        formData.append('photo_URL', storageImageUrl);
+        formData.append('id', userProfile?.id || '');
+        formData.append('display_name', displayName);
+        formData.append('interests', interests);
+        formData.append('introduction', introduction);
+        formData.append('most_favorite_book', mostFavoriteBook);
+        mutateToUpdateProfile(formData);
+        // console.log(photoUrl);
+      }
+    }
+    // const formData = new FormData();
+    // if (photoUrl) {
+    //   formData.append('photo_URL', photoUrl);
     // }
 
     const formData = new FormData();
@@ -85,9 +98,9 @@ const ProfileDetail = ({
     mutateToUpdateProfile(formData);
   };
   return (
-    <div className='flex flex-col items-center w-full'>
+    <div className='flex flex-col w-full bg-[#F6F7F9] rounded-md p-2'>
       {isEdit ? (
-        <div className='flex flex-col items-center w-full px-4 py-6 bg-white rounded-md shadow-md'>
+        <div>
           <label className='mb-4'>
             {photoUrl && (
               <Image
@@ -151,27 +164,46 @@ const ProfileDetail = ({
           </div>
         </div>
       ) : (
-        <div className='flex flex-col w-full max-w-md px-3 py-6 bg-white rounded-md shadow-md items-center'>
-          <Image
+        <div className='flex flex-row items-center p-2'>
+          {userProfile?.photo_URL ? (
+            <img
+              src={`${userProfile.photo_URL}?${new Date().getTime()}`}
+              alt='미리보기'
+              width={96}
+              height={96}
+              className='rounded-full'
+            />
+          ) : (
+            <img
+              src='/booktique.png'
+              alt='프로필사진 없음'
+              width={96}
+              height={96}
+              className='rounded-full'
+            />
+          )}
+
+          {/* <img
             src={userProfile?.photo_URL ?? '/booktique.png'}
             alt='사진'
             width={100}
             height={100}
             className='rounded-full mb-4'
-          />
-          <p className='mb-2'>Email: {userProfile?.email}</p>
-          <p className='mb-2'>닉네임: {userProfile?.display_name}</p>
-          <p className='mb-2'>관심 분야: {userProfile?.interests}</p>
+          /> */}
+          {/* <p className='mb-2'>Email: {userProfile?.email}</p> */}
+          <div className='ml-4'>
+            <p className='mb-2 font-bold font-xl'>
+              {userProfile?.display_name}
+            </p>
+            {/* <p className='mb-2'>관심 분야: {userProfile?.interests}</p>
           <p className='mb-2'>내 소개: {userProfile?.introduction}</p>
-          <p className='mb-2'>내 최애 책: {userProfile?.most_favorite_book}</p>
-          <button
-            className='w-full border rounded-md'
-            onClick={() => setIsEdit(true)}>
-            프로필 수정
-          </button>
-          <button className='w-full border rounded-md' onClick={handleSignout}>
-            로그아웃
-          </button>
+          <p className='mb-2'>내 최애 책: {userProfile?.most_favorite_book}</p> */}
+            <button
+              className='w-full text-[#3F3E4E]'
+              onClick={() => setIsEdit(true)}>
+              프로필 수정
+            </button>
+          </div>
         </div>
       )}
     </div>

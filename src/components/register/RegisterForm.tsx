@@ -169,7 +169,7 @@ const RegisterForm = () => {
             <Input
               name='passwordCheck'
               inputRef={passwordConfirmInputRef}
-              label=''
+              label='비밀번호확인'
               type='password'
               placeholder='비밀번호 확인'
               value={passwordConfirm}
@@ -181,7 +181,9 @@ const RegisterForm = () => {
             onClick={handleRegister}
             disabled={isButtonDisabled} // 버튼의 disabled 속성을 동적으로 설정
             className={`w-full block text-center py-4 bg-mainblue text-bookyellow font-bold rounded-[10px] mt-40 absolute bottom-14 ${
-              isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''
+              isButtonDisabled
+                ? 'cursor-not-allowed bg-slate-100 text-slate-300'
+                : ''
             }`}>
             회원가입 하기
           </button>

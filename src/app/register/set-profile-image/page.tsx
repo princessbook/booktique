@@ -4,12 +4,14 @@ import { useRef } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const AvatarPage = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imgRef = useRef<HTMLInputElement>(null);
   const supabase = createClient();
+  const router = useRouter();
 
   const uploadImageStorage = async (file: File) => {
     const fileExt = file?.name.split('.').pop();
@@ -55,11 +57,8 @@ const AvatarPage = () => {
   };
   const saveImgFile = async () => {
     const storageImg = await uploadImageStorage(selectedImage!);
-    console.log('storage이미지', storageImg);
     await insertProfile(storageImg);
-  };
-  const handleSkip = () => {
-    window.location.href = '/myclub'; // '/myclub' 페이지로 이동
+    router.push('/myclubinfo2');
   };
   return (
     <div className='mx-4 relative h-full '>
@@ -69,7 +68,7 @@ const AvatarPage = () => {
             <Image
               src={previewUrl}
               alt='Preview Avatar'
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', cursor: 'pointer' }}
               fill={true}
               sizes='160px'
               onClick={handleImageClick}
@@ -78,7 +77,7 @@ const AvatarPage = () => {
             <Image
               src='/booktique.png'
               alt='Default Avatar'
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', cursor: 'pointer' }}
               fill={true}
               sizes='160px'
               onClick={handleImageClick}
@@ -99,14 +98,8 @@ const AvatarPage = () => {
           </button>
         </form>
       </div>
-      {/* <button
-        className='w-full bg-mainblue h-[48px] rounded-[999px] text-[#fff] absolute bottom-14 left-0'
-        type='button'
-        onClick={handleSkip}>
-        건너뛰기
-      </button> */}
       <Link
-        href={`/myclub`}
+        href={`/mypage`}
         className='w-full bg-mainblue py-3 text-center rounded-[999px] text-[#fff] absolute bottom-14 left-0'
         type='button'>
         건너뛰기

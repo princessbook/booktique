@@ -65,7 +65,7 @@ const MyNicknameForm = () => {
       setNickname(nickname);
       setNewNickname('');
       // window.location.href = '/register/avatar';
-      router.push(`/register/${userId}/avatar`);
+      router.push(`/register/set-profile-image`);
     } catch (error) {
       console.error(error);
     }

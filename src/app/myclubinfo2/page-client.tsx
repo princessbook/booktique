@@ -118,28 +118,32 @@ const PageClient = () => {
             className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'home' ? ' border-b-2 border-black' : ''
             }`}
-            onClick={() => handleTabChange('home')}>
+            onClick={() => handleTabChange('home')}
+            disabled={clubInfo.length === 0}>
             홈
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'sentenceStorage' ? 'border-b-2 border-black' : ''
             }`}
-            onClick={() => handleTabChange('sentenceStorage')}>
+            onClick={() => handleTabChange('sentenceStorage')}
+            disabled={clubInfo.length === 0}>
             문장 저장소
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'board' ? 'border-b-2 border-black' : ''
             }`}
-            onClick={() => handleTabChange('board')}>
+            onClick={() => handleTabChange('board')}
+            disabled={clubInfo.length === 0}>
             자유 게시판
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'quiz' ? 'border-b-2 border-black' : ''
             }`}
-            onClick={() => handleTabChange('quiz')}>
+            onClick={() => handleTabChange('quiz')}
+            disabled={clubInfo.length === 0}>
             퀴즈
           </button>
         </div>

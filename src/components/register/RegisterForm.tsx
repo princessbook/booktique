@@ -3,9 +3,8 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Input from '@/common/Input';
 import { createClient } from '@/utils/supabase/client';
 import { generateUniqueNickname } from '@/utils/nicknameGenerator';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import ToastUi from '@/common/ToastUi';
+import { useRouter } from 'next/navigation';
 
 const RegisterForm = () => {
   const [email, setEmail] = useState<string>('');
@@ -20,6 +19,7 @@ const RegisterForm = () => {
   const [toastMessage, setToastMessage] = useState<string>('');
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const router = useRouter();
 
   const handleRegister = async () => {
     try {
@@ -56,7 +56,7 @@ const RegisterForm = () => {
       const { data: userData, error: userError } =
         await supabase.auth.getUser();
       if (userData && userData.user?.id) {
-        window.location.href = `/register/${userData.user.id}`;
+        router.push('/register/set-nickname');
       } else {
         throw new Error('회원의 ID를 가져올 수 없습니다.');
       }

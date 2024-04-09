@@ -54,10 +54,12 @@ const QuizModal = ({
 
   const handleSave = async () => {
     console.log(quizes);
+    if (!validationCheck()) return;
     const quizData = JSON.stringify(quizes[0]);
     const {
       data: { user }
     } = await supabase.auth.getUser();
+
     const { data, error } = await supabase.from('quiz').insert([
       {
         creator_id: user!.id,
@@ -70,6 +72,33 @@ const QuizModal = ({
     setSubmitAnswer((prev) => !prev);
     setQuizes(initialQuiz);
     onClose();
+  };
+
+  const validationCheck = () => {
+    if (quizes[0].question === '') {
+      alert('문장을 입력해주세요.');
+      return false;
+    }
+    for (let i = 0; i < quizes[0].answer.length; i++) {
+      if (quizes[0].answer[i].value === '') {
+        alert('정답을 입력해주세요.');
+        return false;
+      }
+    }
+    let isAnyCorrect = false;
+
+    for (let i = 0; i < quizes[0].answer.length; i++) {
+      if (quizes[0].answer[i].isCorrect === true) {
+        isAnyCorrect = true;
+        break;
+      }
+    }
+
+    if (!isAnyCorrect) {
+      alert('적어도 하나의 정답을 선택해주세요.');
+      return false;
+    }
+    return true;
   };
 
   return (

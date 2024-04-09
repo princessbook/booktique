@@ -9,6 +9,7 @@ import Board from '@/components/myclubinfo/Board';
 import { Tables } from '@/lib/types/supabase';
 import SentenceStorage from '@/components/myclubinfo2/SentenceStorage';
 import NonMyClub from '@/components/myclubinfo2/NonMyClub';
+import QuizArchiving from '@/components/myclubinfo2/QuizArchiving';
 type Clubs = Tables<'clubs'>;
 const MyClubInfo = () => {
   const [loading, setLoading] = useState(true);
@@ -70,7 +71,7 @@ const MyClubInfo = () => {
       case 'board':
         return <Board club={selectedClub} />;
       case 'quiz':
-      // return <Quiz club={selectedClub} />;
+        return <QuizArchiving clubId={selectedClubId} />;
       default:
         return null;
     }

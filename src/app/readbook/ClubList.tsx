@@ -65,6 +65,8 @@ const ClubList = ({
     slidesToScroll: 1,
     arrows: false,
     vertical: false,
+    centerMode: true, // 가운데 정렬 모드 활성화
+    centerPadding: '28px', // 좌우 패딩 추가
     // 슬라이드가 변경될 때마다 현재 슬라이드 인덱스를 업데이트
     afterChange: (current: number) => setCurrentSlide(current)
   };

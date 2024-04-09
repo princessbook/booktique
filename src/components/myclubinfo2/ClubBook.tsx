@@ -44,6 +44,7 @@ const ClubBook = ({ club }: { club: Club | null }) => {
           alt='책 사진'
           width={100}
           height={100}
+          priority={true}
         />
         <ProgressBar progress={percentage} />
       </div>

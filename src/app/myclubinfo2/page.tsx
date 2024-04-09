@@ -9,9 +9,9 @@ import Board from '@/components/myclubinfo/Board';
 import { Tables } from '@/lib/types/supabase';
 import SentenceStorage from '@/components/myclubinfo2/SentenceStorage';
 import NonMyClub from '@/components/myclubinfo2/NonMyClub';
+
 type Clubs = Tables<'clubs'>;
 const MyClubInfo = () => {
-  const [loading, setLoading] = useState(true);
   const [clubInfo, setClubInfo] = useState<Clubs[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState('home');
@@ -99,28 +99,32 @@ const MyClubInfo = () => {
             className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'home' ? ' border-b-2 border-black' : ''
             }`}
-            onClick={() => handleTabChange('home')}>
+            onClick={() => handleTabChange('home')}
+            disabled={clubInfo.length === 0}>
             홈
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'sentenceStorage' ? 'border-b-2 border-black' : ''
             }`}
-            onClick={() => handleTabChange('sentenceStorage')}>
+            onClick={() => handleTabChange('sentenceStorage')}
+            disabled={clubInfo.length === 0}>
             문장 저장소
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'board' ? 'border-b-2 border-black' : ''
             }`}
-            onClick={() => handleTabChange('board')}>
+            onClick={() => handleTabChange('board')}
+            disabled={clubInfo.length === 0}>
             자유 게시판
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'quiz' ? 'border-b-2 border-black' : ''
             }`}
-            onClick={() => handleTabChange('quiz')}>
+            onClick={() => handleTabChange('quiz')}
+            disabled={clubInfo.length === 0}>
             퀴즈
           </button>
         </div>

@@ -33,7 +33,7 @@ const MyBookClub = async ({ userId }: { userId: string }) => {
             className='bg-[#F6F7F9] rounded-lg p-4 mt-2 flex flex-row items-center'>
             <div className='flex flex-col'>
               {club.archive ? (
-                <p className='text-center px-1 border w-12 text-sm text-white bg-subblue rounded-md'>
+                <p className='text-center w-[37px] h-[17px] px-1 border text-[10px] text-white bg-subblue rounded-md'>
                   진행중
                 </p>
               ) : (

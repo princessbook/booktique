@@ -74,7 +74,8 @@ export const getClubInfo = async (clubIds: string[]): Promise<Clubs[]> => {
     const { data, error } = await supabase
       .from('clubs')
       .select('*')
-      .in('id', clubIds);
+      .in('id', clubIds)
+      .eq('archive', true);
 
     if (error) {
       console.error('클럽정보 불러오기 실패:', error.message);

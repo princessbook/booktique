@@ -24,8 +24,8 @@ export default function RootLayout({
         <QueryProvider>
           {/* <Header /> */}
           <main className='w-full flex-1 overflow-y-auto'>{children}</main>
-          <Footer />
         </QueryProvider>
+        <Footer />
       </body>
     </html>
   );

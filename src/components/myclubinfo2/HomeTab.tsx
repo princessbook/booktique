@@ -4,7 +4,6 @@ import ClubBook from './ClubBook';
 import { Tables } from '@/lib/types/supabase';
 import { getBookClubMembers } from '@/utils/userAPIs/authAPI';
 import { createClient } from '@/utils/supabase/client';
-import { CLUB_ACTIVITIES_TABLE } from '@/common/constants/tableNames';
 type Clubs = Tables<'clubs'>;
 type MembersType = {
   club_id: string;
@@ -16,24 +15,34 @@ type MembersType = {
 
 const HomeTab = ({ club }: { club: Clubs | null }) => {
   const [clubMembers, setClubMembers] = useState<MembersType[]>([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchClubMembers = async () => {
       if (club?.id) {
-        let clubMem = await getBookClubMembers(club.id);
-        // 각 멤버의 progress 값을 가져와 추가
-        clubMem = await Promise.all(
-          clubMem.map(async (member) => {
-            const progress = await getUserProgress(member.user_id, club.id);
-            return { ...member, progress };
-          })
-        );
-        // progress 값에 따라 내림차순으로 정렬
-        const sortedMembers = clubMem.sort((a, b) => {
-          return (b.progress ?? 0) - (a.progress ?? 0);
-        });
+        setLoading(true); // 데이터 로딩 시작
 
-        setClubMembers(sortedMembers);
+        try {
+          let clubMem = await getBookClubMembers(club.id);
+
+          // 각 멤버의 progress 값을 가져와 추가
+          clubMem = await Promise.all(
+            clubMem.map(async (member) => {
+              const progress = await getUserProgress(member.user_id, club.id);
+              return { ...member, progress };
+            })
+          );
+
+          // 오름차순으로 정렬
+          const sortedMembers = clubMem.sort(
+            (a, b) => (b.progress ?? 0) - (a.progress ?? 0)
+          );
+
+          setClubMembers(sortedMembers);
+        } catch (error) {
+          console.error('Error fetching club members:', error);
+        } finally {
+          setLoading(false); // 데이터 로딩 완료
+        }
       }
     };
 
@@ -45,13 +54,14 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
     try {
       const supabase = createClient();
       const { data: activity, error: activityError } = await supabase
-        .from(CLUB_ACTIVITIES_TABLE)
+        .from('club_activities')
         .select('progress')
         .eq('club_id', clubId)
         .eq('user_id', userId)
         .order('progress', { ascending: false });
 
       if (activityError) {
+        console.log('값 불러오는데 오류있음');
         throw activityError;
       }
       return activity[0]?.progress || 0; // progress 값이 없을 경우 0 반환
@@ -78,29 +88,33 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
 
   return (
     <div>
-      <div className='p-5'>
-        <p className='font-medium'>함께 읽고 있는 책</p>
-        <ClubBook club={club} />
-        <div>
-          <p className=' mb-2 font-medium'>전체 독서 진행률</p>
-          <div className='grid grid-cols-3 gap-4'>
-            {clubMembers.map((member, index) => (
-              <Members member={member} key={index} index={index} />
-            ))}
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className='p-5'>
+          <p className='font-medium'>함께 읽고 있는 책</p>
+          <ClubBook club={club} />
+          <div>
+            <p className=' mb-2 font-medium'>전체 독서 진행률</p>
+            <div className='grid grid-cols-3 gap-4'>
+              {clubMembers.map((member, index) => (
+                <Members member={member} key={index} index={index} />
+              ))}
+            </div>
+          </div>
+          <div className='p-2'>
+            <p className='font-bold'>모임 정보</p>
+            <div className='bg-[#EEEFF3] p-2 rounded-lg px-2 mt-2 flex'>
+              <p className='text-subblue font-bold'>모임 기간</p>
+              <p className='ml-4'>
+                {formattedStartDate} ~ {formattedEndDate}
+              </p>
+            </div>
+            <p className='mt-4 font-bold'>북클럽 소개</p>
+            <p>{club?.description}</p>
           </div>
         </div>
-        <div className='p-2'>
-          <p className='font-bold'>모임 정보</p>
-          <div className='bg-[#EEEFF3] p-2 rounded-lg px-2 mt-2 flex'>
-            <p className='text-subblue font-bold'>모임 기간</p>
-            <p className='ml-4'>
-              {formattedStartDate} ~ {formattedEndDate}
-            </p>
-          </div>
-          <p className='mt-4 font-bold'>북클럽 소개</p>
-          <p>{club?.description}</p>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

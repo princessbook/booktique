@@ -94,9 +94,11 @@ const QuizModal = ({
       }
     }
 
-    if (!isAnyCorrect) {
-      alert('적어도 하나의 정답을 선택해주세요.');
-      return false;
+    if (quizes[0].type === 'question') {
+      if (!isAnyCorrect) {
+        alert('적어도 하나의 정답을 선택해주세요.');
+        return false;
+      }
     }
     return true;
   };

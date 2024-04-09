@@ -22,6 +22,7 @@ const SaveCard = ({
     matchingActivities[0]?.progress as number
   );
   // console.log('matchingActivities', matchingActivities);
+  const [inputValid, setInputValid] = useState(false); // 입력값 유효성 상태
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   useEffect(() => {
@@ -29,7 +30,9 @@ const SaveCard = ({
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRecordPage(event.target.value);
+    const inputValue = event.target.value;
+    setRecordPage(inputValue);
+    setInputValid(!!inputValue.trim()); // 입력값이 공백이 아닌지 확인하여 유효성 상태 갱신
   };
 
   const handleSave = async () => {
@@ -103,15 +106,23 @@ const SaveCard = ({
         value={recordPage}
         onChange={handleInputChange}
         type='number'
-        placeholder='오늘 읽은 페이지를 입력해주세요'
-        className='flex mx-auto w-[334px] h-[48px] mt-[28px] bg-[#EDEEF2] px-[16px] py-[14px] rounded-[10px]'
+        placeholder='페이지를 입력해주세요.(숫자만)'
+        className='flex mx-auto w-[334px] h-[38px] mt-[28px] bg-[#EDEEF2] px-[16px] py-[14px] rounded-[10px]
+        text-[14px]'
         ref={inputRef}
       />
-      <div className='mt-[49px] ml-[16px]'>내 독서 진행률</div>
+      <div className='mt-[49px] ml-[16px] text-[16px] leading-[22px] font-bold text-[#3F3E4E]'>
+        내 독서 진행률
+      </div>
       <SaveProgressBar progress={progress} />
       <button
         onClick={handleSave}
-        className='bottom-0 mt-[190px] mx-auto w-[343px] h-[56px] rounded-full bg-subblue text-white'>
+        disabled={!inputValid}
+        className={`bottom-0 mt-[190px] mx-auto w-[343px] h-[56px] rounded-full ${
+          inputValid
+            ? 'bg-[#35A5F6] text-white text-[16px] leading-[22px] font-bold text-center'
+            : 'bg-[#EDEEF2] text-[#B3C1CC] text-[16px] leading-[22px] font-bold text-center'
+        }`}>
         저장
       </button>
     </div>

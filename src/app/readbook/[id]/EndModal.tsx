@@ -19,7 +19,8 @@ const EndModal = ({ onClose, id }: ModalProps) => {
           className='mt-[30px] mb-[13px]'
         />
         <h1 className=' mb-4 font-bold text-[16px] text-center text-blue-500'>
-          아직 책 읽기로한 시간을 채우지 못했어요
+          아직 책 읽기로한 시간을 채우지 못했어요 <br />
+          정말 책 읽기를 종료하시나요?
         </h1>
         <div className='flex flex-col gap-3 w-[279px] '>
           <button

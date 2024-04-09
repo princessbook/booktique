@@ -19,16 +19,17 @@ const page = async () => {
   const {
     data: { user }
   } = await supabase.auth.getUser();
+  if (!user?.id) {
+    // console.log('1');
+    redirect('/login');
+  }
   // console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', user?.id);
   const { data: memberData, error: memberError } = await supabase
     .from('members')
     .select('club_id')
     .eq('user_id', user?.id as string);
   // console.log('memberData', memberData);
-  if (!user?.id) {
-    // console.log('1');
-    redirect('/login');
-  }
+
   if (memberError) {
     throw new Error(
       '해당 회원이 등록된 클럽정보를 가져오는 도중 오류가 발생했습니다.'
@@ -88,7 +89,7 @@ const page = async () => {
               width={134}
               height={26}
               alt={'booktique'}
-              className='pt-[38px] mx-auto pb-[24px]'
+              className='pt-[38px] mx-auto'
               priority={true}
             />
             <ClubList
@@ -97,7 +98,7 @@ const page = async () => {
               // clubData={clubData}
               // clubActivities={activitiesData}
               filteredBookClubsData={filteredBookClubsData}
-            />{' '}
+            />
           </>
         ) : (
           <div>

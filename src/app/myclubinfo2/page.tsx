@@ -25,7 +25,6 @@ const MyClubInfo = () => {
         if (fetchedUserId) {
           const fetchedClubIds = await getUserClubIds(fetchedUserId);
           const fetchClubInfo = await getClubInfo(fetchedClubIds);
-          //   console.log(fetchClubInfo);
           setClubInfo(fetchClubInfo);
           if (fetchedClubIds.length > 0) {
             setSelectedClubId(fetchedClubIds[0]);
@@ -38,7 +37,6 @@ const MyClubInfo = () => {
 
     fetchData();
   }, []);
-
   const handleClubChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedClubId(event.target.value);
   };
@@ -62,7 +60,13 @@ const MyClubInfo = () => {
       case 'home':
         return <HomeTab club={selectedClub} />;
       case 'sentenceStorage':
-        return <SentenceStorage clubId={selectedClubId} userId={userId} />;
+        return (
+          <SentenceStorage
+            clubId={selectedClubId}
+            bookpage={selectedClub.book_page}
+            userId={userId}
+          />
+        );
       case 'board':
         return <Board club={selectedClub} />;
       case 'quiz':

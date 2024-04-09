@@ -6,8 +6,6 @@ import { createClient } from '@/utils/supabase/client';
 type Profiles = Tables<'profiles'>;
 
 const SentenceUser = ({ sentenceId }: { sentenceId: string }) => {
-  console.log('!23');
-  console.log(sentenceId);
   const [sentenceProfile, setSentenceProfile] = useState<Profiles>();
   useEffect(() => {
     const fetchProfile = async (sentenceId: string) => {
@@ -18,8 +16,6 @@ const SentenceUser = ({ sentenceId }: { sentenceId: string }) => {
           .select('*')
           .eq('id', sentenceId)
           .single();
-        console.log(profileData);
-        console.log('12');
         if (profileError) {
           console.error('Error fetching profile:', profileError.message);
           return;

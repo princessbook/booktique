@@ -18,10 +18,12 @@ const QuizAnswer = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAnswerInput(event.target.value);
+    console.log(isChecked);
     handleAnswerChange(answer.id, event.target.value, isChecked);
   };
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckboxChange = (isChecked: boolean) => {
     // setIsChecked(event.target.checked);
+    console.log('isChecked', isChecked);
     handleAnswerChange(answer.id, answerInput, isChecked);
   };
 
@@ -32,6 +34,7 @@ const QuizAnswer = ({
         <label
           onClick={() => {
             setIsChecked((prev) => !prev);
+            handleCheckboxChange(!isChecked);
           }}
           className='bg-[#B3C1CC] text-white px-3 py-1 rounded-full mr-2 '>
           정답
@@ -40,6 +43,7 @@ const QuizAnswer = ({
         <label
           onClick={() => {
             setIsChecked((prev) => !prev);
+            handleCheckboxChange(!isChecked);
           }}
           className=' bg-blue-300 text-white px-3 py-1 rounded-full mr-2 '>
           정답

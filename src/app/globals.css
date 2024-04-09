@@ -18,3 +18,10 @@ body {
     appearance: textfield;
   }
 }
+*,
+body,
+pre {
+  font-family: 'wanted', sans-serif;
+  font-weight: 400;
+  box-sizing: border-box;
+}

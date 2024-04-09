@@ -9,6 +9,7 @@ import Board from '@/components/myclubinfo/Board';
 import { Tables } from '@/lib/types/supabase';
 import SentenceStorage from '@/components/myclubinfo2/SentenceStorage';
 import NonMyClub from '@/components/myclubinfo2/NonMyClub';
+import { getUserProfile } from '../auth/authAPI';
 type Clubs = Tables<'clubs'>;
 const MyClubInfo = () => {
   const [loading, setLoading] = useState(true);
@@ -16,6 +17,7 @@ const MyClubInfo = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState('home');
   const [selectedClubId, setSelectedClubId] = useState<string>('');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -23,12 +25,16 @@ const MyClubInfo = () => {
         setUserId(fetchedUserId);
 
         if (fetchedUserId) {
-          const fetchedClubIds = await getUserClubIds(fetchedUserId);
-          const fetchClubInfo = await getClubInfo(fetchedClubIds);
-          //   console.log(fetchClubInfo);
-          setClubInfo(fetchClubInfo);
-          if (fetchedClubIds.length > 0) {
-            setSelectedClubId(fetchedClubIds[0]);
+          const fetchedUserProfile = await getUserProfile();
+          if (fetchedUserProfile) {
+            const fetchedClubIds = await getUserClubIds(fetchedUserId);
+            const fetchClubInfo = await getClubInfo(fetchedClubIds);
+            console.log('User Profile:', fetchedUserProfile);
+            //   console.log(fetchClubInfo);
+            setClubInfo(fetchClubInfo);
+            if (fetchedClubIds.length > 0) {
+              setSelectedClubId(fetchedClubIds[0]);
+            }
           }
         }
       } catch (error) {

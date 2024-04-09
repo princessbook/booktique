@@ -13,7 +13,6 @@ import Board from '@/components/myclubinfo2/board/Board';
 import QuizArchiving from '@/components/myclubinfo2/QuizArchiving';
 type Clubs = Tables<'clubs'>;
 const PageClient = () => {
-  console.log('왜이럼');
   const [loading, setLoading] = useState(true);
   const [clubInfo, setClubInfo] = useState<Clubs[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
@@ -21,20 +20,15 @@ const PageClient = () => {
   const [selectedClubId, setSelectedClubId] = useState<string>('');
 
   useEffect(() => {
-    console.log('11111111111111111111');
     const fetchData = async () => {
-      console.log('aaaa');
       try {
         const fetchedUserId = await getUserId();
         setUserId(fetchedUserId);
         if (fetchedUserId) {
-          console.log('bbbbbbb');
           const fetchedUserProfile = await getOrCreateUserProfile();
           if (fetchedUserProfile) {
             const fetchedClubIds = await getUserClubIds(fetchedUserId);
             const fetchClubInfo = await getClubInfo(fetchedClubIds);
-            console.log('User Profile:', fetchedUserProfile);
-            //   console.log(fetchClubInfo);
             setClubInfo(fetchClubInfo);
             if (fetchedClubIds.length > 0) {
               setSelectedClubId(fetchedClubIds[0]);
@@ -47,10 +41,6 @@ const PageClient = () => {
     };
 
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    console.log('2222');
   }, []);
 
   const handleClubChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

@@ -22,7 +22,6 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
     queryFn: getUserProfile
   });
   const userProfile = profiles?.find((profile) => profile.id === userId);
-  // console.log('?????', userProfile);
   const [isEdit, setIsEdit] = useState(false);
   const [displayName, setDisplayName] = useState(
     userProfile?.display_name ?? ''
@@ -69,7 +68,8 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
     }
   };
   const handleSave = async () => {
-    setPhotoUrl(null);
+    const formData = new FormData();
+    // setPhotoUrl(null);
     if (previewImg) {
       const storageImageUrl = await uploadAvatar(
         userProfile?.id || '',
@@ -78,17 +78,18 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
       if (storageImageUrl) {
         console.log('storageUrl', storageImageUrl);
         setPhotoUrl(storageImageUrl);
-        const formData = new FormData();
         formData.append('photo_URL', storageImageUrl);
-        formData.append('id', userProfile?.id || '');
-        formData.append('display_name', displayName);
-        formData.append('interests', interests);
-        formData.append('introduction', introduction);
-        formData.append('most_favorite_book', mostFavoriteBook);
-        mutateToUpdateProfile(formData);
-        // console.log(photoUrl);
       }
+    } else {
+      // 사진 변경이 없을 경우, 기존의 photoUrl을 사용
+      formData.append('photo_URL', userProfile?.photo_URL || '');
     }
+    formData.append('id', userProfile?.id || '');
+    formData.append('display_name', displayName);
+    formData.append('interests', interests);
+    formData.append('introduction', introduction);
+    formData.append('most_favorite_book', mostFavoriteBook);
+    mutateToUpdateProfile(formData);
   };
   return (
     <div className='flex flex-col w-full bg-[#F6F7F9] rounded-md p-2'>
@@ -96,7 +97,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
         <div>
           <label className='mb-4'>
             {photoUrl && (
-              <Image
+              <img
                 src={photoUrl}
                 alt='미리보기'
                 width={96}
@@ -158,23 +159,25 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
         </div>
       ) : (
         <div className='flex flex-row items-center p-2'>
-          {userProfile?.photo_URL ? (
-            <img
-              src={`${userProfile.photo_URL}?${new Date().getTime()}`}
-              alt='미리보기'
-              width={96}
-              height={96}
-              className='rounded-full'
-            />
-          ) : (
-            <img
-              src='/booktique.png'
-              alt='프로필사진 없음'
-              width={96}
-              height={96}
-              className='rounded-full'
-            />
-          )}
+          <div className='flex justify-center align-middle w-20 h-20 max-w-full max-h-auto rounded-full'>
+            {userProfile?.photo_URL ? (
+              <img
+                src={`${userProfile.photo_URL}?${new Date().getTime()}`}
+                alt='미리보기'
+                width={96}
+                height={96}
+                className='rounded-full'
+              />
+            ) : (
+              <img
+                src='/booktique.png'
+                alt='프로필사진 없음'
+                width={96}
+                height={96}
+                className='rounded-full'
+              />
+            )}
+          </div>
 
           {/* <img
             src={userProfile?.photo_URL ?? '/booktique.png'}

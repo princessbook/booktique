@@ -48,7 +48,7 @@ const Members = ({ member, index }: { member: MembersType; index: number }) => {
       <div className='flex flex-col items-center'>
         <div className='mt-1 mr-3 relative flex justify-center align-middle w-16 h-16 max-w-full max-h-auto rounded-full'>
           <p className='text-[#B3C1CC] flex mr-1 font-bold'>{index + 1}</p>
-          <Image
+          <img
             src={userProfile?.photo_URL || '/booktique.png'}
             alt='Profile'
             width={100}

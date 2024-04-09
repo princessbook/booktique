@@ -5,11 +5,11 @@ import { getUserClubIds } from '@/utils/userAPIs/authAPI';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import HomeTab from '@/components/myclubinfo2/HomeTab';
-import Board from '@/components/myclubinfo/Board';
 import { Tables } from '@/lib/types/supabase';
 import SentenceStorage from '@/components/myclubinfo2/SentenceStorage';
 import NonMyClub from '@/components/myclubinfo2/NonMyClub';
 import { getOrCreateUserProfile } from '../auth/authAPI';
+import Board from '@/components/myclubinfo2/board/Board';
 type Clubs = Tables<'clubs'>;
 const PageClient = () => {
   console.log('왜이럼');
@@ -83,7 +83,7 @@ const PageClient = () => {
           />
         );
       case 'board':
-        return <Board club={selectedClub} />;
+        return <Board clubId={selectedClubId} />;
       case 'quiz':
       // return <Quiz club={selectedClub} />;
       default:

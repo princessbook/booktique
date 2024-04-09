@@ -25,7 +25,7 @@ const config: Config = {
         lime: '#CFFF45',
         /////////
         primary400: '#59B9FF',
-        primary500: '#354AF6',
+        primary500: '#35A5F6',
         primary600: '#269AED',
         primary700: '#2086D0',
         secondary500: '#E9FF8F',

@@ -33,3 +33,15 @@ export const fetchPosts = async ({
   if (error) throw new Error(error.message);
   return data;
 };
+
+// 글 수정용
+export const fetchSinglePost = async (postId: string) => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*, profile:profiles (*)')
+    .eq('id', postId)
+    .single();
+  if (error) throw new Error(error.message);
+  return data;
+};

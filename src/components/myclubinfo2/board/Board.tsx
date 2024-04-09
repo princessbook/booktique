@@ -16,18 +16,15 @@ const Board = ({ clubId }: { clubId: string }) => {
     staleTime: 1000 * 120
   });
 
-  if (isLoading && !posts) return <div>로딩중...</div>;
+  if (isLoading && !posts) return <div>로딩중</div>;
 
   if (error) return <div>에러: {error.message}</div>;
-
-  // 여기서 posts 데이터를 사용할 수 있습니다.
-  console.log(posts);
 
   return (
     <div>
       {posts?.map((post) => (
         <div key={post.id} className='border'>
-          <Link href={`/myclubinfo2/board/${post.id}`}>
+          <Link href={`/myclubinfo2/board/detail/${post.id}?clubId=${clubId}`}>
             <p>{post.title}</p>
             <p>{post.content}</p>
             <p>{post.profile?.display_name}</p>
@@ -42,7 +39,10 @@ const Board = ({ clubId }: { clubId: string }) => {
           </Link>
         </div>
       ))}
-      <Link href='/myclubinfo/board/posting'>글 쓰러가기</Link>
+      <Link
+        href={`/myclubinfo2/board/posting/${crypto.randomUUID()}?clubId=${clubId}`}>
+        글 쓰러가기
+      </Link>
     </div>
   );
 };

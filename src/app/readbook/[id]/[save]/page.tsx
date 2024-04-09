@@ -1,7 +1,9 @@
 import { createClient } from '@/utils/supabase/server';
 import React from 'react';
 import SaveBookInfo from './SaveBookInfo';
-import PageInput from './SaveCard';
+import SaveCard from './SaveCard';
+// import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 const page = async ({ params: { id } }: { params: { id: string } }) => {
   // id는 클럽 id임
@@ -16,8 +18,17 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
   const {
     data: { user }
   } = await supabase.auth.getUser();
-  // console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', user?.id);
-
+  console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', user?.id);
+  if (!user?.id) {
+    redirect('/login');
+  }
+  // if (user?.id === null || user?.id === undefined) {
+  //   return;
+  // }
+  // if (user?.id === null || user?.id === undefined) {
+  //   return <Link href={'/login'}>dd</Link>;
+  // }
+  // <Link> 컴포넌트는 단순히 다른 페이지로의 링크를 설정할 뿐, 화면에는 나타나지 않습니다.
   const { data: clubMembers, error: membersError } = await supabase
     .from('members')
     .select('*')
@@ -46,7 +57,9 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
   const matchingProfile = profilesData.find(
     (profile) => profile?.id === user?.id
   );
+  console.log('matchingProfile', matchingProfile);
   const matchingProfileId = matchingProfile?.id;
+
   // console.log('matchingProfileId', matchingProfileId);
 
   // club_activities 테이블에서 user_id가 matchingProfileId와 일치하는 데이터
@@ -76,8 +89,8 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
   }
   return (
     <div className='bg-white h-full'>
-      <SaveBookInfo clubData={clubData} />
-      <PageInput
+      <SaveBookInfo clubData={clubData} clubId={id} />
+      <SaveCard
         clubData={clubData}
         matchingActivities={matchingActivities}
         id={id}

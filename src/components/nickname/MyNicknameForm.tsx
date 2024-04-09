@@ -65,7 +65,7 @@ const MyNicknameForm = () => {
       setNickname(nickname);
       setNewNickname('');
       // window.location.href = '/register/avatar';
-      router.push(`/register/${userId}/avatar`);
+      router.push(`/register/set-profile-image`);
     } catch (error) {
       console.error(error);
     }
@@ -93,6 +93,7 @@ const MyNicknameForm = () => {
           value={nickname || ''}
           onChange={handleNicknameChange}
         />
+
         <div className='text-[12px] absolute right-10 top-1/3 translate-y-[-20%]'>{`${charCount}/${maxChar}`}</div>
       </div>
       <span className='text-[12px] text-red-500'>

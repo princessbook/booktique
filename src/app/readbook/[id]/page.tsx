@@ -1,6 +1,7 @@
 import React from 'react';
 import { createClient } from '@/utils/supabase/server';
 import BookInfo from './BookInfo';
+import { redirect } from 'next/navigation';
 
 const ReadBookDetail = async ({
   params: { id }
@@ -11,6 +12,13 @@ const ReadBookDetail = async ({
   console.log('param111111111111111111', param);
   const supabase = createClient();
 
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+  console.log('data', user?.id);
+  if (!user?.id) {
+    redirect('/login');
+  }
   const { data: clubMembers, error: membersError } = await supabase
     .from('members')
     .select('*')

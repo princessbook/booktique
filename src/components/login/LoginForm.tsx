@@ -17,7 +17,7 @@ const LoginForm = () => {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `http://localhost:3000/myclub`,
+        redirectTo: `http://localhost:3000/myclubinfo2`,
         queryParams: { access_type: 'offline', prompt: 'consent' }
       }
     });
@@ -27,7 +27,7 @@ const LoginForm = () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'kakao',
       options: {
-        redirectTo: `http://localhost:3000/myclub`,
+        redirectTo: `http://localhost:3000/myclubinfo2`,
         queryParams: { access_type: 'offline', prompt: 'consent' }
       }
     });

@@ -1,4 +1,5 @@
 export const bookCategories: Array<string> = [
+  '전체',
   '건강/취미',
   '경제경영',
   '과학',

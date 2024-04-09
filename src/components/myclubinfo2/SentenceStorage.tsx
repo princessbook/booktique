@@ -87,7 +87,8 @@ const SentenceStorage = ({
           }
         })
       );
-      fetchData();
+      fetchData(); //삭제후 데이터 렌더링
+      setSelectedSentences([]); //문장초기화
     } catch (error) {
       console.error('Error deleting sentences:', error);
     }

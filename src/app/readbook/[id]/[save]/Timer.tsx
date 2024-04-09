@@ -4,7 +4,13 @@ import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/lib/types/supabase';
 // import LoadingOverlay from '@/common/LoadingOverlay';
 
-const Timer = ({ clubId, userId }: { clubId: string; userId: string }) => {
+const Timer = ({
+  clubId,
+  userId
+}: {
+  clubId: string;
+  userId: string | null;
+}) => {
   const intervalRef = useRef<number | NodeJS.Timeout | undefined>(undefined);
   //   const [userId, setUserId] = useState<string | null>(null);
   const [clubActivity, setClubActivity] = useState<Tables<'club_activities'>>();

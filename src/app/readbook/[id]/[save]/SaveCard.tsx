@@ -21,6 +21,7 @@ const SaveCard = ({
   const [progress, setProgress] = useState(
     matchingActivities[0]?.progress as number
   );
+  // console.log('matchingActivities', matchingActivities);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   useEffect(() => {
@@ -33,7 +34,7 @@ const SaveCard = ({
 
   const handleSave = async () => {
     const memberId = await getUserId();
-    console.log('memberId', memberId);
+    // console.log('memberId', memberId);
     // console.log('저장!');
 
     if (!/^\d+$/.test(recordPage)) {
@@ -63,7 +64,7 @@ const SaveCard = ({
         'club_activities 테이블에서 데이터를 조회하는 중 오류 발생:'
       );
     }
-
+    // console.log('existingData', existingData);
     if (existingData && existingData.length > 0) {
       // 이미 삽입된 데이터가 있다면 해당 행을 업데이트
       const { data: updatedData, error: updateError } = await supabase
@@ -86,7 +87,6 @@ const SaveCard = ({
         .insert([
           { club_id: id, progress: result, user_id: memberId as string }
         ]);
-
       if (insertError) {
         throw new Error('club_activities 테이블에 삽입하는 중 오류 발생:');
       }
@@ -94,7 +94,7 @@ const SaveCard = ({
       // console.log('club_activities 테이블에 새로운 행 삽입 완료', insertedData);
     }
     setProgress(result);
-    router.push('/myclubinfo');
+    // router.push('/myclubinfo');
   };
 
   return (

@@ -18,6 +18,13 @@ body {
     appearance: textfield;
   }
 }
+
+@font-face {
+  font-family: 'wanted';
+  src: url('https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css');
+  font-weight: 400;
+  font-style: normal;
+}
 *,
 body,
 pre {

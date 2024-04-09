@@ -25,7 +25,7 @@ const ToastUi: React.FC<Props> = ({ message, onClose, isSuccess }) => {
 
   return (
     <div
-      className={`flex items-center toast-container absolute bottom-32 bg-[#5e5e5e] w-full py-4 rounded-[10px] ${
+      className={`flex items-center toast-container absolute z-50 bottom-32 bg-[#5e5e5e] w-full py-4 rounded-[10px] ${
         isVisible ? 'block' : 'hidden'
       }`}>
       {isSuccess ? (

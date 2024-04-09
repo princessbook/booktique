@@ -5,12 +5,10 @@ import { getClubInfo, getUserId } from '@/utils/userAPIs/authAPI';
 import { getUserClubIds } from '@/utils/userAPIs/authAPI';
 import { Tables } from '@/lib/types/supabase';
 import NonMyClub from '@/components/myclubinfo/NonMyClub';
-import { useTabStore } from '@/store/zustandStore';
 
 type Clubs = Tables<'clubs'>;
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  //   const { selectedTab, setSelectedTab } = useTabStore();
   const [clubInfo, setClubInfo] = useState<Clubs[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedClubId, setSelectedClubId] = useState<string | null>(null);
@@ -33,7 +31,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         console.error('Error fetching data:', error);
       }
     };
-
     fetchData();
   }, []);
   useEffect(() => {

@@ -11,10 +11,12 @@ type Sentences = Tables<'sentences'>;
 
 const SentenceStorage = ({
   clubId,
-  userId
+  userId,
+  bookpage
 }: {
   clubId: string;
   userId: string | null;
+  bookpage: number | null;
 }) => {
   const router = useRouter();
   const supabase = createClient();
@@ -23,7 +25,7 @@ const SentenceStorage = ({
     [sentenceId: string]: number;
   }>({});
   const [isModal, setIsModal] = useState(false);
-
+  const [selectedSentences, setSelectedSentences] = useState<string[]>([]);
   useEffect(() => {
     fetchData();
   }, [clubId]);
@@ -56,15 +58,55 @@ const SentenceStorage = ({
     setIsModal(false);
     fetchData();
   };
+  const handleCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    sentenceId: string
+  ) => {
+    if (event.target.checked) {
+      setSelectedSentences([...selectedSentences, sentenceId]);
+    } else {
+      setSelectedSentences(selectedSentences.filter((id) => id !== sentenceId));
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    // 로그인한 사용자와 문장 작성자의 ID가 일치하는 경우에만 삭제 수행
+    try {
+      await Promise.all(
+        selectedSentences.map(async (sentenceId) => {
+          const { data: sentenceData, error: sentenceError } = await supabase
+            .from('sentences')
+            .select('user_id')
+            .eq('id', sentenceId)
+            .single();
+          if (sentenceError) {
+            throw new Error('Error fetching sentence data');
+          }
+          if (sentenceData && sentenceData.user_id === userId) {
+            await supabase.from('sentences').delete().eq('id', sentenceId);
+          }
+        })
+      );
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting sentences:', error);
+    }
+  };
+
   return (
     <div>
       <ul className='p-4'>
         {sentences?.map((sentence) => (
           //Link로 디테일 페이지 보내기.
-          <li
-            key={sentence.id}
-            className=' cursor-pointer py-4'
-            onClick={() => handleSentenceClick(sentence.id)}>
+          <li key={sentence.id} className=' cursor-pointer my-4 relative'>
+            {userId === sentence.user_id && ( // 로그인한 사용자와 문장 작성자의 ID가 일치하는 경우에만 체크박스 표시
+              <input
+                type='checkbox'
+                className='absolute right-3'
+                checked={selectedSentences.includes(sentence.id)}
+                onChange={(event) => handleCheckboxChange(event, sentence.id)}
+              />
+            )}
             <SentenceUser sentenceId={sentence.user_id || ''} />
             <div className='bg-gray-100 rounded-md ml-7 px-4 py-2'>
               <div className='text-sm'>{sentence.sentence_content}</div>
@@ -72,24 +114,22 @@ const SentenceStorage = ({
                 {sentence.sentence_page}p
               </div>
             </div>
-            {/* <div className='text-sm text-gray-500'>
-              {sentence.created_at}, {sentence.user_id}
-            </div> */}
-            {/* <div className='text-sm text-gray-500'>
-              댓글 수: {commentCounts[sentence.id] || 0}
-            </div> */}
           </li>
         ))}
       </ul>
-
-      <div className='fixed bottom-32 right-8'>
-        <button
-          onClick={handleSentenceSaveBtn}
-          className='bg-mainblue py-[15px] px-9 text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer'>
-          문장 공유하기
-        </button>
-      </div>
+      <button
+        onClick={
+          selectedSentences.length > 0
+            ? handleDeleteSelected
+            : handleSentenceSaveBtn
+        }
+        className={`py-[15px] px-[20px] absolute bottom-24 right-4 text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer ${
+          selectedSentences.length > 0 ? 'bg-red-500' : 'bg-mainblue'
+        }`}>
+        {selectedSentences.length > 0 ? '선택된 문장 삭제' : '문장 공유하기'}
+      </button>
       <SentenceModal
+        bookpage={bookpage}
         isModal={isModal}
         onClose={handleCloseModal}
         clubId={clubId}

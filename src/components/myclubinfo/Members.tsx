@@ -6,8 +6,14 @@ import {
   PROFILES_TABLE
 } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/server';
-
-const Members = async ({ member }: { member: Tables<'members'> }) => {
+type MembersType = {
+  club_id: string;
+  id: string;
+  role: 'admin' | 'member' | null;
+  user_id: string;
+  progress?: number | null; // progress 필드 추가
+};
+const Members = async ({ member }: { member: MembersType }) => {
   const supabase = createClient();
   const { data: profileData, error } = await supabase
     .from(PROFILES_TABLE)
@@ -27,7 +33,7 @@ const Members = async ({ member }: { member: Tables<'members'> }) => {
 
   return (
     <div className='mb-4 w-1/4'>
-      <div className='bg-[#EDEEF2] rounded-lg p-2'>
+      <div className='bg-[#EDEEF2] rounded-lg p-2 '>
         <div className='flex flex-col items-center space-y-2'>
           <div className='w-20 h-20 max-w-full max-h-full rounded-full overflow-hidden'>
             <Image

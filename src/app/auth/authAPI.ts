@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/client';
 
-export const getUserProfile = async () => {
+export const getOrCreateUserProfile = async () => {
   const supabase = await createClient();
 
   const {

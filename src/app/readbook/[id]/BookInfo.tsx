@@ -37,9 +37,7 @@ const BookInfo = ({
     setTimerVisible(true);
     setEndButtonVisible(false);
   };
-  console.log('clubData', clubData);
-
-  // console.log('id111111111111111111111111111111111111111111', userId);
+  const clubId = clubData.length > 0 ? clubData[0].id : '';
   return (
     <>
       <div className='sticky top-0 z-10'>
@@ -89,6 +87,7 @@ const BookInfo = ({
       {activeTab === '책읽기' && (
         <>
           <MemberList
+            clubId={clubId}
             id={id}
             clubMembers={clubMembers}
             endButtonVisible={endButtonVisible}

@@ -4,11 +4,14 @@ import { createClient } from '@/utils/supabase/client';
 import React, { useEffect, useState } from 'react';
 import EndButton from './EndButton';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import ChatComponent from '@/components/realtime/ChatComponent';
 
 interface MemberListProps {
   clubMembers: Tables<'members'>[];
   id: string;
   endButtonVisible: boolean;
+  clubId: string;
 }
 interface UserProfile extends Tables<'profiles'> {
   club_activities: {
@@ -17,10 +20,16 @@ interface UserProfile extends Tables<'profiles'> {
   };
 }
 // const MemberList = ({ clubMembers, id }: MemberListProps) => {
-const MemberList = ({ clubMembers, id, endButtonVisible }: MemberListProps) => {
+const MemberList = ({
+  clubMembers,
+  id,
+  endButtonVisible,
+  clubId
+}: MemberListProps) => {
   const supabase = createClient();
   const [profiles, setProfiles] = useState<UserProfile[]>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [showChat, setShowChat] = useState(false);
   // const [activitiesData, setActivitiesData] = useState<{ progress: number }[]>(
   //   []
   // );
@@ -78,10 +87,18 @@ const MemberList = ({ clubMembers, id, endButtonVisible }: MemberListProps) => {
   //   return <LoadingOverlay show={loading} />;
   // }
   // console.log('clubMembers[0]', clubMembers[1]);
+  const router = useRouter();
+  const handleChatting = () => {
+    router.push(`/chat/${clubId}`);
+  };
+
   return (
     <div className='flex flex-col'>
       <div className='mt-[32px] mb-[16px] ml-[16px] font-bold text-[16px] leading-[22px] text-[#3F3E4E]'>
         함께 책 읽기
+        <button className='ml-10' onClick={handleChatting}>
+          채팅참여하기
+        </button>
       </div>
       <div className='flex flex-wrap ml-[16px] gap-[10px] justify-start'>
         {profiles?.map((profile, index) => (
@@ -133,6 +150,7 @@ const MemberList = ({ clubMembers, id, endButtonVisible }: MemberListProps) => {
       </div>
       {!endButtonVisible && <EndButton id={id} />}
       {/* <EndButton id={id} /> */}
+      {/* {showChat && <ChatComponent clubId={clubId} />} */}
     </div>
   );
 };

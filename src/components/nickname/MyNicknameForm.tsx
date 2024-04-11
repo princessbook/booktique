@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import closeInput from '../../public/closeInput.svg';
 import Input from '@/common/Input';
 import { useRouter } from 'next/navigation';
 import { getUserId } from '@/utils/userAPIs/authAPI';
@@ -55,7 +54,7 @@ const MyNicknameForm = () => {
       data: { user }
     } = await supabase.auth.getUser();
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('profiles')
         .update({ display_name: nickname })
         .eq('id', user?.id || '');
@@ -64,7 +63,6 @@ const MyNicknameForm = () => {
       }
       setNickname(nickname);
       setNewNickname('');
-      // window.location.href = '/register/avatar';
       router.push(`/register/set-profile-image`);
     } catch (error) {
       console.error(error);

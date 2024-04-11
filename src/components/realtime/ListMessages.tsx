@@ -10,9 +10,7 @@ const ListMessage = ({
 }: {
   clubsIds: (string | null)[] | undefined;
 }) => {
-  console.log('클럽아이디', clubsIds);
   const params = useParams();
-  console.log(params.id);
   const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const { messages, addMessage, optimisticIds } = useMessage((state) => state);
   const supabase = createClient();

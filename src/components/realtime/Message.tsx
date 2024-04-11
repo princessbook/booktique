@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { useUser } from '@/store/user';
 
 const Message = ({ message }: { message: Imessage }) => {
-  console.log('메세지입니다', message);
   const user = useUser((state) => state.user);
   return (
     <div className='flex gap-2'>

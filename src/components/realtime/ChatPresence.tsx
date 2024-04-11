@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 
 const ChatPresence = ({ userId }: { userId: string | undefined }) => {
   const params = useParams();
-  console.log('??', params.id);
   const supabase = createClient();
   const [onlineUsers, setOnlineUsers] = useState(0);
   useEffect(() => {

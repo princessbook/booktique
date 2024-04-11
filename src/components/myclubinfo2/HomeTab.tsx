@@ -94,7 +94,7 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
         <div className='p-5'>
           <p className='font-medium'>함께 읽고 있는 책</p>
           <ClubBook club={club} />
-          <div>
+          <div className='mt-8'>
             <p className=' mb-2 font-medium'>전체 독서 진행률</p>
             <div className='grid grid-cols-3 gap-4'>
               {clubMembers.map((member, index) => (

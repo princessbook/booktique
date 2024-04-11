@@ -13,6 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedClubId, setSelectedClubId] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState('home');
+
   useEffect(() => {
     const fetchData = async () => {
       try {

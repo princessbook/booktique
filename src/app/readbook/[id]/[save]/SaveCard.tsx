@@ -36,7 +36,8 @@ const SaveCard = ({
   };
 
   const handleSave = async () => {
-    localStorage.clear();
+    localStorage.removeItem('timerStarted');
+    localStorage.removeItem('timerSeconds');
     const memberId = await getUserId();
     // console.log('memberId', memberId);
     // console.log('저장!');

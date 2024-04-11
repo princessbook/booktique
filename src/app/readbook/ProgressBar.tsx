@@ -1,12 +1,18 @@
 const ProgressBar = ({ progress }: { progress: number }) => {
   return (
-    <div className='w-[196px] h-[4px] mt-4 j mx-auto relative'>
+    <div className='w-[196px] h-[4px] bg-[#EDEEF2] relative mb-[44px]'>
+      {/* <div
+        className={`h-full bg-subblue rounded-full absolute w-${progress}%`}></div> */}
+      {/* 태일윈드로 동적으로 %조절하려면  style을 줘야함 */}
       <div
-        className='w-full h-full bg-subblue rounded-full absolute'
+        className='h-full bg-subblue rounded-full absolute '
         style={{ width: `${progress}%` }}></div>
+
       {/* <div className={`h-full bg-blue-500 rounded-full w-${progress}%`} /> */}
-      <div className='w-full h-full bg-[#EDEEF2] rounded-full'></div>
-      <div className='text-end text-subblue'> {progress}%</div>
+
+      <div className='flex text-subblue  font-medium text-[14px] leading-[20px] justify-end pt-[4px]'>
+        {progress}%
+      </div>
     </div>
   );
 };

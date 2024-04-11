@@ -89,14 +89,14 @@ const MemberList = ({
   };
   return (
     <>
-      <div className='flex flex-col'>
+      <div className='flex flex-col h-full'>
         <div className='mt-[32px] mb-[16px] ml-[16px] font-bold text-[16px] leading-[22px] text-[#3F3E4E]'>
           함께 책 읽기
           <button className='ml-10' onClick={handleChatting}>
             채팅참여하기
           </button>
         </div>
-        <div className='flex flex-wrap ml-[16px] gap-[10px] justify-start'>
+        <div className='flex flex-wrap ml-[16px] gap-[10px] justify-start '>
           {profiles?.map((profile, index) => (
             <div
               key={index}
@@ -118,22 +118,28 @@ const MemberList = ({
                   </div>
                 )}
                 {profile?.photo_URL ? (
-                  <img
+                  <Image
                     src={profile.photo_URL}
                     alt='profile_image'
+                    width={56}
+                    height={56}
                     className='mx-auto rounded-full object-cover w-[56px] h-[56px] mt-[11px] mb-1 '
                   />
                 ) : (
-                  <img
+                  <Image
                     src='/default_img.png'
+                    width={56}
+                    height={56}
                     alt='default_profile_image'
                     className='mx-auto rounded-full object-cover w-[56px] h-[56px] mt-[11px] mb-1'
                   />
                 )}
                 {clubMembers[index]?.role === 'admin' && (
-                  <img
+                  <Image
                     src='/badge.png'
                     alt='admin'
+                    width={16}
+                    height={16}
                     className='absolute w-[16px] h-[16px] bottom-2 right-0 mr-[19px] '
                   />
                 )}

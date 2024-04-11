@@ -90,3 +90,16 @@ export const updatePost = async (newPost: UpdatePost) => {
 
   return data;
 };
+
+//글 삭제로직
+export const deletePost = async (postId: string) => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('posts')
+    .delete()
+    .match({ id: postId });
+
+  if (error) throw error;
+  return data;
+};

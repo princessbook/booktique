@@ -33,14 +33,15 @@ const ClubMemberProfile = ({ member }: { member: Tables<'members'> }) => {
   return (
     <div className='flex flex-col justify-center items-center'>
       <div className='w-10 h-10 bg-grayBg rounded-full overflow-hidden flex items-center '>
-        {/* {profile && (
+        {profile && profile.photo_URL && (
           <Image
-            src={profile?.photo_URL}
+            src={profile.photo_URL}
             width={120}
             height={100}
             objectFit='cover'
+            alt={profile.photo_URL}
           />
-        )} */}
+        )}
       </div>
       <p>{member.role === 'admin' ? '방장' : '일반멤버'}</p>
       <div>{profile?.display_name}</div>

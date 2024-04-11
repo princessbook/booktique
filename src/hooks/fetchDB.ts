@@ -8,6 +8,6 @@ export const fetchUser = async () => {
   const { data: userData } = await supabase
     .from('profiles')
     .select('*')
-    .eq('id', session?.user.id);
+    .eq('id', session?.user.id!);
   return userData;
 };

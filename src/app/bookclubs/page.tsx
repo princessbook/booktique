@@ -11,6 +11,7 @@ const BookClubsPage = async (props: any) => {
   console.log(props.searchParams.category);
   const supabase = createClient();
   let bookclubs;
+
   if (props.searchParams.category) {
     const { data: categoryData, error } = await supabase
       .from('clubs')
@@ -30,7 +31,8 @@ const BookClubsPage = async (props: any) => {
       .select('*')
       .or(
         `name.ilike.%${props.searchParams.search}%,book_title.ilike.%${props.searchParams.search}%`
-      );
+      )
+      .order('created_at', { ascending: false });
 
     if (error) {
       console.error('Error fetching clubs by search term:', error.message);
@@ -50,6 +52,19 @@ const BookClubsPage = async (props: any) => {
     }
 
     bookclubs = allData;
+  }
+
+  if (props.searchParams.category === '기타') {
+    const { data, error } = await supabase
+      .from('clubs')
+      .select('*')
+      .not(
+        'book_category',
+        'in',
+        '("건강/취미","경제경영","과학","사회과학","소설/시/희곡","여행","역사","예술/대중문화","인문학","자기계발","종교/역학","외국도서")'
+      )
+      .order('created_at', { ascending: false });
+    bookclubs = data;
   }
 
   if (!bookclubs) {
@@ -86,7 +101,7 @@ const BookClubsPage = async (props: any) => {
                       {bookclub.book_title}
                     </h2>
 
-                    {/* <p className='text-xs'>{bookclub.book_category}</p> */}
+                    <p className='text-xs'>{bookclub.book_category}</p>
                     <div className='flex justify-between text-[14px] mb-2'>
                       <ClubAdminProfile clubId={bookclub.id} />
                       <div className='mr-3 text-[14px]'>

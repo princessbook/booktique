@@ -40,29 +40,34 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
   if (!bookclub) return;
   return (
     <div>
-      <h2 className='text-center'>북클럽 상세페이지</h2>
-      <section className='bg-gray-200 p-2'>
+      <section className=' bg-grayBg p-4 py-4'>
         <div className='flex justify-between'>
-          <h1>{bookclub.name}</h1>
+          <h1 className='font-bold text-[18px] mb-2'>{bookclub.name}</h1>
           {/* <p>모집중</p> */}
         </div>
-        <div className='flex'>
-          <div className='bg-gray-600 w-24 h-32 mr-3'>
+        <div className='flex items-center'>
+          <div className=' mr-3 w-24 r-3 flex-shrink-0 flex items-center justify-center'>
             {bookclub.book_cover && (
               <Image
                 src={bookclub.book_cover}
                 alt='북커버'
-                width={200}
-                height={200}
+                width={110}
+                height={141}
               />
             )}
           </div>
-          <div>
-            <h2 className='mb-3 font-bold'>{bookclub.book_title}</h2>
+          <div className=''>
+            <h2 className='mb-3 text-[16px] font-bold'>
+              {bookclub.book_title}
+            </h2>
             {/* <p>모집기간:</p> */}
-            <p>시작:{extractDate(bookclub.created_at)}</p>
-            <p>종료:{extractDate(addOneMonth(bookclub.created_at))}</p>
-            <p>{bookclub.book_page}p</p>
+            <p className='text-[14px]'>
+              시작:{extractDate(bookclub.created_at)}
+            </p>
+            <p className='text-[14px]'>
+              종료:{extractDate(addOneMonth(bookclub.created_at))}
+            </p>
+            <p className='text-[14px]'>{bookclub.book_page}p</p>
           </div>
         </div>
       </section>

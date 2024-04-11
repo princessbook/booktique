@@ -11,7 +11,7 @@ const ClubMembersCount = async ({ clubId }: { clubId: string }) => {
   if (error) {
     throw new Error('멤버 정보를 가져오는 도중 오류가 발생했습니다.');
   }
-  return <span>{clubMembers.length}</span>;
+  return <span className='text-[#3F3E4E]'>{clubMembers.length}</span>;
 };
 
 export default ClubMembersCount;

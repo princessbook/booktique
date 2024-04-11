@@ -30,7 +30,7 @@ const ResignBtn = ({
         setUserIsClubMember(false);
         setIsJoinOrResign((prev) => !prev);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };

@@ -1,13 +1,20 @@
 'use client';
 import { bookCategories } from '@/common/constants/bookCategories';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const ClubSearch = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('');
+  const [activeCategory, setActiveCategory] = useState('전체');
+  const router = useRouter();
 
   const handleCategoryClick = (category: string) => {
     setActiveCategory(category);
+    if (category === '전체') {
+      router.push('/bookclubs');
+      return;
+    }
+    router.push(`/bookclubs?category=${encodeURIComponent(category)}`);
   };
 
   useEffect(() => {
@@ -37,6 +44,9 @@ const ClubSearch = () => {
         <input
           className='w-full py-3 px-4 outline-none rounded-md'
           placeholder='책 제목이나 클럽 이름을 검색해 보세요'
+          onChange={(e) => {
+            router.push(`/bookclubs?search=${e.target.value}`);
+          }}
         />
       </div>
       <div className='bg-white rounded-t-2xl py-3 mt-2'>

@@ -35,7 +35,7 @@ const CreateBookPage = () => {
       return `${process.env
         .NEXT_PUBLIC_SUPABASE_ANON_KEY!}/storage/v1/object/public/images/bookclub/${fileName}`;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -65,18 +65,16 @@ const CreateBookPage = () => {
         ])
         .select();
 
-      console.log('성공적으로 업로드되었음');
       if (error) {
         throw error;
       }
       if (data) {
         const bookclubData = JSON.stringify(data[0]);
-        console.log('bookclubdata id: ' + JSON.parse(bookclubData).id);
         insertDataToMembers(JSON.parse(bookclubData).id);
       }
       return data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -84,7 +82,6 @@ const CreateBookPage = () => {
     const {
       data: { user }
     } = await supabase.auth.getUser();
-    console.log('user', user);
     if (!user) return;
     try {
       const { error } = await supabase.from('members').insert([
@@ -94,12 +91,11 @@ const CreateBookPage = () => {
           role: 'admin'
         }
       ]);
-      console.log('클럽아이디와 유저아이디가 멤버데이터에 삽입되었음');
       if (error) {
         throw error;
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

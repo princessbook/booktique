@@ -18,12 +18,10 @@ const QuizAnswer = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAnswerInput(event.target.value);
-    console.log(isChecked);
     handleAnswerChange(answer.id, event.target.value, isChecked);
   };
   const handleCheckboxChange = (isChecked: boolean) => {
     // setIsChecked(event.target.checked);
-    console.log('isChecked', isChecked);
     handleAnswerChange(answer.id, answerInput, isChecked);
   };
 

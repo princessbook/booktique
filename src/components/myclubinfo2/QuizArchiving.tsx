@@ -43,10 +43,6 @@ const QuizArchiving = ({ clubId }: { clubId: string }) => {
     fetchQuizesByClubId(clubId);
   }, [clubId, supabase]);
 
-  useEffect(() => {
-    console.log('quizsData', quizsData);
-  }, [quizsData]);
-
   if (!quizsData) return;
 
   return (

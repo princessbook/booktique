@@ -1,7 +1,10 @@
-import React from 'react';
-
+'use client';
 const ArticleComment = () => {
-  return <div>ArticleComment</div>;
+  return (
+    <div>
+      <p>dasd</p>
+    </div>
+  );
 };
 
 export default ArticleComment;

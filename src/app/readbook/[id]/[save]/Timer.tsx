@@ -25,7 +25,7 @@ const Timer = ({
         .update({ time: timeInSeconds })
         .eq('user_id', userId as string)
         .eq('club_id', clubId as string);
-      console.log('Time updated in Supabase.');
+      // console.log('Time updated in Supabase.');
     } catch (error) {
       console.error('Error updating time in Supabase:', error);
     }
@@ -54,7 +54,7 @@ const Timer = ({
           .eq('club_id', clubId)
           .eq('user_id', userId as string)
           .single();
-        console.log('Data from Supabase:', data);
+        // console.log('Data from Supabase:', data);
         if (error) {
           throw error;
         }

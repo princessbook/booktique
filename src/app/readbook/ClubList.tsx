@@ -88,7 +88,7 @@ const ClubList = ({
       );
       // console.log('existingActivity', existingActivity);
       if (existingActivity) {
-        console.log('이미 클럽 활동이 있습니다. 시간 업데이트함');
+        // console.log('이미 클럽 활동이 있습니다. 시간 업데이트함');
         // await supabase
         //   .from('club_activities')
         //   .update({ time: 0 })
@@ -115,7 +115,7 @@ const ClubList = ({
         }
       ]);
       // router.push(`/readbook/${clubId}`);
-      console.log('클럽 활동 추가되었습니다.');
+      // console.log('클럽 활동 추가되었습니다.');
     } catch (error) {
       console.error('클럽 활동 추가 중 오류:', error);
     }
@@ -129,31 +129,29 @@ const ClubList = ({
     <>
       <Slider className='custom-slider' {...settings}>
         {filteredBookClubsData.map((club) => (
-          <div key={club.id}>
-            <div className='flex flex-row'>
-              <div className='bg-white mb-[40px] w-[302px] h-[464px] rounded-[20px] shadow-md mx-auto mt-[24px]'>
-                <div className='flex mt-[34px] w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto justify-center'>
-                  {club.book_title &&
-                    (club.book_title.length > 25
-                      ? club.book_title.substring(0, 25) + '...'
-                      : club.book_title)}
-                </div>
-                <img
-                  src={club.book_cover || ''}
-                  alt='북이미지'
-                  //넥스트 이미지쓰면 height가 제대로 안먹힘
-                  // width={196}
-                  // height={304}
-                  className='mx-[53px] mt-[15.84px] mb-[16px] w-[196px] h-[304px] rounded'
-                />
-                <ProgressBar
-                  progress={
-                    clubActivities?.find(
-                      (activity) => activity.club_id === club.id
-                    )?.progress || 0
-                  }
-                />
+          <div key={club.id} className='flex'>
+            <div className='flex flex-col bg-white mb-[40px] w-[302px] h-[464px] rounded-[20px] shadow-md mx-auto items-center'>
+              <div className='flex w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] '>
+                {club.book_title &&
+                  (club.book_title.length > 25
+                    ? club.book_title.substring(0, 25) + '...'
+                    : club.book_title)}
               </div>
+              <img
+                src={club.book_cover || ''}
+                alt='북이미지'
+                //넥스트 이미지쓰면 height가 제대로 안먹힘
+                // width={196}
+                // height={304}
+                className='mx-[53px] mt-[15.84px] mb-[16px] w-[196px] h-[304px] rounded'
+              />
+              <ProgressBar
+                progress={
+                  clubActivities?.find(
+                    (activity) => activity.club_id === club.id
+                  )?.progress || 0
+                }
+              />
             </div>
           </div>
         ))}

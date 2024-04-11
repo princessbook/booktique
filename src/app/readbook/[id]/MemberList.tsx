@@ -107,13 +107,13 @@ const MemberList = ({
               } rounded-[10px] w-[108px] h-[146px]`}>
               <div className='relative'>
                 {profile?.club_activities?.time > 0 && (
-                  <div className='p-1 gap-2 absolute w-[42px] h-[17px] left-[11px] top-[10px] bg-[#269AED] rounded-md text-[11px] leading-[13px] font-medium text-white'>
+                  <div className='p-1 gap-2 absolute w-[42px] h-[17px] left-[11px] top-[10px] bg-[#269AED] rounded-md text-[11px] leading-[10px] font-medium text-white'>
                     독서중
                   </div>
                 )}
                 {/* 나는 바보다 책 읽기 시작하기 누르면 아래에 내 프로필에 독서중 나타남*/}
                 {profile?.id === userId && timerVisible && (
-                  <div className='p-1 gap-2 absolute w-[42px] h-[17px] left-[11px] top-[10px] bg-[#269AED] rounded-md text-[11px] leading-[13px] font-medium text-white'>
+                  <div className='p-1 gap-2 absolute w-[42px] h-[17px] left-[11px] top-[10px] bg-[#269AED] rounded-md text-[11px] leading-[10px] font-medium text-white '>
                     독서중
                   </div>
                 )}

@@ -13,7 +13,7 @@ const ClubMemberProfile = ({ member }: { member: Tables<'members'> }) => {
       const { data, error } = await supabase
         .from(PROFILES_TABLE)
         .select('*')
-        .eq('id', member.user_id)
+        .eq('id', member.user_id as string)
         .single();
       if (data) {
         setProfile(data);

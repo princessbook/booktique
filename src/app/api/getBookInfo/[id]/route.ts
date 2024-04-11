@@ -10,7 +10,7 @@ export async function GET(
       process.env.ALADIN_BOOK_API_KEY
     }&itemIdType=ISBN13&ItemId=${encodeURIComponent(
       id
-    )}&output=js&Version=20131101&OptResult=ebookList,usedList,reviewList`;
+    )}&output=js&Cover=Big&Version=20131101&OptResult=ebookList,usedList,reviewList`;
     const response = await fetch(targetUrl);
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);

@@ -64,9 +64,10 @@ const ClubList = ({
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
+    vertical: false,
+    // 슬라이드가 변경될 때마다 현재 슬라이드 인덱스를 업데이트
     centerMode: true, // 가운데 정렬 모드 활성화
     centerPadding: '25px', // 좌우 패딩 추가
-    vertical: false,
     // 슬라이드가 변경될 때마다 현재 슬라이드 인덱스를 업데이트
     afterChange: (current: number) => setCurrentSlide(current)
   };
@@ -87,10 +88,15 @@ const ClubList = ({
       );
       // console.log('existingActivity', existingActivity);
       if (existingActivity) {
-        // router.push(`/readbook/${clubId}`);
-        console.log('이미 클럽 활동이 있습니다.');
+        console.log('이미 클럽 활동이 있습니다. 시간 업데이트함');
+        // await supabase
+        //   .from('club_activities')
+        //   .update({ time: 0 })
+        //   .eq('user_id', id)
+        //   .eq('club_id', clubId);
         return;
       }
+
       // const validClubId = clubActivities?.find((club) => club.id === clubId);
       // // console.log('validClubId', validClubId);
       // if (!validClubId) {
@@ -104,7 +110,8 @@ const ClubList = ({
           club_id: clubId,
           progress: 0,
           // time: Date.now()
-          time: 3600 // 기본 1시간으로 제한
+          // time: 3600 // 기본 1시간으로 제한
+          time: 0 // 기본 1시간으로 제한
         }
       ]);
       // router.push(`/readbook/${clubId}`);

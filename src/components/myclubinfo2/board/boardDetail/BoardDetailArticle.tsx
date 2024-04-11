@@ -1,7 +1,7 @@
 'use client';
 
-import { fetchPostDetail } from '@/utils/postAPIs/postAPI';
-import { useQuery } from '@tanstack/react-query';
+import { deletePost, fetchPostDetail } from '@/utils/postAPIs/postAPI';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -13,6 +13,19 @@ const BoardDetailArticle = ({
   clubId: string;
 }) => {
   const router = useRouter();
+
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: deletePost,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts', clubId] });
+    }
+  });
+
+  const handleDeletePost = async (postId: string) => {
+    deleteMutation.mutate(postId);
+  };
 
   const {
     data: article,
@@ -59,7 +72,7 @@ const BoardDetailArticle = ({
             }>
             수정
           </p>
-          <p>삭제</p>
+          <p onClick={() => handleDeletePost(article.id)}>삭제</p>
         </div>
       </header>
       <hr />

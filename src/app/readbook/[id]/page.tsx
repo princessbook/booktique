@@ -33,9 +33,17 @@ const ReadBookDetail = async ({
   if (clubDataError) {
     throw new Error('클럽 정보를 가져오는 도중 오류가 발생했습니다.');
   }
+
+  // const channelName = `book_channel_${id}`; // id를 사용하여 채널 이름을 생성합니다.
+  // const bookChannel = supabase.channel(channelName); // 생성된 채널 객체를 가져옵니다.
+  // console.log('channelName', channelName);
+  // console.log('bookChannel', bookChannel);
+  // // 채널에 입장하는 코드
+  // bookChannel.subscribe();
+
   return (
     <>
-      <BookInfo clubData={clubData} id={id} clubMembers={clubMembers} />
+      <BookInfo clubData={clubData} clubId={id} clubMembers={clubMembers} />
       {/* <MemberList id={id} clubMembers={clubMembers} /> */}
     </>
   );

@@ -8,6 +8,14 @@ interface ModalProps {
 }
 const EndModal = ({ onClose, id }: ModalProps) => {
   const router = useRouter();
+
+  const handleStopTimerAndNavigate = () => {
+    onClose();
+    localStorage.removeItem('timerSeconds');
+    localStorage.removeItem('timerStarted');
+
+    router.push(`/readbook/${id}/save`);
+  };
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20'>
       <div className='bg-white w-[327px] h-[352px] rounded-[20px] flex flex-col items-center'>
@@ -30,7 +38,7 @@ const EndModal = ({ onClose, id }: ModalProps) => {
           </button>
           <button
             className='px-4 py-2 text-[#8A9DB3] rounded-full border border-[#DBE3EB] text-[14px]'
-            onClick={() => router.push(`/readbook/${id}/save`)}>
+            onClick={handleStopTimerAndNavigate}>
             그만 읽기
           </button>
         </div>

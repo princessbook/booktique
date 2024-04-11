@@ -1,8 +1,6 @@
-'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/lib/types/supabase';
-// import LoadingOverlay from '@/common/LoadingOverlay';
 
 const Timer = ({
   clubId,
@@ -12,9 +10,8 @@ const Timer = ({
   userId: string | null;
 }) => {
   const intervalRef = useRef<number | NodeJS.Timeout | undefined>(undefined);
-  //   const [userId, setUserId] = useState<string | null>(null);
   const [clubActivity, setClubActivity] = useState<Tables<'club_activities'>>();
-  const [seconds, setSeconds] = useState<number>(clubActivity?.time || 3600);
+  const [seconds, setSeconds] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 
   const supabase = createClient();
@@ -26,8 +23,6 @@ const Timer = ({
         .update({ time: timeInSeconds })
         .eq('user_id', userId as string)
         .eq('club_id', clubId as string);
-      console.log('userId', userId);
-      console.log('clubId', clubId);
       console.log('Time updated in Supabase.');
     } catch (error) {
       console.error('Error updating time in Supabase:', error);
@@ -38,7 +33,6 @@ const Timer = ({
     const hours = Math.floor(timeInSeconds / 3600);
     const minutes = Math.floor((timeInSeconds % 3600) / 60);
     const seconds = timeInSeconds % 60;
-    // 시간, 분, 초 각각에 대해 0을 붙여서 문자열로 만듭니다.
     const formattedHours = hours.toString();
     const formattedMinutes =
       minutes < 10 ? '0' + minutes.toString() : minutes.toString();
@@ -51,68 +45,73 @@ const Timer = ({
   useEffect(() => {
     const fetchClubActivity = async () => {
       try {
-        // club_activities 테이블에서 clubId와 user_id가 일치하는 데이터 가져오기
-        const { data: test, error } = await supabase
+        localStorage.getItem('userId');
+        const { data, error } = await supabase
           .from('club_activities')
           .select('*')
           .eq('club_id', clubId)
           .eq('user_id', userId as string)
           .single();
-        console.log('test', test);
+        console.log('Data from Supabase:', data);
         if (error) {
           throw error;
         }
-
-        setClubActivity(test);
+        setClubActivity(data);
         setLoading(false);
       } catch (error) {
-        console.error(
-          '클럽 활동 데이터를 가져오는 도중 오류가 발생했습니다:',
-          error
-        );
+        console.error('Error fetching club activity:', error);
         setLoading(false);
       }
     };
 
     if (userId && clubId) {
-      console.log('시작');
       fetchClubActivity();
     }
   }, [userId, clubId, supabase]);
 
   useEffect(() => {
     if (clubActivity && clubActivity.time !== null) {
-      const settingTime = Math.min(clubActivity.time, 3600);
-      setSeconds(settingTime);
-    } else {
-      setSeconds(3600);
+      const initialTime = Math.max(clubActivity.time, 0);
+      setSeconds(initialTime);
     }
   }, [clubActivity]);
 
   useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setSeconds((prevSeconds: number) => {
-        const timeInSeconds = prevSeconds - 1;
-        saveTimeToSupabase(timeInSeconds);
-        return timeInSeconds;
-      });
-    }, 1000);
+    if (seconds > 0) {
+      intervalRef.current = setInterval(() => {
+        setSeconds((prevSeconds: number) => {
+          const timeInSeconds = Math.max(prevSeconds - 1, 0);
+          saveTimeToSupabase(timeInSeconds);
+          // 타이머가 감소할 때마다 로컬 스토리지에 현재 시간 저장
+          localStorage.setItem('timerSeconds', timeInSeconds.toString());
+          return timeInSeconds;
+        });
+      }, 1000);
 
-    return () => {
-      clearInterval(intervalRef.current);
-    };
+      return () => {
+        clearInterval(intervalRef.current as number);
+      };
+    }
+  }, [seconds]);
+
+  useEffect(() => {
+    // 컴포넌트 마운트 시 로컬 스토리지에서 이전 시간 확인
+    const previousTime = localStorage.getItem('timerSeconds');
+    if (previousTime !== null) {
+      setSeconds(parseInt(previousTime, 10));
+    }
   }, []);
-  // if (loading) {
-  //   return <LoadingOverlay show={loading} />;
+
+  // if (!userId) {
+  //   // 사용자 ID가 null인 경우에 대한 처리
+  //   return <div>사용자 ID가 없습니다.</div>;
   // }
+
   return (
     <>
-      {loading ? (
-        <></>
-      ) : (
+      {!loading && (
         <div className='flex h-[40px] mx-auto items-center justify-center'>
           <div className='flex flex-row gap-[10px] items-center justify-center'>
-            {/* 피그마랑 좀 다름 */}
             <div className='text-[14px] leading-5 font-bold w-[60px] h-[28px] bg-[#E9FF8F] bg-opacity-20 text-[#E9FF8F] py-[4px] px-[8px] rounded-md text-center'>
               독서중
             </div>

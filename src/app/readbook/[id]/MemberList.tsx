@@ -31,13 +31,13 @@ const MemberList = ({
   const supabase = createClient();
   const [profiles, setProfiles] = useState<UserProfile[]>();
   const [loading, setLoading] = useState<boolean>(true);
-  console.log('timerVisible 멤버리스트', timerVisible);
+  // console.log('timerVisible 멤버리스트', timerVisible);
   // const [activitiesData, setActivitiesData] = useState<{ progress: number }[]>(
   //   []
   // );
-  console.log('clubMembers', clubMembers);
-  console.log('profiles', profiles);
-  console.log('userId', userId);
+  // console.log('clubMembers', clubMembers);
+  // console.log('profiles', profiles);
+  // console.log('userId', userId);
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
@@ -50,6 +50,7 @@ const MemberList = ({
           if (profileError) {
             throw new Error('프로필 정보를 가져오는 도중 오류가 발생했습니다');
           }
+          // console.log('profileData', profileData);
           // 해당 멤버의 클럽 활동 정보도 가져오기
           const { data: activitiesData, error: activitiesError } =
             await supabase
@@ -70,6 +71,7 @@ const MemberList = ({
           };
         });
         const profilesData = await Promise.all(profilePromises || []);
+        // console.log('profilesData', profilesData);
         setProfiles(profilesData);
         setLoading(false);
       } catch (error) {

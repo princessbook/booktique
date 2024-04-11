@@ -87,10 +87,15 @@ const ClubList = ({
       );
       // console.log('existingActivity', existingActivity);
       if (existingActivity) {
-        // router.push(`/readbook/${clubId}`);
-        console.log('이미 클럽 활동이 있습니다.');
+        console.log('이미 클럽 활동이 있습니다. 시간 업데이트함');
+        await supabase
+          .from('club_activities')
+          .update({ time: 3600 })
+          .eq('user_id', id)
+          .eq('club_id', clubId);
         return;
       }
+
       // const validClubId = clubActivities?.find((club) => club.id === clubId);
       // // console.log('validClubId', validClubId);
       // if (!validClubId) {

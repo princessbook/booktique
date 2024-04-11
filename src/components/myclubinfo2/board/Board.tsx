@@ -22,23 +22,28 @@ const Board = ({ clubId }: { clubId: string }) => {
 
   return (
     <div>
-      {posts?.map((post) => (
-        <div key={post.id} className='border'>
-          <Link href={`/myclubinfo2/board/detail/${post.id}?clubId=${clubId}`}>
-            <p>{post.title}</p>
-            <p>{post.content}</p>
-            <p>{post.profile?.display_name}</p>
-            {post.profile?.photo_URL && (
-              <Image
-                src={post.profile?.photo_URL}
-                alt='유저 프로필'
-                width={20}
-                height={20}
-              />
-            )}
-          </Link>
-        </div>
-      ))}
+      {posts?.map(
+        (
+          post: any // 수정 필요
+        ) => (
+          <div key={post.id} className='border'>
+            <Link
+              href={`/myclubinfo2/board/detail/${post.id}?clubId=${clubId}`}>
+              <p>{post.title}</p>
+              <p>{post.content}</p>
+              <p>{post.profile?.display_name}</p>
+              {post.profile?.photo_URL && (
+                <Image
+                  src={post.profile?.photo_URL}
+                  alt='유저 프로필'
+                  width={20}
+                  height={20}
+                />
+              )}
+            </Link>
+          </div>
+        )
+      )}
       <Link
         href={`/myclubinfo2/board/posting/${crypto.randomUUID()}?clubId=${clubId}`}>
         글 쓰러가기

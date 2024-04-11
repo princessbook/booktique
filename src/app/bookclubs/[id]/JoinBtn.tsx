@@ -26,7 +26,7 @@ const JoinBtn = ({
       const { data: members, error } = await supabase
         .from(MEMBERS_TABLE)
         .insert([{ club_id: clubId, user_id: user?.id, role: 'member' }]);
-      console.log('성공');
+
       setUserIsClubMember(true);
       setIsJoinOrResign((prev) => !prev);
       router.refresh();

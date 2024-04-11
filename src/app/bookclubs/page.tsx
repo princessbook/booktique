@@ -6,26 +6,43 @@ import Image from 'next/image';
 import ClubAdminProfile from './ClubAdminProfile';
 import ClubSearch from './ClubSearch';
 
-export const revalidate = 0;
 const BookClubsPage = async (props: any) => {
-  console.log(props.searchParams.category);
   const supabase = createClient();
   let bookclubs;
-
+  let params;
   if (props.searchParams.category) {
-    const { data: categoryData, error } = await supabase
-      .from('clubs')
-      .select('*')
-      .eq('book_category', props.searchParams.category)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching clubs by category:', error.message);
-      return null;
-    }
-
-    bookclubs = categoryData;
+    params = decodeURIComponent(props.searchParams.category);
   } else if (props.searchParams.search) {
+    params = decodeURIComponent(props.searchParams.search);
+  }
+
+  if (params) {
+    if (params === '기타') {
+      const { data, error } = await supabase
+        .from('clubs')
+        .select('*')
+        .not(
+          'book_category',
+          'in',
+          '("건강/취미","경제경영","과학","사회과학","소설/시/희곡","여행","역사","예술/대중문화","인문학","자기계발","종교/역학","외국도서")'
+        )
+        .order('created_at', { ascending: false });
+      bookclubs = data;
+    } else {
+      const { data: categoryData, error } = await supabase
+        .from('clubs')
+        .select('*')
+        .eq('book_category', props.searchParams.category)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching clubs by category:', error.message);
+        return null;
+      }
+
+      bookclubs = categoryData;
+    }
+  } else if (params) {
     const { data: searchData, error } = await supabase
       .from('clubs')
       .select('*')
@@ -52,19 +69,6 @@ const BookClubsPage = async (props: any) => {
     }
 
     bookclubs = allData;
-  }
-
-  if (props.searchParams.category === '기타') {
-    const { data, error } = await supabase
-      .from('clubs')
-      .select('*')
-      .not(
-        'book_category',
-        'in',
-        '("건강/취미","경제경영","과학","사회과학","소설/시/희곡","여행","역사","예술/대중문화","인문학","자기계발","종교/역학","외국도서")'
-      )
-      .order('created_at', { ascending: false });
-    bookclubs = data;
   }
 
   if (!bookclubs) {

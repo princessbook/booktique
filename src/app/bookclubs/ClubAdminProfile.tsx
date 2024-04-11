@@ -14,26 +14,19 @@ const ClubAdminProfile = async ({ clubId }: { clubId: string }) => {
   }
 
   if (!adminMembers || adminMembers.length === 0) {
-    console.log('No admin members found for the club.');
     const { data: members, error: membersError } = await supabase
       .from('members')
       .select('*')
       .eq('club_id', clubId);
 
     if (members && members.length > 0) {
-      console.log('이거뜸?', members[0].user_id);
       await supabase
         .from('members')
         .update({ role: 'admin' })
         .eq('club_id', clubId)
         .eq('user_id', members[0].user_id as string);
-
-      console.log(
-        '방장이 나가면 남아 있는 멤버 중 한명이 어드민으로 업그레이드 됨'
-      );
     }
 
-    console.log('남은멤버들', members);
     return [];
   }
 

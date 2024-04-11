@@ -53,7 +53,6 @@ const QuizModal = ({
   };
 
   const handleSave = async () => {
-    console.log(quizes);
     if (!validationCheck()) return;
     const quizData = JSON.stringify(quizes[0]);
     const {

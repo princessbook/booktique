@@ -24,7 +24,6 @@ const BookClubDetailCSR = ({
         .select('*')
         .eq('club_id', id);
       if (data) {
-        console.log('clubMembers', data);
         setClubMembers(data);
       }
     };

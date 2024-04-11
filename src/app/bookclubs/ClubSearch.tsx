@@ -14,7 +14,7 @@ const ClubSearch = () => {
       router.push('/bookclubs');
       return;
     }
-    router.push(`/bookclubs?category=${category}`);
+    router.push(`/bookclubs?category=${encodeURIComponent(category)}`);
   };
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import ChatInput from '@/components/realtime/ChatInput';
+import ChatInput from './ChatInput';
 import ChatMessages from '@/components/realtime/ChatMessages';
 import React, { Suspense } from 'react';
 

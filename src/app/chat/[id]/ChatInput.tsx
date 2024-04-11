@@ -5,15 +5,13 @@ import { createClient } from '@/utils/supabase/client';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
 const ChatInput = () => {
   const supabase = createClient();
-  const params = useParams();
+  const params = useParams<{ id: string }>();
   const user = useUser((state) => state.user);
   const addMessage = useMessage((state) => state.addMessage);
   const setOptimisticIds = useMessage((state) => state.setOptimisticIds);
   const [photoURL, setPhotoURL] = useState<string | undefined>(undefined);
-
   useEffect(() => {
     const fetchUserData = async () => {
       const { data } = await supabase.auth.getUser();
@@ -21,27 +19,24 @@ const ChatInput = () => {
         .from('profiles')
         .select('photo_URL')
         .eq('id', data?.user?.id!);
-
       if (error) {
         console.error('Error fetching user data:', error.message);
         return;
       }
-
       if (users && users.length > 0) {
         setPhotoURL(users[0].photo_URL!); // photo_URL 값을 상태로 설정
       }
     };
-
     fetchUserData();
   }, []);
-  const handleSendMessage = async (text: string) => {
+  const handleSendMessage = async (text: any) => {
     const { data } = await supabase.auth.getUser();
     await supabase.from('profiles').select('*').eq('id', data?.user?.id!);
     const userId = data.user?.id;
     if (text.trim()) {
       const newMessage = {
         id: uuidv4(),
-        text,
+        text: text,
         send_from: userId,
         is_edit: false,
         club_id: params?.id,
@@ -74,10 +69,11 @@ const ChatInput = () => {
       };
       addMessage(newMessage as Imessage);
       setOptimisticIds(newMessage.id);
+      console.log(newMessage);
       // supabase 불러오기
       const { error } = await supabase
         .from('messages')
-        .insert({ text, club_id: params.id, send_from: userId });
+        .insert([{ text, club_id: params.id, send_from: userId ?? '' }]);
       if (error) {
         console.log(error);
       }
@@ -99,5 +95,4 @@ const ChatInput = () => {
     </div>
   );
 };
-
 export default ChatInput;

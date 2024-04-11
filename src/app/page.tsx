@@ -4,7 +4,7 @@ import React from 'react';
 
 const supabase = createClient();
 
-const page = async () => {
+const MainPage = async () => {
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -17,4 +17,4 @@ const page = async () => {
   return <div>page</div>;
 };
 
-export default page;
+export default MainPage;

@@ -36,6 +36,7 @@ const SaveCard = ({
   };
 
   const handleSave = async () => {
+    localStorage.clear();
     const memberId = await getUserId();
     // console.log('memberId', memberId);
     // console.log('저장!');
@@ -97,7 +98,7 @@ const SaveCard = ({
       // console.log('club_activities 테이블에 새로운 행 삽입 완료', insertedData);
     }
     setProgress(result);
-    // router.push('/myclubinfo');
+    router.push('/readbook');
   };
 
   return (

@@ -103,12 +103,12 @@ const MemberList = ({
             <div
               key={index}
               className={`flex flex-col ${
-                profile?.club_activities?.time < 3600
+                profile?.club_activities?.time > 0
                   ? 'bg-[#EDEEF2]'
                   : 'bg-[#EDEEF2] bg-opacity-50'
               } rounded-[10px] w-[108px] h-[146px]`}>
               <div className='relative'>
-                {profile?.club_activities?.time < 3600 && (
+                {profile?.club_activities?.time > 0 && (
                   <div className='p-1 gap-2 absolute w-[42px] h-[17px] left-[11px] top-[10px] bg-[#269AED] rounded-md text-[11px] leading-[13px] font-medium text-white'>
                     독서중
                   </div>

@@ -18,7 +18,9 @@ const Timer = ({
 
   const saveTimeToSupabase = async (timeInSeconds: number) => {
     try {
+      localStorage.getItem('userId');
       await supabase
+
         .from('club_activities')
         .update({ time: timeInSeconds })
         .eq('user_id', userId as string)
@@ -77,35 +79,28 @@ const Timer = ({
   }, [clubActivity]);
 
   useEffect(() => {
-    if (seconds > 0) {
-      intervalRef.current = setInterval(() => {
-        setSeconds((prevSeconds: number) => {
-          const timeInSeconds = Math.max(prevSeconds - 1, 0);
-          saveTimeToSupabase(timeInSeconds);
-          // 타이머가 감소할 때마다 로컬 스토리지에 현재 시간 저장
-          localStorage.setItem('timerSeconds', timeInSeconds.toString());
-          return timeInSeconds;
-        });
-      }, 1000);
+    // if (seconds > 0) {
+    intervalRef.current = setInterval(() => {
+      setSeconds((prevSeconds: number) => {
+        const timeInSeconds = Math.max(prevSeconds + 1, 0);
+        saveTimeToSupabase(timeInSeconds);
+        localStorage.setItem('timerSeconds', timeInSeconds.toString());
+        return timeInSeconds;
+      });
+    }, 1000);
 
-      return () => {
-        clearInterval(intervalRef.current as number);
-      };
-    }
+    return () => {
+      clearInterval(intervalRef.current as number);
+    };
+    // }
   }, [seconds]);
 
   useEffect(() => {
-    // 컴포넌트 마운트 시 로컬 스토리지에서 이전 시간 확인
     const previousTime = localStorage.getItem('timerSeconds');
     if (previousTime !== null) {
       setSeconds(parseInt(previousTime, 10));
     }
   }, []);
-
-  // if (!userId) {
-  //   // 사용자 ID가 null인 경우에 대한 처리
-  //   return <div>사용자 ID가 없습니다.</div>;
-  // }
 
   return (
     <>

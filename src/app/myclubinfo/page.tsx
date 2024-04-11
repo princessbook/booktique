@@ -39,6 +39,8 @@ const MyClubInfo = () => {
 
     fetchData();
   }, []);
+
+  console.log(selectedClubId);
   //   if (loading) {
   //     // 데이터를 받아오는 동안 로딩 중인 화면
   //     return <div>Loading...</div>;
@@ -56,7 +58,8 @@ const MyClubInfo = () => {
       case 'sentenceStorage':
         return <SentenceStorage clubId={selectedClubId} />;
       case 'board':
-        return <></>; //<Board clubId={selectedClubId} />;
+        return <Board clubId={selectedClubId} />;
+      // return <div>자유게시판</div>;
       default:
         return null;
     }

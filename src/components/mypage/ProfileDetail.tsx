@@ -53,7 +53,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
     setIntroduction(userProfile?.introduction ?? '');
     // setMostFavoriteBook(userProfile?.most_favorite_book ?? '');
     setPhotoUrl(userProfile?.photo_URL ?? '');
-    // setPreviewImg(null);
+    setPreviewImg(null);
     setIsEdit(true);
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,13 +116,21 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
           <label
             htmlFor='fileInput'
             className='mb-4 flex flex-col justify-center align-middle w-20 h-20 max-w-full max-h-auto rounded-full'>
-            {photoUrl && (
+            {photoUrl ? (
               <img
                 src={photoUrl}
                 alt='미리보기'
                 width={96}
                 height={96}
-                className='rounded-full cursor-pointer'
+                className='rounded-full cursor-pointer object-cover'
+              />
+            ) : (
+              <img
+                src='/booktique.png'
+                alt='미리보기'
+                width={96}
+                height={96}
+                className='rounded-full cursor-pointer object-cover'
               />
             )}
             <input
@@ -141,19 +149,10 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
               placeholder='닉네임을 입력해주세요.'
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              className='w-full p-2 border rounded-md'
+              className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60'
             />
           </div>
-          {/* <div className='mb-4 w-full'>
-            <label className='block mb-2'>관심분야:</label>
-            <input
-              type='text'
-              placeholder='관심분야를 입력해주세요.'
-              value={interests}
-              onChange={(e) => setInterests(e.target.value)}
-              className='w-full p-2 border rounded-md'
-            />
-          </div> */}
+
           <div className='mb-4 w-full'>
             <label className='block mb-2'>내 소개:</label>
             <textarea
@@ -164,16 +163,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
               className='w-full p-2 border rounded-md'
             />
           </div>
-          {/* <div className='mb-4 w-full'>
-            <label className='block mb-2'>내 최애 책:</label>
-            <input
-              type='text'
-              placeholder='최애 책을 입력해주세요.'
-              value={mostFavoriteBook}
-              onChange={(e) => setMostFavoriteBook(e.target.value)}
-              className='w-full p-2 border rounded-md'
-            />
-          </div> */}
+
           <div className='flex justify-center w-full'>
             <button className='mr-2 p-2 border rounded-md' onClick={handleSave}>
               저장
@@ -194,7 +184,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                 alt='미리보기'
                 width={96}
                 height={96}
-                className='rounded-full'
+                className='rounded-full object-cover'
               />
             ) : (
               <img
@@ -202,7 +192,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                 alt='프로필사진 없음'
                 width={96}
                 height={96}
-                className='rounded-full'
+                className='rounded-full object-cover'
               />
             )}
           </div>
@@ -216,8 +206,8 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
           /> */}
           {/* <p className='mb-2'>Email: {userProfile?.email}</p> */}
 
-          <div className='p-4 mb-4 w-full mt-6 flex'>
-            <label className='block mb-2 mr-4 font-bold'>닉네임:</label>
+          <div className='p-4 mb-4 w-full mt-6'>
+            <label className='block mb-2 mr-4 font-bold'>닉네임</label>
             {userProfile?.display_name}
           </div>
           {/* <p className='mb-2'>관심 분야: {userProfile?.interests}</p> */}

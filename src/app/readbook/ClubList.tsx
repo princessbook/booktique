@@ -151,6 +151,7 @@ const ClubList = ({
                     (activity) => activity.club_id === club.id
                   )?.progress || 0
                 }
+                backgroundColor='#EDEEF2'
               />
             </div>
           </div>

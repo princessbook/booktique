@@ -8,27 +8,27 @@ type TabState = {
 };
 
 export const useTabStore = create<TabState>((set) => {
-  // 클라이언트 사이드에서만 localStorage에 접근
+  // 클라이언트 사이드에서만 localStorage에서 상태 불러오기
   const initialSelectedTab =
     typeof window !== 'undefined'
-      ? localStorage.getItem('selectedTab')
+      ? localStorage.getItem('selectedTab') || 'home'
       : 'home';
   const initialSelectedClubId =
-    typeof window !== 'undefined' ? localStorage.getItem('selectedClubId') : '';
+    typeof window !== 'undefined'
+      ? localStorage.getItem('selectedClubId') || ''
+      : '';
 
   return {
-    selectedTab: initialSelectedTab || 'home',
-    selectedClubId: initialSelectedClubId || '',
+    selectedTab: initialSelectedTab,
+    selectedClubId: initialSelectedClubId,
     setSelectedTab: (tab) => {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('selectedTab', tab);
-      }
+      // 상태 변경 및 localStorage에 저장
+      localStorage.setItem('selectedTab', tab);
       set({ selectedTab: tab });
     },
     setSelectedClubId: (clubId) => {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('selectedClubId', clubId);
-      }
+      // 상태 변경 및 localStorage에 저장
+      localStorage.setItem('selectedClubId', clubId);
       set({ selectedClubId: clubId });
     }
   };

@@ -40,20 +40,22 @@ const Members = ({ member, index }: { member: MembersType; index: number }) => {
     if (member.user_id) {
       getUserProfile(member.user_id);
     }
-  }, []);
+  }, [member.user_id]);
   return (
     <div
       key={index}
       className='bg-[#EDEEF2] rounded-lg p-2 w-[108px] h-[146px] '>
       <div className='flex flex-col items-center'>
-        <div className='mt-1 mr-3 relative flex justify-center align-middle w-16 h-16 max-w-full max-h-auto rounded-full'>
-          <p className='text-[#B3C1CC] flex mr-1 font-bold'>{index + 1}</p>
+        <div className='mt-1 mr-3 relative flex justify-center align-middle w-[56px] h-[56px] max-w-full max-h-auto rounded-full'>
+          <p className='text-[#B3C1CC] flex mr-1 text-[18px] font-bold'>
+            {index + 1}
+          </p>
           <img
             src={userProfile?.photo_URL || '/booktique.png'}
             alt='Profile'
-            width={100}
-            height={100}
-            className='rounded-full'
+            width={56}
+            height={56}
+            className='rounded-full object-cover'
           />
           {member.role === 'admin' && (
             <svg
@@ -87,12 +89,12 @@ const Members = ({ member, index }: { member: MembersType; index: number }) => {
 
         <div className='w-full h-full flex flex-col items-center justify-center mt-1'>
           <div className='w-[68px] h-[36px]'>
-            <p className='font-medium text-sm text-center'>
+            <p className='font-bold text-[12px] text-center'>
               {userProfile?.display_name}
             </p>
           </div>
           <div className=''>
-            <p className='text-subblue font-bold text-center'>
+            <p className='text-subblue text-[18px] font-bold text-center'>
               {member.progress !== null ? `${member.progress}%` : '0%'}
             </p>
           </div>

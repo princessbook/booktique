@@ -27,7 +27,7 @@ const Profile = ({ userId }: { userId: string | null }) => {
               alt='미리보기'
               width={96}
               height={96}
-              className='rounded-full'
+              className='rounded-full object-cover'
             />
           ) : (
             <img
@@ -35,7 +35,7 @@ const Profile = ({ userId }: { userId: string | null }) => {
               alt='프로필사진 없음'
               width={96}
               height={96}
-              className='rounded-full'
+              className='rounded-full object-cover'
             />
           )}
         </div>
@@ -43,7 +43,7 @@ const Profile = ({ userId }: { userId: string | null }) => {
           <p className='text-lg font-semibold'>{userProfile?.display_name}</p>
           <Link href={`/mypage/${userId}`}>
             <button className='w-full text-[#3F3E4E] text-sm'>
-              프로필 수정
+              프로필 상세보기
             </button>
           </Link>
         </div>

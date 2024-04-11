@@ -75,7 +75,7 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    return `${year}.${month}.${day}`;
   };
 
   const createdAt = new Date(club?.created_at || '');
@@ -92,26 +92,26 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
         <p>Loading...</p>
       ) : (
         <div className='p-5'>
-          <p className='font-medium'>함께 읽고 있는 책</p>
+          <p className='text-[16px] font-bold'>함께 읽고 있는 책</p>
           <ClubBook club={club} />
           <div className='mt-8'>
-            <p className=' mb-2 font-medium'>전체 독서 진행률</p>
+            <p className='text-[16px] mb-4 font-bold'>멤버별 독서 진행률</p>
             <div className='grid grid-cols-3 gap-4'>
               {clubMembers.map((member, index) => (
                 <Members member={member} key={index} index={index} />
               ))}
             </div>
           </div>
-          <div className='p-2'>
+          <div className='p-2 mt-8'>
             <p className='font-bold'>모임 정보</p>
-            <div className='bg-[#EEEFF3] p-2 rounded-lg px-2 mt-2 flex'>
+            <div className='bg-[#EEEFF3] p-2 rounded-lg px-4 mt-4 flex text-[14px] w-[311px] h-[40px] font-medium items-center py-[11px] '>
               <p className='text-subblue font-bold'>모임 기간</p>
               <p className='ml-4'>
                 {formattedStartDate} ~ {formattedEndDate}
               </p>
             </div>
-            <p className='mt-4 font-bold'>북클럽 소개</p>
-            <p>{club?.description}</p>
+            <p className='mt-8 font-bold'>북클럽 소개</p>
+            <p className='mt-4'>{club?.description}</p>
           </div>
         </div>
       )}

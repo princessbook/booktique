@@ -11,13 +11,16 @@ import NonMyClub from '@/components/myclubinfo2/NonMyClub';
 import { getOrCreateUserProfile } from '../auth/authAPI';
 import Board from '@/components/myclubinfo2/board/Board';
 import QuizArchiving from '@/components/myclubinfo2/QuizArchiving';
+import { useTabStore } from '@/store/zustandStore';
 
 type Clubs = Tables<'clubs'>;
 const PageClient = () => {
   const [clubInfo, setClubInfo] = useState<Clubs[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
-  const [selectedTab, setSelectedTab] = useState('home');
-  const [selectedClubId, setSelectedClubId] = useState<string>('');
+  const { selectedTab, selectedClubId, setSelectedTab, setSelectedClubId } =
+    useTabStore(); // Zustand store 사용
+  // const [selectedTab, setSelectedTab] = useState('home');
+  // const [selectedClubId, setSelectedClubId] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,9 +37,9 @@ const PageClient = () => {
               )
             );
             setClubInfo(fetchClubInfo);
-            if (fetchedClubIds.length > 0) {
-              setSelectedClubId(fetchClubInfo[0].id);
-            }
+            // if (fetchedClubIds.length > 0) {
+            //   setSelectedClubId(fetchClubInfo[0].id);
+            // }
           }
         }
       } catch (error) {
@@ -55,9 +58,9 @@ const PageClient = () => {
   };
   const getSelectClasses = () => {
     if (clubInfo.length <= 1) {
-      return 'appearance-none w-[200px] font-bold p-2 text-lg';
+      return 'appearance-none text-[22px] font-bold p-2';
     }
-    return ' p-2 w-[200px] font-bold';
+    return ' p-2 font-bold text-[22px] max-w-[350px] overflow-hidden whitespace-nowrap';
   };
   const renderSelectedTab = () => {
     const selectedClub = clubInfo.find((club) => club.id === selectedClubId);
@@ -87,63 +90,84 @@ const PageClient = () => {
     <div>
       <div className='sticky top-0 left-0 right-0 z-10 bg-white flex flex-col justify-between'>
         {/* 북클럽 셀렉트 박스 */}
-        <select
-          value={selectedClubId || ''}
-          onChange={handleClubChange}
-          className={getSelectClasses()}
-          //   disabled={clubInfo.length <= 1}
-        >
-          {clubInfo.length === 0 && (
-            <option value='' className='w-[200px]'>
-              내 북클럽
-            </option>
-          )}
-          {clubInfo.map((club) => (
-            <option key={club.id} value={club.id} className='w-[200px]'>
-              {club.name}
-            </option>
-          ))}
-        </select>
-
+        <div className='relative inline-block'>
+          <select
+            value={selectedClubId || ''}
+            onChange={handleClubChange}
+            className={getSelectClasses()}>
+            {clubInfo.length === 0 && <option value=''>내 북클럽</option>}
+            {clubInfo.map((club) => {
+              const displayText =
+                club.name!.length > 20
+                  ? club.name!.substring(0, 17) + '...'
+                  : club.name;
+              return (
+                <option key={club.id} value={club.id} className=''>
+                  {displayText}
+                </option>
+              );
+            })}
+          </select>
+        </div>
         {/* 탭 버튼들 */}
         <div className='flex flex-row justify-between w-full border-b-2 border-gray-200 font-bold'>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
-              selectedTab === 'home' ? ' border-b-2 border-black' : ''
+              selectedTab === 'home'
+                ? ' border-b-2 border-black'
+                : 'text-gray-500'
             }${clubInfo.length === 0 ? 'disabled' : ''}`}
             onClick={() => handleTabChange('home')}
             disabled={clubInfo.length === 0}>
-            <span className={clubInfo.length === 0 ? 'text-gray-500' : ''}>
-              홈
+            <span
+              className={`text-[16px] font-bold ${
+                clubInfo.length === 0 ? 'text-gray-500' : ''
+              }`}>
+              정보
             </span>
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
-              selectedTab === 'sentenceStorage' ? 'border-b-2 border-black' : ''
+              selectedTab === 'sentenceStorage'
+                ? 'border-b-2 border-black'
+                : 'text-gray-500'
             }`}
             onClick={() => handleTabChange('sentenceStorage')}
             disabled={clubInfo.length === 0}>
-            <span className={clubInfo.length === 0 ? 'text-gray-500' : ''}>
+            <span
+              className={`text-[16px] font-bold ${
+                clubInfo.length === 0 ? 'text-gray-500' : ''
+              }`}>
               문장 저장소
             </span>
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
-              selectedTab === 'board' ? 'border-b-2 border-black' : ''
+              selectedTab === 'board'
+                ? 'border-b-2 border-black'
+                : 'text-gray-500'
             }`}
             onClick={() => handleTabChange('board')}
             disabled={clubInfo.length === 0}>
-            <span className={clubInfo.length === 0 ? 'text-gray-500' : ''}>
+            <span
+              className={`text-[16px] font-bold ${
+                clubInfo.length === 0 ? 'text-gray-500' : ''
+              }`}>
               자유 게시판
             </span>
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
-              selectedTab === 'quiz' ? 'border-b-2 border-black' : ''
+              selectedTab === 'quiz'
+                ? 'border-b-2 border-black'
+                : 'text-gray-500'
             }`}
             onClick={() => handleTabChange('quiz')}
             disabled={clubInfo.length === 0}>
-            <span className={clubInfo.length === 0 ? 'text-gray-500' : ''}>
+            <span
+              className={`text-[16px] font-bold ${
+                clubInfo.length === 0 ? 'text-gray-500' : ''
+              }`}>
               퀴즈
             </span>
           </button>

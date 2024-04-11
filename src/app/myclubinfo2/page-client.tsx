@@ -13,7 +13,6 @@ import Board from '@/components/myclubinfo2/board/Board';
 import QuizArchiving from '@/components/myclubinfo2/QuizArchiving';
 type Clubs = Tables<'clubs'>;
 const PageClient = () => {
-  const [loading, setLoading] = useState(true);
   const [clubInfo, setClubInfo] = useState<Clubs[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState('home');

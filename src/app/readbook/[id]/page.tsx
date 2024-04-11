@@ -33,7 +33,6 @@ const ReadBookDetail = async ({
   if (clubDataError) {
     throw new Error('클럽 정보를 가져오는 도중 오류가 발생했습니다.');
   }
-  console.log('clubData11111111111', clubData);
   return (
     <>
       <BookInfo clubData={clubData} id={id} clubMembers={clubMembers} />

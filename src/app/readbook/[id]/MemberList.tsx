@@ -4,13 +4,14 @@ import { createClient } from '@/utils/supabase/client';
 import React, { useEffect, useState } from 'react';
 import EndButton from './EndButton';
 import Image from 'next/image';
-
+import { useRouter } from 'next/navigation';
 interface MemberListProps {
   clubMembers: Tables<'members'>[];
   id: string;
   endButtonVisible: boolean;
   timerVisible: boolean;
   userId: string | null;
+  clubId: string;
 }
 interface UserProfile extends Tables<'profiles'> {
   club_activities: {
@@ -24,7 +25,8 @@ const MemberList = ({
   id,
   endButtonVisible,
   timerVisible,
-  userId
+  userId,
+  clubId
 }: MemberListProps) => {
   const supabase = createClient();
   const [profiles, setProfiles] = useState<UserProfile[]>();
@@ -36,7 +38,6 @@ const MemberList = ({
   console.log('clubMembers', clubMembers);
   console.log('profiles', profiles);
   console.log('userId', userId);
-
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
@@ -46,11 +47,9 @@ const MemberList = ({
             .select('*')
             .eq('id', clubMember.user_id as string)
             .single();
-
           if (profileError) {
             throw new Error('프로필 정보를 가져오는 도중 오류가 발생했습니다');
           }
-
           // 해당 멤버의 클럽 활동 정보도 가져오기
           const { data: activitiesData, error: activitiesError } =
             await supabase
@@ -58,11 +57,9 @@ const MemberList = ({
               .select('progress, time')
               .eq('user_id', clubMember.user_id as string)
               .eq('club_id', id);
-
           if (activitiesError) {
             throw new Error('클럽 활동을 가져오는 도중 오류가 발생했습니다.');
           }
-
           // 프로필 정보에 클럽 활동 정보를 추가하여 반환
           return {
             ...profileData,
@@ -72,7 +69,6 @@ const MemberList = ({
             }
           };
         });
-
         const profilesData = await Promise.all(profilePromises || []);
         setProfiles(profilesData);
         setLoading(false);
@@ -83,16 +79,22 @@ const MemberList = ({
     };
     fetchProfiles();
   }, [clubMembers, supabase, id, timerVisible]);
-
   // if (loading) {
   //   return <LoadingOverlay show={loading} />;
   // }
   // console.log('clubMembers[0]', clubMembers[1]);
+  const router = useRouter();
+  const handleChatting = () => {
+    router.push(`/chat/${clubId}`);
+  };
   return (
     <>
       <div className='flex flex-col'>
         <div className='mt-[32px] mb-[16px] ml-[16px] font-bold text-[16px] leading-[22px] text-[#3F3E4E]'>
           함께 책 읽기
+          <button className='ml-10' onClick={handleChatting}>
+            채팅참여하기
+          </button>
         </div>
         <div className='flex flex-wrap ml-[16px] gap-[10px] justify-start'>
           {profiles?.map((profile, index) => (
@@ -151,5 +153,4 @@ const MemberList = ({
     </>
   );
 };
-
 export default MemberList;

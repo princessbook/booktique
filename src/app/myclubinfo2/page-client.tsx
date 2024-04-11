@@ -112,10 +112,12 @@ const PageClient = () => {
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'home' ? ' border-b-2 border-black' : ''
-            }`}
+            }${clubInfo.length === 0 ? 'disabled' : ''}`}
             onClick={() => handleTabChange('home')}
             disabled={clubInfo.length === 0}>
-            홈
+            <span className={clubInfo.length === 0 ? 'text-gray-500' : ''}>
+              홈
+            </span>
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
@@ -123,7 +125,9 @@ const PageClient = () => {
             }`}
             onClick={() => handleTabChange('sentenceStorage')}
             disabled={clubInfo.length === 0}>
-            문장 저장소
+            <span className={clubInfo.length === 0 ? 'text-gray-500' : ''}>
+              문장 저장소
+            </span>
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
@@ -131,7 +135,9 @@ const PageClient = () => {
             }`}
             onClick={() => handleTabChange('board')}
             disabled={clubInfo.length === 0}>
-            자유 게시판
+            <span className={clubInfo.length === 0 ? 'text-gray-500' : ''}>
+              자유 게시판
+            </span>
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
@@ -139,7 +145,9 @@ const PageClient = () => {
             }`}
             onClick={() => handleTabChange('quiz')}
             disabled={clubInfo.length === 0}>
-            퀴즈
+            <span className={clubInfo.length === 0 ? 'text-gray-500' : ''}>
+              퀴즈
+            </span>
           </button>
         </div>
       </div>

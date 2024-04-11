@@ -1,13 +1,16 @@
 'use client';
 import { useUser } from '@/store/user';
 import { createClient } from '@/utils/supabase/client';
+import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const ChatPresence = ({ userId }: { userId: string | undefined }) => {
+  const params = useParams();
+  console.log('??', params.id);
   const supabase = createClient();
   const [onlineUsers, setOnlineUsers] = useState(0);
   useEffect(() => {
-    const channel = supabase.channel('room1');
+    const channel = supabase.channel(params.id[0]);
     channel
       .on('presence', { event: 'sync' }, () => {
         console.log('Synced presence state: ', channel.presenceState());

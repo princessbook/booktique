@@ -68,7 +68,6 @@ const ListMessage = ({
           return <Message key={index} message={value} />;
         }
       })}
-      <div>sdsd</div>
     </div>
   );
 };

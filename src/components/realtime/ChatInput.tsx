@@ -3,7 +3,7 @@ import { Imessage, useMessage } from '@/store/messages';
 import { useUser } from '@/store/user';
 import { createClient } from '@/utils/supabase/client';
 import { useParams } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const ChatInput = () => {
@@ -12,8 +12,36 @@ const ChatInput = () => {
   const user = useUser((state) => state.user);
   const addMessage = useMessage((state) => state.addMessage);
   const setOptimisticIds = useMessage((state) => state.setOptimisticIds);
+  const [photoURL, setPhotoURL] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const { data } = await supabase.auth.getUser();
+      const { data: users, error } = await supabase
+        .from('profiles')
+        .select('photo_URL')
+        .eq('id', data?.user?.id!);
+
+      if (error) {
+        console.error('Error fetching user data:', error.message);
+        return;
+      }
+
+      if (users && users.length > 0) {
+        setPhotoURL(users[0].photo_URL!); // photo_URL 값을 상태로 설정
+      }
+    };
+
+    fetchUserData();
+  }, []);
   const handleSendMessage = async (text: string) => {
     const { data } = await supabase.auth.getUser();
+    const { data: users } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', data?.user?.id!);
+    console.log('users', users);
+    console.log(';;;;;;;;;;;;;;;', data);
     const userId = data.user?.id;
     if (text.trim()) {
       const newMessage = {
@@ -24,8 +52,8 @@ const ChatInput = () => {
         club_id: params?.id,
         created_at: new Date().toISOString(),
         profiles: {
-          id: user?.id,
-          photo_URL: user?.user_metadata.photo_URL,
+          id: data.user?.id,
+          photo_URL: photoURL,
           created_at: new Date().toISOString(),
           display_name: user?.user_metadata.display_name,
           email: user?.user_metadata.email,

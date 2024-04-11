@@ -1,20 +1,22 @@
 'use client';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MemberList from './MemberList';
 import { Tables } from '@/lib/types/supabase';
 import Timer from './[save]/Timer';
 import { getUserId } from '@/utils/userAPIs/authAPI';
 import QuizContainer from '@/components/quiz/QuizContainer';
+import { createClient } from '@/utils/supabase/client';
 
 const BookInfo = ({
   clubData,
-  id,
+  clubId,
   clubMembers
 }: {
   clubData: Tables<'clubs'>[];
-  id: string;
+  clubId: string;
   clubMembers: Tables<'members'>[];
 }) => {
+  // const [onlineUsers, setOnlineUsers] = useState(0);
   const [activeTab, setActiveTab] = useState('책읽기');
   const [timerVisible, setTimerVisible] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
@@ -23,9 +25,9 @@ const BookInfo = ({
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const id = await getUserId();
-        console.log('id', id);
-        setUserId(id);
+        const logInId = await getUserId();
+        setUserId(logInId);
+        localStorage.setItem('userId', logInId as string);
       } catch (error) {
         console.error('사용자 ID를 가져오는 도중 오류가 발생했습니다:', error);
       }
@@ -33,11 +35,66 @@ const BookInfo = ({
 
     fetchUserId();
   }, []);
+
+  // useEffect(() => {
+  //   const supabase = createClient();
+  //   const channelName = `book_channel_${clubId}`;
+  //   const bookChannel = supabase.channel(channelName);
+
+  //   bookChannel
+  //     .on('presence', { event: 'sync' }, () => {
+  //       console.log('Synced presence state: ', bookChannel.presenceState());
+  //       const presencedIds = clubMembers.map((member) => member.user_id);
+  //       setOnlineUsers(presencedIds.length);
+  //       console.log('presencedIds', presencedIds);
+  //       const isAdminPresent = presencedIds.some((userId) => {
+  //         const member = clubMembers.find(
+  //           (member) => member.user_id === userId
+  //         );
+  //         return member && member.role === 'admin';
+  //       });
+  //       console.log('isAdminPresent:', isAdminPresent);
+  //     })
+  //     .subscribe(async (status) => {
+  //       if (status === 'SUBSCRIBED') {
+  //         await bookChannel.track({
+  //           online_at: new Date().toISOString(),
+  //           user_id: userId
+  //         });
+  //       }
+  //     });
+
+  //   return () => {
+  //     bookChannel.unsubscribe();
+  //   };
+  // }, [userId, clubId, clubMembers]);
+
   const handleStartTimer = () => {
+    // const isAdmin = clubMembers.some(
+    //   (member) => member.user_id === userId && member.role === 'admin'
+    // );
+    // console.log('isAdmin', isAdmin);
+    // if (isAdmin) {
+
+    //   // 로컬 스토리지에 타이머 시작 상태 저장
+    localStorage.setItem('timerStarted', 'true');
+    // } else {
+    //   alert('관리자만 책 읽기를 시작할 수 있습니다.');
+
+    // }
     setTimerVisible(true);
     setEndButtonVisible(false);
   };
-  const clubId = clubData.length > 0 ? clubData[0].id : '';
+  useEffect(() => {
+    // 컴포넌트 마운트 시 로컬 스토리지에서 타이머 시작 상태 확인
+    localStorage.getItem('userId');
+    const timerStarted = localStorage.getItem('timerStarted');
+    if (timerStarted === 'true') {
+      setTimerVisible(true);
+      setEndButtonVisible(false);
+    }
+  }, []);
+  console.log('timerVisible', timerVisible);
   return (
     <>
       <div className='sticky top-0 z-10'>
@@ -51,9 +108,11 @@ const BookInfo = ({
                 책 읽기 시작
               </div>
             )}
-            {timerVisible && <Timer clubId={id} userId={userId as string} />}
+            {timerVisible && (
+              <Timer clubId={clubId} userId={userId as string} />
+            )}
           </div>
-          {timerVisible && ( // 타이머가 표시되면 책 제목 표시
+          {timerVisible && (
             <div className='text-white mt-[8px] mb-[16px] w-[295px] text-center '>
               {clubData[0].book_title && clubData[0].book_title.length > 40
                 ? clubData[0].book_title?.substring(0, 40) + '...'
@@ -88,7 +147,7 @@ const BookInfo = ({
         <>
           <MemberList
             clubId={clubId}
-            id={id}
+            id={clubId}
             clubMembers={clubMembers}
             endButtonVisible={endButtonVisible}
             timerVisible={timerVisible}
@@ -96,10 +155,9 @@ const BookInfo = ({
           />
         </>
       )}
-      {activeTab === '퀴즈' && <QuizContainer clubId={id} />}
+      {activeTab === '퀴즈' && <QuizContainer clubId={clubId} />}
     </>
   );
 };
 
 export default BookInfo;
-//  sticky 수정 필요

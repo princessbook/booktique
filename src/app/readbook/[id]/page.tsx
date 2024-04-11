@@ -9,7 +9,6 @@ const ReadBookDetail = async ({
   params: { id: string };
 }) => {
   const param = id;
-  // console.log('param111111111111111111', param);
   const supabase = createClient();
 
   const {

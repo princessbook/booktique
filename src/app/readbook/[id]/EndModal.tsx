@@ -9,11 +9,10 @@ interface ModalProps {
 const EndModal = ({ onClose, id }: ModalProps) => {
   const router = useRouter();
 
-  const handleStopTimerAndNavigate = () => {
+  const handleStopTimerAndNavigate = async () => {
     onClose();
-    localStorage.removeItem('timerSeconds');
     localStorage.removeItem('timerStarted');
-
+    localStorage.removeItem('timerSeconds');
     router.push(`/readbook/${id}/save`);
   };
   return (

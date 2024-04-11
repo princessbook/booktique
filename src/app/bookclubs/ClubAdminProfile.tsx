@@ -43,16 +43,18 @@ const ClubAdminProfile = async ({ clubId }: { clubId: string }) => {
 
   return (
     <div className='flex text-[#3F3E4E] justify-between items-center mr-2 rounded-full overflow-hidden'>
-      <span className='bg-gray-300 w-5 h-5 rounded-full flex items-center justify-center mr-1'>
+      <span className='bg-gray-300 w-5 h-5 rounded-full flex items-center justify-center mr-1 overflow-hidden'>
         <Image
           src={
             profiles[0] && profiles[0].photo_URL
               ? (profiles[0].photo_URL as string)
               : '/booktique.png'
           }
-          width={100}
-          height={100}
+          width={20}
+          height={20}
           alt='방장프로필'
+          objectFit='cover'
+          className='w-[20px] h-[20px] object-cover'
         />
       </span>
       {profiles[0] ? profiles[0].display_name : ''}

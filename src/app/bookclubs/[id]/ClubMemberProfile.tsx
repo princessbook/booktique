@@ -32,19 +32,30 @@ const ClubMemberProfile = ({ member }: { member: Tables<'members'> }) => {
 
   return (
     <div className='flex flex-col justify-center items-center'>
-      <div className='w-10 h-10 bg-grayBg rounded-full overflow-hidden flex items-center '>
-        {profile && profile.photo_URL && (
+      <div className='w-10 h-10  relative flex items-center '>
+        {profile && (
           <Image
-            src={profile.photo_URL}
-            width={120}
-            height={100}
-            objectFit='cover'
-            alt={profile.photo_URL}
+            src={profile.photo_URL ? profile.photo_URL : '/booktique.png'}
+            width={40}
+            height={40}
+            // objectFit='cover'
+            alt={profile.photo_URL ? profile.photo_URL : '/booktique.png'}
+            className='w-[40px] h-[40px] object-cover rounded-full'
+          />
+        )}
+        {member.role === 'admin' && (
+          <Image
+            src='/badge.png'
+            alt='badge'
+            width={16}
+            height={16}
+            className='absolute bottom-[5px] right-[-5px]'
           />
         )}
       </div>
+
       <p>{member.role === 'admin' ? '방장' : '일반멤버'}</p>
-      <div>{profile?.display_name}</div>
+      <div className='text-[12px]'>{profile?.display_name}</div>
     </div>
   );
 };

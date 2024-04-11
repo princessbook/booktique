@@ -5,7 +5,7 @@ import SaveCard from './SaveCard';
 // import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
-const page = async ({ params: { id } }: { params: { id: string } }) => {
+const SavePage = async ({ params: { id } }: { params: { id: string } }) => {
   // id는 클럽 id임
   //   const page = async ({
   //   params: { id }
@@ -99,4 +99,4 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
   );
 };
 
-export default page;
+export default SavePage;

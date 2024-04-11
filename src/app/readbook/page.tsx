@@ -12,7 +12,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 // import { revalidatePath } from 'next/cache';
 // export const revalidate = 0;
-const page = async () => {
+const ReadBookPage = async () => {
   revalidatePath('/', 'layout');
   const supabase = createClient();
   // console.log('supabase.auth', supabase.auth);
@@ -139,4 +139,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default ReadBookPage;

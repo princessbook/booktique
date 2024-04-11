@@ -64,9 +64,7 @@ const PageClient = () => {
     if (!selectedClub) {
       return <NonMyClub />;
     }
-    switch (
-      selectedTab //quiz tab 추가해야함.
-    ) {
+    switch (selectedTab) {
       case 'home':
         return <HomeTab club={selectedClub} />;
       case 'sentenceStorage':

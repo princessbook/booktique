@@ -11,6 +11,7 @@ import NonMyClub from '@/components/myclubinfo2/NonMyClub';
 import { getOrCreateUserProfile } from '../auth/authAPI';
 import Board from '@/components/myclubinfo2/board/Board';
 import QuizArchiving from '@/components/myclubinfo2/QuizArchiving';
+
 type Clubs = Tables<'clubs'>;
 const PageClient = () => {
   const [loading, setLoading] = useState(true);
@@ -28,10 +29,14 @@ const PageClient = () => {
           const fetchedUserProfile = await getOrCreateUserProfile();
           if (fetchedUserProfile) {
             const fetchedClubIds = await getUserClubIds(fetchedUserId);
-            const fetchClubInfo = await getClubInfo(fetchedClubIds);
+            const fetchClubInfo = await getClubInfo(
+              fetchedClubIds.filter(
+                (id) => !clubInfo.find((club) => club.id === id)?.archive
+              )
+            );
             setClubInfo(fetchClubInfo);
             if (fetchedClubIds.length > 0) {
-              setSelectedClubId(fetchedClubIds[0]);
+              setSelectedClubId(fetchClubInfo[0].id);
             }
           }
         }

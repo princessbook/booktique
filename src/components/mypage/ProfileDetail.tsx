@@ -112,10 +112,10 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
         <p className='flex-grow text-center font-bold'>프로필 수정</p>
       </div>
       {isEdit ? (
-        <div className='flex flex-col w-full p-2 items-center mt-12'>
+        <div className='flex flex-col  p-2 items-center mt-12 w-full'>
           <label
             htmlFor='fileInput'
-            className='mb-4 flex flex-col items-center'>
+            className='mb-4 flex flex-col justify-center align-middle w-20 h-20 max-w-full max-h-auto rounded-full'>
             {photoUrl && (
               <img
                 src={photoUrl}
@@ -133,6 +133,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
               className='hidden '
             />
           </label>
+
           <div className='mb-4 w-full'>
             <label className='block mb-2'>닉네임:</label>
             <input
@@ -185,7 +186,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
           </div>
         </div>
       ) : (
-        <div className='flex flex-col items-center p-2 mt-12'>
+        <div className='flex flex-col items-center p-2 mt-12 w-full'>
           <div className='flex justify-center align-middle w-20 h-20 max-w-full max-h-auto rounded-full'>
             {userProfile?.photo_URL ? (
               <img
@@ -214,17 +215,20 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
             className='rounded-full mb-4'
           /> */}
           {/* <p className='mb-2'>Email: {userProfile?.email}</p> */}
-          <div className='ml-4 mt-6'>
-            <p className='mb-2 font-bold font-xl'>
-              닉네임 : {userProfile?.display_name}
-            </p>
-            {/* <p className='mb-2'>관심 분야: {userProfile?.interests}</p> */}
-            <p className='mb-2 font-bold font-xl'>
-              내 소개: {userProfile?.introduction}
-            </p>
-            {/* <p className='mb-2'>내 최애 책: {userProfile?.most_favorite_book}</p> */}
+
+          <div className='p-4 mb-4 w-full mt-6 flex'>
+            <label className='block mb-2 mr-4 font-bold'>닉네임:</label>
+            {userProfile?.display_name}
+          </div>
+          {/* <p className='mb-2'>관심 분야: {userProfile?.interests}</p> */}
+          <div className='p-4 mb-4 w-full flex'>
+            <label className='block mb-2 mr-4 font-bold'>내 소개:</label>{' '}
+            {userProfile?.introduction}
+          </div>
+          {/* <p className='mb-2'>내 최애 책: {userProfile?.most_favorite_book}</p> */}
+          <div className='mt-12 w-full'>
             <button
-              className='w-full text-[#3F3E4E]'
+              className=' text-white bg-primary400 rounded-lg py-2 w-full'
               onClick={handleEditProfile}>
               프로필 수정
             </button>

@@ -19,7 +19,7 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
   useEffect(() => {
     const fetchClubMembers = async () => {
       if (club?.id) {
-        setLoading(true); // 데이터 로딩 시작
+        setLoading(true);
 
         try {
           let clubMem = await getBookClubMembers(club.id);
@@ -41,7 +41,7 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
         } catch (error) {
           console.error('Error fetching club members:', error);
         } finally {
-          setLoading(false); // 데이터 로딩 완료
+          setLoading(false);
         }
       }
     };

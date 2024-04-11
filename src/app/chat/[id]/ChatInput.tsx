@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const ChatInput = () => {
   const supabase = createClient();
-  const params = useParams();
+  const params = useParams<{ id: string }>();
   const user = useUser((state) => state.user);
   const addMessage = useMessage((state) => state.addMessage);
   const setOptimisticIds = useMessage((state) => state.setOptimisticIds);
@@ -34,14 +34,14 @@ const ChatInput = () => {
 
     fetchUserData();
   }, []);
-  const handleSendMessage = async (text: string) => {
+  const handleSendMessage = async (text: any) => {
     const { data } = await supabase.auth.getUser();
     await supabase.from('profiles').select('*').eq('id', data?.user?.id!);
     const userId = data.user?.id;
     if (text.trim()) {
       const newMessage = {
         id: uuidv4(),
-        text,
+        text: text,
         send_from: userId,
         is_edit: false,
         club_id: params?.id,
@@ -74,10 +74,11 @@ const ChatInput = () => {
       };
       addMessage(newMessage as Imessage);
       setOptimisticIds(newMessage.id);
+      console.log(newMessage);
       // supabase 불러오기
       const { error } = await supabase
         .from('messages')
-        .insert({ text, club_id: params.id, send_from: userId });
+        .insert([{ text, club_id: params.id, send_from: userId ?? '' }]);
       if (error) {
         console.log(error);
       }

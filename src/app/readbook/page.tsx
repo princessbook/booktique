@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import ReadBookLayout from '../readbook/layout';
 import Image from 'next/image';
-
+import noclub from '../../../public/noclub.png';
 import blue from '../../../public/booktiquereadblue.png';
 import { createClient } from '@/utils/supabase/server';
 // import { getUserId } from '@/utils/userAPIs/authAPI';
@@ -55,7 +55,7 @@ const page = async () => {
   });
 
   const allClubData = await Promise.all(clubDataPromises);
-  console.log('allClubData', allClubData);
+  // console.log('allClubData', allClubData);
 
   // const { data: activitiesData, error: activitiesError } = await supabase
   //   .from('club_activities')
@@ -77,19 +77,19 @@ const page = async () => {
   const filteredBookClubsData = bookClubsData.filter((bookClub) => {
     return allClubData.some((club) => club.id === bookClub.id);
   });
-  console.log('filteredBookClubsData', filteredBookClubsData);
+  // console.log('filteredBookClubsData', filteredBookClubsData);
   return (
     <ReadBookLayout>
-      <Suspense fallback={<p>Loading feed...</p>}>
+      <Suspense fallback={<></>}>
         {filteredBookClubsData.length > 0 ? (
           <>
-            <div className='h-[42px]'>헤더</div>
+            <div className='h-[42px]'></div>
             <Image
               src={blue}
               width={134}
               height={26}
               alt={'booktique'}
-              className='pt-[38px] mx-auto'
+              className='pt-[38px] mx-auto mb-[24px]'
               priority={true}
             />
             <ClubList
@@ -101,9 +101,37 @@ const page = async () => {
             />
           </>
         ) : (
-          <div>
-            가입된 북클럽이 아직 없어요 북클럽 찾기에서 가입하고 와주세요 디자인
-            나오면 작업예정
+          /* 가입한 북클럽이 없습니다. 북클럽에 가입해서 책 읽어보세요 */
+          <div className='flex flex-col'>
+            <div className='h-[42px]'></div>
+            <Image
+              src={blue}
+              width={134}
+              height={26}
+              alt={'booktique'}
+              className='pt-[38px] mx-auto'
+              priority={true}
+            />
+            <div className='flex flex-row'>
+              <div className='bg-[#DBE3EB] mb-[40px] w-[302px] h-[464px] rounded-[20px]  mx-auto mt-[24px]'>
+                <div className='flex mt-[108px] mb-[37px] w-[196px] h-[48px] text-center font-bold text-[18px] leading-[24px] text-[white] mx-auto justify-center'>
+                  가입한 북클럽이 없습니다. 북클럽에 가입해서 책 읽어보세요
+                </div>
+                <Image
+                  src={noclub}
+                  // alt='북이미지'
+                  //넥스트 이미지쓰면 height가 제대로 안먹힘
+                  width={166}
+                  height={166}
+                  alt={'noclub'}
+                  className=' w-[166px] h-[166px] mx-auto'
+                />
+              </div>
+            </div>
+
+            <button className='bg-[#DBE3EB] w-[302px] h-[56px] rounded-full text-white mx-auto'>
+              북클럽 책읽기
+            </button>
           </div>
         )}
       </Suspense>

@@ -21,12 +21,12 @@ const SaveBookInfo = ({
   const [clubActivity, setClubActivity] = useState<Tables<'club_activities'>>();
   const [loading, setLoading] = useState<boolean>(true);
 
-  console.log('clubActivity', clubActivity);
+  // console.log('clubActivity', clubActivity);
   useEffect(() => {
     const fetchUserId = async () => {
       try {
         const id = await getUserId();
-        console.log('id', id);
+        // console.log('id', id);
         setUserId(id);
       } catch (error) {
         console.error('사용자 ID를 가져오는 도중 오류가 발생했습니다:', error);
@@ -46,7 +46,7 @@ const SaveBookInfo = ({
           .eq('club_id', clubId)
           .eq('user_id', userId as string)
           .single();
-        console.log('test', test);
+        // console.log('test', test);
         if (error) {
           throw error;
         }
@@ -94,7 +94,7 @@ const SaveBookInfo = ({
 
   return (
     <div className='flex flex-col bg-mainblue'>
-      <div className='h-[42px]'>헤더</div>
+      <div className='h-[42px]'></div>
       <div className='flex flex-row bg-[#35A5F6] border-b-[1px] border-[#DBE3EB] border-opacity-30 w-full '>
         <Link href='/readbook' passHref>
           <Image
@@ -124,7 +124,9 @@ const SaveBookInfo = ({
             )}
 
             <div className='mb-[16px] text-white text-[16px] leading-[22px] font-bold text-center'>
-              {clubData.book_title}
+              {clubData.book_title?.length && clubData.book_title?.length > 40
+                ? clubData.book_title?.substring(0, 40) + '...'
+                : clubData.book_title}
             </div>
           </div>
           {/* <div>{clubData.book_author}</div>

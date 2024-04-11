@@ -5,7 +5,6 @@ import { Tables } from '@/lib/types/supabase';
 import Timer from './[save]/Timer';
 import { getUserId } from '@/utils/userAPIs/authAPI';
 import QuizContainer from '@/components/quiz/QuizContainer';
-import { createClient } from '@/utils/supabase/client';
 
 const BookInfo = ({
   clubData,
@@ -94,11 +93,11 @@ const BookInfo = ({
       setEndButtonVisible(false);
     }
   }, []);
-  console.log('timerVisible', timerVisible);
+  // console.log('timerVisible', timerVisible);
   return (
     <>
       <div className='sticky top-0 z-10'>
-        <div className='h-[42px] bg-mainblue'>헤더</div>
+        <div className='h-[42px] bg-mainblue'></div>
         <div className='sticky flex flex-col h-full bg-mainblue items-center h-[124px] '>
           <div className='mt-[16px] '>
             {!timerVisible && (
@@ -146,7 +145,6 @@ const BookInfo = ({
       {activeTab === '책읽기' && (
         <>
           <MemberList
-            clubId={clubId}
             id={clubId}
             clubMembers={clubMembers}
             endButtonVisible={endButtonVisible}

@@ -9,13 +9,13 @@ const ReadBookDetail = async ({
   params: { id: string };
 }) => {
   const param = id;
-  console.log('param111111111111111111', param);
+  // console.log('param111111111111111111', param);
   const supabase = createClient();
 
   const {
     data: { user }
   } = await supabase.auth.getUser();
-  console.log('data', user?.id);
+  // console.log('data', user?.id);
   if (!user?.id) {
     redirect('/login');
   }

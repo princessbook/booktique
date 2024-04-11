@@ -35,7 +35,3 @@ pre {
 .custom-slider .slick-slide {
   transition: transform 0.3s ease;
 }
-
-.custom-slider .slick-center {
-  transform: scale(1.08); /* 가운데 위치한 탭을 확대 */
-}

@@ -18,7 +18,7 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
   const {
     data: { user }
   } = await supabase.auth.getUser();
-  console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', user?.id);
+  // console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', user?.id);
   if (!user?.id) {
     redirect('/login');
   }
@@ -57,7 +57,7 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
   const matchingProfile = profilesData.find(
     (profile) => profile?.id === user?.id
   );
-  console.log('matchingProfile', matchingProfile);
+  // console.log('matchingProfile', matchingProfile);
   const matchingProfileId = matchingProfile?.id;
 
   // console.log('matchingProfileId', matchingProfileId);

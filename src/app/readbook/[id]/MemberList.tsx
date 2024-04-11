@@ -11,7 +11,6 @@ interface MemberListProps {
   endButtonVisible: boolean;
   timerVisible: boolean;
   userId: string | null;
-  clubId: string;
 }
 interface UserProfile extends Tables<'profiles'> {
   club_activities: {
@@ -25,8 +24,7 @@ const MemberList = ({
   id,
   endButtonVisible,
   timerVisible,
-  userId,
-  clubId
+  userId
 }: MemberListProps) => {
   const supabase = createClient();
   const [profiles, setProfiles] = useState<UserProfile[]>();
@@ -85,7 +83,7 @@ const MemberList = ({
   // console.log('clubMembers[0]', clubMembers[1]);
   const router = useRouter();
   const handleChatting = () => {
-    router.push(`/chat/${clubId}`);
+    router.push(`/chat/${id}`);
   };
   return (
     <>

@@ -49,8 +49,8 @@ const ClubAdminProfile = async ({ clubId }: { clubId: string }) => {
   }
 
   return (
-    <div className='flex justify-between items-center mr-2'>
-      <span className='bg-gray-300 w-5 h-5 rounded-full flex items-center justify-center '>
+    <div className='flex text-[#3F3E4E] justify-between items-center mr-2 rounded-full overflow-hidden'>
+      <span className='bg-gray-300 w-5 h-5 rounded-full flex items-center justify-center mr-1'>
         <Image
           src={
             profiles[0] && profiles[0].photo_URL

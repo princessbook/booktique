@@ -7,15 +7,51 @@ import ClubAdminProfile from './ClubAdminProfile';
 import ClubSearch from './ClubSearch';
 
 export const revalidate = 0;
-const BookClubsPage = async () => {
+const BookClubsPage = async (props: any) => {
+  console.log(props.searchParams.category);
   const supabase = createClient();
-  const { data: bookclubs, error } = await supabase
-    .from('clubs')
-    .select('*')
-    .order('created_at', { ascending: false });
-  if (error) {
-    throw error;
+  let bookclubs;
+  if (props.searchParams.category) {
+    const { data: categoryData, error } = await supabase
+      .from('clubs')
+      .select('*')
+      .eq('book_category', props.searchParams.category)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching clubs by category:', error.message);
+      return null;
+    }
+
+    bookclubs = categoryData;
+  } else if (props.searchParams.search) {
+    const { data: searchData, error } = await supabase
+      .from('clubs')
+      .select('*')
+      .or(
+        `name.ilike.%${props.searchParams.search}%,book_title.ilike.%${props.searchParams.search}%`
+      );
+
+    if (error) {
+      console.error('Error fetching clubs by search term:', error.message);
+      return null;
+    }
+
+    bookclubs = searchData;
+  } else {
+    const { data: allData, error } = await supabase
+      .from('clubs')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching clubs:', error.message);
+      return null;
+    }
+
+    bookclubs = allData;
   }
+
   if (!bookclubs) {
     return <div>loading...</div>;
   }
@@ -31,11 +67,11 @@ const BookClubsPage = async () => {
           {bookclubs.map((bookclub) => {
             return (
               <Link key={bookclub.id} href={`/bookclubs/${bookclub.id}`}>
-                <div className='flex border-b-2 justify-between p-3'>
-                  <figure className='w-24 bg-gray-800 mr-2'>
+                <div className='flex border-b-2 justify-between p-3 items-center'>
+                  <figure className='w-24  mr-2 flex items-center justify-center'>
                     {bookclub.book_cover && (
                       <Image
-                        width={200}
+                        width={78}
                         height={100}
                         src={bookclub.book_cover}
                         alt='북클럽이미지'
@@ -43,23 +79,27 @@ const BookClubsPage = async () => {
                     )}
                   </figure>
                   <div className='flex-1'>
-                    <h1 className='mb-1 text-lg'>{bookclub.name}</h1>
-                    <h2 className='mb-1 text-lg'>{bookclub.book_title}</h2>
-                    <p className='mb-1 text-xs'>
-                      독서기간:
-                      {extractDate(bookclub.created_at)}-
-                      {extractDate(addOneMonth(bookclub.created_at))}
-                    </p>
-                    <p className='text-xs'>{bookclub.book_category}</p>
-                    <div className='flex justify-between'>
+                    <h1 className='mb-1 text-[14px] text-[#3F3E4E] font-bold'>
+                      {bookclub.name}
+                    </h1>
+                    <h2 className='mb-1 text-[14px] text-[#3F3E4E] '>
+                      {bookclub.book_title}
+                    </h2>
+
+                    {/* <p className='text-xs'>{bookclub.book_category}</p> */}
+                    <div className='flex justify-between text-[14px] mb-2'>
                       <ClubAdminProfile clubId={bookclub.id} />
-                      <div className='mr-3'>
+                      <div className='mr-3 text-[14px]'>
                         <div>
                           <ClubMembersCount clubId={bookclub.id} />/
                           {bookclub.max_member_count}
                         </div>
                       </div>
                     </div>
+                    <p className='mb-1 text-[12px] text-fontGray'>
+                      활동기간 : {extractDate(bookclub.created_at)}-
+                      {extractDate(addOneMonth(bookclub.created_at))}
+                    </p>
                   </div>
                 </div>
               </Link>

@@ -22,12 +22,12 @@ const JoinAndResignBtn = ({
         setUserIsClubMember={setUserIsClubMember}
         setIsJoinOrResign={setIsJoinOrResign}
       />
-      <ResignBtn
+      {/* <ResignBtn
         isMember={userIsClubMember}
         clubId={clubId}
         setUserIsClubMember={setUserIsClubMember}
         setIsJoinOrResign={setIsJoinOrResign}
-      />
+      /> */}
     </>
   );
 };

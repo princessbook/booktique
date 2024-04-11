@@ -91,6 +91,8 @@ const BookInfo = ({
             id={id}
             clubMembers={clubMembers}
             endButtonVisible={endButtonVisible}
+            timerVisible={timerVisible}
+            userId={userId}
           />
         </>
       )}

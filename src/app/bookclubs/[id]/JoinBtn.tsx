@@ -1,6 +1,7 @@
 'use client';
 import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 import React, { PropsWithChildren } from 'react';
 
 const JoinBtn = ({
@@ -15,7 +16,7 @@ const JoinBtn = ({
   setIsJoinOrResign: React.Dispatch<React.SetStateAction<boolean>>;
 }>) => {
   const supabase = createClient();
-
+  const router = useRouter();
   const handleJoin = async () => {
     if (isMember) return;
     const {
@@ -28,6 +29,7 @@ const JoinBtn = ({
       console.log('성공');
       setUserIsClubMember(true);
       setIsJoinOrResign((prev) => !prev);
+      router.refresh();
       if (error) {
         throw error;
       }

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import BoardDetailArticle from '@/components/myclubinfo2/board/boardDetail/BoardDetailArticle';
 import { useSearchParams } from 'next/navigation';
 
-const Page = ({ params }: { params: { postId: string } }) => {
+const BoardDetailPage = ({ params }: { params: { postId: string } }) => {
   const [clubId, setClubId] = useState<string | null>('');
   const searchParams = useSearchParams();
   const { postId } = params;
@@ -25,4 +25,4 @@ const Page = ({ params }: { params: { postId: string } }) => {
   );
 };
 
-export default Page;
+export default BoardDetailPage;

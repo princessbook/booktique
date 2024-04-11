@@ -10,7 +10,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-const page = ({ params }: { params: { postId: string } }) => {
+const PostingPage = ({ params }: { params: { postId: string } }) => {
   //url에서 clubId와 postId를 세팅
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -121,4 +121,4 @@ const page = ({ params }: { params: { postId: string } }) => {
   );
 };
 
-export default page;
+export default PostingPage;

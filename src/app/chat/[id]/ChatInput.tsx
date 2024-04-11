@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+
 const ChatInput = () => {
   const supabase = createClient();
   const params = useParams<{ id: string }>();
@@ -12,6 +13,7 @@ const ChatInput = () => {
   const addMessage = useMessage((state) => state.addMessage);
   const setOptimisticIds = useMessage((state) => state.setOptimisticIds);
   const [photoURL, setPhotoURL] = useState<string | undefined>(undefined);
+
   useEffect(() => {
     const fetchUserData = async () => {
       const { data } = await supabase.auth.getUser();
@@ -19,14 +21,17 @@ const ChatInput = () => {
         .from('profiles')
         .select('photo_URL')
         .eq('id', data?.user?.id!);
+
       if (error) {
         console.error('Error fetching user data:', error.message);
         return;
       }
+
       if (users && users.length > 0) {
         setPhotoURL(users[0].photo_URL!); // photo_URL 값을 상태로 설정
       }
     };
+
     fetchUserData();
   }, []);
   const handleSendMessage = async (text: any) => {
@@ -95,4 +100,5 @@ const ChatInput = () => {
     </div>
   );
 };
+
 export default ChatInput;

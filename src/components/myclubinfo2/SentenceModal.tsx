@@ -1,7 +1,6 @@
 import ToastUi from '@/common/ToastUi';
-import { Tables } from '@/lib/types/supabase';
 import { createClient } from '@/utils/supabase/client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 const SentenceModal = ({
   isModal,
   onClose,

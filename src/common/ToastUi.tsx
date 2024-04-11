@@ -39,7 +39,7 @@ const ToastUi: React.FC<Props> = ({ message, onClose, isSuccess }) => {
           <path
             d='M4.5 7.5L7.38414 10.2998L11.5 5.5'
             stroke='white'
-            stroke-linecap='round'
+            strokeLinecap='round'
           />
         </svg>
       ) : (

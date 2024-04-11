@@ -47,10 +47,7 @@ const AvatarPage = () => {
   };
   const insertProfile = async (storageImg: string | undefined) => {
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .upsert({ photo_URL: storageImg });
-      console.log('insertFile', data);
+      await supabase.from('profiles').upsert({ photo_URL: storageImg });
     } catch (error) {
       console.error(error);
     }

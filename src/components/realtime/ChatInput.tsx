@@ -36,12 +36,7 @@ const ChatInput = () => {
   }, []);
   const handleSendMessage = async (text: string) => {
     const { data } = await supabase.auth.getUser();
-    const { data: users } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', data?.user?.id!);
-    console.log('users', users);
-    console.log(';;;;;;;;;;;;;;;', data);
+    await supabase.from('profiles').select('*').eq('id', data?.user?.id!);
     const userId = data.user?.id;
     if (text.trim()) {
       const newMessage = {

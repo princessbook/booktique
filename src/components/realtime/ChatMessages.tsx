@@ -13,7 +13,6 @@ const ChatMessages = async () => {
   const clubsIds = data?.map((message) => message.clubs && message.clubs.id);
   const getUser = await supabase.auth.getUser();
   const userId = getUser.data.user?.id;
-  console.log('clubsididid', clubsIds);
   return (
     <Suspense fallback={'loading...'}>
       <ChatPresence userId={userId} />

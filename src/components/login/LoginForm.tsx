@@ -1,9 +1,10 @@
 'use client';
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { login, signup } from '@/app/login/action';
+import React, { ChangeEvent, useRef, useState } from 'react';
+import { login } from '@/app/login/action';
 import { createClient } from '@/utils/supabase/client';
 import Input from '@/common/Input';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const LoginForm = () => {
   const [isProfile, setIsProfile] = useState('');
@@ -75,7 +76,6 @@ const LoginForm = () => {
         <button formAction={login}>Log in</button>
         <Image src='/snsTitle.png' width={344} height={24} alt='snstitle' />
 
-        {/* <button formAction={signup}>Sign up</button> */}
         <div className='flex justify-center my-5'>
           <Image src='/sns.png' width={100} height={50} alt='sns' />
         </div>
@@ -89,9 +89,9 @@ const LoginForm = () => {
         </div>
         <div className='text-[#939393] text-center'>
           <span>아직 북티크 회원이 아니신가요?</span>
-          <button className='font-bold' formAction={signup}>
+          <Link className='font-bold' href={`/register`}>
             회원가입
-          </button>
+          </Link>
         </div>
       </form>
     </div>

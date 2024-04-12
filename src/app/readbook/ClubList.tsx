@@ -1,10 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-
 import { Tables } from '@/lib/types/supabase';
 import Image from 'next/image';
 import Slider from 'react-slick';
-
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import ProgressBar from '../readbook/ProgressBar';
@@ -12,23 +10,14 @@ import ReadButton from '../readbook/ReadButton';
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
 
-// export const revalidate = 0;
 const ClubList = ({
-  //   handleBookRead,
-  //   clubData,
-  // clubActivities,
   filteredBookClubsData,
   id
 }: {
-  //   handleBookRead: (clubId: string) => void;
-  //   clubData: Tables<'club_activities'>[];
-  // clubActivities: Tables<'club_activities'>[];
   filteredBookClubsData: Tables<'clubs'>[];
   id: string;
 }) => {
   // 현재 슬라이드 인덱스를 추적
-  // console.log('id', id);
-  // console.log('clubActivities', clubActivities);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const supabase = createClient();
@@ -45,6 +34,10 @@ const ClubList = ({
           .eq('user_id', id);
         setClubActivities1(clubActivities);
         setLoading(false);
+
+        if (activitiesError) {
+          throw activitiesError;
+        }
       } catch (error) {
         console.error(
           '클럽 활동 데이터를 가져오는 도중 오류가 발생했습니다:',
@@ -53,7 +46,6 @@ const ClubList = ({
         setLoading(false);
       }
     };
-
     fetchClubActivities();
   }, []);
 
@@ -71,51 +63,32 @@ const ClubList = ({
     // 슬라이드가 변경될 때마다 현재 슬라이드 인덱스를 업데이트
     afterChange: (current: number) => setCurrentSlide(current)
   };
-  if (!id) {
-    // router.push('/login');
-    <Link href={'login'} />;
-  }
+
   const handleBookRead = async (clubId: string) => {
-    // console.log('1', 1);
-
     try {
-      // console.log('id', id);
-      // console.log('clubId', clubId);
       if (!id || !clubId) return;
-
       const existingActivity = clubActivities?.find(
         (activity) => activity.user_id === id && activity.club_id === clubId
       );
-      // console.log('existingActivity', existingActivity);
       if (existingActivity) {
+        localStorage.removeItem('timerSeconds');
+        localStorage.removeItem('timerStarted');
         // console.log('이미 클럽 활동이 있습니다. 시간 업데이트함');
-        // await supabase
-        //   .from('club_activities')
-        //   .update({ time: 0 })
-        //   .eq('user_id', id)
-        //   .eq('club_id', clubId);
         return;
       }
 
-      // const validClubId = clubActivities?.find((club) => club.id === clubId);
-      // // console.log('validClubId', validClubId);
-      // if (!validClubId) {
-      //   console.error('유효하지 않은 클럽 ID입니다.');
-      //   // return;
-      // }
-      // console.log('2', 2);
       await supabase.from('club_activities').insert([
         {
           user_id: id,
           club_id: clubId,
           progress: 0,
-          // time: Date.now()
           // time: 3600 // 기본 1시간으로 제한
           time: 0 // 기본 1시간으로 제한
         }
       ]);
-      // router.push(`/readbook/${clubId}`);
-      // console.log('클럽 활동 추가되었습니다.');
+      console.log('111111', 111111);
+      localStorage.removeItem('timerStarted');
+      localStorage.removeItem('timerSeconds');
     } catch (error) {
       console.error('클럽 활동 추가 중 오류:', error);
     }
@@ -131,19 +104,18 @@ const ClubList = ({
         {filteredBookClubsData.map((club) => (
           <div key={club.id} className='flex'>
             <div className='flex flex-col bg-white mb-[40px] w-[302px] h-[464px] rounded-[20px] shadow-md mx-auto items-center'>
-              <div className='flex w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] '>
+              <div className='flex w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center'>
                 {club.book_title &&
                   (club.book_title.length > 25
                     ? club.book_title.substring(0, 25) + '...'
                     : club.book_title)}
               </div>
-              <img
+              <Image
                 src={club.book_cover || ''}
                 alt='북이미지'
-                //넥스트 이미지쓰면 height가 제대로 안먹힘
-                // width={196}
-                // height={304}
-                className='mx-[53px] mt-[15.84px] mb-[16px] w-[196px] h-[304px] rounded'
+                width={196}
+                height={304}
+                className='mx-[53px] mt-[14px] mb-[16px] w-[196px] h-[304px] rounded'
               />
               <ProgressBar
                 progress={

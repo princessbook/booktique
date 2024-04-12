@@ -12,7 +12,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/utils/userAPIs/Fns';
 import Link from 'next/link';
-
+import closeInput from '../../public/closeInput.svg';
 const ProfileDetail = ({ userId }: { userId: string | null }) => {
   const {
     data: profiles,
@@ -24,19 +24,17 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
   });
   const userProfile = profiles?.find((profile) => profile.id === userId);
   const [isEdit, setIsEdit] = useState(false);
+  const displayNameInputRef = useRef<HTMLInputElement>(null);
   const [displayName, setDisplayName] = useState(
     userProfile?.display_name ?? ''
   );
-  const [interests, setInterests] = useState(userProfile?.interests ?? '');
   const [introduction, setIntroduction] = useState(
     userProfile?.introduction ?? ''
   );
   const [photoUrl, setPhotoUrl] = useState<string | null>(
     userProfile?.photo_URL ?? ''
   );
-  const [mostFavoriteBook, setMostFavoriteBook] = useState(
-    userProfile?.most_favorite_book ?? ''
-  );
+
   const [previewImg, setPreviewImg] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
@@ -49,9 +47,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
   });
   const handleEditProfile = () => {
     setDisplayName(userProfile?.display_name ?? '');
-    // setInterests(userProfile?.interests ?? '');
     setIntroduction(userProfile?.introduction ?? '');
-    // setMostFavoriteBook(userProfile?.most_favorite_book ?? '');
     setPhotoUrl(userProfile?.photo_URL ?? '');
     setPreviewImg(null);
     setIsEdit(true);
@@ -86,9 +82,9 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
     }
     formData.append('id', userProfile?.id || '');
     formData.append('display_name', displayName);
-    formData.append('interests', interests);
+    // formData.append('interests', interests);
     formData.append('introduction', introduction);
-    formData.append('most_favorite_book', mostFavoriteBook);
+    // formData.append('most_favorite_book', mostFavoriteBook);
     mutateToUpdateProfile(formData);
   };
   return (
@@ -142,8 +138,8 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
             />
           </label>
 
-          <div className='mb-4 w-full'>
-            <label className='block mb-2'>닉네임:</label>
+          <div className='mb-4 w-full relative'>
+            <label className='block mb-2 mr-4 font-bold'>닉네임</label>
             <input
               type='text'
               placeholder='닉네임을 입력해주세요.'
@@ -151,10 +147,20 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
               onChange={(e) => setDisplayName(e.target.value)}
               className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60'
             />
+            {displayName && (
+              <Image
+                className='absolute top-1/2 transform -translate-y-1/2 right-2 cursor-pointer' // 여기에 위치 및 스타일 조정
+                onClick={() => setDisplayName('')} // 이미지 클릭 시 displayName 초기화
+                src={'/closeInput.svg'}
+                width={20}
+                height={20}
+                alt='closeInput'
+              />
+            )}
           </div>
 
           <div className='mb-4 w-full'>
-            <label className='block mb-2'>내 소개:</label>
+            <label className='block mb-2 mr-4 font-bold'>내 소개</label>
             <textarea
               style={{ height: '200px', width: '100%' }}
               value={introduction}
@@ -197,25 +203,18 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
             )}
           </div>
 
-          {/* <img
-            src={userProfile?.photo_URL ?? '/booktique.png'}
-            alt='사진'
-            width={100}
-            height={100}
-            className='rounded-full mb-4'
-          /> */}
           {/* <p className='mb-2'>Email: {userProfile?.email}</p> */}
 
           <div className='p-4 mb-4 w-full mt-6'>
             <label className='block mb-2 mr-4 font-bold'>닉네임</label>
             {userProfile?.display_name}
           </div>
-          {/* <p className='mb-2'>관심 분야: {userProfile?.interests}</p> */}
+
           <div className='p-4 mb-4 w-full flex'>
-            <label className='block mb-2 mr-4 font-bold'>내 소개:</label>{' '}
+            <label className='block mb-2 mr-4 font-bold'>내 소개</label>{' '}
             {userProfile?.introduction}
           </div>
-          {/* <p className='mb-2'>내 최애 책: {userProfile?.most_favorite_book}</p> */}
+
           <div className='mt-12 w-full'>
             <button
               className=' text-white bg-primary400 rounded-lg py-2 w-full'

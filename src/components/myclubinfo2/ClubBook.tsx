@@ -47,8 +47,9 @@ const ClubBook = ({ club }: { club: Club | null }) => {
           priority={true}
           className='w-[156px] h-[244px]'
         />
-
-        <ProgressBar progress={percentage} backgroundColor='white' />
+        <div className='mt-2'>
+          <ProgressBar progress={percentage} backgroundColor='white' />
+        </div>
       </div>
       <div className='flex flex-col w-full mt-4'>
         <p className='font-bold text-[14px] text-[#3F3E4E]'>

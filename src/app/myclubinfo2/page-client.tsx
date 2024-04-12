@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useReducer } from 'react';
 import { getClubInfo, getUserId } from '@/utils/userAPIs/authAPI';
 import { getUserClubIds } from '@/utils/userAPIs/authAPI';
 import { useState } from 'react';
@@ -12,15 +12,17 @@ import { getOrCreateUserProfile } from '../auth/authAPI';
 import Board from '@/components/myclubinfo2/board/Board';
 import QuizArchiving from '@/components/myclubinfo2/QuizArchiving';
 import { useTabStore } from '@/store/zustandStore';
+import { useRouter } from 'next/navigation';
 
 type Clubs = Tables<'clubs'>;
 const PageClient = () => {
+  const router = useRouter();
   const [clubInfo, setClubInfo] = useState<Clubs[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
-  const { selectedTab, selectedClubId, setSelectedTab, setSelectedClubId } =
-    useTabStore(); // Zustand store 사용
-  // const [selectedTab, setSelectedTab] = useState('home');
-  // const [selectedClubId, setSelectedClubId] = useState<string>('');
+  // const { selectedTab, selectedClubId, setSelectedTab, setSelectedClubId } =
+  //   useTabStore();
+  const [selectedTab, setSelectedTab] = useState('home');
+  const [selectedClubId, setSelectedClubId] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,9 +39,9 @@ const PageClient = () => {
               )
             );
             setClubInfo(fetchClubInfo);
-            // if (fetchedClubIds.length > 0) {
-            //   setSelectedClubId(fetchClubInfo[0].id);
-            // }
+            if (fetchedClubIds.length > 0) {
+              setSelectedClubId(fetchClubInfo[0].id);
+            }
           }
         }
       } catch (error) {
@@ -51,7 +53,9 @@ const PageClient = () => {
   }, []);
 
   const handleClubChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedClubId(event.target.value);
+    const newSelectedClubId = event.target.value;
+    setSelectedClubId(newSelectedClubId);
+    // router.push(`/myclubinfo2/${newSelectedClubId}/home`); // URL 변경
   };
   const handleTabChange = (tab: string) => {
     setSelectedTab(tab);
@@ -116,7 +120,7 @@ const PageClient = () => {
               selectedTab === 'home'
                 ? ' border-b-2 border-black'
                 : 'text-gray-500'
-            }${clubInfo.length === 0 ? 'disabled' : ''}`}
+            }`}
             onClick={() => handleTabChange('home')}
             disabled={clubInfo.length === 0}>
             <span

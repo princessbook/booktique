@@ -4,6 +4,7 @@ import { fetchPosts } from '@/utils/postAPIs/postAPI';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
+import ArticleTimeStamp from './boardDetail/ArticleTimeStamp';
 
 const Board = ({ clubId }: { clubId: string }) => {
   const {
@@ -24,23 +25,31 @@ const Board = ({ clubId }: { clubId: string }) => {
     <div>
       {posts?.map(
         (
-          post: any // 수정 필요
+          post: any //FIXME - query는 타입명시 필요
         ) => (
-          <div key={post.id} className='border'>
-            <Link
-              href={`/myclubinfo2/board/detail/${post.id}?clubId=${clubId}`}>
-              <p>{post.title}</p>
-              <p>{post.content}</p>
-              <p>{post.profile?.display_name}</p>
-              {post.profile?.photo_URL && (
-                <Image
-                  src={post.profile?.photo_URL}
-                  alt='유저 프로필'
-                  width={20}
-                  height={20}
-                />
-              )}
-            </Link>
+          <div key={post.id} className=' border-b'>
+            <div className='m-4'>
+              <Link
+                href={`/myclubinfo2/board/detail/${post.id}?clubId=${clubId}`}>
+                <section className='flex gap-1 items-center'>
+                  {post.profile?.photo_URL && (
+                    <Image
+                      className='rounded-full w-6 h-6'
+                      src={post.profile?.photo_URL}
+                      alt='유저 프로필'
+                      width={24}
+                      height={24}
+                    />
+                  )}
+                  <p className={'text-xs'}>{post.profile?.display_name}</p>
+                  <ArticleTimeStamp created_at={post.created_at} />
+                </section>
+                <section className='mt-2 min-h-[90px] w-full'>
+                  <p className=' font-bold line-clamp-2'>{post.title}</p>
+                  <p className='mt-1 mb-1 text-xs'>{post.content}</p>
+                </section>
+              </Link>
+            </div>
           </div>
         )
       )}

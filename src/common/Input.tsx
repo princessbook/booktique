@@ -10,7 +10,6 @@ type InputProps = {
   placeholder: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  passwordError?: string;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -20,18 +19,19 @@ const Input: React.FC<InputProps> = ({
   type,
   placeholder,
   value,
-  onChange,
-  passwordError
+  onChange
 }) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [rightMargin, setRightMargin] = useState<string>('right-10');
 
   const handleFocus = () => {
     setIsFocused(true);
+    console.log(isFocused);
   };
 
   const handleBlur = () => {
     setIsFocused(false);
+    console.log(isFocused);
   };
 
   const handleClear = () => {
@@ -51,7 +51,7 @@ const Input: React.FC<InputProps> = ({
       )}
       <div className='relative mt-2'>
         <input
-          className='bg-gray-200 px-3 py-[12px] mb-3 placeholder-opacity-60 rounded-[10px] w-full'
+          className='bg-gray-200 p-2 outline-none border-2 focus:border-mainblue px-3 py-[12px] mb-3 placeholder-opacity-60 rounded-[10px] w-full'
           ref={inputRef}
           id={label || ''}
           name={name}
@@ -62,8 +62,7 @@ const Input: React.FC<InputProps> = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
         />
-        {/* 입력란에 포커스가 있고, 입력된 값이 있으며 비밀번호 에러가 없을 때만 closeInput 이미지를 표시 */}
-        {isFocused && value && !passwordError && (
+        {value && (
           <Image
             className={`absolute top-1/2 transform -translate-y-[75%] ${rightMargin} cursor-pointer`}
             onClick={handleClear}

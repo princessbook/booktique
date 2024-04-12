@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/client';
 import Input from '@/common/Input';
 import { useRouter } from 'next/navigation';
 import { getUserId } from '@/utils/userAPIs/authAPI';
+import Image from 'next/image';
 
 const MyNicknameForm = () => {
   const [nickname, setNickname] = useState<string | null>(null);
@@ -16,7 +17,8 @@ const MyNicknameForm = () => {
   const [userId, setuserId] = useState<string | null>(null);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputText = e.target.value;
+    // 띄어쓰기 제거
+    const inputText = e.target.value.replace(/\s/g, '');
     // 최대 글자 수 제한
     if (inputText.length <= maxChar) {
       // 현재 글자 수 업데이트
@@ -70,7 +72,9 @@ const MyNicknameForm = () => {
   };
   return (
     <div className='mx-[12px] h-full relative'>
-      <img
+      <Image
+        width={140}
+        height={38}
         className='mb-5 pt-[72px]'
         src='/login_logo.png'
         alt='닉네임화면로고'

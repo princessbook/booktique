@@ -1,12 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css');
 
-/* Body 요소에 Wanted Sans Variable 폰트를 적용합니다. */
-body {
-  font-family: 'Wanted Sans Variable', sans-serif;
-}
 // input type='number'할때 오른쪽에 생기는 화살표 제거
 @layer base {
   input[type='number']::-webkit-outer-spin-button,
@@ -20,18 +15,43 @@ body {
 }
 
 @font-face {
-  font-family: 'wanted';
-  src: url('https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css');
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
   font-weight: 400;
   font-style: normal;
 }
 *,
 body,
 pre {
-  font-family: 'wanted', sans-serif;
+  font-family: 'Pretendard-Regular', sans-serif;
   font-weight: 400;
   box-sizing: border-box;
 }
 .custom-slider .slick-slide {
   transition: transform 0.3s ease;
+}
+@keyframes vibrate {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.toast.vibrate {
+  animation: vibrate 0.3s ease-in-out;
 }

@@ -140,57 +140,75 @@ const CreateBookPage = () => {
   };
 
   return (
-    <section>
-      <h1 className=' text-center'>북클럽 만들기</h1>
+    <section className='p-4'>
+      <h1 className='text-2xl mb-4 text-center font-bold'>북클럽 만들기</h1>
+      {/* 책 검색 버튼 */}
       <button
-        onClick={() => {
-          setIsModalOpen(true);
-        }}>
-        책검색
+        className='mb-4 bg-[#333333] text-white px-4 py-2 rounded'
+        onClick={() => setIsModalOpen(true)}>
+        책 검색하기
       </button>
+      {/* 책 정보 모달 */}
       <SearchModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         setBookInfo={setBookInfo}
       />
+      {/* 선택된 책 정보 표시 */}
       {bookInfo && (
-        <div className='flex bg-gray-300 mb-3 p-3'>
-          <div className='mr-5'>
-            <div className=''></div>
-            <Image src={bookInfo.cover} width={200} height={300} alt='img' />
+        <div className='flex bg-gray-200 p-4 rounded-lg mb-4'>
+          <div className='mr-4'>
+            <Image
+              src={bookInfo.cover}
+              width={200}
+              height={300}
+              alt='book cover'
+            />
           </div>
           <div>
-            <h1>{bookInfo.title}</h1>
-            <p>{bookInfo.author}</p>
-            <p>{bookInfo.categoryName.split('>')[1]}</p>
-            <p>{bookInfo.itemPage}p</p>
+            <h1 className='text-xl font-bold mb-2'>{bookInfo.title}</h1>
+            <p className='text-gray-700 mb-2'>{bookInfo.author}</p>
+            <p className='text-gray-700'>
+              {bookInfo.categoryName.split('>')[1]}
+            </p>
+            <p className='text-gray-700'>{bookInfo.itemPage}p</p>
           </div>
         </div>
       )}
+      {/* 폼 */}
       <form onSubmit={handleSubmit}>
-        <div className='p-3'>
-          <label className='mr-3'>북클럽 이름</label>
+        <div className='mb-4'>
+          <label htmlFor='clubName' className='block font-bold mb-1'>
+            북클럽 이름
+          </label>
           <input
-            className='border'
+            id='clubName'
+            className='border w-full px-4 py-2'
             type='text'
             value={clubName}
             onChange={handleClubNameChange}
           />
         </div>
-        <div className='p-3 flex mb-5'>
-          <label className='mr-3'>북클럽 소개</label>
+        <div className='mb-4'>
+          <label htmlFor='description' className='block font-bold mb-1'>
+            북클럽 소개
+          </label>
           <textarea
-            className='border'
+            id='description'
+            className='border w-full px-4 py-2'
             value={description}
             onChange={handleDescriptionChange}
           />
         </div>
-        <div className='p-3'>
-          <label>모집인원</label>
+        <div className='mb-4'>
+          <label htmlFor='participants' className='block font-bold mb-1'>
+            모집 인원
+          </label>
           <select
+            id='participants'
+            className='border w-full px-4 py-2'
             value={selectedParticipants}
             onChange={handleParticipantChange}>
-            <option value=''>선택하세요</option>
             {[...Array(10)].map((_, index) => (
               <option key={index} value={index + 1}>
                 {index + 1}명
@@ -198,20 +216,27 @@ const CreateBookPage = () => {
             ))}
           </select>
         </div>
-        <div className='p-3'>
-          <label>썸네일</label>
-          <input className='border' type='file' onChange={handleImageChange} />
+        {/* <div className='mb-4'>
+          <label htmlFor='image' className='block font-bold mb-1'>
+            썸네일
+          </label>
+          <input
+            id='image'
+            className='border'
+            type='file'
+            onChange={handleImageChange}
+          />
           {previewUrl && (
             <div>
-              <Image src={previewUrl} alt='preview' width='100' height='100' />
+              <Image src={previewUrl} alt='preview' width={100} height={100} />
             </div>
           )}
-        </div>
-        <input
+        </div> */}
+        <button
           type='submit'
-          value='개설하기'
-          className='mx-auto p-3 bg-mainblue'
-        />
+          className=' bg-mainblue text-white px-4 py-2 rounded'>
+          개설하기
+        </button>
       </form>
     </section>
   );

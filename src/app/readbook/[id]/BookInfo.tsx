@@ -94,11 +94,17 @@ const BookInfo = ({
     }
   }, []);
   // console.log('timerVisible', timerVisible);
+  const bookTitle = clubData[0].book_title || '';
+  const titleLength = bookTitle.length;
+  const isSingleLine = titleLength <= 40;
+  const containerHeight =
+    isSingleLine || !timerVisible ? 'h-[102px]' : 'h-[124px]';
   return (
     <>
       <div className='sticky top-0 z-10'>
         <div className='h-[42px] bg-mainblue'></div>
-        <div className='sticky flex flex-col h-full bg-mainblue items-center h-[124px] '>
+        <div
+          className={`sticky flex flex-col bg-mainblue items-center ${containerHeight}`}>
           <div className='mt-[16px] '>
             {!timerVisible && (
               <div

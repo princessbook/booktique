@@ -29,17 +29,20 @@ const ClubMemberProfile = ({ member }: { member: Tables<'members'> }) => {
   if (!profile) {
     return <div>loading...</div>;
   }
+  const imgPath = profile.photo_URL ? profile.photo_URL : '/booktique.png';
 
   return (
     <div className='flex flex-col justify-center items-center'>
       <div className='w-10 h-10  relative flex items-center '>
         {profile && (
           <Image
-            src={profile.photo_URL ? profile.photo_URL : '/booktique.png'}
+            unoptimized={true}
+            key={imgPath}
+            src={imgPath}
             width={40}
             height={40}
             // objectFit='cover'
-            alt={profile.photo_URL ? profile.photo_URL : '/booktique.png'}
+            alt={imgPath}
             className='w-[40px] h-[40px] object-cover rounded-full'
           />
         )}

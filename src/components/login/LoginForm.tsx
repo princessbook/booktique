@@ -5,10 +5,14 @@ import Input from '@/common/Input';
 import Image from 'next/image';
 import Link from 'next/link';
 import { signInWithGoogle, kakaoLogin } from '@/utils/api/authAPI';
+import { createClient } from '@/utils/supabase/client';
+import ToastUi from '@/common/ToastUi';
 
 const LoginForm = () => {
+  const supabase = createClient();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [toastMessage, setToastMessage] = useState<string>('');
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -19,9 +23,26 @@ const LoginForm = () => {
     const inputPassword = e.target.value;
     setPassword(inputPassword);
   };
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      if (error) {
+        setToastMessage('로그인정보가 맞지않습니다');
+      } else {
+        // 로그인 성공한 경우 처리할 내용 추가
+      }
+    } catch (error) {
+      setToastMessage('로그인정보가 맞지않습니다');
+    }
+  };
   return (
     <div className='flex items-center justify-center px-4'>
-      <form className='w-full max-w-md'>
+      <form className='w-full max-w-md relative' onSubmit={handleSubmit}>
         <div className='mt-[135px]'>
           <img className='mx-auto' src='/login_logo.png' alt='로그인화면로고' />
           <span className='block text-center text-mainblue text-[17px] font-bold my-8'>
@@ -47,7 +68,7 @@ const LoginForm = () => {
         />
         <button
           className='w-full mt-[38px] mb-6 py-4 bg-mainblue rounded-[10px] text-[#E9FF8F] font-bold'
-          formAction={login}>
+          type='submit'>
           로그인
         </button>
         <Image src='/snsTitle.png' width={344} height={24} alt='snstitle' />
@@ -69,6 +90,11 @@ const LoginForm = () => {
             회원가입
           </Link>
         </div>
+        <ToastUi
+          onClose={() => setToastMessage('')}
+          message={toastMessage}
+          isSuccess={!toastMessage.startsWith('로그인정보가')}
+        />
       </form>
     </div>
   );

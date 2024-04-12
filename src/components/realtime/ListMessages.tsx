@@ -15,6 +15,8 @@ const ListMessage = ({
 }) => {
   const params = useParams();
   const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const [userScrolled, setUserScrolled] = useState(false);
+  const [notification, setNotification] = useState(0);
   const { messages, addMessage, optimisticIds } = useMessage((state) => state);
   const supabase = createClient();
 
@@ -46,6 +48,13 @@ const ListMessage = ({
               addMessage(newMessage as Imessage);
             }
           }
+          const scrollContainer = scrollRef.current;
+          if (
+            scrollContainer.scrollTop <
+            scrollContainer.scrollHeight - scrollContainer.clientHeight - 10
+          ) {
+            setNotification((current) => current + 1);
+          }
         }
       )
       .subscribe();
@@ -56,27 +65,82 @@ const ListMessage = ({
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
-    if (scrollContainer) {
+    if (scrollContainer && !userScrolled) {
       scrollContainer.scrollTop = scrollContainer.scrollHeight;
     }
   }, [messages]);
+  const handleOnScroll = () => {
+    const scrollContainer = scrollRef.current;
+    if (scrollContainer) {
+      const isScroll =
+        scrollContainer.scrollTop <
+        scrollContainer.scrollHeight - scrollContainer.clientHeight - 10;
+      setUserScrolled(isScroll);
+      if (
+        scrollContainer.scrollTop ===
+        scrollContainer.scrollHeight - scrollContainer.clientHeight
+      ) {
+        setNotification(0);
+      }
+    }
+  };
+  const scrollDown = () => {
+    setNotification(0);
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  };
+  const sortedMessages = messages.slice().sort((a, b) => {
+    // created_at 속성을 기준으로 오름차순으로 정렬합니다.
+    return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+  });
   return (
-    <div
-      className='flex-1 flex flex-col h-full overflow-y-auto bg-[#c6edff]'
-      ref={scrollRef}>
-      {messages.map((value, index) => {
-        console.log('888', value.send_from);
-        console.log('useriD', userId);
-        if (value.club_id === params.id) {
-          // message.profiles?.id와 userId를 비교하여 렌더링할 컴포넌트 결정
-          if (value.send_from === userId) {
-            return <Message key={index} message={value} />;
-          } else {
-            return <OtherMessage key={index} message={value} />;
+    <>
+      <div
+        className={`flex-1 flex flex-col custom-height overflow-y-auto bg-[#c6edff] h-calc-100-52`}
+        ref={scrollRef}
+        onScroll={handleOnScroll}>
+        {sortedMessages.map((value, index) => {
+          console.log(value.created_at);
+          if (value.club_id === params.id) {
+            // message.profiles?.id와 userId를 비교하여 렌더링할 컴포넌트 결정
+            if (value.send_from === userId) {
+              return <Message key={index} message={value} />;
+            } else {
+              return <OtherMessage key={index} message={value} />;
+            }
           }
-        }
-      })}
-    </div>
+        })}
+      </div>
+      {userScrolled && (
+        <div className='absolute bottom-24 right-1/2'>
+          {notification ? (
+            <div
+              className='w-36 bg-indigo-500 p-1 rounded-md cursor-pointer'
+              onClick={scrollDown}>
+              <h1>New {notification} messages</h1>
+            </div>
+          ) : (
+            <div
+              className='w-10 h-10 bg-blue-500 rounded-full justify-center items-center flex mx-auto border cursor-pointer'
+              onClick={scrollDown}>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                width='24'
+                height='24'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                className='lucide lucide-arrow-down text-white'>
+                <path d='M12 5v14' />
+                <path d='m19 12-7 7-7-7' />
+              </svg>
+            </div>
+          )}
+        </div>
+      )}
+    </>
   );
 };
 

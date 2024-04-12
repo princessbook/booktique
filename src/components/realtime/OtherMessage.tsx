@@ -6,6 +6,14 @@ import { useUser } from '@/store/user';
 const OtherMessage = ({ message }: { message: Imessage }) => {
   const user = useUser((state) => state.user);
   // const isMyMessage = message.profiles?.id ===
+  // 메시지 생성 시간을 가져오는 함수
+  const getMessageTime = (createdAt: string) => {
+    const currentDate = new Date();
+    const messageDate = new Date(createdAt);
+    const hours = messageDate.getHours();
+    const minutes = messageDate.getMinutes();
+    return `${hours}:${minutes}`;
+  };
   const messageTextStyle = {
     backgroundColor: '#ffffff',
     borderRadius: '10px', // 말풍선 테두리 둥글기
@@ -14,20 +22,30 @@ const OtherMessage = ({ message }: { message: Imessage }) => {
   return (
     <div className='flex gap-2'>
       <div>
-        <Image
-          src={message.profiles?.photo_URL!}
-          alt='s'
-          width={40}
-          height={40}
-          className='rounded-full'
-        />
+        {message.profiles?.photo_URL ? (
+          <Image
+            src={message.profiles?.photo_URL!}
+            alt='s'
+            width={40}
+            height={40}
+            className='rounded-full'
+          />
+        ) : (
+          <Image
+            src='/booktique.png'
+            alt='s'
+            width={40}
+            height={40}
+            className='rounded-full'
+          />
+        )}
         <div>{message.profiles?.display_name}</div>
         <div style={messageTextStyle}>{message.text}</div>
-        <p>입력날짜: {new Date(message.created_at).toDateString()}</p>
+        {/* 현재 시간 표시 */}
+        <p>입력날짜: {getMessageTime(message.created_at)}</p>
         {message.profiles?.id === user?.id && <p>수정버튼</p>}
       </div>
     </div>
   );
 };
-
 export default OtherMessage;

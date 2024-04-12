@@ -14,25 +14,21 @@ const QuizAnswer = ({
   handleDeleteAnswer
 }: PropsWithChildren<QuizAnswerProps>) => {
   const [answerInput, setAnswerInput] = useState(answer.value);
-  const [isChecked, setIsChecked] = useState(answer.isCorrect);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAnswerInput(event.target.value);
-    handleAnswerChange(answer.id, event.target.value, isChecked);
+    handleAnswerChange(answer.id, event.target.value, answer.isCorrect);
   };
   const handleCheckboxChange = (isChecked: boolean) => {
-    // setIsChecked(event.target.checked);
     handleAnswerChange(answer.id, answerInput, isChecked);
   };
 
   return (
     <div className='flex mb-2 justify-center items-center'>
-      {/* <span>{index + 1}번.</span> */}
-      {!isChecked ? (
+      {!answer.isCorrect ? (
         <label
           onClick={() => {
-            setIsChecked((prev) => !prev);
-            handleCheckboxChange(!isChecked);
+            handleCheckboxChange(!answer.isCorrect);
           }}
           className='bg-[#B3C1CC] text-white px-3 py-1 rounded-full mr-2 '>
           정답
@@ -40,29 +36,37 @@ const QuizAnswer = ({
       ) : (
         <label
           onClick={() => {
-            setIsChecked((prev) => !prev);
-            handleCheckboxChange(!isChecked);
+            // setIsChecked((prev) => !prev);
+            handleCheckboxChange(!answer.isCorrect);
           }}
           className=' bg-blue-300 text-white px-3 py-1 rounded-full mr-2 '>
           정답
         </label>
       )}
-      <input
-        className='flex-1 mr-2 rounded-md py-1'
-        value={answerInput}
-        onChange={handleChange}
-      />
-      {/* <input
-        type='checkbox'
-        checked={isChecked}
-        onChange={handleCheckboxChange}
-      /> */}
+      <div className='relative flex-1'>
+        <input
+          className='flex-1 w-full rounded-md p-2 text-[#3F3E4E]'
+          value={answerInput}
+          onChange={handleChange}
+          maxLength={28}
+        />
+        {answerInput.length > 10 && (
+          <div
+            className='absolute right-0 top-0 h-full rounded-md'
+            style={{
+              background: `linear-gradient(to right, transparent 20%, #fff 100%)`,
+              width: '50px', // 조절 필요
+              zIndex: 1
+            }}></div>
+        )}
+      </div>
+
       <span
         onClick={() => {
           handleDeleteAnswer(answer.id);
         }}
         className=''>
-        <div className='bg-[#136BAA] bg-opacity-60 rounded-full text-white'>
+        <div className='bg-[#136BAA] ml-2 bg-opacity-60 rounded-full text-white'>
           <IoClose size={25} />
         </div>
       </span>

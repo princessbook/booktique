@@ -43,15 +43,21 @@ const QuizQuestion = ({
     value: string,
     isCorrect: boolean
   ) => {
-    const updatedAnswers = quiz.answer.map((answer) =>
-      answer.id === id ? { ...answer, value, isCorrect } : answer
-    );
+    const updatedAnswers = quiz.answer.map((answer) => {
+      if (answer.id === id) {
+        return { ...answer, value, isCorrect };
+      } else {
+        // 다른 정답들의 isCorrect를 false로 처리
+        return { ...answer, isCorrect: false };
+      }
+    });
     const updatedQuiz = { ...quiz, answer: updatedAnswers };
     setQuiz((prevQuizes) =>
       prevQuizes.map((prevQuiz) =>
         prevQuiz.id === quiz.id ? updatedQuiz : prevQuiz
       )
     );
+    console.log(updatedQuiz);
   };
 
   const handleAddAnswer = () => {
@@ -101,11 +107,14 @@ const QuizQuestion = ({
         {/* 문제: */}
         <textarea
           placeholder='문제를 입력해 주세요'
-          className='mb-5 w-full resize-none'
+          className='mb-5 w-full resize-none rounded-md p-2 '
           value={questionInput}
+          maxLength={60}
           onChange={handleQuestionChange}
         />
-
+        <p className='text-[12px] text-[#3F3E4E] font-bold text-right opacity-60'>
+          {questionInput.length}/60
+        </p>
         {quiz.answer.map((answer, idx) => {
           if (isMultiple) {
             return (

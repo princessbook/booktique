@@ -7,9 +7,10 @@ interface Props {
   message: string;
   onClose: () => void;
   isSuccess: boolean;
+  style: React.CSSProperties;
 }
 
-const ToastUi: React.FC<Props> = ({ message, onClose, isSuccess }) => {
+const ToastUi: React.FC<Props> = ({ message, onClose, isSuccess, style }) => {
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
     if (message) {
@@ -27,7 +28,8 @@ const ToastUi: React.FC<Props> = ({ message, onClose, isSuccess }) => {
     <div
       className={`flex items-center toast-container absolute z-50 bottom-32 bg-[#5e5e5e] w-full py-4 rounded-[10px] ${
         isVisible ? 'block' : 'hidden'
-      }`}>
+      }`}
+      style={style}>
       {isSuccess ? (
         <svg
           width='16'

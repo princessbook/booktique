@@ -111,22 +111,22 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
         <div className='flex flex-col  p-2 items-center mt-12 w-full'>
           <label
             htmlFor='fileInput'
-            className='mb-4 flex flex-col justify-center align-middle w-20 h-20 max-w-full max-h-auto rounded-full'>
+            className='mb-4 flex flex-col justify-center align-middle w-[72px] h-[72px] max-w-full max-h-auto rounded-full'>
             {photoUrl ? (
               <img
                 src={photoUrl}
                 alt='미리보기'
-                width={96}
-                height={96}
-                className='rounded-full cursor-pointer object-cover'
+                width={72}
+                height={72}
+                className='rounded-full w-[72px] h-[72px] cursor-pointer object-cover'
               />
             ) : (
               <img
                 src='/booktique.png'
                 alt='미리보기'
-                width={96}
-                height={96}
-                className='rounded-full cursor-pointer object-cover'
+                width={72}
+                height={72}
+                className='rounded-full w-[72px] h-[72px] cursor-pointer object-cover'
               />
             )}
             <input
@@ -140,23 +140,25 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
 
           <div className='mb-4 w-full relative'>
             <label className='block mb-2 mr-4 font-bold'>닉네임</label>
-            <input
-              type='text'
-              placeholder='닉네임을 입력해주세요.'
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-              className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60'
-            />
-            {displayName && (
-              <Image
-                className='absolute top-1/2 transform -translate-y-1/2 right-2 cursor-pointer' // 여기에 위치 및 스타일 조정
-                onClick={() => setDisplayName('')} // 이미지 클릭 시 displayName 초기화
-                src={'/closeInput.svg'}
-                width={20}
-                height={20}
-                alt='closeInput'
+            <div className='relative flex items-center'>
+              <input
+                type='text'
+                placeholder='닉네임을 입력해주세요.'
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60 pr-10' // pr-10 추가하여 오른쪽 여백을 확보
               />
-            )}
+              {displayName && (
+                <Image
+                  className='absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer' // right-2 추가하여 오른쪽 여백을 조정하고, top 값을 조정하여 높이 중앙에 위치
+                  onClick={() => setDisplayName('')} // 이미지 클릭 시 displayName 초기화
+                  src='/closeInput.svg'
+                  width={20}
+                  height={20}
+                  alt='closeInput'
+                />
+              )}
+            </div>
           </div>
 
           <div className='mb-4 w-full'>
@@ -166,7 +168,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
               value={introduction}
               placeholder='간단한 자기소개를 해주세요.'
               onChange={(e) => setIntroduction(e.target.value)}
-              className='w-full p-2 border rounded-md'
+              className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60'
             />
           </div>
 

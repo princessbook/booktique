@@ -58,7 +58,9 @@ const ClubBook = ({ club }: { club: Club | null }) => {
         <p className='text-[12px] text-[#3F3E4E] font-medium'>
           {club.book_author}
         </p>
-        <p className='text-[#3F3E4E] text-[12px]'>{club.book_category}</p>
+        <p className='text-[#3F3E4E] text-opacity-60 text-[12px] font-medium'>
+          {club.book_category}
+        </p>
       </div>
     </div>
   );

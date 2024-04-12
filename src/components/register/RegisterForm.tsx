@@ -196,6 +196,7 @@ const RegisterForm = () => {
             회원가입 하기
           </button>
           <ToastUi
+            style={{}}
             onClose={() => setToastMessage('')}
             message={toastMessage}
             isSuccess={!toastMessage.startsWith('회원가입에 실패')}

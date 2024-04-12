@@ -23,13 +23,23 @@ const QuizShortAnswer = ({
   };
 
   return (
-    <div>
+    <div className='relative'>
       <input
-        className='rounded-md w-full p-2'
+        className='rounded-md w-full p-2 text-[#3F3E4E]'
         value={answerInput}
         onChange={handleChange}
         placeholder='정답을 입력해 주세요'
+        maxLength={28}
       />
+      {answerInput.length > 10 && (
+        <div
+          className='absolute right-0 top-0 h-full rounded-full'
+          style={{
+            background: `linear-gradient(to right, transparent 20%, #fff 100%)`,
+            width: '50px', // 조절 필요
+            zIndex: 1
+          }}></div>
+      )}
     </div>
   );
 };

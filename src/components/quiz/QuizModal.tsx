@@ -45,7 +45,7 @@ const QuizModal = ({
 
   const handleSwitchType = (type: boolean) => {
     setIsMultiple(type);
-    const updatedQuizes = quizes.map((quiz) => ({
+    const updatedQuizes = initialQuiz.map((quiz) => ({
       ...quiz,
       type: type ? 'multiple' : 'short'
     }));
@@ -75,29 +75,42 @@ const QuizModal = ({
 
   const validationCheck = () => {
     if (quizes[0].question === '') {
-      alert('문장을 입력해주세요.');
+      alert('문제를 입력해주세요.');
       return false;
     }
+    // 중복된 정답을 확인하기 위한 Set 생성
+    const answerSet = new Set();
+
+    for (let i = 0; i < quizes[0].answer.length; i++) {
+      const answerValue = quizes[0].answer[i].value;
+
+      if (answerValue === '') {
+        alert('정답을 입력해주세요.');
+        return false;
+      }
+
+      if (answerSet.has(answerValue)) {
+        // 중복된 정답이 있으면 알림 표시
+        alert('중복된 정답이 있습니다.');
+        return false;
+      }
+
+      answerSet.add(answerValue); // 정답을 Set에 추가
+    }
+    let correctCount = 0; // 정답 카운트 변수 추가
     for (let i = 0; i < quizes[0].answer.length; i++) {
       if (quizes[0].answer[i].value === '') {
         alert('정답을 입력해주세요.');
         return false;
       }
-    }
-    let isAnyCorrect = false;
-
-    for (let i = 0; i < quizes[0].answer.length; i++) {
-      if (quizes[0].answer[i].isCorrect === true) {
-        isAnyCorrect = true;
-        break;
+      if (quizes[0].answer[i].isCorrect) {
+        correctCount++; // 정답이면 정답 카운트 증가
       }
     }
-
-    if (quizes[0].type === 'question') {
-      if (!isAnyCorrect) {
-        alert('적어도 하나의 정답을 선택해주세요.');
-        return false;
-      }
+    if (correctCount !== 1) {
+      // 정답이 1개가 아니면 알림 표시
+      alert('정답은 반드시 하나여야 합니다.');
+      return false;
     }
     return true;
   };

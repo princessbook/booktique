@@ -9,15 +9,9 @@ import ClubSearch from './ClubSearch';
 const BookClubsPage = async (props: any) => {
   const supabase = createClient();
   let bookclubs;
-  let params;
-  if (props.searchParams.category) {
-    params = decodeURIComponent(props.searchParams.category);
-  } else if (props.searchParams.search) {
-    params = decodeURIComponent(props.searchParams.search);
-  }
 
-  if (params) {
-    if (params === '기타') {
+  if (props.searchParams.category) {
+    if (props.searchParams.category === '기타') {
       const { data, error } = await supabase
         .from('clubs')
         .select('*')
@@ -42,7 +36,7 @@ const BookClubsPage = async (props: any) => {
 
       bookclubs = categoryData;
     }
-  } else if (params) {
+  } else if (props.searchParams.search) {
     const { data: searchData, error } = await supabase
       .from('clubs')
       .select('*')

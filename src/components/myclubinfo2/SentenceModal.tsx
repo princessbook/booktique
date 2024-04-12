@@ -128,6 +128,7 @@ const SentenceModal = ({
             저장
           </button>
           <ToastUi
+            style={{}}
             onClose={() => setToastMessage('')}
             message={toastMessage}
             isSuccess={!toastMessage.startsWith('문장저장에 실패')}

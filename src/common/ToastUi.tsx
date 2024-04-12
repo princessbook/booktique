@@ -66,7 +66,12 @@ const ToastUi: React.FC<Props> = ({ message, onClose, isSuccess, style }) => {
           />
         </svg>
       )}
-      <div className='ml-[6px] toast text-white text-[14px]'>{message}</div>
+      <div
+        className={`ml-[6px] toast text-white text-[14px] ${
+          !isSuccess ? 'vibrate' : ''
+        }`}>
+        {message}
+      </div>
     </div>
   );
 };

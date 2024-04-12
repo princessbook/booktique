@@ -62,7 +62,7 @@ const ListMessage = ({
   }, [messages]);
   return (
     <div
-      className='flex-1 flex flex-col h-full overflow-y-auto'
+      className='flex-1 flex flex-col h-full overflow-y-auto bg-[#c6edff]'
       ref={scrollRef}>
       {messages.map((value, index) => {
         console.log('888', value.send_from);

@@ -7,8 +7,10 @@ import Link from 'next/link';
 import { signInWithGoogle, kakaoLogin } from '@/utils/api/authAPI';
 import { createClient } from '@/utils/supabase/client';
 import ToastUi from '@/common/ToastUi';
+import { useRouter } from 'next/navigation';
 
 const LoginForm = () => {
+  const router = useRouter();
   const supabase = createClient();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -35,10 +37,15 @@ const LoginForm = () => {
         setToastMessage('로그인정보가 맞지않습니다');
       } else {
         // 로그인 성공한 경우 처리할 내용 추가
+        router.push('/bookclubs');
       }
     } catch (error) {
       setToastMessage('로그인정보가 맞지않습니다');
     }
+  };
+  const toastStyle = {
+    height: '48px',
+    top: '48px'
   };
   return (
     <div className='flex items-center justify-center px-4'>
@@ -91,6 +98,7 @@ const LoginForm = () => {
           </Link>
         </div>
         <ToastUi
+          style={toastStyle}
           onClose={() => setToastMessage('')}
           message={toastMessage}
           isSuccess={!toastMessage.startsWith('로그인정보가')}

@@ -1,5 +1,6 @@
 import ChatInput from './ChatInput';
 import ChatMessages from '@/components/realtime/ChatMessages';
+import { createClient } from '@/utils/supabase/server';
 import React, { Suspense } from 'react';
 
 const ChatPage = async () => {
@@ -8,7 +9,10 @@ const ChatPage = async () => {
   //   .from('messages')
   //   .select('*,profiles(id,display_name,photo_URL)');
   // console.log('뭘까 도대체', allChat);
-
+  const supabase = createClient();
+  const { data } = await supabase.auth.getUser();
+  console.log('33333', data);
+  const userId = data.user?.id;
   return (
     <Suspense fallback={'loading...'}>
       <ChatMessages />

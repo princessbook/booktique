@@ -5,6 +5,8 @@ import { createClient } from '@/utils/supabase/client';
 import { generateUniqueNickname } from '@/utils/nicknameGenerator';
 import ToastUi from '@/common/ToastUi';
 import { useRouter } from 'next/navigation';
+import { validateEmail, validatePassword } from '@/utils/validation';
+import Link from 'next/link';
 
 const RegisterForm = () => {
   const [email, setEmail] = useState<string>('');
@@ -20,6 +22,17 @@ const RegisterForm = () => {
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    // 이메일, 비밀번호, 비밀번호 확인의 유효성 검사를 통해 버튼 활성/비활성 상태를 설정
+    setIsButtonDisabled(
+      !(
+        validateEmail(email) &&
+        validatePassword(password) &&
+        password === passwordConfirm
+      )
+    );
+  }, [email, password, passwordConfirm]);
 
   const handleRegister = async () => {
     try {
@@ -70,17 +83,6 @@ const RegisterForm = () => {
     }
   };
 
-  const validateEmail = (inputEmail: string) => {
-    // Email 형식 유효성 검사
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(inputEmail);
-  };
-  const validatePassword = (inputPassword: string) => {
-    // 비밀번호 형식 유효성 검사
-    const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,20}$/;
-    return regex.test(inputPassword);
-  };
-
   useEffect(() => {
     const getUniqueNickname = async () => {
       const uniqueNickname = await generateUniqueNickname();
@@ -126,22 +128,28 @@ const RegisterForm = () => {
     }
   };
 
-  useEffect(() => {
-    // 이메일, 비밀번호, 비밀번호 확인의 유효성 검사를 통해 버튼 활성/비활성 상태를 설정
-    setIsButtonDisabled(
-      !(
-        validateEmail(email) &&
-        validatePassword(password) &&
-        password === passwordConfirm
-      )
-    );
-  }, [email, password, passwordConfirm]);
   return (
     <>
       <div className='mx-[1rem] h-full relative'>
         <section>
-          <div className='font-bold mb-[30px] py-[15px] text-center border-b-[1px]'>
+          <div className='font-bold  relative mb-[30px] py-[15px] text-center border-b-[1px]'>
             <h1>회원가입</h1>
+            <Link href={`/login`}>
+              <svg
+                width='10'
+                height='16'
+                viewBox='0 0 10 16'
+                fill='none'
+                className='absolute top-1/2 translate-y-[-50%] left-[6px]'
+                xmlns='http://www.w3.org/2000/svg'>
+                <path
+                  d='M8.24978 14.9688L1.37478 8.09375L8.43773 1.03125'
+                  stroke='#292929'
+                  strokeWidth='1.6'
+                  strokeLinecap='round'
+                />
+              </svg>
+            </Link>
           </div>
 
           <div className='mb-10'>

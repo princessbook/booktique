@@ -1,4 +1,10 @@
-const ProgressBar = ({ progress }: { progress: number }) => {
+const ProgressBar = ({
+  progress,
+  backgroundColor
+}: {
+  progress: number;
+  backgroundColor: string;
+}) => {
   return (
     <div className='w-[196px] h-[4px] bg-[#EDEEF2] relative mb-[44px]'>
       {/* <div
@@ -9,10 +15,10 @@ const ProgressBar = ({ progress }: { progress: number }) => {
         style={{ width: `${progress}%` }}></div>
 
       {/* <div className={`h-full bg-blue-500 rounded-full w-${progress}%`} /> */}
-
-      <div className='flex text-subblue  font-medium text-[14px] leading-[20px] justify-end pt-[4px]'>
-        {progress}%
-      </div>
+      <div
+        className={`w-full h-full rounded-full`}
+        style={{ backgroundColor: backgroundColor }}></div>
+      <div className='text-end text-subblue'> {progress}%</div>
     </div>
   );
 };

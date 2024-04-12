@@ -2,7 +2,6 @@ import { Database } from '@/lib/types/supabase';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
-
 export function createClient(): SupabaseClient<Database> {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

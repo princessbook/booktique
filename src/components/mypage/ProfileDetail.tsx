@@ -12,7 +12,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/utils/userAPIs/Fns';
 import Link from 'next/link';
-
+import closeInput from '../../public/closeInput.svg';
 const ProfileDetail = ({ userId }: { userId: string | null }) => {
   const {
     data: profiles,
@@ -24,19 +24,17 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
   });
   const userProfile = profiles?.find((profile) => profile.id === userId);
   const [isEdit, setIsEdit] = useState(false);
+  const displayNameInputRef = useRef<HTMLInputElement>(null);
   const [displayName, setDisplayName] = useState(
     userProfile?.display_name ?? ''
   );
-  const [interests, setInterests] = useState(userProfile?.interests ?? '');
   const [introduction, setIntroduction] = useState(
     userProfile?.introduction ?? ''
   );
   const [photoUrl, setPhotoUrl] = useState<string | null>(
     userProfile?.photo_URL ?? ''
   );
-  const [mostFavoriteBook, setMostFavoriteBook] = useState(
-    userProfile?.most_favorite_book ?? ''
-  );
+
   const [previewImg, setPreviewImg] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
@@ -49,11 +47,9 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
   });
   const handleEditProfile = () => {
     setDisplayName(userProfile?.display_name ?? '');
-    // setInterests(userProfile?.interests ?? '');
     setIntroduction(userProfile?.introduction ?? '');
-    // setMostFavoriteBook(userProfile?.most_favorite_book ?? '');
     setPhotoUrl(userProfile?.photo_URL ?? '');
-    // setPreviewImg(null);
+    setPreviewImg(null);
     setIsEdit(true);
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,9 +82,9 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
     }
     formData.append('id', userProfile?.id || '');
     formData.append('display_name', displayName);
-    formData.append('interests', interests);
+    // formData.append('interests', interests);
     formData.append('introduction', introduction);
-    formData.append('most_favorite_book', mostFavoriteBook);
+    // formData.append('most_favorite_book', mostFavoriteBook);
     mutateToUpdateProfile(formData);
   };
   return (
@@ -115,14 +111,22 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
         <div className='flex flex-col  p-2 items-center mt-12 w-full'>
           <label
             htmlFor='fileInput'
-            className='mb-4 flex flex-col justify-center align-middle w-20 h-20 max-w-full max-h-auto rounded-full'>
-            {photoUrl && (
+            className='mb-4 flex flex-col justify-center align-middle w-[72px] h-[72px] max-w-full max-h-auto rounded-full'>
+            {photoUrl ? (
               <img
                 src={photoUrl}
                 alt='미리보기'
-                width={96}
-                height={96}
-                className='rounded-full cursor-pointer'
+                width={72}
+                height={72}
+                className='rounded-full w-[72px] h-[72px] cursor-pointer object-cover'
+              />
+            ) : (
+              <img
+                src='/booktique.png'
+                alt='미리보기'
+                width={72}
+                height={72}
+                className='rounded-full w-[72px] h-[72px] cursor-pointer object-cover'
               />
             )}
             <input
@@ -134,46 +138,40 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
             />
           </label>
 
-          <div className='mb-4 w-full'>
-            <label className='block mb-2'>닉네임:</label>
-            <input
-              type='text'
-              placeholder='닉네임을 입력해주세요.'
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-              className='w-full p-2 border rounded-md'
-            />
+          <div className='mb-4 w-full relative'>
+            <label className='block mb-2 mr-4 font-bold'>닉네임</label>
+            <div className='relative flex items-center'>
+              <input
+                type='text'
+                placeholder='닉네임을 입력해주세요.'
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60 pr-10' // pr-10 추가하여 오른쪽 여백을 확보
+              />
+              {displayName && (
+                <Image
+                  className='absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer' // right-2 추가하여 오른쪽 여백을 조정하고, top 값을 조정하여 높이 중앙에 위치
+                  onClick={() => setDisplayName('')} // 이미지 클릭 시 displayName 초기화
+                  src='/closeInput.svg'
+                  width={20}
+                  height={20}
+                  alt='closeInput'
+                />
+              )}
+            </div>
           </div>
-          {/* <div className='mb-4 w-full'>
-            <label className='block mb-2'>관심분야:</label>
-            <input
-              type='text'
-              placeholder='관심분야를 입력해주세요.'
-              value={interests}
-              onChange={(e) => setInterests(e.target.value)}
-              className='w-full p-2 border rounded-md'
-            />
-          </div> */}
+
           <div className='mb-4 w-full'>
-            <label className='block mb-2'>내 소개:</label>
+            <label className='block mb-2 mr-4 font-bold'>내 소개</label>
             <textarea
               style={{ height: '200px', width: '100%' }}
               value={introduction}
               placeholder='간단한 자기소개를 해주세요.'
               onChange={(e) => setIntroduction(e.target.value)}
-              className='w-full p-2 border rounded-md'
+              className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60'
             />
           </div>
-          {/* <div className='mb-4 w-full'>
-            <label className='block mb-2'>내 최애 책:</label>
-            <input
-              type='text'
-              placeholder='최애 책을 입력해주세요.'
-              value={mostFavoriteBook}
-              onChange={(e) => setMostFavoriteBook(e.target.value)}
-              className='w-full p-2 border rounded-md'
-            />
-          </div> */}
+
           <div className='flex justify-center w-full'>
             <button className='mr-2 p-2 border rounded-md' onClick={handleSave}>
               저장
@@ -194,7 +192,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                 alt='미리보기'
                 width={96}
                 height={96}
-                className='rounded-full'
+                className='rounded-full object-cover'
               />
             ) : (
               <img
@@ -202,30 +200,23 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                 alt='프로필사진 없음'
                 width={96}
                 height={96}
-                className='rounded-full'
+                className='rounded-full object-cover'
               />
             )}
           </div>
 
-          {/* <img
-            src={userProfile?.photo_URL ?? '/booktique.png'}
-            alt='사진'
-            width={100}
-            height={100}
-            className='rounded-full mb-4'
-          /> */}
           {/* <p className='mb-2'>Email: {userProfile?.email}</p> */}
 
-          <div className='p-4 mb-4 w-full mt-6 flex'>
-            <label className='block mb-2 mr-4 font-bold'>닉네임:</label>
+          <div className='p-4 mb-4 w-full mt-6'>
+            <label className='block mb-2 mr-4 font-bold'>닉네임</label>
             {userProfile?.display_name}
           </div>
-          {/* <p className='mb-2'>관심 분야: {userProfile?.interests}</p> */}
+
           <div className='p-4 mb-4 w-full flex'>
-            <label className='block mb-2 mr-4 font-bold'>내 소개:</label>{' '}
+            <label className='block mb-2 mr-4 font-bold'>내 소개</label>{' '}
             {userProfile?.introduction}
           </div>
-          {/* <p className='mb-2'>내 최애 책: {userProfile?.most_favorite_book}</p> */}
+
           <div className='mt-12 w-full'>
             <button
               className=' text-white bg-primary400 rounded-lg py-2 w-full'

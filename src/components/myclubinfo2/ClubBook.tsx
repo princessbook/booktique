@@ -37,21 +37,30 @@ const ClubBook = ({ club }: { club: Club | null }) => {
     return null;
   }
   return (
-    <div>
-      <div className='bg-[#EEEFF3] mt-3 p-5 py-8 rounded-xl flex flex-col items-center justify-center '>
+    <div className='flex flex-col items-center justify-center'>
+      <div className='bg-[#EEEFF3] w-[343px] h-[320px] rounded-xl flex flex-col items-center justify-center '>
         <Image
           src={club.book_cover || '/booktiquereadblue.png'}
           alt='책 사진'
           width={100}
           height={100}
           priority={true}
+          className='w-[156px] h-[244px]'
         />
-        <ProgressBar progress={percentage} />
+        <div className='mt-2'>
+          <ProgressBar progress={percentage} backgroundColor='white' />
+        </div>
       </div>
-      <div className='flex flex-col mt-2'>
-        <p className='font-bold'>{club.book_title}</p>
-        <p className=''>{club.book_author}</p>
-        <p className='text-[#3F3E4E] text-sm'>{club.book_category}</p>
+      <div className='flex flex-col w-full mt-4'>
+        <p className='font-bold text-[14px] text-[#3F3E4E]'>
+          {club.book_title}
+        </p>
+        <p className='text-[12px] text-[#3F3E4E] font-medium'>
+          {club.book_author}
+        </p>
+        <p className='text-[#3F3E4E] text-opacity-60 text-[12px] font-medium'>
+          {club.book_category}
+        </p>
       </div>
     </div>
   );

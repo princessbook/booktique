@@ -1,6 +1,7 @@
 'use client';
 
 import { deletePost, fetchPostDetail } from '@/utils/postAPIs/postAPI';
+import { getUserId } from '@/utils/userAPIs/authAPI';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -20,11 +21,28 @@ const BoardDetailArticle = ({
     mutationFn: deletePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts', clubId] });
+      router.push('/myclubinfo2');
     }
   });
 
-  const handleDeletePost = async (postId: string) => {
+  const handleDeletePost = async (postId: string, userId: string) => {
+    const res = await getUserId();
+    if (res !== userId) {
+      alert('본인의 글만 수정 삭제 가능합니다');
+      return;
+    }
     deleteMutation.mutate(postId);
+  };
+
+  const handleUpdatePost = async (userId: string) => {
+    const res = await getUserId();
+    if (res !== userId) {
+      alert('본인의 글만 수정 삭제 가능합니다');
+      return;
+    }
+    router.push(
+      `/myclubinfo2/board/posting/${postId}?isModify=true&clubId=${clubId}`
+    );
   };
 
   const {
@@ -64,15 +82,10 @@ const BoardDetailArticle = ({
           <p>
             {article.profile.display_name} - {article.created_at}
           </p>
-          <p
-            onClick={() =>
-              router.push(
-                `/myclubinfo2/board/posting/${postId}?isModify=true&clubId=${clubId}`
-              )
-            }>
-            수정
+          <p onClick={() => handleUpdatePost(article.user_id)}>수정</p>
+          <p onClick={() => handleDeletePost(article.id, article.user_id)}>
+            삭제
           </p>
-          <p onClick={() => handleDeletePost(article.id)}>삭제</p>
         </div>
       </header>
       <hr />

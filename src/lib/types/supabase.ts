@@ -239,7 +239,7 @@ export type Database = {
           created_at: string;
           id: string;
           title: string | null;
-          user_id: string | null;
+          user_id: string;
         };
         Insert: {
           club_id?: string | null;

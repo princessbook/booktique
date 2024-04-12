@@ -18,6 +18,7 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
 
   const [isModify, setIsModify] = useState(false);
   const [clubId, setClubId] = useState<string | null>('');
+  const [isPosting, setIsPosting] = useState(false);
 
   //뮤테이션
   const queryClient = useQueryClient();
@@ -26,13 +27,16 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
     mutationFn: createPost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts', clubId] });
+      router.replace('/myclubinfo2');
     }
   });
 
   const updatePostMutation = useMutation({
     mutationFn: updatePost,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['post', clubId] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['posts', clubId] });
+      queryClient.invalidateQueries({ queryKey: ['article', postId] });
+      router.replace('/myclubinfo2');
     }
   });
 
@@ -71,18 +75,36 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
     }
   };
 
-  if (!clubId) return <></>;
+  if (!clubId) return <>로딩중</>;
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    if (e.target.value.length <= 50) {
+      setTitle(e.target.value);
+      setIsPosting(true);
+    } else {
+      return;
+    }
   };
 
   const handleChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value);
+    if (e.target.value.length <= 2000) {
+      setContent(e.target.value);
+      setIsPosting(true);
+    } else {
+      return;
+    }
   };
 
   //submit 될 때
   const handleSubmit = () => {
+    if (!isPosting) {
+      alert('변경된 부분이 없습니다.');
+      return;
+    }
+    if (title.length === 0 || content.length === 0) {
+      alert('제목과 내용은 필수 입력사항입니다.');
+      return;
+    }
     if (!isModify) {
       const newPost = {
         id: postId,

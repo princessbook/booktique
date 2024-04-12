@@ -91,6 +91,11 @@ const SaveBookInfo = ({
   // if (loading) {
   //   return <LoadingOverlay show={loading} />;
   // }
+  const bookTitle = clubData.book_title || '';
+  const titleLength = bookTitle.length;
+  const isSingleLine = titleLength <= 40;
+
+  const containerHeight = isSingleLine ? 'h-[101px]' : 'h-[124px]';
 
   return (
     <div className='flex flex-col bg-mainblue'>
@@ -107,23 +112,23 @@ const SaveBookInfo = ({
           책 읽기 종료
         </div>
       </div>
-      <div className='flex justify-center bg-mainblue h-[101px] my-[16px]'>
+      <div className={`flex justify-center bg-mainblue ${containerHeight}`}>
         {/* <figure>
           <img src={clubData.book_cover || ''} />
         </figure> */}
         <div className='flex flex-col'>
-          <div className='w-[295px] h-[69px] mx-auto'>
+          <div className='flex flex-col w-[295px] h-[69px] mx-auto mt-[16px]'>
             {loading ? (
-              <p className='h-[39px] mt-[16px] mb-[8px]'></p>
+              <p className='flex h-[39px] mb-[8px] font-bold text-[33px] leading-[39px] text-[#E9FF8F] text-center justify-center'>
+                0:00:00
+              </p>
             ) : (
-              <p className='h-[39px] mt-[16px] mb-[8px] font-bold text-[33px] leading-[39px] text-[#E9FF8F] text-center'>
-                {/* <Timer clubId={clubId} /> */}
+              <p className='flex h-[39px] mb-[8px] font-bold text-[33px] leading-[39px] text-[#E9FF8F] text-center justify-center'>
                 {timeString}
-                {/* 타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머타이머 */}
               </p>
             )}
 
-            <div className='mb-[16px] text-white text-[16px] leading-[22px] font-bold text-center'>
+            <div className='flex mb-[16px] text-white text-[16px] leading-[22px] font-bold text-center justify-center'>
               {clubData.book_title?.length && clubData.book_title?.length > 40
                 ? clubData.book_title?.substring(0, 40) + '...'
                 : clubData.book_title}

@@ -64,13 +64,15 @@ const BookClubDetailCSR = ({
       </section>
       <div className='flex'>
         {clubMembers && clubMembers!.length === bookclub?.max_member_count
-          ? '모집인원꽉참'
+          ? ''
           : ''}
-        <JoinAndResignBtn
-          setIsJoinOrResign={setIsJoinOrResign}
-          isMember={isMember}
-          clubId={id}
-        />
+        {clubMembers.length < bookclub?.max_member_count! && (
+          <JoinAndResignBtn
+            setIsJoinOrResign={setIsJoinOrResign}
+            isMember={isMember}
+            clubId={id}
+          />
+        )}
       </div>
     </>
   );

@@ -52,9 +52,7 @@ const JoinBtn = ({
           참가하기
         </div>
       ) : (
-        <div className='fixed bottom-32 left-1/2 transform -translate-x-1/2'>
-          이미 참가함
-        </div>
+        <div className='fixed bottom-32 left-1/2 transform -translate-x-1/2'></div>
       )}
     </>
   );

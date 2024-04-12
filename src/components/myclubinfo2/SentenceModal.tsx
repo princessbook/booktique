@@ -74,7 +74,12 @@ const SentenceModal = ({
     }
     console.log('Supabase insert success:', data);
     // 모달 닫기
-    onClose();
+    // 토스트 메시지가 나타난 후 1초 후에 모달 닫기
+    setTimeout(() => {
+      onClose(); // 모달 닫기
+    }, 1000);
+    setPage(0);
+    setContent('');
   };
 
   return (

@@ -55,7 +55,7 @@ const AvatarPage = () => {
   const saveImgFile = async () => {
     const storageImg = await uploadImageStorage(selectedImage!);
     await insertProfile(storageImg);
-    router.push('/myclubinfo2');
+    router.push('/bookclubs');
   };
   return (
     <div className='mx-4 relative h-full '>
@@ -100,7 +100,7 @@ const AvatarPage = () => {
         </form>
       </div>
       <Link
-        href={`/mypage`}
+        href={`/bookclubs`}
         className='w-full bg-mainblue py-3 text-center rounded-[999px] text-[#fff] absolute bottom-14 left-0'
         type='button'>
         건너뛰기

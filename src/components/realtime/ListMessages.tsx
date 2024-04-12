@@ -4,11 +4,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import Message from './Message';
 import { createClient } from '@/utils/supabase/client';
 import { useParams } from 'next/navigation';
+import OtherMessage from './OtherMessage';
 
 const ListMessage = ({
-  clubsIds
+  clubsIds,
+  userId
 }: {
   clubsIds: (string | null)[] | undefined;
+  userId: string | undefined;
 }) => {
   const params = useParams();
   const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
@@ -62,8 +65,15 @@ const ListMessage = ({
       className='flex-1 flex flex-col h-full overflow-y-auto'
       ref={scrollRef}>
       {messages.map((value, index) => {
+        console.log('888', value.send_from);
+        console.log('useriD', userId);
         if (value.club_id === params.id) {
-          return <Message key={index} message={value} />;
+          // message.profiles?.id와 userId를 비교하여 렌더링할 컴포넌트 결정
+          if (value.send_from === userId) {
+            return <Message key={index} message={value} />;
+          } else {
+            return <OtherMessage key={index} message={value} />;
+          }
         }
       })}
     </div>

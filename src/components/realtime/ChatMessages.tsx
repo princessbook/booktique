@@ -13,10 +13,11 @@ const ChatMessages = async () => {
   const clubsIds = data?.map((message) => message.clubs && message.clubs.id);
   const getUser = await supabase.auth.getUser();
   const userId = getUser.data.user?.id;
+  console.log('진짜뭐냐고', userId);
   return (
     <Suspense fallback={'loading...'}>
       <ChatPresence userId={userId} />
-      <ListMessages clubsIds={clubsIds} />
+      <ListMessages clubsIds={clubsIds} userId={userId} />
       <InitMessages messages={data || []} />
     </Suspense>
   );

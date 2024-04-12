@@ -1,44 +1,16 @@
 'use client';
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { login } from '@/app/login/action';
-import { createClient } from '@/utils/supabase/client';
 import Input from '@/common/Input';
 import Image from 'next/image';
 import Link from 'next/link';
+import { signInWithGoogle, kakaoLogin } from '@/utils/api/authAPI';
 
 const LoginForm = () => {
-  const [isProfile, setIsProfile] = useState('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
-  const supabase = createClient();
-  const signInWithGoogle = async (e: any) => {
-    e.preventDefault();
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `http://localhost:3000/myclubinfo2`,
-        queryParams: { access_type: 'offline', prompt: 'consent' }
-      }
-    });
-  };
-
-  const kakaoLogin = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'kakao',
-      options: {
-        redirectTo: `http://localhost:3000/myclubinfo2`,
-        queryParams: { access_type: 'offline', prompt: 'consent' }
-      }
-    });
-    if (data) {
-      return console.log('카카오 로그인 성공');
-    }
-    if (error) {
-      return console.error('카카오 로그인 에러: ', error);
-    }
-  };
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputEmail = e.target.value;
     setEmail(inputEmail);
@@ -73,13 +45,17 @@ const LoginForm = () => {
           value={password}
           onChange={handlePasswordChange}
         />
-        <button formAction={login}>Log in</button>
+        <button
+          className='w-full mt-[38px] mb-6 py-4 bg-mainblue rounded-[10px] text-[#E9FF8F] font-bold'
+          formAction={login}>
+          로그인
+        </button>
         <Image src='/snsTitle.png' width={344} height={24} alt='snstitle' />
 
-        <div className='flex justify-center my-5'>
+        <div className='flex justify-center mb-4'>
           <Image src='/sns.png' width={100} height={50} alt='sns' />
         </div>
-        <div className='flex justify-center'>
+        <div className='flex justify-center mb-[74px]'>
           <a className='mr-4' onClick={signInWithGoogle}>
             <Image src='/logo_google.png' width={60} height={60} alt='google' />
           </a>
@@ -88,7 +64,7 @@ const LoginForm = () => {
           </a>
         </div>
         <div className='text-[#939393] text-center'>
-          <span>아직 북티크 회원이 아니신가요?</span>
+          <span>아직 북티크 회원이 아니신가요? </span>
           <Link className='font-bold' href={`/register`}>
             회원가입
           </Link>

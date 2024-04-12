@@ -5,6 +5,7 @@ import { getUserId } from '@/utils/userAPIs/authAPI';
 import { Tables } from '@/lib/types/supabase';
 import { useRouter } from 'next/navigation';
 import SaveProgressBar from './SaveProgressBar';
+import ToastUi from '@/common/ToastUi';
 
 const supabase = createClient();
 
@@ -23,6 +24,8 @@ const SaveCard = ({
   );
   // console.log('matchingActivities', matchingActivities);
   const [inputValid, setInputValid] = useState(false); // 입력값 유효성 상태
+  const [overPage, setOverPage] = useState(false); // 페이지 초과
+  const [invalidInput, setInvalidInput] = useState(false); // 숫자만 입력하게
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   useEffect(() => {
@@ -33,26 +36,28 @@ const SaveCard = ({
     const inputValue = event.target.value;
     setRecordPage(inputValue);
     setInputValid(!!inputValue.trim()); // 입력값이 공백이 아닌지 확인하여 유효성 상태 갱신
+    setOverPage(false);
+    setInvalidInput(false);
   };
 
   const handleSave = async () => {
     localStorage.removeItem('timerStarted');
     localStorage.removeItem('timerSeconds');
     const memberId = await getUserId();
+    setInputValid(false); // 이걸 false해줘야 저장을 하고도 버튼 비활성화 동작이 일어남
     // console.log('memberId', memberId);
     // console.log('저장!');
 
     if (!/^\d+$/.test(recordPage)) {
-      alert('숫자만 입력해주세요.');
+      setInvalidInput(true); // 숫자만 입력해주세요 알림 표시
       return;
     }
-    // console.log('recordPage', recordPage);
     const result = Math.floor(
       (Number(recordPage) / (clubData.book_page as number)) * 100
     );
 
     if (Number(recordPage) > (clubData.book_page as number)) {
-      alert('입력한 페이지 수가 책의 전체 페이지 수를 초과했습니다.');
+      setOverPage(true); // 페이지 수 초과 알림 표시
       setRecordPage('');
       return;
     }
@@ -102,6 +107,15 @@ const SaveCard = ({
     router.push('/readbook');
   };
 
+  const toastStyle = {
+    width: '343px',
+    height: '50px',
+    top: '48px', // 헤더 48이라 임시로 해놓음
+    left: '50%', // 화면 중앙
+    transform: 'translateX(-50%)',
+    fontSize: '8px'
+  };
+
   return (
     <div className='flex flex-col justify-center'>
       <input
@@ -117,6 +131,22 @@ const SaveCard = ({
         내 독서 진행률
       </div>
       <SaveProgressBar progress={progress} />
+      {overPage && (
+        <ToastUi
+          message='입력한 페이지 수가 책의 전체 페이지 수를 초과했습니다.'
+          onClose={() => setOverPage(false)}
+          isSuccess={false}
+          style={toastStyle}
+        />
+      )}
+      {invalidInput && (
+        <ToastUi
+          message='숫자만 입력해주세요.'
+          onClose={() => setInvalidInput(false)}
+          isSuccess={false}
+          style={toastStyle}
+        />
+      )}
       <button
         onClick={handleSave}
         disabled={!inputValid}

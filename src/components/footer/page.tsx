@@ -1,28 +1,101 @@
+'use client';
+import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
+import mybookclub from '../../../public/footer_mybookclub.png';
+import mybookclubActive from '../../../public/footer_mybookclubactive.png';
+import readbook from '../../../public/footer_readbook.png';
+import readbookActive from '../../../public/footer_readbookactive.png';
+import search from '../../../public/footer_searchclub.png';
+import searchActive from '../../../public/footer_searchclubactive.png';
+import mypage from '../../../public/footer_mypage.png';
+import mypageActive from '../../../public/footer_mypageactive.png';
 
 const Footer = () => {
+  const [activeLink, setActiveLink] = useState('');
   return (
-    <div className=' w-[375px] min-h[78px] mx-auto bottom-0 py-8 px-4 bg-gray-300'>
-      <div className='mx-auto flex justify-center'>
-        <ul className='flex space-x-4 '>
-          <li>
-            <Link href='/myclubinfo2' className='hover:text-white'>
+    <div className='flex w-[375px] h-[78px] mx-auto bottom-0 bg-white border-t-[4px] justify-around'>
+      <div className='flex justify-center h-auto'>
+        <ul className='flex  h-auto items-center justify-center text-[12px] text-center leading-[18px] font-medium mt-[4px]'>
+          <li
+            className={`flex w-[94px] h-[78px] justify-center ${
+              activeLink === 'myclubinfo2'
+                ? 'text-[#35A5F6] mb-[2px]'
+                : 'text-[#B2B5B9] mb-[2px]'
+            }`}>
+            <Link
+              href='/myclubinfo2'
+              className='mb-[8px]'
+              onClick={() => setActiveLink('myclubinfo2')}>
+              <Image
+                src={
+                  activeLink === 'myclubinfo2' ? mybookclubActive : mybookclub
+                }
+                alt='mybookclub'
+                width={64.69}
+                height={46}
+                className='mt-1 w-[64.69px] h-[46px]'
+              />
               내 북클럽
             </Link>
           </li>
-          <li>
-            <Link href='/readbook' className='hover:text-white'>
+          <li
+            className={`flex w-[94px] h-[78px] justify-center ${
+              activeLink === 'readbook'
+                ? 'text-[#35A5F6] mb-[2px]'
+                : 'text-[#B2B5B9] mb-[2px]'
+            }`}>
+            <Link
+              href='/readbook'
+              className='mb-[8px]'
+              onClick={() => setActiveLink('readbook')}>
+              <Image
+                src={activeLink === 'readbook' ? readbookActive : readbook} // 변경
+                alt='mybookclub'
+                width={64.69}
+                height={46}
+                className='mt-1 w-[64.69px] h-[46px]'
+              />
               책 읽기
             </Link>
           </li>
-          <li>
-            <Link href='/bookclubs' className='hover:text-white'>
+          <li
+            className={`flex w-[93px] h-[78px] justify-center ${
+              activeLink === 'bookclubs'
+                ? 'text-[#35A5F6] mb-[2px]'
+                : 'text-[#B2B5B9] mb-[2px]'
+            }`}>
+            <Link
+              href='/bookclubs'
+              className='mb-[8px]'
+              onClick={() => setActiveLink('bookclubs')}>
+              <Image
+                src={activeLink === 'bookclubs' ? searchActive : search} // 변경
+                alt='mybookclub'
+                width={64}
+                height={46}
+                className='mt-1 w-[64px] h-[46px]'
+              />
               북클럽 찾기
             </Link>
           </li>
-          <li>
-            <Link href='/mypage' className='hover:text-white'>
+          <li
+            className={`flex w-[93px] h-[78px] justify-center ${
+              activeLink === 'mypage'
+                ? 'text-[#35A5F6] mb-[2px]'
+                : 'text-[#B2B5B9] mb-[2px]'
+            }`}>
+            <Link
+              href='/mypage'
+              className='mb-[8px]'
+              onClick={() => setActiveLink('mypage')}>
+              <Image
+                src={activeLink === 'mypage' ? mypageActive : mypage} // 변경
+                alt='mybookclub'
+                width={64}
+                height={46}
+                className='mt-1 w-[64px] h-[46px]'
+              />
               마이 페이지
             </Link>
           </li>

@@ -31,6 +31,9 @@ pre {
 .custom-slider .slick-slide {
   transition: transform 0.3s ease;
 }
+.custom-height {
+  height: calc(100% - 52px);
+}
 @keyframes vibrate {
   0% {
     transform: translateX(0);

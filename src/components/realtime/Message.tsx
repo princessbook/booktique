@@ -15,15 +15,25 @@ const Message = ({ message }: { message: Imessage }) => {
   };
 
   return (
-    <div className='flex gap-2 w-full  justify-end'>
+    <div className='flex gap-2 w-full justify-end'>
       <div>
-        <Image
-          src={message.profiles?.photo_URL!}
-          alt='s'
-          width={40}
-          height={40}
-          className='rounded-full'
-        />
+        {message.profiles?.photo_URL ? (
+          <Image
+            src={message.profiles?.photo_URL!}
+            alt='s'
+            width={40}
+            height={40}
+            className='rounded-full'
+          />
+        ) : (
+          <Image
+            src='/booktique.png'
+            alt='s'
+            width={40}
+            height={40}
+            className='rounded-full'
+          />
+        )}
         <div>{message.profiles?.display_name}</div>
         {/* 말풍선 스타일 적용 */}
         <div style={messageTextStyle}>{message.text}</div>

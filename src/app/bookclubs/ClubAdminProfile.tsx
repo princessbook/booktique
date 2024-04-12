@@ -14,7 +14,7 @@ const ClubAdminProfile = async ({ clubId }: { clubId: string }) => {
   }
 
   if (!adminMembers || adminMembers.length === 0) {
-    const { data: members, error: membersError } = await supabase
+    const { data: members } = await supabase
       .from('members')
       .select('*')
       .eq('club_id', clubId);

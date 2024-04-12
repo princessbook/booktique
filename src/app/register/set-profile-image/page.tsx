@@ -59,8 +59,8 @@ const AvatarPage = () => {
   };
   return (
     <div className='mx-4 relative h-full '>
-      <div className='w-full mx-auto'>
-        <div className='relative w-40 h-40 flex  rounded-full overflow-hidden border-2 mx-auto'>
+      <div className='w-full mx-auto pt-[87px]'>
+        <div className='relative w-40 h-40 flex rounded-full overflow-hidden border-2 mx-auto'>
           {previewUrl !== null ? (
             <Image
               src={previewUrl}
@@ -90,8 +90,12 @@ const AvatarPage = () => {
             ref={imgRef}
             className='hidden'
           />
-          <button className='block mx-auto' type='button' onClick={saveImgFile}>
-            등록하기
+
+          <button
+            className='block mx-auto pt-[107px] text-[17px] font-bold'
+            type='button'
+            onClick={saveImgFile}>
+            사진 등록
           </button>
         </form>
       </div>

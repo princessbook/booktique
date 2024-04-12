@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/client';
 import Input from '@/common/Input';
 import { useRouter } from 'next/navigation';
 import { getUserId } from '@/utils/userAPIs/authAPI';
+import Image from 'next/image';
 
 const MyNicknameForm = () => {
   const [nickname, setNickname] = useState<string | null>(null);
@@ -70,7 +71,9 @@ const MyNicknameForm = () => {
   };
   return (
     <div className='mx-[12px] h-full relative'>
-      <img
+      <Image
+        width={140}
+        height={38}
         className='mb-5 pt-[72px]'
         src='/login_logo.png'
         alt='닉네임화면로고'

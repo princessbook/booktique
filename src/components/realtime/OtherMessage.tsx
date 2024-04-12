@@ -3,11 +3,11 @@ import { Imessage } from '@/store/messages';
 import Image from 'next/image';
 import { useUser } from '@/store/user';
 
-const Message = ({ message }: { message: Imessage }) => {
+const OtherMessage = ({ message }: { message: Imessage }) => {
   const user = useUser((state) => state.user);
   // const isMyMessage = message.profiles?.id ===
   return (
-    <div className='flex gap-2'>
+    <div className='flex gap-2 bg-red-500'>
       <div>
         <Image
           src={message.profiles?.photo_URL!}
@@ -17,7 +17,7 @@ const Message = ({ message }: { message: Imessage }) => {
           className='rounded-full'
         />
         <div>{message.profiles?.display_name}</div>
-        <div>메세지: {message.text}</div>
+        <div className='ml-48'>메세지: {message.text}</div>
         <p>입력날짜: {new Date(message.created_at).toDateString()}</p>
         {message.profiles?.id === user?.id && <p>수정버튼</p>}
       </div>
@@ -25,4 +25,4 @@ const Message = ({ message }: { message: Imessage }) => {
   );
 };
 
-export default Message;
+export default OtherMessage;

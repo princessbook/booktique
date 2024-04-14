@@ -129,7 +129,9 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
   return (
     <div>
       <section className='h-[54px] flex items-center justify-between sticky top-0 bg-white border-b-[1px] w-full'>
-        <p className='ml-4'>뒤로</p>
+        <p className='ml-4' onClick={() => router.push('/myclubinfo2')}>
+          뒤로
+        </p>
         <p className='text-[17px] font-bold'>글쓰기</p>
         <button className='mr-4' onClick={handleSubmit}>
           저장

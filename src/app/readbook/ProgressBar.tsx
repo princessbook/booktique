@@ -11,7 +11,7 @@ const ProgressBar = ({
         className={`h-full bg-subblue rounded-full absolute w-${progress}%`}></div> */}
       {/* 태일윈드로 동적으로 %조절하려면  style을 줘야함 */}
       <div
-        className='h-full bg-subblue rounded-full absolute '
+        className='h-full bg-subblue rounded-full absolute transition-width duration-1000 ease-out'
         style={{ width: `${progress}%` }}></div>
 
       {/* <div className={`h-full bg-blue-500 rounded-full w-${progress}%`} /> */}

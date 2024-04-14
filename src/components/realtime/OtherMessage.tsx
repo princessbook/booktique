@@ -24,7 +24,7 @@ const OtherMessage = ({ message }: { message: Imessage }) => {
       <div>
         {message.profiles?.photo_URL ? (
           <Image
-            src={message.profiles?.photo_URL!}
+            src={`${message.profiles.photo_URL}?${new Date().getTime()}`}
             alt='s'
             width={40}
             height={40}

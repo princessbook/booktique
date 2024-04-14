@@ -45,8 +45,12 @@ const Board = ({ clubId }: { clubId: string }) => {
                   <ArticleTimeStamp created_at={post.created_at} />
                 </section>
                 <section className='mt-2 min-h-[90px] w-full'>
-                  <p className=' font-bold line-clamp-2'>{post.title}</p>
-                  <p className='mt-1 mb-1 text-xs'>{post.content}</p>
+                  <p className=' font-bold w-full break-words line-clamp-2'>
+                    {post.title}
+                  </p>
+                  <p className='mt-1 mb-1 text-xs break-words line-clamp-2'>
+                    {post.content}
+                  </p>
                 </section>
               </Link>
             </div>
@@ -54,6 +58,7 @@ const Board = ({ clubId }: { clubId: string }) => {
         )
       )}
       <Link
+        className='py-[15px] px-[20px] sticky bottom-4 left-[60%] text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-mainblue'
         href={`/myclubinfo2/board/posting/${crypto.randomUUID()}?clubId=${clubId}`}>
         글 쓰러가기
       </Link>

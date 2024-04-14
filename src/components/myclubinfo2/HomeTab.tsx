@@ -102,9 +102,9 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
               ))}
             </div>
           </div>
-          <div className='p-2 mt-8'>
+          <div className='mt-8'>
             <p className='font-bold'>모임 정보</p>
-            <div className='bg-[#EEEFF3] p-2 rounded-lg px-4 mt-4 flex text-[14px] w-[311px] h-[40px] font-medium items-center py-[11px] '>
+            <div className='bg-[#EEEFF3] p-2 rounded-lg px-4 mt-4 flex text-[14px] h-[40px] font-medium items-center py-[11px] w-full '>
               <p className='text-subblue font-bold'>모임 기간</p>
               <p className='ml-4'>
                 {formattedStartDate} ~ {formattedEndDate}

@@ -22,7 +22,7 @@ const BoardDetailPage = ({ params }: { params: { postId: string } }) => {
   return (
     <div>
       <BoardDetailArticle postId={postId} clubId={clubId} />
-      <ArticleComment />
+      <ArticleComment postId={postId} />
     </div>
   );
 };

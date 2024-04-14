@@ -1,5 +1,5 @@
 'use client';
-const ArticleComment = () => {
+const ArticleComment = ({ postId }: { postId: string }) => {
   return (
     <div>
       <p>dasd</p>

@@ -78,7 +78,7 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
   if (!clubId) return <>로딩중</>;
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= 50) {
+    if (e.target.value.length <= 100) {
       setTitle(e.target.value);
       setIsPosting(true);
     } else {
@@ -128,17 +128,29 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
 
   return (
     <div>
-      <input
-        placeholder='제목'
-        defaultValue={title}
-        onChange={(e) => handleChangeTitle(e)}
-      />
-      <textarea
-        placeholder='내용'
-        defaultValue={content}
-        onChange={(e) => handleChangeContent(e)}
-      />
-      <button onClick={handleSubmit}>저장</button>
+      <section className='h-[54px] flex items-center justify-between sticky top-0 bg-white border-b-[1px] w-full'>
+        <p className='ml-4' onClick={() => router.push('/myclubinfo2')}>
+          뒤로
+        </p>
+        <p className='text-[17px] font-bold'>글쓰기</p>
+        <button className='mr-4' onClick={handleSubmit}>
+          저장
+        </button>
+      </section>
+      <div className='m-4 w-[343px]'>
+        <input
+          className='w-full mb-4 text-base'
+          placeholder='제목'
+          defaultValue={title}
+          onChange={(e) => handleChangeTitle(e)}
+        />
+        <textarea
+          className='w-full mb-4 text-sm h-[800px]'
+          placeholder='내용'
+          defaultValue={content}
+          onChange={(e) => handleChangeContent(e)}
+        />
+      </div>
     </div>
   );
 };

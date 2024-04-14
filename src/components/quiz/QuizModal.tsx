@@ -107,7 +107,7 @@ const QuizModal = ({
         correctCount++; // 정답이면 정답 카운트 증가
       }
     }
-    if (correctCount !== 1) {
+    if (correctCount !== 1 && quizes[0].type == 'multiple') {
       // 정답이 1개가 아니면 알림 표시
       alert('정답은 반드시 하나여야 합니다.');
       return false;

@@ -5,6 +5,7 @@ import { getUserId } from '@/utils/userAPIs/authAPI';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import ArticleTimeStamp from './ArticleTimeStamp';
 
 const BoardDetailArticle = ({
   postId,
@@ -60,12 +61,25 @@ const BoardDetailArticle = ({
 
   return (
     <div key={article.id}>
-      <header>
-        <p className=' text-xl'>{article.title}</p>
-        <hr />
-        <div className='flex'>
+      <section className='h-[54px] flex items-center justify-between sticky top-0 bg-white border-b-[1px] w-full'>
+        <p className='ml-4' onClick={() => router.push('/myclubinfo2')}>
+          뒤로
+        </p>
+        <p className='text-[17px] font-bold absolute left-1/2 transform -translate-x-1/2'>
+          자유 게시판
+        </p>
+        <div className='flex mr-4 gap-1'>
+          <p onClick={() => handleUpdatePost(article.user_id)}>수정</p>
+          <p onClick={() => handleDeletePost(article.id, article.user_id)}>
+            삭제
+          </p>
+        </div>
+      </section>
+      <section className='m-4'>
+        <div className='flex items-center gap-1'>
           {article.profile.photo_URL ? (
             <Image
+              className='w-8 h-8 rounded-full'
               src={article.profile.photo_URL}
               alt='유저 프로필'
               width={50}
@@ -79,18 +93,14 @@ const BoardDetailArticle = ({
               height={50}
             />
           )}
-          <p>
-            {article.profile.display_name} - {article.created_at}
-          </p>
-          <p onClick={() => handleUpdatePost(article.user_id)}>수정</p>
-          <p onClick={() => handleDeletePost(article.id, article.user_id)}>
-            삭제
-          </p>
+          <p className='text-sm'>{article.profile.display_name}</p>
+          <ArticleTimeStamp created_at={article.created_at} />
         </div>
-      </header>
-      <hr />
-      <p>{article.content}</p>
-      <div></div>
+        <p className='mt-4 font-bold mb-4 text-[18px] break-words'>
+          {article.title}
+        </p>
+        <p className='text-sm'>{article.content}</p>
+      </section>
     </div>
   );
 };

@@ -13,6 +13,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/utils/userAPIs/Fns';
 import Link from 'next/link';
 import closeInput from '../../public/closeInput.svg';
+
 const ProfileDetail = ({ userId }: { userId: string | null }) => {
   const {
     data: profiles,

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import BoardDetailArticle from '@/components/myclubinfo2/board/boardDetail/BoardDetailArticle';
 import { useSearchParams } from 'next/navigation';
 import ArticleComment from '@/components/myclubinfo2/board/boardDetail/ArticleComment';
+import ArticleCommentInput from '@/components/myclubinfo2/board/boardDetail/ArticleCommentInput';
 
 const BoardDetailPage = ({ params }: { params: { postId: string } }) => {
   const [clubId, setClubId] = useState<string | null>('');
@@ -23,6 +24,7 @@ const BoardDetailPage = ({ params }: { params: { postId: string } }) => {
     <div>
       <BoardDetailArticle postId={postId} clubId={clubId} />
       <ArticleComment postId={postId} />
+      <ArticleCommentInput postId={postId} />
     </div>
   );
 };

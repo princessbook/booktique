@@ -11,7 +11,7 @@ export const fetchPostComments = async ({
   const { data, error } = await supabase
     .from('post_comments')
     .select('*, profile:profiles (*)')
-    .eq('id', postId);
+    .eq('post_id', postId);
 
   if (error) throw new Error(error.message);
   return data;
@@ -33,6 +33,17 @@ export const createPostComment = async (newComment: NewComment) => {
       user_id: newComment.user_id
     }
   ]);
+  if (error) throw error;
+  return data;
+};
+
+//댓글 삭제 함수
+export const deletePostComment = async (id: string) => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('post_comments')
+    .delete()
+    .match({ id: id });
   if (error) throw error;
   return data;
 };

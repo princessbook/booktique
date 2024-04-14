@@ -18,7 +18,8 @@ const MyBookClub = async ({ userId }: { userId: string }) => {
   const { data: clubData } = await supabase
     .from('clubs')
     .select('*')
-    .in('id', clubIds);
+    .in('id', clubIds)
+    .order('created_at', { ascending: false });
 
   return (
     <div className='mt-6'>

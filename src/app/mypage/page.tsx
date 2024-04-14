@@ -6,6 +6,7 @@ export const dynamic = 'force-dynamic';
 import { createClient } from '@/utils/supabase/server';
 import LogoutButton from '@/components/mypage/LogoutButton';
 import Profile from '@/components/mypage/Profile';
+import Link from 'next/link';
 const MyPage = async () => {
   const supabase = createClient();
   const {
@@ -17,17 +18,24 @@ const MyPage = async () => {
 
   return (
     //head부분
-    <div className='p-3 flex flex-col'>
-      <header className=' flex items-center mb-6'>
-        <p className='text-lg font-bold'>마이페이지</p>
+    <div className='flex flex-col'>
+      <header className=' flex items-center mb-6 border-b-2 h-[58px] p-4'>
+        <p className='text-[22px] font-bold'>마이페이지</p>
       </header>
-      <div>
-        <Profile userId={user.id} />
-        {/* <ProfileDetail userId={user.id} /> */}
-        <MyBookClub userId={user.id} />
-        <MySentencesStore userId={user.id} />
+      <div className='p-4'>
+        <div>
+          <Profile userId={user.id} />
+          <div className='flex flex-row mb-4 mt-6'>
+            <h2 className='font-bold text-[16px]'>내 북클럽</h2>
+            <Link href={'/mypage/mybookclubs'} className='ml-auto'>
+              <p className=' text-[14px] font-medium text-[#B3C1CC]'>더보기</p>
+            </Link>
+          </div>
+          <MyBookClub userId={user.id} />
+          <MySentencesStore userId={user.id} />
+        </div>
+        <LogoutButton />
       </div>
-      <LogoutButton />
     </div>
   );
 };

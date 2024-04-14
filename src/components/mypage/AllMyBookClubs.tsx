@@ -1,10 +1,9 @@
 import React from 'react';
-import { Tables } from '@/lib/types/supabase';
-type Clubs = Tables<'clubs'>;
+
 import { createClient } from '@/utils/supabase/server';
 
 import Link from 'next/link';
-const MyBookClub = async ({ userId }: { userId: string }) => {
+const AllMyBookClubs = async ({ userId }: { userId: string }) => {
   const supabase = createClient();
 
   const { data } = await supabase
@@ -23,7 +22,7 @@ const MyBookClub = async ({ userId }: { userId: string }) => {
   return (
     <div className='mt-6'>
       <ul>
-        {clubData?.slice(0, 4).map((club) => (
+        {clubData?.map((club) => (
           <li
             key={club.id}
             className='bg-[#F6F7F9] rounded-lg p-4 mt-2 flex flex-row items-center'>
@@ -64,4 +63,4 @@ const MyBookClub = async ({ userId }: { userId: string }) => {
   );
 };
 
-export default MyBookClub;
+export default AllMyBookClubs;

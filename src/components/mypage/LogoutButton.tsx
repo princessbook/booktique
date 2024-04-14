@@ -8,11 +8,13 @@ const LogoutButton = () => {
     window.location.href = '/login';
   };
   return (
-    <button
-      className='mt-6 w-full p-4 border text-gray-400'
-      onClick={handleSignout}>
-      로그아웃
-    </button>
+    <div className='w-full h-[54px]'>
+      <button
+        className='mt-6 text-gray-400 text-[12px] font-medium'
+        onClick={handleSignout}>
+        로그아웃
+      </button>
+    </div>
   );
 };
 

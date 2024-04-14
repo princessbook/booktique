@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation';
 
 type Clubs = Tables<'clubs'>;
 const PageClient = () => {
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [clubInfo, setClubInfo] = useState<Clubs[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   // const { selectedTab, selectedClubId, setSelectedTab, setSelectedClubId } =
@@ -39,13 +39,16 @@ const PageClient = () => {
               )
             );
             setClubInfo(fetchClubInfo);
+            console.log(fetchClubInfo);
             if (fetchedClubIds.length > 0) {
               setSelectedClubId(fetchClubInfo[0].id);
             }
           }
         }
+        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
+        setIsLoading(false);
       }
     };
 
@@ -68,7 +71,8 @@ const PageClient = () => {
   };
   const renderSelectedTab = () => {
     const selectedClub = clubInfo.find((club) => club.id === selectedClubId);
-    if (!selectedClub) {
+
+    if (!selectedClub || clubInfo.length === 0) {
       return <NonMyClub />;
     }
     switch (selectedTab) {
@@ -147,21 +151,6 @@ const PageClient = () => {
           </button>
           <button
             className={`flex-1 px-2 py-2 focus:outline-none ${
-              selectedTab === 'board'
-                ? 'border-b-2 border-black'
-                : 'text-gray-500'
-            }`}
-            onClick={() => handleTabChange('board')}
-            disabled={clubInfo.length === 0}>
-            <span
-              className={`text-[16px] font-bold ${
-                clubInfo.length === 0 ? 'text-gray-500' : ''
-              }`}>
-              자유 게시판
-            </span>
-          </button>
-          <button
-            className={`flex-1 px-2 py-2 focus:outline-none ${
               selectedTab === 'quiz'
                 ? 'border-b-2 border-black'
                 : 'text-gray-500'
@@ -175,11 +164,26 @@ const PageClient = () => {
               퀴즈
             </span>
           </button>
+          <button
+            className={`flex-1 px-2 py-2 focus:outline-none ${
+              selectedTab === 'board'
+                ? 'border-b-2 border-black'
+                : 'text-gray-500'
+            }`}
+            onClick={() => handleTabChange('board')}
+            disabled={clubInfo.length === 0}>
+            <span
+              className={`text-[16px] font-bold ${
+                clubInfo.length === 0 ? 'text-gray-500' : ''
+              }`}>
+              자유 게시판
+            </span>
+          </button>
         </div>
       </div>
 
       {/* 탭 컨텐츠 */}
-      <div>{renderSelectedTab()}</div>
+      <div>{!isLoading && renderSelectedTab()}</div>
     </div>
   );
 };

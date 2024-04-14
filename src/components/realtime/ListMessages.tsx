@@ -6,13 +6,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useParams } from 'next/navigation';
 import OtherMessage from './OtherMessage';
 
-const ListMessage = ({
-  clubsIds,
-  userId
-}: {
-  clubsIds: (string | null)[] | undefined;
-  userId: string | undefined;
-}) => {
+const ListMessage = ({ userId }: { userId: string | undefined }) => {
   const params = useParams();
   const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const [userScrolled, setUserScrolled] = useState(false);
@@ -61,7 +55,7 @@ const ListMessage = ({
     return () => {
       channel.unsubscribe();
     };
-  }, [messages]);
+  }, [messages, addMessage, optimisticIds]);
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
@@ -99,7 +93,6 @@ const ListMessage = ({
         ref={scrollRef}
         onScroll={handleOnScroll}>
         {sortedMessages.map((value, index) => {
-          console.log(value.created_at);
           if (value.club_id === params.id) {
             // message.profiles?.id와 userId를 비교하여 렌더링할 컴포넌트 결정
             if (value.send_from === userId) {
@@ -111,12 +104,14 @@ const ListMessage = ({
         })}
       </div>
       {userScrolled && (
-        <div className='absolute bottom-24 right-1/2'>
+        <div className='absolute bottom-32 left-1/2 translate-x-[-50%]'>
           {notification ? (
             <div
-              className='w-36 bg-indigo-500 p-1 rounded-md cursor-pointer'
+              className=' w-48 bg-mainblue animate-bounce p-1 rounded-md cursor-pointer'
               onClick={scrollDown}>
-              <h1>New {notification} messages</h1>
+              <h1 className='text-white text-center'>
+                새로운 메세지{notification}개 있습니다
+              </h1>
             </div>
           ) : (
             <div

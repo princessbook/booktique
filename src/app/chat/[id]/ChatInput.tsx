@@ -5,7 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
+import { TbSend } from 'react-icons/tb';
 const ChatInput = () => {
   const supabase = createClient();
   const params = useParams<{ id: string }>();
@@ -13,6 +13,7 @@ const ChatInput = () => {
   const addMessage = useMessage((state) => state.addMessage);
   const setOptimisticIds = useMessage((state) => state.setOptimisticIds);
   const [photoURL, setPhotoURL] = useState<string | undefined>(undefined);
+  const [messageText, setMessageText] = useState<string>('');
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -34,14 +35,14 @@ const ChatInput = () => {
 
     fetchUserData();
   }, []);
-  const handleSendMessage = async (text: string) => {
+  const handleSendMessage = async () => {
     const { data } = await supabase.auth.getUser();
     await supabase.from('profiles').select('*').eq('id', data?.user?.id!);
     const userId = data.user?.id;
-    if (text.trim()) {
+    if (messageText.trim()) {
       const newMessage = {
         id: uuidv4(),
-        text: text,
+        text: messageText,
         send_from: userId,
         is_edit: false,
         club_id: params?.id,
@@ -78,26 +79,43 @@ const ChatInput = () => {
       // supabase 불러오기
       const { error } = await supabase
         .from('messages')
-        .insert([{ text, club_id: params.id, send_from: userId ?? '' }]);
+        .insert([
+          { text: messageText, club_id: params.id, send_from: userId ?? '' }
+        ]);
       if (error) {
         console.log(error);
       }
+      setMessageText('');
     } else {
       alert('빈값입니다');
     }
   };
   return (
-    <div className='p-1'>
-      <input
-        placeholder='send message'
-        onKeyPress={(e) => {
-          if (e.key === 'Enter') {
-            handleSendMessage(e.currentTarget.value);
-            e.currentTarget.value = '';
-          }
-        }}
-      />
-    </div>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSendMessage();
+      }}>
+      <div className='relative p-1 px-3 bg-[#c6edff]'>
+        <input
+          value={messageText}
+          className='w-full rounded-xl pl-3 py-[4px]'
+          placeholder='send message'
+          onChange={(e) => setMessageText(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              handleSendMessage();
+            }
+          }}
+        />
+        <button
+          type='submit'
+          className='absolute  right-3 w-[42px] h-[32px] rounded-r-xl '>
+          <TbSend size={25} />
+        </button>
+      </div>
+    </form>
   );
 };
 

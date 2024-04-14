@@ -46,7 +46,7 @@ const Members = ({ member, index }: { member: MembersType; index: number }) => {
       key={index}
       className='bg-[#EDEEF2] rounded-lg p-2 w-[108px] h-[146px] '>
       <div className='flex flex-col items-center'>
-        <div className='mt-1 mr-3 relative flex justify-center align-middle w-[56px] h-[56px] max-w-full max-h-auto rounded-full'>
+        <div className='mt-1 mr-3 relative flex justify-center align-middle max-w-full max-h-auto rounded-full'>
           <p className='text-[#B3C1CC] flex mr-1 text-[18px] font-bold'>
             {index + 1}
           </p>
@@ -55,11 +55,11 @@ const Members = ({ member, index }: { member: MembersType; index: number }) => {
             alt='Profile'
             width={56}
             height={56}
-            className='rounded-full object-cover'
+            className='rounded-full object-cover w-[56px] h-[56px]'
           />
           {member.role === 'admin' && (
             <svg
-              className='absolute bottom-0 right-0 z-10'
+              className='absolute bottom-0 right-0 z-5'
               width='16'
               height='16'
               viewBox='0 0 16 16'

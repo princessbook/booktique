@@ -3,7 +3,7 @@ import { Imessage, useMessage } from '@/store/messages';
 import React, { useEffect, useRef, useState } from 'react';
 import Message from './Message';
 import { createClient } from '@/utils/supabase/client';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import OtherMessage from './OtherMessage';
 
 const ListMessage = ({ userId }: { userId: string | undefined }) => {
@@ -13,6 +13,7 @@ const ListMessage = ({ userId }: { userId: string | undefined }) => {
   const [notification, setNotification] = useState(0);
   const { messages, addMessage, optimisticIds } = useMessage((state) => state);
   const supabase = createClient();
+  const router = useRouter();
 
   useEffect(() => {
     const channel = supabase
@@ -52,6 +53,7 @@ const ListMessage = ({ userId }: { userId: string | undefined }) => {
         }
       )
       .subscribe();
+    router.refresh();
     return () => {
       channel.unsubscribe();
     };
@@ -86,6 +88,7 @@ const ListMessage = ({ userId }: { userId: string | undefined }) => {
     // created_at 속성을 기준으로 오름차순으로 정렬합니다.
     return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
   });
+  console.log('33333333333333', sortedMessages);
   return (
     <>
       <div

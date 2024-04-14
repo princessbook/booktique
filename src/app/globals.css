@@ -34,6 +34,9 @@ pre {
 .custom-height {
   height: calc(100% - 60px);
 }
+.screen {
+  height: calc(100vh - 100px);
+}
 @keyframes vibrate {
   0% {
     transform: translateX(0);

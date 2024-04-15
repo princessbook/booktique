@@ -27,93 +27,77 @@ const Footer = () => {
   };
 
   return (
-    <div className='flex h-[78px] mx-auto fixed bottom-0 bg-white border-t-[4px] justify-around'>
-      <div className='flex justify-center h-auto'>
-        <ul className='flex  h-auto items-center justify-center text-[12px] text-center leading-[18px] font-medium mt-[4px]'>
-          <li
-            className={`flex w-[94px] h-[78px] justify-center ${
-              activeLink === 'myclubinfo2'
-                ? 'text-[#35A5F6] mb-[2px]'
-                : 'text-[#B2B5B9] mb-[2px]'
-            }`}>
-            <Link
-              href='/myclubinfo2'
-              className='mb-[8px]'
-              onClick={() => handleClick('myclubinfo2')}>
-              <Image
-                src={
-                  activeLink === 'myclubinfo2' ? mybookclubActive : mybookclub
-                }
-                alt='mybookclub'
-                width={64.69}
-                height={46}
-                className='mt-1 w-[64.69px] h-[46px]'
-              />
-              내 북클럽
-            </Link>
-          </li>
-          <li
-            className={`flex w-[94px] h-[78px] justify-center ${
-              activeLink === 'readbook'
-                ? 'text-[#35A5F6] mb-[2px]'
-                : 'text-[#B2B5B9] mb-[2px]'
-            }`}>
-            <Link
-              href='/readbook'
-              className='mb-[8px]'
-              onClick={() => handleClick('readbook')}>
-              <Image
-                src={activeLink === 'readbook' ? readbookActive : readbook} // 변경
-                alt='mybookclub'
-                width={64.69}
-                height={46}
-                className='mt-1 w-[64.69px] h-[46px]'
-              />
-              책 읽기
-            </Link>
-          </li>
-          <li
-            className={`flex w-[93px] h-[78px] justify-center ${
-              activeLink === 'bookclubs'
-                ? 'text-[#35A5F6] mb-[2px]'
-                : 'text-[#B2B5B9] mb-[2px]'
-            }`}>
-            <Link
-              href='/bookclubs'
-              className='mb-[8px]'
-              onClick={() => handleClick('bookclubs')}>
-              <Image
-                src={activeLink === 'bookclubs' ? searchActive : search} // 변경
-                alt='mybookclub'
-                width={64}
-                height={46}
-                className='mt-1 w-[64px] h-[46px]'
-              />
-              북클럽 찾기
-            </Link>
-          </li>
-          <li
-            className={`flex w-[93px] h-[78px] justify-center ${
-              activeLink === 'mypage'
-                ? 'text-[#35A5F6] mb-[2px]'
-                : 'text-[#B2B5B9] mb-[2px]'
-            }`}>
-            <Link
-              href='/mypage'
-              className='mb-[8px]'
-              onClick={() => handleClick('mypage')}>
-              <Image
-                src={activeLink === 'mypage' ? mypageActive : mypage} // 변경
-                alt='mybookclub'
-                width={64}
-                height={46}
-                className='mt-1 w-[64px] h-[46px]'
-              />
-              마이 페이지
-            </Link>
-          </li>
-        </ul>
-      </div>
+    <div className='w-full md:w-[375px] h-[78px] fixed bottom-0 bg-white border-t-[4px] mx-auto'>
+      <ul className='flex w-[90%] mx-auto justify-between  h-auto items-center text-[12px] text-center leading-[18px] font-medium px-2'>
+        <li
+          className={`flex h-[78px] justify-center ${
+            activeLink === 'myclubinfo2'
+              ? 'text-[#35A5F6] mb-[2px]'
+              : 'text-[#B2B5B9] mb-[2px]'
+          }`}>
+          <Link href='/myclubinfo2' onClick={() => handleClick('myclubinfo2')}>
+            <Image
+              src={activeLink === 'myclubinfo2' ? mybookclubActive : mybookclub}
+              alt='mybookclub'
+              width={64.69}
+              height={46}
+              className='mt-1 w-[64.69px] h-[46px]'
+            />
+            내 북클럽
+          </Link>
+        </li>
+        <li
+          className={`flex  h-[78px] justify-center ${
+            activeLink === 'readbook'
+              ? 'text-[#35A5F6] mb-[2px]'
+              : 'text-[#B2B5B9] mb-[2px]'
+          }`}>
+          <Link href='/readbook' onClick={() => handleClick('readbook')}>
+            <Image
+              src={activeLink === 'readbook' ? readbookActive : readbook} // 변경
+              alt='mybookclub'
+              width={64.69}
+              height={46}
+              className='mt-1 w-[64.69px] h-[46px]'
+            />
+            책 읽기
+          </Link>
+        </li>
+        <li
+          className={`flex  h-[78px] justify-center ${
+            activeLink === 'bookclubs'
+              ? 'text-[#35A5F6] mb-[2px]'
+              : 'text-[#B2B5B9] mb-[2px]'
+          }`}>
+          <Link href='/bookclubs' onClick={() => handleClick('bookclubs')}>
+            <Image
+              src={activeLink === 'bookclubs' ? searchActive : search} // 변경
+              alt='mybookclub'
+              width={64}
+              height={46}
+              className='mt-1 w-[64px] h-[46px]'
+            />
+            북클럽 찾기
+          </Link>
+        </li>
+        <li
+          className={`flex  h-[78px] justify-center ${
+            activeLink === 'mypage'
+              ? 'text-[#35A5F6] mb-[2px]'
+              : 'text-[#B2B5B9] mb-[2px]'
+          }`}>
+          <Link href='/mypage' onClick={() => handleClick('mypage')}>
+            <Image
+              src={activeLink === 'mypage' ? mypageActive : mypage} // 변경
+              alt='mybookclub'
+              width={64}
+              height={46}
+              className='mt-1 w-[64px] h-[46px]'
+            />
+            마이 페이지
+          </Link>
+        </li>
+      </ul>
     </div>
   );
 };

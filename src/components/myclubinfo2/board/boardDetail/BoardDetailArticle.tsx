@@ -69,8 +69,13 @@ const BoardDetailArticle = ({
           자유 게시판
         </p>
         <div className='flex mr-4 gap-1'>
-          <p onClick={() => handleUpdatePost(article.user_id)}>수정</p>
-          <p onClick={() => handleDeletePost(article.id, article.user_id)}>
+          <p onClick={() => handleUpdatePost(article.user_id as string)}>
+            수정
+          </p>
+          <p
+            onClick={() =>
+              handleDeletePost(article.id, article.user_id as string)
+            }>
             삭제
           </p>
         </div>

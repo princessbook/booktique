@@ -87,7 +87,7 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
   const formattedEndDate = formatDate(endDate);
 
   return (
-    <div>
+    <div className='overflow-y-scroll'>
       {loading ? (
         <p>Loading...</p>
       ) : (

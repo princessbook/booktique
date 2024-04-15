@@ -183,7 +183,9 @@ const PageClient = () => {
       </div>
 
       {/* 탭 컨텐츠 */}
-      <div>{!isLoading && renderSelectedTab()}</div>
+      <div className='mb-[78px] overflow-y-auto'>
+        {!isLoading && renderSelectedTab()}
+      </div>
     </div>
   );
 };

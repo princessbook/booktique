@@ -59,7 +59,7 @@ const ClubList = ({
     vertical: false,
     // 슬라이드가 변경될 때마다 현재 슬라이드 인덱스를 업데이트
     centerMode: true, // 가운데 정렬 모드 활성화
-    centerPadding: '25px', // 좌우 패딩 추가
+    centerPadding: '30px', // 좌우 패딩 추가
     // 슬라이드가 변경될 때마다 현재 슬라이드 인덱스를 업데이트
     afterChange: (current: number) => setCurrentSlide(current)
   };
@@ -99,26 +99,29 @@ const ClubList = ({
   // }
 
   return (
-    <>
-      <Slider className='custom-slider' {...settings}>
+    <div className='flex flex-col'>
+      <Slider className='custom-slider h-auto' {...settings}>
         {filteredBookClubsData
           .filter((club) => !club.archive)
           .map((club) => (
-            <div key={club.id} className='flex'>
-              <div className='flex flex-col bg-white mb-[40px] w-[302px] h-[464px] rounded-[20px] shadow-md mx-auto items-center'>
+            <div key={club.id} className='flex '>
+              <div className='flex flex-col bg-white mb-[40px] w-[92%] h-[60%] rounded-[20px] shadow-md mx-auto items-center justify-center '>
                 <div className='flex w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center'>
                   {club.book_title &&
                     (club.book_title.length > 25
                       ? club.book_title.substring(0, 25) + '...'
                       : club.book_title)}
                 </div>
-                <Image
-                  src={club.book_cover || ''}
-                  alt='북이미지'
-                  width={196}
-                  height={304}
-                  className='mx-[53px] mt-[14px] mb-[16px] w-[196px] h-[304px] rounded'
-                />
+
+                <div className='relative mx-8 mt-4 mb-2 w-48 h-72 rounded-lg overflow-hidden'>
+                  <Image
+                    width={111}
+                    height={161}
+                    src={club.book_cover || ''}
+                    alt='북이미지'
+                    className='absolute inset-0 w-full h-full object-cover rounded'
+                  />
+                </div>
                 <ProgressBar
                   progress={
                     clubActivities?.find(
@@ -154,7 +157,7 @@ const ClubList = ({
           />
         </Link> */}
       </div>
-    </>
+    </div>
   );
 };
 

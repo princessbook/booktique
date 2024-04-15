@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import mybookclub from '../../../public/footer_mybookclub.png';
 import mybookclubActive from '../../../public/footer_mybookclubactive.png';
 import readbook from '../../../public/footer_readbook.png';
@@ -13,6 +13,19 @@ import mypageActive from '../../../public/footer_mypageactive.png';
 
 const Footer = () => {
   const [activeLink, setActiveLink] = useState('');
+
+  useEffect(() => {
+    const storedActiveLink = localStorage.getItem('activeLink');
+    if (storedActiveLink) {
+      setActiveLink(storedActiveLink);
+    }
+  }, []);
+
+  const handleClick = (link: string) => {
+    setActiveLink(link);
+    localStorage.setItem('activeLink', link);
+  };
+
   return (
     <div className='flex w-[375px] h-[78px] mx-auto fixed bottom-0 bg-white border-t-[4px] justify-around'>
       <div className='flex justify-center h-auto'>
@@ -26,7 +39,7 @@ const Footer = () => {
             <Link
               href='/myclubinfo2'
               className='mb-[8px]'
-              onClick={() => setActiveLink('myclubinfo2')}>
+              onClick={() => handleClick('myclubinfo2')}>
               <Image
                 src={
                   activeLink === 'myclubinfo2' ? mybookclubActive : mybookclub
@@ -48,7 +61,7 @@ const Footer = () => {
             <Link
               href='/readbook'
               className='mb-[8px]'
-              onClick={() => setActiveLink('readbook')}>
+              onClick={() => handleClick('readbook')}>
               <Image
                 src={activeLink === 'readbook' ? readbookActive : readbook} // 변경
                 alt='mybookclub'
@@ -68,7 +81,7 @@ const Footer = () => {
             <Link
               href='/bookclubs'
               className='mb-[8px]'
-              onClick={() => setActiveLink('bookclubs')}>
+              onClick={() => handleClick('bookclubs')}>
               <Image
                 src={activeLink === 'bookclubs' ? searchActive : search} // 변경
                 alt='mybookclub'
@@ -88,7 +101,7 @@ const Footer = () => {
             <Link
               href='/mypage'
               className='mb-[8px]'
-              onClick={() => setActiveLink('mypage')}>
+              onClick={() => handleClick('mypage')}>
               <Image
                 src={activeLink === 'mypage' ? mypageActive : mypage} // 변경
                 alt='mybookclub'

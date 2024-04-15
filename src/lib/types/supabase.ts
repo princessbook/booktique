@@ -9,6 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      alarm: {
+        Row: {
+          content: string | null;
+          created_at: string;
+          id: string;
+          isRead: boolean | null;
+          post_id: string | null;
+          target_user_id: string | null;
+        };
+        Insert: {
+          content?: string | null;
+          created_at?: string;
+          id?: string;
+          isRead?: boolean | null;
+          post_id?: string | null;
+          target_user_id?: string | null;
+        };
+        Update: {
+          content?: string | null;
+          created_at?: string;
+          id?: string;
+          isRead?: boolean | null;
+          post_id?: string | null;
+          target_user_id?: string | null;
+        };
+        Relationships: [];
+      };
       club_activities: {
         Row: {
           club_id: string | null;
@@ -193,6 +220,45 @@ export type Database = {
           }
         ];
       };
+      post: {
+        Row: {
+          club_id: string | null;
+          created_at: string;
+          id: string;
+          title: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          club_id?: string | null;
+          created_at?: string;
+          id?: string;
+          title?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          club_id?: string | null;
+          created_at?: string;
+          id?: string;
+          title?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'public_post_club_id_fkey';
+            columns: ['club_id'];
+            isOneToOne: false;
+            referencedRelation: 'clubs';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'public_post_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
       post_comments: {
         Row: {
           content: string;
@@ -239,7 +305,7 @@ export type Database = {
           created_at: string;
           id: string;
           title: string | null;
-          user_id: string;
+          user_id: string | null;
         };
         Insert: {
           club_id?: string | null;

@@ -93,7 +93,7 @@ const QuizContainer = ({ clubId }: { clubId: string }) => {
 
   if (!quizsData) return;
   return (
-    <section className='overflow-scroll p-3 py-5 pb-10'>
+    <section className='overflow-scroll p-3 py-5 pb-10 mb-[78px] overflow-y-auto'>
       {quizsData?.length === 0 && (
         <div className='flex w-full h-full justify-center items-center'>
           <div className='flex w-full text-center'>

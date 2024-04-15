@@ -70,13 +70,13 @@ const BookClubsPage = async (props: any) => {
   }
 
   return (
-    <div className='bg-primary500 '>
+    <div className='bg-primary500 '>
       <h2 className='text-left h-[58px] text-xl px-3 flex items-center border-b border-opacity-30 border-b-white  text-white font-bold'>
         북클럽 찾기
       </h2>
       <ClubSearch />
-      <div className='bg-white '>
-        <section className='p-3'>
+      <div className='bg-white mb-[78px] overflow-y-auto'>
+        <section className='p-3 '>
           {bookclubs.map((bookclub) => {
             return (
               <Link key={bookclub.id} href={`/bookclubs/${bookclub.id}`}>

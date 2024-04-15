@@ -18,11 +18,11 @@ const MyPage = async () => {
 
   return (
     //head부분
-    <div className='flex flex-col'>
+    <div className='flex flex-col '>
       <header className=' flex items-center mb-6 border-b-2 h-[58px] p-4'>
         <p className='text-[22px] font-bold'>마이페이지</p>
       </header>
-      <div className='p-4'>
+      <div className='p-4 mb-[78px] overflow-y-auto'>
         <div>
           <Profile userId={user.id} />
           <div className='flex flex-row mb-4 mt-6'>

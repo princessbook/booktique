@@ -21,7 +21,7 @@ const BoardDetailPage = ({ params }: { params: { postId: string } }) => {
   if (!clubId) return <>클럽 아이디가 없습니다</>;
 
   return (
-    <div>
+    <div className='mb-[78px] overflow-y-auto'>
       <BoardDetailArticle postId={postId} clubId={clubId} />
       <ArticleComment postId={postId} />
       <ArticleCommentInput postId={postId} />

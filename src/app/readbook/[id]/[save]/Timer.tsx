@@ -44,7 +44,7 @@ const Timer = ({
     return () => {
       clearInterval(intervalRef.current as number);
     };
-  }, [isVisible]);
+  }, [isVisible, seconds]);
 
   const saveTimeToSupabase = async (timeInSeconds: number) => {
     try {

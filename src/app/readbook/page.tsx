@@ -70,7 +70,7 @@ const ReadBookPage = async () => {
       <Suspense fallback={<></>}>
         {filteredBookClubsData.length > 0 ? (
           <>
-            <div className='h-[42px]'></div>
+            <div></div>
             <Image
               src={blue}
               width={134}
@@ -87,7 +87,7 @@ const ReadBookPage = async () => {
         ) : (
           /* 가입한 북클럽이 없습니다. 북클럽에 가입해서 책 읽어보세요 */
           <div className='flex flex-col'>
-            <div className='h-[42px]'></div>
+            <div></div>
             <Image
               src={blue}
               width={134}

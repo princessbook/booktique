@@ -195,10 +195,10 @@ export type Database = {
       };
       post_comments: {
         Row: {
-          content: string | null;
-          created_at: string | null;
+          content: string;
+          created_at: string;
           id: string;
-          post_id: string | null;
+          post_id: string;
           user_id: string;
         };
         Insert: {

@@ -137,7 +137,7 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
           저장
         </button>
       </section>
-      <div className='m-4 w-[343px]'>
+      <div className='m-4 w-[340px]'>
         <input
           className='w-full mb-4 text-base'
           placeholder='제목'

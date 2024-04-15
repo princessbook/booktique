@@ -12,7 +12,7 @@ export const useTabStore = create<TabState>((set) => {
   const initialSelectedTab =
     typeof window !== 'undefined'
       ? localStorage.getItem('selectedTab') || 'home'
-      : '';
+      : 'home';
   const initialSelectedClubId =
     typeof window !== 'undefined'
       ? localStorage.getItem('selectedClubId') || ''

@@ -14,7 +14,7 @@ import mypageActive from '../../../public/footer_mypageactive.png';
 const Footer = () => {
   const [activeLink, setActiveLink] = useState('');
   return (
-    <div className='flex w-[375px] h-[78px] mx-auto bottom-0 bg-white border-t-[4px] justify-around'>
+    <div className='flex w-[375px] h-[78px] mx-auto fixed bottom-0 bg-white border-t-[4px] justify-around'>
       <div className='flex justify-center h-auto'>
         <ul className='flex  h-auto items-center justify-center text-[12px] text-center leading-[18px] font-medium mt-[4px]'>
           <li

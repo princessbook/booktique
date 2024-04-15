@@ -20,10 +20,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`overflow-y-hidden ${inter.className} flex flex-col mx-auto h-screen items-center`}>
+        className={`overflow-y-hidden ${inter.className} flex pb-[78px] flex-col mx-auto h-screen items-center`}>
         <QueryProvider>
           {/* <Header /> */}
-          <main className='w-full flex-1 overflow-y-auto'>{children}</main>
+          <main className='w-full flex-1 overflow-y-auto '>{children}</main>
           <Footer />
         </QueryProvider>
       </body>

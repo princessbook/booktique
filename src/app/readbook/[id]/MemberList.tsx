@@ -29,13 +29,7 @@ const MemberList = ({
   const supabase = createClient();
   const [profiles, setProfiles] = useState<UserProfile[]>();
   const [loading, setLoading] = useState<boolean>(true);
-  // console.log('timerVisible 멤버리스트', timerVisible);
-  // const [activitiesData, setActivitiesData] = useState<{ progress: number }[]>(
-  //   []
-  // );
-  // console.log('clubMembers', clubMembers);
-  // console.log('profiles', profiles);
-  // console.log('userId', userId);
+
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
@@ -96,7 +90,7 @@ const MemberList = ({
             채팅참여하기
           </button>
         </div>
-        <div className='flex flex-wrap ml-[16px] gap-[10px] justify-start '>
+        <div className='flex flex-wrap mx-auto gap-[9px] justify-start ml-[16px]'>
           {profiles?.map((profile, index) => (
             <div
               key={index}
@@ -119,7 +113,7 @@ const MemberList = ({
                 )}
                 {profile?.photo_URL ? (
                   <Image
-                    src={profile.photo_URL}
+                    src={`${profile.photo_URL}?${new Date().getTime()}`}
                     alt='profile_image'
                     width={56}
                     height={56}
@@ -154,7 +148,6 @@ const MemberList = ({
           ))}
         </div>
         {!endButtonVisible && <EndButton id={id} />}
-        {/* <EndButton id={id} /> */}
       </div>
     </>
   );

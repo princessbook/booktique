@@ -5,6 +5,8 @@ import { Tables } from '@/lib/types/supabase';
 import Timer from './[save]/Timer';
 import { getUserId } from '@/utils/userAPIs/authAPI';
 import QuizContainer from '@/components/quiz/QuizContainer';
+import { createClient } from '@/utils/supabase/client';
+import { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
 
 const BookInfo = ({
   clubData,
@@ -15,11 +17,11 @@ const BookInfo = ({
   clubId: string;
   clubMembers: Tables<'members'>[];
 }) => {
-  // const [onlineUsers, setOnlineUsers] = useState(0);
   const [activeTab, setActiveTab] = useState('책읽기');
   const [timerVisible, setTimerVisible] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [endButtonVisible, setEndButtonVisible] = useState(true);
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -35,70 +37,128 @@ const BookInfo = ({
     fetchUserId();
   }, []);
 
-  // useEffect(() => {
-  //   const supabase = createClient();
-  //   const channelName = `book_channel_${clubId}`;
-  //   const bookChannel = supabase.channel(channelName);
+  const [postData, setPostData] =
+    useState<null | RealtimePostgresInsertPayload<{
+      [key: string]: string;
+    }>>(null);
+  console.log('postData', postData);
 
-  //   bookChannel
-  //     .on('presence', { event: 'sync' }, () => {
-  //       console.log('Synced presence state: ', bookChannel.presenceState());
-  //       const presencedIds = clubMembers.map((member) => member.user_id);
-  //       setOnlineUsers(presencedIds.length);
-  //       console.log('presencedIds', presencedIds);
-  //       const isAdminPresent = presencedIds.some((userId) => {
-  //         const member = clubMembers.find(
-  //           (member) => member.user_id === userId
-  //         );
-  //         return member && member.role === 'admin';
-  //       });
-  //       console.log('isAdminPresent:', isAdminPresent);
-  //     })
-  //     .subscribe(async (status) => {
-  //       if (status === 'SUBSCRIBED') {
-  //         await bookChannel.track({
-  //           online_at: new Date().toISOString(),
-  //           user_id: userId
-  //         });
-  //       }
-  //     });
-
-  //   return () => {
-  //     bookChannel.unsubscribe();
-  //   };
-  // }, [userId, clubId, clubMembers]);
-
-  const handleStartTimer = () => {
-    // const isAdmin = clubMembers.some(
-    //   (member) => member.user_id === userId && member.role === 'admin'
-    // );
-    // console.log('isAdmin', isAdmin);
-    // if (isAdmin) {
-
-    //   // 로컬 스토리지에 타이머 시작 상태 저장
-    localStorage.setItem('timerStarted', 'true');
-    // } else {
-    //   alert('관리자만 책 읽기를 시작할 수 있습니다.');
-
-    // }
-    setTimerVisible(true);
-    setEndButtonVisible(false);
-  };
   useEffect(() => {
-    // 컴포넌트 마운트 시 로컬 스토리지에서 타이머 시작 상태 확인
-    localStorage.getItem('userId');
+    const channelA = supabase
+      .channel('dy')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'post',
+          filter: `user_id=in.(${clubMembers.map((item) => item.user_id)})`
+        },
+        (payload) => {
+          console.log('payload', payload);
+          setPostData(payload);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      channelA.unsubscribe();
+    };
+  }, [clubMembers]);
+
+  useEffect(() => {
     const timerStarted = localStorage.getItem('timerStarted');
     if (timerStarted === 'true') {
       setTimerVisible(true);
       setEndButtonVisible(false);
     }
   }, []);
-  // console.log('timerVisible', timerVisible);
+
+  useEffect(() => {
+    if (postData) {
+      const writerId = postData.new.user_id;
+      const postAlarm = async () => {
+        try {
+          const { data: user } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', writerId)
+            .single();
+
+          if (user) {
+            const writerName = user.display_name;
+            const newAlarm = {
+              created_at: postData.commit_timestamp,
+              target_user_id: userId,
+              content: `${writerName}님이${postData.new.title}모임을 시작하셨습니다: `,
+              post_id: postData.new.id
+            };
+
+            const memberUserIds = clubMembers
+              .filter((member) => member.role === 'member')
+              .map((member) => member.user_id);
+
+            await supabase
+              .from('alarm')
+              .insert(newAlarm)
+              .in('target_user_id', memberUserIds);
+
+            console.log('알람 테이블에 추가되었습니다.');
+
+            const { data: alarm } = await supabase
+              .from('alarm')
+              .select('*')
+              .eq('target_user_id', writerId)
+              .order('created_at', { ascending: true });
+            console.log('alarm', alarm);
+            if (alarm) {
+              alert(alarm[alarm.length - 1]?.content);
+            }
+          }
+        } catch (error) {
+          console.error('알림을 생성하는 도중 오류가 발생했습니다:', error);
+        }
+      };
+      postAlarm();
+    }
+  }, [postData, userId, clubMembers]);
+
+  const handleStartTimer = () => {
+    localStorage.setItem('timerStarted', 'true');
+    setTimerVisible(true);
+    setEndButtonVisible(false);
+  };
+
+  const handleStartMeeting = async () => {
+    try {
+      const admins = clubMembers.filter((member) => member.role === 'admin');
+      const adminUserId = admins.map((admin) => admin.user_id);
+
+      if (!adminUserId.includes(userId)) {
+        console.log('관리자만 모임을 시작할 수 있습니다.');
+        return;
+      }
+
+      await supabase.from('post').insert([
+        {
+          user_id: userId,
+          title: clubData[0].book_title,
+          created_at: new Date().toISOString(),
+          club_id: clubId
+        }
+      ]);
+      console.log('삽입!@@@!@!@!@');
+    } catch (error) {
+      console.error('데이터를 삽입하는 도중 오류가 발생했습니다:', error);
+    }
+  };
+
   const bookTitle = clubData[0].book_title || '';
   const titleLength = bookTitle.length;
   const isSingleLine = titleLength <= 40;
   const containerHeight =
     isSingleLine || !timerVisible ? 'h-[102px]' : 'h-[124px]';
+
   return (
     <>
       <div className='sticky top-0 z-10'>
@@ -107,10 +167,13 @@ const BookInfo = ({
           className={`sticky flex flex-col bg-mainblue items-center ${containerHeight}`}>
           <div className='mt-[16px] '>
             {!timerVisible && (
-              <div
-                className='mb-[24px] flex w-[189px] h-[54px] bg-[#D8FA8E] rounded-[10px] text-center text-[#269AED] font-bold text-[17px] leading-[26px] justify-center items-center'
-                onClick={handleStartTimer}>
-                책 읽기 시작
+              <div className='flex'>
+                <div
+                  className='mb-[24px] flex w-[189px] h-[54px] bg-[#D8FA8E] rounded-[10px] text-center text-[#269AED] font-bold text-[17px] leading-[26px] justify-center items-center'
+                  onClick={handleStartTimer}>
+                  책 읽기 시작
+                </div>
+                {/* <div onClick={handleStartMeeting}>모임시작</div> */}
               </div>
             )}
             {timerVisible && (

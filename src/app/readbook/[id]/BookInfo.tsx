@@ -142,7 +142,7 @@ const BookInfo = ({
       await supabase.from('post').insert([
         {
           user_id: userId,
-          title: clubData[0].book_title,
+          title: clubData[0].name,
           created_at: new Date().toISOString(),
           club_id: clubId
         }
@@ -173,7 +173,7 @@ const BookInfo = ({
                   onClick={handleStartTimer}>
                   책 읽기 시작
                 </div>
-                {/* <div onClick={handleStartMeeting}>모임시작</div> */}
+                <div onClick={handleStartMeeting}>모임시작</div>
               </div>
             )}
             {timerVisible && (

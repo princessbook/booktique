@@ -86,7 +86,7 @@ const ClubList = ({
           time: 0 // 기본 1시간으로 제한
         }
       ]);
-      console.log('111111', 111111);
+      // console.log('111111', 111111);
       localStorage.removeItem('timerStarted');
       localStorage.removeItem('timerSeconds');
     } catch (error) {
@@ -101,33 +101,35 @@ const ClubList = ({
   return (
     <>
       <Slider className='custom-slider' {...settings}>
-        {filteredBookClubsData.map((club) => (
-          <div key={club.id} className='flex'>
-            <div className='flex flex-col bg-white mb-[40px] w-[302px] h-[464px] rounded-[20px] shadow-md mx-auto items-center'>
-              <div className='flex w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center'>
-                {club.book_title &&
-                  (club.book_title.length > 25
-                    ? club.book_title.substring(0, 25) + '...'
-                    : club.book_title)}
+        {filteredBookClubsData
+          .filter((club) => !club.archive)
+          .map((club) => (
+            <div key={club.id} className='flex'>
+              <div className='flex flex-col bg-white mb-[40px] w-[302px] h-[464px] rounded-[20px] shadow-md mx-auto items-center'>
+                <div className='flex w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center'>
+                  {club.book_title &&
+                    (club.book_title.length > 25
+                      ? club.book_title.substring(0, 25) + '...'
+                      : club.book_title)}
+                </div>
+                <Image
+                  src={club.book_cover || ''}
+                  alt='북이미지'
+                  width={196}
+                  height={304}
+                  className='mx-[53px] mt-[14px] mb-[16px] w-[196px] h-[304px] rounded'
+                />
+                <ProgressBar
+                  progress={
+                    clubActivities?.find(
+                      (activity) => activity.club_id === club.id
+                    )?.progress || 0
+                  }
+                  backgroundColor='#EDEEF2'
+                />
               </div>
-              <Image
-                src={club.book_cover || ''}
-                alt='북이미지'
-                width={196}
-                height={304}
-                className='mx-[53px] mt-[14px] mb-[16px] w-[196px] h-[304px] rounded'
-              />
-              <ProgressBar
-                progress={
-                  clubActivities?.find(
-                    (activity) => activity.club_id === club.id
-                  )?.progress || 0
-                }
-                backgroundColor='#EDEEF2'
-              />
             </div>
-          </div>
-        ))}
+          ))}
       </Slider>
 
       <div className='mb-[40px] justify-center flex'>

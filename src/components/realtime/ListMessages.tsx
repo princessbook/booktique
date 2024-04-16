@@ -92,7 +92,7 @@ const ListMessage = ({ userId }: { userId: string | undefined }) => {
   return (
     <>
       <div
-        className={`flex-1 flex flex-col custom-height overflow-y-auto bg-[#c6edff] h-calc-100-52`}
+        className={`flex-1 flex flex-col custom-height overflow-y-auto bg-[#c6edff]`}
         ref={scrollRef}
         onScroll={handleOnScroll}>
         {sortedMessages.map((value, index) => {
@@ -107,7 +107,7 @@ const ListMessage = ({ userId }: { userId: string | undefined }) => {
         })}
       </div>
       {userScrolled && (
-        <div className='absolute bottom-32 left-1/2 translate-x-[-50%]'>
+        <div className='absolute bottom-12 left-1/2 translate-x-[-50%]'>
           {notification ? (
             <div
               className=' w-48 bg-mainblue animate-bounce p-1 rounded-md cursor-pointer'

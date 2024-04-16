@@ -99,7 +99,7 @@ const SaveBookInfo = ({
 
   return (
     <div className='flex flex-col bg-mainblue'>
-      <div className='h-[42px]'></div>
+      {/* <div className='h-[42px]'></div> */}
       <div className='flex flex-row bg-[#35A5F6] border-b-[1px] border-[#DBE3EB] border-opacity-30 w-full '>
         <Link href='/readbook' passHref>
           <Image
@@ -116,28 +116,29 @@ const SaveBookInfo = ({
         {/* <figure>
           <img src={clubData.book_cover || ''} />
         </figure> */}
-        <div className='flex flex-col'>
-          <div className='flex flex-col w-[295px] h-[69px] mx-auto mt-[16px]'>
-            {loading ? (
-              <p className='flex h-[39px] mb-[8px] font-bold text-[33px] leading-[39px] text-[#E9FF8F] text-center justify-center'>
-                0:00:00
-              </p>
-            ) : (
-              <p className='flex h-[39px] mb-[8px] font-bold text-[33px] leading-[39px] text-[#E9FF8F] text-center justify-center'>
-                {timeString}
-              </p>
-            )}
+        {/* <div className='flex flex-col'> */}
+        <div className='flex flex-col w-[295px] mx-auto mt-[16px]'>
+          {loading ? (
+            <p className='flex h-[39px] mb-[8px] font-bold text-[33px] leading-[39px] text-[#E9FF8F] text-center justify-center'>
+              0:00:00
+            </p>
+          ) : (
+            <p className='flex h-[39px] mb-[8px] font-bold text-[33px] leading-[39px] text-[#E9FF8F] text-center justify-center'>
+              {timeString}
+            </p>
+          )}
 
-            <div className='flex mb-[16px] text-white text-[16px] leading-[22px] font-bold text-center justify-center'>
-              {clubData.book_title?.length && clubData.book_title?.length > 40
+          <p className='mb-[16px] text-white text-[16px] leading-[22px] font-bold text-center justify-center break-words line-clamp-2'>
+            {/* {clubData.book_title?.length && clubData.book_title?.length > 40
                 ? clubData.book_title?.substring(0, 40) + '...'
-                : clubData.book_title}
-            </div>
-          </div>
-          {/* <div>{clubData.book_author}</div>
+                : clubData.book_title} */}
+            {clubData.book_title}
+          </p>
+        </div>
+        {/* <div>{clubData.book_author}</div>
           <div>{clubData.book_page}</div>
           <div>{clubData.book_category}</div> */}
-        </div>
+        {/* </div> */}
       </div>
     </div>
   );

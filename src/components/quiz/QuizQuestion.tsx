@@ -85,6 +85,7 @@ const QuizQuestion = ({
   };
 
   const handleDeleteAnswer = (id: string) => {
+    if (quiz.answer.length <= 2) return;
     const updatedAnswers = quiz.answer.filter((answer) => answer.id !== id);
     const updatedQuiz = { ...quiz, answer: updatedAnswers };
     setQuiz((prevQuizes) =>
@@ -107,7 +108,7 @@ const QuizQuestion = ({
         {/* 문제: */}
         <textarea
           placeholder='문제를 입력해 주세요'
-          className='mb-5 w-full resize-none rounded-md p-2 '
+          className='mb-2 w-full resize-none rounded-md p-2 '
           value={questionInput}
           maxLength={60}
           onChange={handleQuestionChange}
@@ -141,7 +142,7 @@ const QuizQuestion = ({
       </div>
       {isMultiple && (
         <p
-          className='w-full border-solid border-2 border-[#B3C1CC] text-[#8A9DB3] p-2 rounded-full text-center'
+          className='w-full cursor-pointer border-solid border-2 border-[#B3C1CC] text-[#8A9DB3] p-2 rounded-full text-center'
           onClick={handleAddAnswer}>
           보기추가
         </p>

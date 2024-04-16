@@ -19,13 +19,23 @@ const QuizModal = ({
       type: 'multiple',
       id: uuidv4(),
       question: '',
+      answer: [
+        { id: uuidv4(), value: '', isCorrect: false },
+        { id: uuidv4(), value: '', isCorrect: false }
+      ]
+    }
+  ];
+  const initialShortQuiz = [
+    {
+      type: 'short',
+      id: uuidv4(),
+      question: '',
       answer: [{ id: uuidv4(), value: '', isCorrect: false }]
     }
   ];
   const [quizes, setQuizes] = useState<Array<Quiz>>(initialQuiz);
   const [isMultiple, setIsMultiple] = useState(true);
   const supabase = createClient();
-  const [isMultipleActive, setIsMultipleActive] = useState(true);
 
   // const handleAddQuiz = () => {
   //   if (quizes.length === 10) {
@@ -45,11 +55,12 @@ const QuizModal = ({
 
   const handleSwitchType = (type: boolean) => {
     setIsMultiple(type);
-    const updatedQuizes = initialQuiz.map((quiz) => ({
-      ...quiz,
-      type: type ? 'multiple' : 'short'
-    }));
-    setQuizes(updatedQuizes);
+
+    if (type) {
+      setQuizes(initialQuiz);
+    } else {
+      setQuizes(initialShortQuiz);
+    }
   };
 
   const handleSave = async () => {
@@ -70,6 +81,7 @@ const QuizModal = ({
     ]);
     setSubmitAnswer((prev) => !prev);
     setQuizes(initialQuiz);
+    setIsMultiple(true);
     onClose();
   };
 
@@ -122,12 +134,18 @@ const QuizModal = ({
       }`}>
       <div
         className='absolute inset-0 bg-black opacity-50'
-        onClick={onClose}></div>
-      <div className='bg-white rounded-lg z-10 relative w-full px-4 py-6'>
+        onClick={() => {
+          onClose();
+          setIsMultiple(true);
+        }}></div>
+      <div className='bg-white rounded-lg z-10 relative md:w-[375px] w-full  px-4 py-6'>
         <div className='flex mb-6'>
           {/* 닫기 버튼 */}
           <button
-            onClick={onClose}
+            onClick={() => {
+              onClose();
+              setIsMultiple(true);
+            }}
             className=' text-gray-600 hover:text-gray-800 absolute'>
             <div className='w-[22px] h-[22px] relative'>
               <div className='absolute top-1/2 left-0 w-full h-[2px] bg-black transform -translate-y-1/2 rotate-45'></div>
@@ -141,26 +159,24 @@ const QuizModal = ({
           <div className='relative bg-[#EDEEF2] p-3 rounded-md'>
             <div className='flex mb-3'>
               <div
-                className={`text-s  mr-2 ${
-                  !isMultipleActive
+                className={`text-s cursor-pointer mr-2 ${
+                  !isMultiple
                     ? 'bg-[#B3C1CC] text-white'
                     : 'bg-[#8A9DB3] text-white'
                 } rounded-md p-1`}
                 onClick={() => {
                   handleSwitchType(true);
-                  setIsMultipleActive(true);
                 }}>
                 객관식
               </div>
               <div
-                className={`text-s mr-2 ${
-                  isMultipleActive
+                className={`text-s cursor-pointer mr-2 ${
+                  isMultiple
                     ? 'bg-[#B3C1CC] text-white'
                     : 'bg-[#8A9DB3] text-white'
                 } rounded-md p-1`}
                 onClick={() => {
                   handleSwitchType(false);
-                  setIsMultipleActive(false);
                 }}>
                 주관식
               </div>
@@ -186,7 +202,7 @@ const QuizModal = ({
 
           <button
             onClick={handleSave}
-            className='w-full bg-mainblue py-4 rounded-[10px] mt-6'>
+            className='w-full text-white bg-mainblue py-4 rounded-[10px] mt-6'>
             저장
           </button>
         </div>

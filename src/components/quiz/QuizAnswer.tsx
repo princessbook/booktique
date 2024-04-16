@@ -30,7 +30,7 @@ const QuizAnswer = ({
           onClick={() => {
             handleCheckboxChange(!answer.isCorrect);
           }}
-          className='bg-[#B3C1CC] text-white px-3 py-1 rounded-full mr-2 '>
+          className='bg-[#B3C1CC] cursor-pointer text-white px-3 py-1 rounded-full mr-2 '>
           정답
         </label>
       ) : (
@@ -39,7 +39,7 @@ const QuizAnswer = ({
             // setIsChecked((prev) => !prev);
             handleCheckboxChange(!answer.isCorrect);
           }}
-          className=' bg-blue-300 text-white px-3 py-1 rounded-full mr-2 '>
+          className='cursor-pointer bg-blue-300 text-white px-3 py-1 rounded-full mr-2 '>
           정답
         </label>
       )}
@@ -66,7 +66,7 @@ const QuizAnswer = ({
           handleDeleteAnswer(answer.id);
         }}
         className=''>
-        <div className='bg-[#136BAA] ml-2 bg-opacity-60 rounded-full text-white'>
+        <div className='cursor-pointer bg-[#136BAA] ml-2 bg-opacity-60 rounded-full text-white'>
           <IoClose size={25} />
         </div>
       </span>

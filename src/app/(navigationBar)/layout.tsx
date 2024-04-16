@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import Footer from '@/components/footer/page';
 
 export default function RootLayout({

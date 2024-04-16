@@ -1,5 +1,5 @@
 'use client';
-import React, { useReducer } from 'react';
+import React from 'react';
 import { getClubInfo, getUserId } from '@/utils/userAPIs/authAPI';
 import { getUserClubIds } from '@/utils/userAPIs/authAPI';
 import { useState } from 'react';
@@ -19,12 +19,14 @@ const PageClient = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [clubInfo, setClubInfo] = useState<Clubs[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
-  // const { selectedTab, selectedClubId, setSelectedTab, setSelectedClubId } =
-  //   useTabStore();
-  const [selectedTab, setSelectedTab] = useState('home');
-  const [selectedClubId, setSelectedClubId] = useState<string>('');
+
+  const { selectedTab, selectedClubId, setSelectedTab, setSelectedClubId } =
+    useTabStore();
+  // const [selectedTab, setSelectedTab] = useState('home');
+  // const [selectedClubId, setSelectedClubId] = useState<string>('');
 
   useEffect(() => {
+    console.log('selectedTab:', selectedTab);
     const fetchData = async () => {
       try {
         const fetchedUserId = await getUserId();
@@ -39,10 +41,9 @@ const PageClient = () => {
               )
             );
             setClubInfo(fetchClubInfo);
-            console.log(fetchClubInfo);
-            if (fetchedClubIds.length > 0) {
-              setSelectedClubId(fetchClubInfo[0].id);
-            }
+            // if (fetchedClubIds.length > 0) {
+            //   setSelectedClubId(fetchClubInfo[0].id);
+            // }
           }
         }
         setIsLoading(false);
@@ -171,7 +172,8 @@ const PageClient = () => {
                 : 'text-gray-500'
             }`}
             onClick={() => handleTabChange('board')}
-            disabled={clubInfo.length === 0}>
+            // disabled={clubInfo.length === 0}
+          >
             <span
               className={`text-[16px] font-bold ${
                 clubInfo.length === 0 ? 'text-gray-500' : ''

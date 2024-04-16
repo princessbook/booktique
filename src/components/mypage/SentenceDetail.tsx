@@ -52,17 +52,16 @@ const SentenceDetail = async ({ sentenceId }: { sentenceId: string }) => {
         </p>
       </div>
       <div className='p-4 text-[16px]'>
-        <div className='flex flex-row'>
-          <p className='text-[20px] font-bold'>{clubData[0].book_title}</p>
-          <p className='ml-auto text-[#939393]'>
-            {formattedDate(sentenceData[0].created_at)}
-          </p>
-        </div>
+        <p className='text-[20px] font-bold'>{clubData[0].book_title}</p>
         <div className='flex flex-row'>
           <p>{clubData[0].book_author}</p>
           <p className='ml-auto mr-2'>{sentenceData[0].sentence_page} page.</p>
         </div>
-
+        <div className='flex flex-end mt-2'>
+          <p className='ml-auto text-[#939393]'>
+            {formattedDate(sentenceData[0].created_at)}
+          </p>
+        </div>
         <div className='flex justify-center'>
           <Image
             src={clubData[0].book_cover || '/booktiquereadblue.png'}

@@ -32,7 +32,14 @@ const MySentencesStore = async ({ userId }: { userId: string }) => {
     return (
       <div className='mt-6'>
         <div className='flex flex-row mb-4'>
-          <h2 className='font-bold text-[16px]'>내가 작성한 문장</h2>
+          <h2 className='font-bold text-[16px] flex items-center'>
+            내가 작성한 문장
+          </h2>
+          <Link href={'/mypage/mysentences'} className='ml-auto'>
+            <button className=' text-[14px] font-medium text-[#B3C1CC] p-2'>
+              더보기
+            </button>
+          </Link>
         </div>
         <ul>
           {userSentences.map((sentence) => {

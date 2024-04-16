@@ -12,7 +12,7 @@ export const useTabStore = create<TabState>((set) => {
   const initialSelectedTab =
     typeof window !== 'undefined'
       ? localStorage.getItem('selectedTab') || 'home'
-      : 'home';
+      : '';
   const initialSelectedClubId =
     typeof window !== 'undefined'
       ? localStorage.getItem('selectedClubId') || ''
@@ -25,13 +25,11 @@ export const useTabStore = create<TabState>((set) => {
       // 상태 변경 및 localStorage에 저장
       localStorage.setItem('selectedTab', tab);
       set({ selectedTab: tab });
-      // set((state) => ({ ...state, selectedTab: tab }));
     },
     setSelectedClubId: (clubId) => {
       // 상태 변경 및 localStorage에 저장
       localStorage.setItem('selectedClubId', clubId);
       set({ selectedClubId: clubId });
-      // set((state) => ({ ...state, selectedClubId: clubId }));
     }
   };
 });

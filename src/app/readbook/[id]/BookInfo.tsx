@@ -7,6 +7,7 @@ import { getUserId } from '@/utils/userAPIs/authAPI';
 import QuizContainer from '@/components/quiz/QuizContainer';
 import { createClient } from '@/utils/supabase/client';
 import { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
+import useAlarmStore from '@/store';
 
 const BookInfo = ({
   clubData,
@@ -23,6 +24,11 @@ const BookInfo = ({
   const [endButtonVisible, setEndButtonVisible] = useState(true);
   const supabase = createClient();
 
+  // const { alarms, addAlarm, clearAlarms } = useAlarmStore();
+
+  // console.log('alarms111111111111111111111111', alarms);
+  // console.log('addAlarm1111111111111111111111', addAlarm);
+  // console.log('clearAlarms11111111111111111111', clearAlarms);
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -86,7 +92,16 @@ const BookInfo = ({
             .single();
 
           if (user) {
+            // console.log('user', user);
             const writerName = user.display_name;
+            const isAdmin = clubMembers.some(
+              (member) => member.user_id === userId && member.role === 'admin'
+            );
+            if (isAdmin) {
+              console.log('방장은 알럿을 받지 않습니다.');
+              return;
+            }
+
             const newAlarm = {
               created_at: postData.commit_timestamp,
               target_user_id: userId,
@@ -111,7 +126,12 @@ const BookInfo = ({
               .eq('target_user_id', writerId)
               .order('created_at', { ascending: true });
             console.log('alarm', alarm);
-            if (alarm) {
+
+            if (
+              alarm &&
+              alarm.length > 0 &&
+              alarm[0].target_user_id === userId
+            ) {
               alert(alarm[alarm.length - 1]?.content);
             }
           }
@@ -121,15 +141,20 @@ const BookInfo = ({
       };
       postAlarm();
     }
-  }, [postData, userId, clubMembers]);
+  }, [postData, userId, clubMembers, supabase]);
 
-  const handleStartTimer = () => {
-    localStorage.setItem('timerStarted', 'true');
-    setTimerVisible(true);
-    setEndButtonVisible(false);
+  const handleStartTimer = async () => {
+    try {
+      await startMeeting();
+      localStorage.setItem('timerStarted', 'true');
+      setTimerVisible(true);
+      setEndButtonVisible(false);
+    } catch (error) {
+      console.error('모임 시작 중 오류가 발생했습니다:', error);
+    }
   };
 
-  const handleStartMeeting = async () => {
+  const startMeeting = async () => {
     try {
       const admins = clubMembers.filter((member) => member.role === 'admin');
       const adminUserId = admins.map((admin) => admin.user_id);
@@ -173,7 +198,6 @@ const BookInfo = ({
                   onClick={handleStartTimer}>
                   책 읽기 시작
                 </div>
-                <div onClick={handleStartMeeting}>모임시작</div>
               </div>
             )}
             {timerVisible && (
@@ -181,10 +205,11 @@ const BookInfo = ({
             )}
           </div>
           {timerVisible && (
-            <div className='text-white mt-[8px] mb-[16px] w-[295px] text-center '>
-              {clubData[0].book_title && clubData[0].book_title.length > 40
+            <div className='text-white mt-[8px] mb-[16px] w-[295px] text-center break-words line-clamp-2'>
+              {/* {clubData[0].book_title && clubData[0].book_title.length > 40
                 ? clubData[0].book_title?.substring(0, 40) + '...'
-                : clubData[0].book_title}
+                : clubData[0].book_title} */}
+              {clubData[0].book_title}
             </div>
           )}
         </div>

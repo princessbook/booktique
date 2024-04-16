@@ -18,7 +18,7 @@ export const generateUniqueNickname = async () => {
   let randomSuffix = '';
 
   for (let i = 0; i < 6; i++) {
-    randomSuffix += Math.floor(Math.random() * 10);
+    randomSuffix += .floor(Math.random() * 10);
   }
   let randomNickname = baseNickname + randomSuffix;
   while (true) {

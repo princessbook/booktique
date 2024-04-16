@@ -140,7 +140,7 @@ const CreateBookPage = () => {
   };
 
   return (
-    <section className='p-4'>
+    <section className='p-4 mb-[78px] overflow-y-auto'>
       <h1 className='text-2xl mb-4 text-center font-bold'>북클럽 만들기</h1>
       {/* 책 검색 버튼 */}
       <button
@@ -157,11 +157,11 @@ const CreateBookPage = () => {
       {/* 선택된 책 정보 표시 */}
       {bookInfo && (
         <div className='flex bg-gray-200 p-4 rounded-lg mb-4'>
-          <div className='mr-4'>
+          <div className='mr-4 flex items-center'>
             <Image
               src={bookInfo.cover}
-              width={200}
-              height={300}
+              width={100}
+              height={150}
               alt='book cover'
             />
           </div>
@@ -216,7 +216,7 @@ const CreateBookPage = () => {
             ))}
           </select>
         </div>
-        {/* <div className='mb-4'>
+        <div className='mb-4'>
           <label htmlFor='image' className='block font-bold mb-1'>
             썸네일
           </label>
@@ -231,7 +231,7 @@ const CreateBookPage = () => {
               <Image src={previewUrl} alt='preview' width={100} height={100} />
             </div>
           )}
-        </div> */}
+        </div>
         <button
           type='submit'
           className=' bg-mainblue text-white px-4 py-2 rounded'>

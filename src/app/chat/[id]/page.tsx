@@ -11,7 +11,6 @@ const ChatPage = async () => {
   // console.log('뭘까 도대체', allChat);
   const supabase = createClient();
   const { data } = await supabase.auth.getUser();
-  console.log('33333', data);
   const userId = data.user?.id;
   return (
     <Suspense fallback={'loading...'}>

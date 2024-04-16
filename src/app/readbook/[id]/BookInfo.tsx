@@ -94,13 +94,6 @@ const BookInfo = ({
           if (user) {
             // console.log('user', user);
             const writerName = user.display_name;
-            const isAdmin = clubMembers.some(
-              (member) => member.user_id === userId && member.role === 'admin'
-            );
-            if (isAdmin) {
-              console.log('방장은 알럿을 받지 않습니다.');
-              return;
-            }
 
             const newAlarm = {
               created_at: postData.commit_timestamp,
@@ -126,12 +119,14 @@ const BookInfo = ({
               .eq('target_user_id', writerId)
               .order('created_at', { ascending: true });
             console.log('alarm', alarm);
-
-            if (
-              alarm &&
-              alarm.length > 0 &&
-              alarm[0].target_user_id === userId
-            ) {
+            const isAdmin = clubMembers.some(
+              (member) => member.user_id === userId && member.role === 'admin'
+            );
+            if (isAdmin) {
+              console.log('방장은 알럿을 받지 않습니다.');
+              return;
+            }
+            if (alarm) {
               alert(alarm[alarm.length - 1]?.content);
             }
           }

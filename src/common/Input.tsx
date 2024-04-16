@@ -38,9 +38,9 @@ const Input: React.FC<InputProps> = ({
     onChange({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
   };
 
-  useEffect(() => {
-    setRightMargin(type === 'password' ? 'right-10' : 'right-3');
-  }, [type]);
+  // useEffect(() => {
+  //   setRightMargin(type === 'password' ? 'right-10' : 'right-3');
+  // }, [type]);
 
   return (
     <div>
@@ -64,7 +64,7 @@ const Input: React.FC<InputProps> = ({
         />
         {value && (
           <Image
-            className={`absolute top-1/2 transform -translate-y-[75%] ${rightMargin} cursor-pointer`}
+            className={`absolute top-1/2 transform right-3 -translate-y-[75%] ${rightMargin} cursor-pointer`}
             onClick={handleClear}
             src={closeInput}
             alt='closeInput'

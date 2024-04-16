@@ -46,7 +46,7 @@ const RegisterForm = () => {
       // 비밀번호 유효성 검사
       if (!validatePassword(password)) {
         setPasswordError(
-          '비밀번호는 영문 대문자, 소문자, 숫자, 특수문자 중 최소 2가지 이상을 포함하고, 6~20자로 이루어져야 합니다.'
+          '비밀번호는 영문 대문자, 소문자, 숫자를 포함하고, 6~20자로 이루어져야 합니다.'
         );
         passwordInputRef.current?.focus();
         return;
@@ -105,11 +105,11 @@ const RegisterForm = () => {
     setPassword(inputPassword);
     if (!validatePassword(inputPassword) && inputPassword !== passwordConfirm) {
       setPasswordError(
-        '비밀번호가 일치하지않고, 비밀번호는 영문 대문자, 소문자, 숫자, 특수문자 중 최소 2가지 이상을 포함하고, 6~20자로 이루어져야 합니다. '
+        '비밀번호가 일치하지않고, 비밀번호는 영문 대문자, 소문자, 숫자를 포함하고, 6~20자로 이루어져야 합니다. '
       );
     } else if (!validatePassword(inputPassword)) {
       setPasswordError(
-        '비밀번호는 영문 대문자, 소문자, 숫자, 특수문자 중 최소 2가지 이상을 포함하고, 6~20자로 이루어져야 합니다.'
+        '비밀번호는 영문 대문자, 소문자, 숫자를 포함하고, 6~20자로 이루어져야 합니다.'
       );
     } else if (inputPassword !== passwordConfirm) {
       setPasswordError('비밀번호가 일치하지 않습니다.');

@@ -61,3 +61,7 @@ pre {
 .toast.vibrate {
   animation: vibrate 0.3s ease-in-out;
 }
+input[type='password']::-ms-reveal,
+input[type='password']::-ms-clear {
+  display: none;
+}

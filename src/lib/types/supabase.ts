@@ -34,7 +34,15 @@ export type Database = {
           post_id?: string | null;
           target_user_id?: string | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: 'public_alarm_post_id_fkey';
+            columns: ['post_id'];
+            isOneToOne: false;
+            referencedRelation: 'post';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       club_activities: {
         Row: {
@@ -261,10 +269,10 @@ export type Database = {
       };
       post_comments: {
         Row: {
-          content: string;
-          created_at: string;
+          content: string | null;
+          created_at: string | null;
           id: string;
-          post_id: string;
+          post_id: string | null;
           user_id: string;
         };
         Insert: {
@@ -304,6 +312,7 @@ export type Database = {
           content: string | null;
           created_at: string;
           id: string;
+          thumbnail: string | null;
           title: string | null;
           user_id: string | null;
         };
@@ -312,6 +321,7 @@ export type Database = {
           content?: string | null;
           created_at?: string;
           id?: string;
+          thumbnail?: string | null;
           title?: string | null;
           user_id?: string | null;
         };
@@ -320,6 +330,7 @@ export type Database = {
           content?: string | null;
           created_at?: string;
           id?: string;
+          thumbnail?: string | null;
           title?: string | null;
           user_id?: string | null;
         };

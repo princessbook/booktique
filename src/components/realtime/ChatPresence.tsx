@@ -67,13 +67,13 @@ const ChatPresence = ({ userId }: { userId: string | undefined }) => {
   }
   return (
     <div className='flex items-center gap-1 bg-[#c6edff] pl-2'>
-      <Image
+      {/* <Image
         width={40}
         height={40}
         src={clubData?.thumbnail}
         alt='Thumbnail'
         className='rounded-xl'
-      />
+      /> */}
       <div>{clubData?.name}</div>
       <div className='h-4 w-4 bg-green-500 rounded-full animate-pulse'></div>
       <h1 className='text-sm text-black font-bold'>{onlineUsers}</h1>

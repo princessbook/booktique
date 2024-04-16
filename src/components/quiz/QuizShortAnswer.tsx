@@ -33,7 +33,7 @@ const QuizShortAnswer = ({
       />
       {answerInput.length > 10 && (
         <div
-          className='absolute right-0 top-0 h-full rounded-full'
+          className='absolute right-0 top-0 h-full rounded-md'
           style={{
             background: `linear-gradient(to right, transparent 20%, #fff 100%)`,
             width: '50px', // 조절 필요

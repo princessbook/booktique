@@ -237,14 +237,15 @@ const QuizContainer = ({ clubId }: { clubId: string }) => {
             })}
         </div>
       )}
-
-      <div className='fixed bottom-32 right-8'>
-        <div
-          className='bg-[#3F3E4E] py-3 px-5 text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer'
-          onClick={() => {
-            setModalOpen(true);
-          }}>
-          퀴즈 만들기
+      <div className='flex justify-end'>
+        <div className='fixed bottom-24'>
+          <div
+            className='bg-[#3F3E4E] py-3 px-5 text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer'
+            onClick={() => {
+              setModalOpen(true);
+            }}>
+            퀴즈 만들기
+          </div>
         </div>
       </div>
       <QuizModal

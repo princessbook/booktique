@@ -32,7 +32,7 @@ pre {
   transition: transform 0.3s ease;
 }
 .custom-height {
-  height: calc(100% - 60px);
+  height: calc(100vh - 64px);
 }
 .screen {
   height: calc(100vh - 100px);
@@ -60,4 +60,8 @@ pre {
 
 .toast.vibrate {
   animation: vibrate 0.3s ease-in-out;
+}
+input[type='password']::-ms-reveal,
+input[type='password']::-ms-clear {
+  display: none;
 }

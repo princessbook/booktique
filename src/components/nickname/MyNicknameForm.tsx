@@ -98,7 +98,7 @@ const MyNicknameForm = () => {
 
         <div className='text-[12px] absolute right-10 top-1/3 translate-y-[-20%]'>{`${charCount}/${maxChar}`}</div>
       </div>
-      <span className='text-[12px] text-red-500'>
+      <span className='text-[12px] text-[#939393]'>
         북클럽 활동시 표시되는 이름으로 추후 변경 가능합니다.
       </span>
       <button

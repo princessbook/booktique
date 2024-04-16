@@ -76,12 +76,14 @@ const ClubSearch = () => {
         <h1 className=' text-lg font-bold px-3 mb-2 text-[#292929]'>
           책 분야로 개설된 북클럽
         </h1>
-        <div className='flex overflow-x-auto border-b-2 px-2'>
+        <div
+          className='flex overflow-x-auto border-b-2 px-2'
+          style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
           {bookCategories.map((bookCategory, idx) => {
             return (
               <span
                 onClick={() => handleCategoryClick(bookCategory)}
-                className={`cursor-pointer bg-grayBgLight rounded-full mr-2 p-2 mb-2 whitespace-nowrap ${
+                className={`cursor-pointer bg-grayBgLight rounded-full mr-2 p-2 mb-2 whitespace-nowrap   ${
                   activeCategory === bookCategory
                     ? 'text-[#3A3B42] font-bold bg-secondary600'
                     : ''

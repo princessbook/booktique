@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import ReadBookLayout from '../readbook/layout';
 import Image from 'next/image';
-import noclub from '../../../public/noclub.png';
-import blue from '../../../public/booktiquereadblue.png';
+import noclub from '../../../../public/noclub.png';
+import blue from '../../../../public/booktiquereadblue.png';
 import { createClient } from '@/utils/supabase/server';
 import ClubList from './ClubList';
 import { redirect } from 'next/navigation';

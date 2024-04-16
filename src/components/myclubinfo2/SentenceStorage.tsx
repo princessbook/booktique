@@ -108,7 +108,9 @@ const SentenceStorage = ({
               />
             )}
             <SentenceUser sentenceId={sentence.user_id || ''} />
-            <div className='bg-gray-100 rounded-md ml-7 px-4 py-2'>
+            <div
+              className='bg-gray-100 rounded-md ml-7 px-4 py-2'
+              style={{ wordWrap: 'break-word' }}>
               <div className='text-sm'>{sentence.sentence_content}</div>
               <div className='text-[11px] text-[#3F3E4E] overflow-hidden overflow-ellipsis whitespace-nowrap mt-1'>
                 {sentence.sentence_page}p

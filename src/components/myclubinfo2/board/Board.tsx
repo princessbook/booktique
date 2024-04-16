@@ -22,14 +22,15 @@ const Board = ({ clubId }: { clubId: string }) => {
   if (error) return <div>에러: {error.message}</div>;
 
   return (
-    <div>
+    <div className='w-full'>
       {posts?.map(
         (
-          post: any //FIXME - query는 타입명시 필요
+          post //FIXME - query는 타입명시 필요
         ) => (
           <div key={post.id} className=' border-b'>
-            <div className='m-4'>
+            <div className='m-4 flex'>
               <Link
+                className='w-full'
                 href={`/myclubinfo2/board/detail/${post.id}?clubId=${clubId}`}>
                 <section className='flex gap-1 items-center'>
                   {post.profile?.photo_URL && (
@@ -44,24 +45,38 @@ const Board = ({ clubId }: { clubId: string }) => {
                   <p className={'text-xs'}>{post.profile?.display_name}</p>
                   <ArticleTimeStamp created_at={post.created_at} />
                 </section>
-                <section className='mt-2 min-h-[90px] w-full'>
-                  <p className=' font-bold w-full break-words line-clamp-2'>
-                    {post.title}
-                  </p>
-                  <p className='mt-1 mb-1 text-xs break-words line-clamp-2'>
-                    {post.content}
-                  </p>
+                <section className='mt-2 min-h-[90px] w-full flex justify-between'>
+                  <div className='flex flex-col'>
+                    <p className=' font-bold w-full break-words line-clamp-2'>
+                      {post.title}
+                    </p>
+                    <p className='mt-1 mb-1 text-xs break-words line-clamp-2'>
+                      {post.content}
+                    </p>
+                  </div>
+                  {post.thumbnail ? (
+                    <Image
+                      src={`${post.thumbnail}?${Math.random()}`}
+                      alt='썸네일'
+                      width={88}
+                      height={88}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </section>
               </Link>
             </div>
           </div>
         )
       )}
-      <Link
-        className='py-[15px] px-[20px] sticky bottom-4 left-[60%] text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-mainblue'
-        href={`/myclubinfo2/board/posting/${crypto.randomUUID()}?clubId=${clubId}`}>
-        글 쓰러가기
-      </Link>
+      <div className='flex justify-end w-full'>
+        <Link
+          className='py-[15px] px-[20px] fixed bottom-24 text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-mainblue'
+          href={`/myclubinfo2/board/posting/${crypto.randomUUID()}?clubId=${clubId}`}>
+          글 쓰러가기
+        </Link>
+      </div>
     </div>
   );
 };

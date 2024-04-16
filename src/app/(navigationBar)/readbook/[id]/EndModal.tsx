@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import badege from '../../../../public/badge.png';
+import badege from '../../../../../public/badge.png';
 interface ModalProps {
   onClose: () => void;
   id: string;

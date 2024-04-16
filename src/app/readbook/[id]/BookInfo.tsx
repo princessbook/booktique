@@ -24,11 +24,6 @@ const BookInfo = ({
   const [endButtonVisible, setEndButtonVisible] = useState(true);
   const supabase = createClient();
 
-  // const { alarms, addAlarm, clearAlarms } = useAlarmStore();
-
-  // console.log('alarms111111111111111111111111', alarms);
-  // console.log('addAlarm1111111111111111111111', addAlarm);
-  // console.log('clearAlarms11111111111111111111', clearAlarms);
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -47,7 +42,6 @@ const BookInfo = ({
     useState<null | RealtimePostgresInsertPayload<{
       [key: string]: string;
     }>>(null);
-  console.log('postData', postData);
 
   useEffect(() => {
     const channelA = supabase
@@ -92,7 +86,6 @@ const BookInfo = ({
             .single();
 
           if (user) {
-            // console.log('user', user);
             const writerName = user.display_name;
 
             const newAlarm = {
@@ -102,10 +95,8 @@ const BookInfo = ({
               post_id: postData.new.id
             };
 
-            const memberUserIds = clubMembers
-              .filter((member) => member.role === 'member')
-              .map((member) => member.user_id);
-
+            // 모든 멤버에게 알림을 보내기
+            const memberUserIds = clubMembers.map((member) => member.user_id);
             await supabase
               .from('alarm')
               .insert(newAlarm)
@@ -119,6 +110,7 @@ const BookInfo = ({
               .eq('target_user_id', writerId)
               .order('created_at', { ascending: true });
             console.log('alarm', alarm);
+
             const isAdmin = clubMembers.some(
               (member) => member.user_id === userId && member.role === 'admin'
             );
@@ -201,9 +193,6 @@ const BookInfo = ({
           </div>
           {timerVisible && (
             <div className='text-white mt-[8px] mb-[16px] w-[295px] text-center break-words line-clamp-2'>
-              {/* {clubData[0].book_title && clubData[0].book_title.length > 40
-                ? clubData[0].book_title?.substring(0, 40) + '...'
-                : clubData[0].book_title} */}
               {clubData[0].book_title}
             </div>
           )}

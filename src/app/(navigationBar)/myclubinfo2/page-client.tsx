@@ -8,7 +8,7 @@ import HomeTab from '@/components/myclubinfo2/HomeTab';
 import { Tables } from '@/lib/types/supabase';
 import SentenceStorage from '@/components/myclubinfo2/SentenceStorage';
 import NonMyClub from '@/components/myclubinfo2/NonMyClub';
-import { getOrCreateUserProfile } from '../auth/authAPI';
+import { getOrCreateUserProfile } from '@/app/auth/authAPI';
 import Board from '@/components/myclubinfo2/board/Board';
 import QuizArchiving from '@/components/myclubinfo2/QuizArchiving';
 import { useTabStore } from '@/store/zustandStore';

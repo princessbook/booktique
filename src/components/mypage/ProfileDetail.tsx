@@ -12,7 +12,6 @@ import { createClient } from '@/utils/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/utils/userAPIs/Fns';
 import Link from 'next/link';
-import closeInput from '../../public/closeInput.svg';
 
 const ProfileDetail = ({ userId }: { userId: string | null }) => {
   const {
@@ -25,7 +24,6 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
   });
   const userProfile = profiles?.find((profile) => profile.id === userId);
   const [isEdit, setIsEdit] = useState(false);
-  const displayNameInputRef = useRef<HTMLInputElement>(null);
   const [displayName, setDisplayName] = useState(
     userProfile?.display_name ?? ''
   );
@@ -83,9 +81,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
     }
     formData.append('id', userProfile?.id || '');
     formData.append('display_name', displayName);
-    // formData.append('interests', interests);
     formData.append('introduction', introduction);
-    // formData.append('most_favorite_book', mostFavoriteBook);
     mutateToUpdateProfile(formData);
   };
   return (
@@ -110,7 +106,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
           프로필 수정
         </p>
       </div>
-      <div className='flex flex-col p-6 items-center w-full'>
+      <div className='flex flex-col p-6 items-center w-full mb-[78px] overflow-y-auto'>
         {isEdit ? (
           <>
             <label
@@ -241,9 +237,6 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                 />
               )}
             </div>
-
-            {/* <p className='mb-2'>Email: {userProfile?.email}</p> */}
-
             <div className='p-4 mb-4 w-full mt-6'>
               <div className='flex flex-row p-1'>
                 <label className='block mr-4 font-bold'>닉네임</label>
@@ -266,7 +259,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
               </div>
             </div>
 
-            <div className='mt-12 w-full'>
+            <div className='mt-6 w-full'>
               <button
                 className=' text-white bg-primary400 rounded-lg py-2 w-full'
                 onClick={handleEditProfile}>

@@ -15,15 +15,24 @@ const Footer = () => {
   const [activeLink, setActiveLink] = useState('');
 
   useEffect(() => {
-    const storedActiveLink = localStorage.getItem('activeLink');
-    if (storedActiveLink) {
-      setActiveLink(storedActiveLink);
+    // 현재 URL 가져오기
+    const currentURL = window.location.href;
+    console.log('currentURL', currentURL);
+    // URL을 파싱하여 활성화할 링크 결정
+    if (currentURL.includes('/myclubinfo2')) {
+      setActiveLink('myclubinfo2');
+    } else if (currentURL.includes('/readbook')) {
+      setActiveLink('readbook');
+    } else if (currentURL.includes('/bookclubs')) {
+      setActiveLink('bookclubs');
+    } else if (currentURL.includes('/mypage')) {
+      setActiveLink('mypage');
     }
   }, []);
 
   const handleClick = (link: string) => {
     setActiveLink(link);
-    localStorage.setItem('activeLink', link);
+    // localStorage.setItem('activeLink', link);
   };
 
   return (
@@ -54,7 +63,7 @@ const Footer = () => {
           }`}>
           <Link href='/readbook' onClick={() => handleClick('readbook')}>
             <Image
-              src={activeLink === 'readbook' ? readbookActive : readbook} // 변경
+              src={activeLink === 'readbook' ? readbookActive : readbook}
               alt='mybookclub'
               width={64.69}
               height={46}
@@ -71,7 +80,7 @@ const Footer = () => {
           }`}>
           <Link href='/bookclubs' onClick={() => handleClick('bookclubs')}>
             <Image
-              src={activeLink === 'bookclubs' ? searchActive : search} // 변경
+              src={activeLink === 'bookclubs' ? searchActive : search}
               alt='mybookclub'
               width={64}
               height={46}
@@ -88,7 +97,7 @@ const Footer = () => {
           }`}>
           <Link href='/mypage' onClick={() => handleClick('mypage')}>
             <Image
-              src={activeLink === 'mypage' ? mypageActive : mypage} // 변경
+              src={activeLink === 'mypage' ? mypageActive : mypage}
               alt='mybookclub'
               width={64}
               height={46}

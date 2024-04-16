@@ -16,7 +16,7 @@ export const kakaoLogin = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'kakao',
     options: {
-      redirectTo: `https://booktique.vercel.app/bookclubs`,
+      redirectTo: `https://booktique.vercel.app/auth/callback`,
       queryParams: { access_type: 'offline', prompt: 'consent' }
     }
   });

@@ -21,7 +21,7 @@ const AllMyBookClubs = async ({ userId }: { userId: string }) => {
     .order('created_at', { ascending: false });
 
   return (
-    <div className='mt-6'>
+    <div className=''>
       <ul>
         {clubData?.map((club) => (
           <li

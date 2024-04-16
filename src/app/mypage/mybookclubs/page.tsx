@@ -12,7 +12,7 @@ const MyBookClubsPage = async () => {
   }
   return (
     <div>
-      <div className='w-full flex flex-row items-center border-b-2 p-3 h-[58px]'>
+      <div className='w-full flex-row sticky top-0 left-0 right-0 z-10 flex items-center mb-6 border-b-2 h-[58px] p-4 bg-white'>
         <Link href='/mypage'>
           <svg
             width='23'
@@ -32,7 +32,7 @@ const MyBookClubsPage = async () => {
           내 북클럽
         </p>
       </div>
-      <div className='p-4'>
+      <div className='p-4 mb-[78px] overflow-y-auto'>
         <AllMyBookClubs userId={user.id} />
       </div>
     </div>

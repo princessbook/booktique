@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/lib/types/supabase';
+import useModalStore from '@/store/modalstore';
 
 const Timer = ({
   clubId,
@@ -14,7 +15,8 @@ const Timer = ({
   const [seconds, setSeconds] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [isVisible, setIsVisible] = useState<boolean>(true); // 현재 화면 보는지 안보는지
-
+  const { isModalOpen, toggleModal } = useModalStore();
+  console.log('111111111111', isModalOpen);
   const supabase = createClient();
   const formatTime = (timeInSeconds: number) => {
     const hours = Math.floor(timeInSeconds / 3600);
@@ -31,7 +33,7 @@ const Timer = ({
 
   // 타이머 시작 및 중지 처리
   useEffect(() => {
-    if (isVisible)
+    if (isVisible && !isModalOpen)
       intervalRef.current = setInterval(() => {
         setSeconds((prevSeconds: number) => {
           const timeInSeconds = Math.max(prevSeconds + 1, 0);
@@ -44,7 +46,7 @@ const Timer = ({
     return () => {
       clearInterval(intervalRef.current as number);
     };
-  }, [isVisible, seconds]);
+  }, [isVisible, isModalOpen, seconds]);
 
   const saveTimeToSupabase = async (timeInSeconds: number) => {
     try {

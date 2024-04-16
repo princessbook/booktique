@@ -119,7 +119,7 @@ const BookClubsPage = async (props: any) => {
             );
           })}
           {/* 개설하기 버튼 */}
-          <div className='flex just'>
+          <div className='flex justify-end'>
             <Link
               href='/bookclubs/create'
               className={`py-[15px] px-[20px] fixed bottom-24  text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-[#3F3E4E]

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import QuizModal from './QuizModal';
 import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/lib/types/supabase';
-
 import MultipleChoiceQuizComponent from './MultipleChoiceQuizComponent';
 import ShortQuizComponent from './ShortQuizComponent';
+
 export type QuizSchemaType = {
   question: string;
   id: string;

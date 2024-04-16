@@ -150,7 +150,7 @@ const SaveCard = ({
       <button
         onClick={handleSave}
         disabled={!inputValid}
-        className={`bottom-0 mt-[190px] mx-auto w-[343px] h-[56px] rounded-full ${
+        className={`fixed bottom-0 mb-[137px] ml-[16px] w-[343px] h-[56px] rounded-full ${
           inputValid
             ? 'bg-[#35A5F6] text-white text-[16px] leading-[22px] font-bold text-center'
             : 'bg-[#EDEEF2] text-[#B3C1CC] text-[16px] leading-[22px] font-bold text-center'

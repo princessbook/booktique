@@ -7,7 +7,7 @@ import { getUserId } from '@/utils/userAPIs/authAPI';
 import QuizContainer from '@/components/quiz/QuizContainer';
 import { createClient } from '@/utils/supabase/client';
 import { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
-import useAlarmStore from '@/store';
+// import useAlarmStore from '@/store';
 
 const BookInfo = ({
   clubData,

@@ -2,7 +2,7 @@
 import { Tables } from '@/lib/types/supabase';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import close from '../../../../../public/close_read.png';
+import close from '../../../../../../public/close_read.png';
 import Link from 'next/link';
 // import Timer from './Timer';
 import { createClient } from '@/utils/supabase/client';

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Tables } from '@/lib/types/supabase';
 type Club = Tables<'clubs'>;
 import Image from 'next/image';
-import ProgressBar from '@/app/readbook/ProgressBar';
+import ProgressBar from '@/app/(navigationBar)/readbook/ProgressBar';
 import { createClient } from '@/utils/supabase/client';
 import { CLUB_ACTIVITIES_TABLE } from '@/common/constants/tableNames';
 

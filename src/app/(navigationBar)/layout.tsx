@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
-import QueryProvider from './provider';
+import '../globals.css';
+import QueryProvider from '../provider';
 import Footer from '@/components/footer/page';
 import Header from '@/components/header/page';
 
@@ -18,14 +18,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body
+    <div>
+      <div
         className={` ${inter.className} sm:w-full md:w-[375px]  flex flex-col mx-auto h-screen items-center`}>
         <QueryProvider>
           {/* <Header /> */}
           <main className='w-full flex-1'>{children}</main>
+          <Footer />
         </QueryProvider>
-      </body>
-    </html>
+      </div>
+    </div>
   );
 }

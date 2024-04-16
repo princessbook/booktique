@@ -15,7 +15,7 @@ const EndButton = ({ id }: EndButtonProps) => {
     <>
       {/* 종료하기 버튼 */}
       <button
-        className={`absolute ml-[16px] w-[343px] h-[56px] bottom-[120px] text-white bg-[#3F3E4E] shadow-md rounded-lg ${
+        className={`fixed ml-[16px] w-[343px] h-[56px] bottom-0 mb-[110px] text-white bg-[#3F3E4E] shadow-md rounded-lg ${
           modalOpen ? 'hidden' : '' // 모달 열려있을 때는 버튼 숨기기
         }`}
         onClick={toggleModal}>

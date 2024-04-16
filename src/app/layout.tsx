@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={` ${inter.className} sm:w-full md:w-[375px]   flex flex-col mx-auto h-screen items-center`}>
+        className={` ${inter.className} sm:w-full md:w-[375px]  flex flex-col mx-auto h-screen items-center`}>
         <QueryProvider>
           {/* <Header /> */}
           <main className='w-full flex-1'>{children}</main>

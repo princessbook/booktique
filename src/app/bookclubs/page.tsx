@@ -71,7 +71,7 @@ const BookClubsPage = async (props: any) => {
 
   return (
     <div className='bg-primary500 '>
-      <h2 className='text-left h-[58px] text-xl px-3 flex items-center border-b border-opacity-30 border-b-white  text-white font-bold'>
+      <h2 className='text-left h-[58px] text-[22px] px-3 flex items-center border-b border-opacity-30 border-b-white  text-white font-bold'>
         북클럽 찾기
       </h2>
       <ClubSearch />
@@ -119,10 +119,10 @@ const BookClubsPage = async (props: any) => {
             );
           })}
           {/* 개설하기 버튼 */}
-          <div className=''>
+          <div className='flex justify-end'>
             <Link
               href='/bookclubs/create'
-              className={`py-[15px] px-[20px] absolute bottom-24 right-4 text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-[#3F3E4E]
+              className={`py-[15px] px-[20px] fixed bottom-24  text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-[#3F3E4E]
               `}>
               북클럽 개설하기
             </Link>

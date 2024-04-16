@@ -2,9 +2,20 @@ import React, { useEffect, useState } from 'react';
 import QuizModal from './QuizModal';
 import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/lib/types/supabase';
-import { twMerge } from 'tailwind-merge';
-twMerge;
-const parseSchema = (schema: any) => {
+import MultipleChoiceQuizComponent from './MultipleChoiceQuizComponent';
+import ShortQuizComponent from './ShortQuizComponent';
+
+export type QuizSchemaType = {
+  question: string;
+  id: string;
+  answer: {
+    id: string;
+    value: string;
+    isCorrect: boolean;
+  }[];
+  type: string;
+};
+const parseSchema = (schema: string) => {
   try {
     return JSON.parse(schema);
   } catch (error) {
@@ -13,6 +24,7 @@ const parseSchema = (schema: any) => {
   }
 };
 
+export type QuizsType = Tables<'quiz'>;
 const QuizContainer = ({ clubId }: { clubId: string }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const supabase = createClient();
@@ -37,8 +49,9 @@ const QuizContainer = ({ clubId }: { clubId: string }) => {
         if (quizes) {
           const parsedData = quizes.map((item) => ({
             ...item,
-            schema: parseSchema(item.schema)
+            schema: parseSchema(item.schema as string)
           }));
+          console.log('parsed Data', parsedData);
           setQuizsData(parsedData);
         }
 
@@ -71,20 +84,21 @@ const QuizContainer = ({ clubId }: { clubId: string }) => {
     });
   };
   const handleMultipleQuizSubmit = (
-    quizData: any,
+    quizData: QuizsType,
     selectedAnswerIndex: number
   ) => {
-    const correctAnswerIndex = quizData.schema.answer.findIndex(
-      (answer: any) => answer.isCorrect
-    );
+    const correctAnswerIndex = (
+      quizData.schema as QuizSchemaType
+    )?.answer.findIndex((answer: any) => answer.isCorrect);
     const isCorrect = selectedAnswerIndex === correctAnswerIndex;
     setQuizResults((prev) => ({
       ...prev,
       [quizData.id]: isCorrect
     }));
   };
-  const handleShortQuizSubmit = (quizData: any, answer: string) => {
-    const isCorrect = quizData.schema.answer[0].value === answer;
+  const handleShortQuizSubmit = (quizData: QuizsType, answer: string) => {
+    const isCorrect =
+      (quizData.schema as QuizSchemaType)?.answer[0].value === answer;
     setQuizResults((prevResults) => ({
       ...prevResults,
       [quizData.id]: isCorrect
@@ -105,132 +119,35 @@ const QuizContainer = ({ clubId }: { clubId: string }) => {
         <div>
           {quizsData &&
             quizsData.map((quizData, quizIdx) => {
-              const { schema } = quizData as any;
+              const schema = quizData.schema as QuizSchemaType;
               if (schema) {
                 if (schema.type === 'short') {
                   return (
-                    <div
-                      key={quizData.id}
-                      className='bg-[#EDEEF2] p-3 rounded-md mb-2'>
-                      {
-                        <div className='mb-1 text-[#3F3E4E] font-bold text-[#14px]'>
-                          {'Q' +
-                            (quizsData.length - quizIdx) +
-                            '. ' +
-                            schema.question}
-                        </div>
-                      }
-                      <div>
-                        <input
-                          type='text'
-                          className='w-full rounded-md p-1 text-mainblue'
-                          placeholder='정답을 입력해 주세요'
-                          onChange={(e) =>
-                            handleInputChange(quizIdx, e.target.value)
-                          }
-                        />
-                      </div>
-                      <button
-                        onClick={() => {
-                          if (selectedAnswers[quizIdx]) {
-                            handleShortQuizSubmit(
-                              quizData,
-                              selectedAnswers[quizIdx] as string
-                            );
-                          }
-                        }}
-                        className='w-full bg-primary400 text-white mt-2 p-2.5 rounded-full'>
-                        정답 제출하기
-                      </button>
-                      {quizResults[quizData.id] !== undefined && ( // 정답 결과가 있을 경우에만 메시지를 표시
-                        <p
-                          className={
-                            quizResults[quizData.id]
-                              ? 'text-successGreen text-[12px] mt-2'
-                              : 'text-errorRed text-[12px] mt-2'
-                          }>
-                          {quizResults[quizData.id]
-                            ? '정답입니다!'
-                            : '정답이 아닙니다. 정답 :' +
-                              schema.answer[0].value}
-                        </p>
-                      )}
-                      {/* 정답이 틀렸다면 표시 */}
-                    </div>
+                    <ShortQuizComponent
+                      key={quizIdx}
+                      quizData={quizData}
+                      selectedAnswers={selectedAnswers}
+                      quizIdx={quizIdx}
+                      schema={schema}
+                      quizsData={quizsData}
+                      quizResults={quizResults}
+                      handleInputChange={handleInputChange}
+                      handleShortQuizSubmit={handleShortQuizSubmit}
+                    />
                   );
                 } else {
                   return (
-                    <div
-                      className='bg-[#EDEEF2] p-3 rounded-md mb-2'
-                      key={quizData.id}>
-                      <div className='mb-2 text-[#3F3E4E] font-bold text-[#14px]'>
-                        {' '}
-                        {'Q' +
-                          (quizsData.length - quizIdx) +
-                          '. ' +
-                          schema.question}
-                      </div>
-                      <div>
-                        {schema.answer.map((answer: any, answerIndex: any) => {
-                          const isSelectedAnswer =
-                            selectedAnswers[quizIdx] === answerIndex;
-
-                          const isCorrectAnswer =
-                            schema.answer[answerIndex].isCorrect;
-                          const classNames = `${twMerge(
-                            `text-gray-400 bg-white bg-opacity-60 p-1 mb-1 rounded-md ${
-                              isSelectedAnswer
-                                ? 'bg-white bg-opacity-100 text-black'
-                                : ''
-                            } ${
-                              isSelectedAnswer && !isCorrectAnswer
-                                ? 'text-black '
-                                : ''
-                            } ${
-                              isSelectedAnswer ||
-                              quizResults[quizData.id] !== undefined
-                                ? isCorrectAnswer
-                                  ? 'text-mainblue border-primary400 bg-white bg-opacity-100 border-2 border-primary400'
-                                  : ''
-                                : ''
-                            }`
-                          )}
-                            `;
-                          return (
-                            <div
-                              className={classNames}
-                              key={answer.id}
-                              onClick={() => {
-                                handleSelectAnswer(quizIdx, answerIndex);
-                                handleMultipleQuizSubmit(quizData, answerIndex);
-                              }}>
-                              {answer.value}
-                              <span className='ml-2'></span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                      {quizResults[quizData.id] !== undefined && (
-                        <>
-                          <p
-                            className={
-                              quizResults[quizData.id]
-                                ? 'text-successGreen text-[12px] mt-2'
-                                : 'text-errorRed text-[12px] mt-2'
-                            }>
-                            {quizResults[quizData.id]
-                              ? '정답입니다!'
-                              : `정답이 아닙니다. 정답: ${
-                                  schema.answer.findIndex(
-                                    (answer: any) => answer.isCorrect
-                                  ) +
-                                  1 +
-                                  '번'
-                                }`}
-                          </p>
-                        </>
-                      )}
-                    </div>
+                    <MultipleChoiceQuizComponent
+                      key={quizIdx}
+                      quizData={quizData}
+                      selectedAnswers={selectedAnswers}
+                      quizIdx={quizIdx}
+                      schema={schema}
+                      quizsData={quizsData}
+                      quizResults={quizResults}
+                      handleSelectAnswer={handleSelectAnswer}
+                      handleMultipleQuizSubmit={handleMultipleQuizSubmit}
+                    />
                   );
                 }
               }

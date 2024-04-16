@@ -1,7 +1,7 @@
-import { Tables } from '@/lib/types/supabase';
 import { createClient } from '@/utils/supabase/client';
-import React, { useEffect, useState } from 'react';
-const parseSchema = (schema: any) => {
+import React, { useEffect, useRef, useState } from 'react';
+import { QuizSchemaType, QuizsType } from '../quiz/QuizContainer';
+const parseSchema = (schema: string) => {
   try {
     return JSON.parse(schema);
   } catch (error) {
@@ -11,7 +11,20 @@ const parseSchema = (schema: any) => {
 };
 const QuizArchiving = ({ clubId }: { clubId: string }) => {
   const supabase = createClient();
-  const [quizsData, setQuizsData] = useState<Tables<'quiz'>[]>();
+  const [quizsData, setQuizsData] = useState<QuizsType[]>();
+  const textarea = useRef<HTMLTextAreaElement>(null);
+
+  const handleResizeHeight = () => {
+    if (textarea.current) {
+      textarea.current.style.height = 'auto'; // 높이 초기화
+      textarea.current.style.height = `${textarea.current.scrollHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    handleResizeHeight();
+  }, [textarea]);
+
   useEffect(() => {
     const fetchQuizesByClubId = async (clubId: string) => {
       try {
@@ -24,7 +37,7 @@ const QuizArchiving = ({ clubId }: { clubId: string }) => {
         if (quizes) {
           const parsedData = quizes.map((item) => ({
             ...item,
-            schema: parseSchema(item.schema)
+            schema: parseSchema(item.schema as string)
           }));
           setQuizsData(parsedData);
         }
@@ -58,7 +71,7 @@ const QuizArchiving = ({ clubId }: { clubId: string }) => {
         <div>
           {quizsData &&
             quizsData.map((quizData, quizIdx) => {
-              const { schema } = quizData as any;
+              const schema = quizData.schema as QuizSchemaType;
               if (schema) {
                 if (schema.type === 'short') {
                   return (
@@ -74,12 +87,11 @@ const QuizArchiving = ({ clubId }: { clubId: string }) => {
                         </div>
                       }
                       <div>
-                        <input
-                          type='text'
-                          className='w-full rounded-md p-1 text-mainblue'
-                          placeholder='정답을 입력해 주세요'
-                          value={schema.answer[0].value}
-                        />
+                        <div
+                          // type='text'
+                          className='w-full rounded-md p-1 bg-white text-mainblue overflow-hidden'>
+                          {schema.answer[0].value}
+                        </div>
                       </div>
                     </div>
                   );
@@ -96,7 +108,7 @@ const QuizArchiving = ({ clubId }: { clubId: string }) => {
                           schema.question}
                       </div>
                       <div>
-                        {schema.answer.map((answer: any, answerIndex: any) => {
+                        {schema.answer.map((answer) => {
                           return (
                             <div
                               className={`${

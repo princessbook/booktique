@@ -247,7 +247,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
             <div className='p-4 mb-4 w-full mt-6'>
               <div className='flex flex-row p-1'>
                 <label className='block mr-4 font-bold'>닉네임</label>
-                <p className='ml-auto'>수정</p>
+                {/* <p className='ml-auto'>수정</p> */}
               </div>
               <div className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60 pr-10'>
                 {userProfile?.display_name}
@@ -257,7 +257,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
             <div className='p-4 mb-4 w-full'>
               <div className='flex flex-row p-1'>
                 <label className='block mr-4 font-bold'>내 소개</label>
-                <p className='ml-auto'>수정</p>
+                {/* <p className='ml-auto'>수정</p> */}
               </div>
               <div
                 className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60 pr-10'

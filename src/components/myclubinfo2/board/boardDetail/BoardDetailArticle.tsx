@@ -104,6 +104,11 @@ const BoardDetailArticle = ({
         <p className='mt-4 font-bold mb-4 text-[18px] break-words'>
           {article.title}
         </p>
+        {article.thumbnail ? (
+          <img src={`${article.thumbnail}?${Math.random()}`} alt='fsd' />
+        ) : (
+          <></>
+        )}
         <p className='text-sm'>{article.content}</p>
       </section>
     </div>

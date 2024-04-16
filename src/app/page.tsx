@@ -9,7 +9,6 @@ const MainPage = async () => {
     data: { user }
   } = await supabase.auth.getUser();
   if (!user?.id) {
-    // console.log('1');
     redirect('/login');
   } else {
     redirect('/myclubinfo2');

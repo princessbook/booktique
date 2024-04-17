@@ -1,22 +1,23 @@
 'use client';
-import { useUser } from '@/store/user';
 import { createClient } from '@/utils/supabase/client';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { Imessage, useMessage } from '@/store/messages';
+import { useMessage } from '@/store/messages';
 import Image from 'next/image';
+import booktique from '../../../public/booktique.png';
+import { IoIosArrowBack } from 'react-icons/io';
 
 const ChatPresence = ({ userId }: { userId: string | undefined }) => {
   const msgs = useMessage((state) => state.messages);
   const [clubData, setClubData] = useState<any>(null);
-  console.log(msgs);
   const params = useParams();
   const clubId = params.id;
-  const clubPre = msgs.filter((msg) => msg.club_id === clubId);
-  console.log(clubPre[0]);
-  // console.log(clubPre[0].clubs?.name);
   const supabase = createClient();
   const [onlineUsers, setOnlineUsers] = useState(0);
+  const router = useRouter();
+  const handleBack = () => {
+    router.back();
+  };
   useEffect(() => {
     const fetchClubData = async () => {
       try {
@@ -60,23 +61,38 @@ const ChatPresence = ({ userId }: { userId: string | undefined }) => {
         }
       });
   }, [userId, clubId]);
-  console.log(clubData?.name);
-  console.log(clubData);
   if (!userId) {
     return <div className='h-3 w-1'></div>;
   }
   return (
-    <div className='flex items-center gap-1 bg-[#c6edff] pl-2'>
-      {/* <Image
-        width={40}
-        height={40}
-        src={clubData?.thumbnail}
-        alt='Thumbnail'
-        className='rounded-xl'
-      /> */}
-      <div>{clubData?.name}</div>
-      <div className='h-4 w-4 bg-green-500 rounded-full animate-pulse'></div>
-      <h1 className='text-sm text-black font-bold'>{onlineUsers}</h1>
+    <div className='flex items-center gap-2 bg-[#c6edff] px-2 py-5'>
+      <IoIosArrowBack
+        className=' cursor-pointer'
+        onClick={handleBack}
+        size={40}
+      />
+      {clubData?.thumbnail ? (
+        <Image
+          width={40}
+          height={40}
+          src={clubData?.thumbnail}
+          alt='Thumbnail'
+          className='rounded-xl'
+        />
+      ) : (
+        <Image
+          width={40}
+          height={40}
+          src={booktique}
+          alt='Thumbnail'
+          className='rounded-xl'
+        />
+      )}
+      <div className='flex-1'>{clubData?.name}</div>
+      <div className='flex items-center gap-2 max-w-[54px]'>
+        <div className='h-4 w-4 bg-green-500 rounded-full animate-pulse'></div>
+        <h1 className='text-sm text-black font-bold'>{onlineUsers}명</h1>
+      </div>
     </div>
   );
 };

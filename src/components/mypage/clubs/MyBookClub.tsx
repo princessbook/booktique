@@ -1,30 +1,14 @@
 import React from 'react';
-import { Tables } from '@/lib/types/supabase';
-type Clubs = Tables<'clubs'>;
-import { createClient } from '@/utils/supabase/server';
+import useUserClubs from '@/hooks/mypage/useUserClubs';
 
 import Link from 'next/link';
 const MyBookClub = async ({ userId }: { userId: string }) => {
-  const supabase = createClient();
-
-  const { data } = await supabase
-    .from('members')
-    .select('club_id')
-    .eq('user_id', userId);
-  const clubIds = data?.map((row: any) => row.club_id) || [];
-  if (clubIds.length === 0) {
-    return [];
-  }
-  const { data: clubData } = await supabase
-    .from('clubs')
-    .select('*')
-    .in('id', clubIds)
-    .order('created_at', { ascending: false });
-
+  const clubsData = await useUserClubs(userId);
+  const limitedClubs = clubsData.slice(0, 3);
   return (
     <div className='mt-6'>
       <ul>
-        {clubData?.slice(0, 4).map((club) => (
+        {limitedClubs.map((club) => (
           <li
             key={club.id}
             className='bg-[#F6F7F9] rounded-lg p-4 mt-2 flex flex-row items-center'>
@@ -38,7 +22,7 @@ const MyBookClub = async ({ userId }: { userId: string }) => {
                   진행중
                 </p>
               )}
-              <div className='w-[178px]'>{club.name}</div>
+              <div className='w-[178px] text-[#3F3E4E]'>{club.name}</div>
             </div>
 
             <div className='ml-auto'>

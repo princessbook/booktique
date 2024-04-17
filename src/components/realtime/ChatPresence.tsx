@@ -1,11 +1,11 @@
 'use client';
-import { useUser } from '@/store/user';
 import { createClient } from '@/utils/supabase/client';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { Imessage, useMessage } from '@/store/messages';
+import { useMessage } from '@/store/messages';
 import Image from 'next/image';
 import booktique from '../../../public/booktique.png';
+import { IoIosArrowBack } from 'react-icons/io';
 
 const ChatPresence = ({ userId }: { userId: string | undefined }) => {
   const msgs = useMessage((state) => state.messages);
@@ -65,7 +65,8 @@ const ChatPresence = ({ userId }: { userId: string | undefined }) => {
     return <div className='h-3 w-1'></div>;
   }
   return (
-    <div className='flex items-center gap-1 bg-[#c6edff] pl-2'>
+    <div className='flex items-center gap-2 bg-[#c6edff] px-2 py-5'>
+      <IoIosArrowBack size={40} />
       {clubData?.thumbnail ? (
         <Image
           width={40}
@@ -83,9 +84,11 @@ const ChatPresence = ({ userId }: { userId: string | undefined }) => {
           className='rounded-xl'
         />
       )}
-      <div>{clubData?.name}</div>
-      <div className='h-4 w-4 bg-green-500 rounded-full animate-pulse'></div>
-      <h1 className='text-sm text-black font-bold'>{onlineUsers}</h1>
+      <div className='flex-1'>{clubData?.name}</div>
+      <div className='flex items-center gap-2 max-w-[54px]'>
+        <div className='h-4 w-4 bg-green-500 rounded-full animate-pulse'></div>
+        <h1 className='text-sm text-black font-bold'>{onlineUsers}명</h1>
+      </div>
     </div>
   );
 };

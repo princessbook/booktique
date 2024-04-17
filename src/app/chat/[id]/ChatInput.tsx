@@ -99,7 +99,7 @@ const ChatInput = () => {
       <div className='relative p-1 px-3 bg-[#c6edff]'>
         <input
           value={messageText}
-          className='w-full rounded-xl pl-3 py-[4px]'
+          className='w-full rounded-xl pl-3 py-[10px]'
           placeholder='send message'
           onChange={(e) => setMessageText(e.target.value)}
           onKeyPress={(e) => {
@@ -111,7 +111,7 @@ const ChatInput = () => {
         />
         <button
           type='submit'
-          className='absolute  right-3 w-[42px] h-[32px] rounded-r-xl '>
+          className='absolute  right-3 w-[42px] h-[44px] rounded-r-xl '>
           <TbSend size={25} />
         </button>
       </div>

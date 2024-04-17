@@ -1,6 +1,6 @@
 'use client';
 
-import PhotoSection from '@/components/myclubinfo2/board/posting/PhotoSection';
+import PhotoSection from '@/components/my-clubs/board/posting/PhotoSection';
 import {
   createPost,
   fetchSinglePost,

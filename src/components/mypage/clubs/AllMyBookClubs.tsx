@@ -25,7 +25,7 @@ const AllMyBookClubs = async ({ userId }: { userId: string }) => {
             </div>
 
             <div className='ml-auto'>
-              <Link href={'/'}>
+              <Link href={`/my-clubs/${club.id}/info`}>
                 <svg
                   width='22'
                   height='22'

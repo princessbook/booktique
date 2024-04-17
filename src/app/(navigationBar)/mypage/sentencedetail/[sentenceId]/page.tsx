@@ -1,4 +1,4 @@
-import SentenceDetail from '@/components/mypage/SentenceDetail';
+import SentenceDetail from '@/components/mypage/sentences/SentenceDetail';
 import React from 'react';
 
 const MySenetencePage = ({

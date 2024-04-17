@@ -102,16 +102,16 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
               ))}
             </div>
           </div>
-          <div className='mt-8'>
+          <div className='mt-8 text-[#292929]'>
             <p className='font-bold'>모임 정보</p>
             <div className=' mt-4 flex text-[14px] h-[40px] font-medium items-center py-[11px] w-full '>
               <p className='text-subblue font-bold'>모임 기간</p>
-              <p className='ml-4'>
+              <p className='ml-4 text-[#3F3E4E]'>
                 {formattedStartDate} ~ {formattedEndDate}
               </p>
             </div>
             <p className='mt-8 font-bold'>북클럽 소개</p>
-            <p className='mt-4'>{club?.description}</p>
+            <p className='mt-4 text-[#3F3E4E]'>{club?.description}</p>
           </div>
         </div>
       )}

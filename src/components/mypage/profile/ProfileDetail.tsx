@@ -140,7 +140,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                 className='rounded-full w-[72px] h-[72px] cursor-pointer object-cover'
               />
             )}
-            <div className='absolute bottom-0 right-0 mr-1 mb-1'>
+            <div className='absolute bottom-0 right-0 ml-1 mt-2 cursor-pointer'>
               <svg
                 width='30'
                 height='30'
@@ -176,6 +176,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
             <input
               id='fileInput'
               type='file'
+              accept='.jpg, .png, .jpeg'
               ref={fileInputRef}
               onChange={handleFileChange}
               className='hidden '

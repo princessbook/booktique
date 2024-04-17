@@ -62,7 +62,7 @@ const SentenceDetail = async ({ sentenceId }: { sentenceId: string }) => {
             {formattedDate(sentenceData[0].created_at)}
           </p>
         </div>
-        <div className='flex justify-center'>
+        <div className='flex justify-center items-center'>
           <Image
             src={clubData[0].book_cover || '/booktiquereadblue.png'}
             alt='책 사진'
@@ -72,8 +72,9 @@ const SentenceDetail = async ({ sentenceId }: { sentenceId: string }) => {
             className='w-[156px] h-[244px] mt-4 mb-4'
           />
         </div>
-
-        <p className='tracking-wide'>{sentenceData[0].sentence_content}</p>
+        <div className='flex tracking-wide w-[360px] items-center'>
+          <p>{sentenceData[0].sentence_content}</p>
+        </div>
       </div>
     </div>
   );

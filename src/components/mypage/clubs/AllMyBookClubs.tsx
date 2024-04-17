@@ -1,27 +1,11 @@
 import React from 'react';
-
-import { createClient } from '@/utils/supabase/server';
-
+import useUserClubs from '@/hooks/mypage/useUserClubs';
 import Link from 'next/link';
 const AllMyBookClubs = async ({ userId }: { userId: string }) => {
-  const supabase = createClient();
-
-  const { data } = await supabase
-    .from('members')
-    .select('club_id')
-    .eq('user_id', userId);
-  const clubIds = data?.map((row: any) => row.club_id) || [];
-  if (clubIds.length === 0) {
-    return [];
-  }
-  const { data: clubData } = await supabase
-    .from('clubs')
-    .select('*')
-    .in('id', clubIds)
-    .order('created_at', { ascending: false });
+  const clubData = await useUserClubs(userId);
 
   return (
-    <div className=''>
+    <div>
       <ul>
         {clubData?.map((club) => (
           <li

@@ -1,8 +1,8 @@
+import AllMySentences from '@/components/mypage/sentences/AllMySentences';
 import React from 'react';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
-import AllMyBookClubs from '@/components/mypage/clubs/AllMyBookClubs';
-const MyBookClubsPage = async () => {
+const MySentencesPage = async () => {
   const supabase = createClient();
   const {
     data: { user }
@@ -29,14 +29,14 @@ const MyBookClubsPage = async () => {
           </svg>
         </Link>
         <p className='items-center flex-grow text-center font-bold text-[17px] mr-4'>
-          내 북클럽
+          내가 저장한 문장
         </p>
       </div>
       <div className='p-4 mb-[78px] overflow-y-auto'>
-        <AllMyBookClubs userId={user.id} />
+        <AllMySentences userId={user.id} />
       </div>
     </div>
   );
 };
 
-export default MyBookClubsPage;
+export default MySentencesPage;

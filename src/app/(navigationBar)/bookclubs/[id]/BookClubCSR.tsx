@@ -24,7 +24,13 @@ const BookClubDetailCSR = ({
         .select('*')
         .eq('club_id', id);
       if (data) {
-        setClubMembers(data);
+        // role이 admin인 유저를 첫 번째로 정렬
+        const sortedData = data.sort((a, b) => {
+          if (a.role === 'admin') return -1;
+          if (b.role === 'admin') return 1;
+          return 0;
+        });
+        setClubMembers(sortedData);
       }
     };
     fetchClubMembers();

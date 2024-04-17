@@ -32,7 +32,7 @@ pre {
   transition: transform 0.3s ease;
 }
 .custom-height {
-  height: calc(100vh - 64px);
+  height: calc(100vh - 80px);
 }
 .screen {
   height: calc(100vh - 100px);

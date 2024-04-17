@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { Imessage, useMessage } from '@/store/messages';
 import Image from 'next/image';
+import booktique from '../../../public/booktique.png';
 
 const ChatPresence = ({ userId }: { userId: string | undefined }) => {
   const msgs = useMessage((state) => state.messages);
@@ -60,20 +61,28 @@ const ChatPresence = ({ userId }: { userId: string | undefined }) => {
         }
       });
   }, [userId, clubId]);
-  console.log(clubData?.name);
-  console.log(clubData);
   if (!userId) {
     return <div className='h-3 w-1'></div>;
   }
   return (
     <div className='flex items-center gap-1 bg-[#c6edff] pl-2'>
-      {/* <Image
-        width={40}
-        height={40}
-        src={clubData?.thumbnail}
-        alt='Thumbnail'
-        className='rounded-xl'
-      /> */}
+      {clubData?.thumbnail ? (
+        <Image
+          width={40}
+          height={40}
+          src={clubData?.thumbnail}
+          alt='Thumbnail'
+          className='rounded-xl'
+        />
+      ) : (
+        <Image
+          width={40}
+          height={40}
+          src={booktique}
+          alt='Thumbnail'
+          className='rounded-xl'
+        />
+      )}
       <div>{clubData?.name}</div>
       <div className='h-4 w-4 bg-green-500 rounded-full animate-pulse'></div>
       <h1 className='text-sm text-black font-bold'>{onlineUsers}</h1>

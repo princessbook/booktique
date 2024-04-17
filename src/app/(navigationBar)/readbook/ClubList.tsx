@@ -12,10 +12,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 const ClubList = ({
-  filteredBookClubsData,
+  allClubData,
   id
 }: {
-  filteredBookClubsData: Tables<'clubs'>[];
+  allClubData: Tables<'clubs'>[];
   id: string;
 }) => {
   // 현재 슬라이드 인덱스를 추적
@@ -102,7 +102,7 @@ const ClubList = ({
   return (
     <>
       <Slider className='custom-slider h-auto' {...settings}>
-        {filteredBookClubsData
+        {allClubData
           .filter((club) => !club.archive)
           .map((club) => (
             <div

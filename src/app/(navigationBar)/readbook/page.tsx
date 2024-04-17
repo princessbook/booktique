@@ -37,7 +37,6 @@ const ReadBookPage = async () => {
       .select('*')
       .eq('id', clubId)
       .single();
-    // console.log('clubData', clubData);
     if (clubError) {
       throw new Error('클럽 정보를 가져오는 도중 오류가 발생했습니다.');
     }
@@ -55,20 +54,20 @@ const ReadBookPage = async () => {
   //   throw new Error('클럽 활동을 가져오는 도중 오류가 발생했습니다.');
   // }
 
-  const { data: bookClubsData, error: bookClubsError } = await supabase
-    .from('clubs')
-    .select('*');
-  if (bookClubsError) {
-    throw new Error('책 정보를 가져오는 도중 오류가 발생했습니다.');
-  }
-  const filteredBookClubsData = bookClubsData.filter((bookClub) => {
-    return allClubData.some((club) => club.id === bookClub.id);
-  });
+  // const { data: bookClubsData, error: bookClubsError } = await supabase
+  //   .from('clubs')
+  //   .select('*');
+  // if (bookClubsError) {
+  //   throw new Error('책 정보를 가져오는 도중 오류가 발생했습니다.');
+  // }
+  // const filteredBookClubsData = bookClubsData.filter((bookClub) => {
+  //   return allClubData.some((club) => club.id === bookClub.id);
+  // });
 
   return (
     <ReadBookLayout>
       <Suspense fallback={<></>}>
-        {filteredBookClubsData.length > 0 ? (
+        {allClubData.length > 0 ? (
           <>
             <div></div>
             <Image
@@ -79,10 +78,7 @@ const ReadBookPage = async () => {
               className='pt-[38px] mx-auto mb-[24px]'
               priority={true}
             />
-            <ClubList
-              id={user?.id as string}
-              filteredBookClubsData={filteredBookClubsData}
-            />
+            <ClubList id={user?.id as string} allClubData={allClubData} />
           </>
         ) : (
           /* 가입한 북클럽이 없습니다. 북클럽에 가입해서 책 읽어보세요 */

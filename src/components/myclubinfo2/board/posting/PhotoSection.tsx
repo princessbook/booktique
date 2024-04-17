@@ -41,6 +41,7 @@ const PhotoSection = ({
       <div className='w-full flex flex-col items-center'>
         <input
           type='file'
+          accept='.gif, .jpg, .png, .jpeg'
           className=' hidden'
           ref={photoInput}
           onChange={handleChangePhoto}

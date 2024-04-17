@@ -10,14 +10,15 @@ const Board = ({ clubId }: { clubId: string }) => {
   const {
     data: posts,
     error,
-    isLoading
+    isLoading,
+    isPending
   } = useQuery({
     queryKey: ['posts', clubId],
     queryFn: fetchPosts,
     staleTime: 1000 * 120
   });
 
-  if (isLoading && !posts) return <div>로딩중</div>;
+  if (isLoading && !posts && isPending) return <div>로딩중</div>;
 
   if (error) return <div>에러: {error.message}</div>;
 
@@ -27,16 +28,24 @@ const Board = ({ clubId }: { clubId: string }) => {
         (
           post //FIXME - query는 타입명시 필요
         ) => (
-          <div key={post.id} className=' border-b'>
+          <div key={post.id} className=' border-t'>
             <div className='m-4 flex'>
               <Link
                 className='w-full'
                 href={`/myclubinfo2/board/detail/${post.id}?clubId=${clubId}`}>
                 <section className='flex gap-1 items-center'>
-                  {post.profile?.photo_URL && (
+                  {post.profile?.photo_URL ? (
                     <Image
                       className='rounded-full w-6 h-6'
-                      src={post.profile?.photo_URL}
+                      src={`${post.profile?.photo_URL}?${Math.random()}`}
+                      alt='유저 프로필'
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    <Image
+                      className='rounded-full w-6 h-6'
+                      src={'/booktique.png'}
                       alt='유저 프로필'
                       width={24}
                       height={24}
@@ -45,7 +54,7 @@ const Board = ({ clubId }: { clubId: string }) => {
                   <p className={'text-xs'}>{post.profile?.display_name}</p>
                   <ArticleTimeStamp created_at={post.created_at} />
                 </section>
-                <section className='mt-2 min-h-[90px] w-full flex justify-between'>
+                <section className='mt-2 min-h-[70px] w-full flex justify-between'>
                   <div className='flex flex-col'>
                     <p className=' font-bold w-full break-words line-clamp-2'>
                       {post.title}

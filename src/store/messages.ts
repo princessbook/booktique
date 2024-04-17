@@ -33,15 +33,23 @@ export type Imessage = {
   } | null;
 };
 interface MessageState {
+  page: number;
   messages: Imessage[];
   addMessage: (message: Imessage) => void;
   optimisticIds: string[];
   setOptimisticIds: (id: string) => void;
+  setMessages: (messages: Imessage[]) => void;
 }
 
 export const useMessage = create<MessageState>()((set) => ({
+  page: 1,
   messages: [],
   optimisticIds: [],
+  setMessages: (messages) =>
+    set((state) => ({
+      messages: [...messages, ...state.messages],
+      page: state.page + 1
+    })),
   setOptimisticIds: (id: string) =>
     set((state) => ({ optimisticIds: [...state.optimisticIds, id] })),
   addMessage: (newMessages) =>

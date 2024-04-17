@@ -5,6 +5,7 @@ import Message from './Message';
 import { createClient } from '@/utils/supabase/client';
 import { useParams, useRouter } from 'next/navigation';
 import OtherMessage from './OtherMessage';
+import LoadMoreMessages from './LoadMoreMessages';
 
 const ListMessage = ({ userId }: { userId: string | undefined }) => {
   const params = useParams();
@@ -95,6 +96,9 @@ const ListMessage = ({ userId }: { userId: string | undefined }) => {
         className={`flex-1 flex flex-col custom-height overflow-y-auto bg-[#c6edff]`}
         ref={scrollRef}
         onScroll={handleOnScroll}>
+        <div className='flex-1'>
+          <LoadMoreMessages />{' '}
+        </div>
         {sortedMessages.map((value, index) => {
           if (value.club_id === params.id) {
             // message.profiles?.id와 userId를 비교하여 렌더링할 컴포넌트 결정
@@ -107,7 +111,7 @@ const ListMessage = ({ userId }: { userId: string | undefined }) => {
         })}
       </div>
       {userScrolled && (
-        <div className='absolute bottom-12 left-1/2 translate-x-[-50%]'>
+        <div className='absolute bottom-14 left-1/2 translate-x-[-50%]'>
           {notification ? (
             <div
               className=' w-48 bg-mainblue animate-bounce p-1 rounded-md cursor-pointer'

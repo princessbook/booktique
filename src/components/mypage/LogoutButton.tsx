@@ -6,6 +6,8 @@ const LogoutButton = () => {
   const handleSignout = async () => {
     await supabase.auth.signOut();
     window.location.href = '/login';
+    localStorage.removeItem('selectedTab');
+    localStorage.removeItem('selectedClubId');
   };
   return (
     <div className='w-full h-[54px]'>

@@ -19,14 +19,13 @@ const PageClient = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [clubInfo, setClubInfo] = useState<Clubs[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
-
+  const [isServer, setIsServer] = useState(true);
   const { selectedTab, selectedClubId, setSelectedTab, setSelectedClubId } =
     useTabStore();
   // const [selectedTab, setSelectedTab] = useState('home');
   // const [selectedClubId, setSelectedClubId] = useState<string>('');
 
   useEffect(() => {
-    console.log('selectedTab:', selectedTab);
     const fetchData = async () => {
       try {
         const fetchedUserId = await getUserId();
@@ -41,9 +40,12 @@ const PageClient = () => {
               )
             );
             setClubInfo(fetchClubInfo);
-            // if (fetchedClubIds.length > 0) {
+            // if (fetchedClubIds.length === 1) {
             //   setSelectedClubId(fetchClubInfo[0].id);
             // }
+            if (!selectedClubId && fetchedClubIds.length > 0) {
+              setSelectedClubId(fetchClubInfo[0].id); // 첫 번째 북클럽을 선택
+            }
           }
         }
         setIsLoading(false);
@@ -54,6 +56,7 @@ const PageClient = () => {
     };
 
     fetchData();
+    setIsServer(false);
   }, []);
 
   const handleClubChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -69,6 +72,25 @@ const PageClient = () => {
       return 'appearance-none text-[22px] font-bold p-2';
     }
     return ' p-2 font-bold text-[22px] max-w-[350px] overflow-hidden whitespace-nowrap';
+  };
+  const getButtonStyles = (tabName: string) => {
+    if (tabName === selectedTab) {
+      if (!isServer) {
+        return {
+          borderBottom: '2px solid black'
+        };
+      }
+      return {
+        borderBottom: '2px solid #DBE3EB',
+        color: '#3A3B42',
+        opacity: 0.5
+      };
+    }
+    return {
+      borderBottom: '2px solid #DBE3EB',
+      color: '#3A3B42',
+      opacity: 0.5
+    };
   };
   const renderSelectedTab = () => {
     const selectedClub = clubInfo.find((club) => club.id === selectedClubId);
@@ -119,14 +141,11 @@ const PageClient = () => {
           </select>
         </div>
         {/* 탭 버튼들 */}
-        <div className='flex flex-row justify-between w-full border-b-2 border-gray-200 font-bold'>
+        <div className='flex flex-row justify-between w-full font-bold'>
           <button
-            className={`flex-1 px-2 py-2 focus:outline-none ${
-              selectedTab === 'home'
-                ? ' border-b-2 border-black'
-                : 'text-gray-500'
-            }`}
+            className={'flex-1 px-2 py-2 focus:outline-none '}
             onClick={() => handleTabChange('home')}
+            style={getButtonStyles('home')}
             disabled={clubInfo.length === 0}>
             <span
               className={`text-[16px] font-bold ${
@@ -136,12 +155,9 @@ const PageClient = () => {
             </span>
           </button>
           <button
-            className={`flex-1 px-2 py-2 focus:outline-none ${
-              selectedTab === 'sentenceStorage'
-                ? 'border-b-2 border-black'
-                : 'text-gray-500'
-            }`}
+            className={'flex-1 px-2 py-2 focus:outline-none '}
             onClick={() => handleTabChange('sentenceStorage')}
+            style={getButtonStyles('sentenceStorage')}
             disabled={clubInfo.length === 0}>
             <span
               className={`text-[16px] font-bold ${
@@ -151,12 +167,9 @@ const PageClient = () => {
             </span>
           </button>
           <button
-            className={`flex-1 px-2 py-2 focus:outline-none ${
-              selectedTab === 'quiz'
-                ? 'border-b-2 border-black'
-                : 'text-gray-500'
-            }`}
+            className={'flex-1 px-2 py-2 focus:outline-none '}
             onClick={() => handleTabChange('quiz')}
+            style={getButtonStyles('quiz')}
             disabled={clubInfo.length === 0}>
             <span
               className={`text-[16px] font-bold ${
@@ -166,14 +179,10 @@ const PageClient = () => {
             </span>
           </button>
           <button
-            className={`flex-1 px-2 py-2 focus:outline-none ${
-              selectedTab === 'board'
-                ? 'border-b-2 border-black'
-                : 'text-gray-500'
-            }`}
+            className={'flex-1 px-2 py-2 focus:outline-none '}
             onClick={() => handleTabChange('board')}
-            // disabled={clubInfo.length === 0}
-          >
+            style={getButtonStyles('board')}
+            disabled={clubInfo.length === 0}>
             <span
               className={`text-[16px] font-bold ${
                 clubInfo.length === 0 ? 'text-gray-500' : ''

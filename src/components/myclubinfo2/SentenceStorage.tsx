@@ -94,8 +94,8 @@ const SentenceStorage = ({
   };
 
   return (
-    <div>
-      <ul className='p-4 relative'>
+    <div className='px-4'>
+      <ul className='relative'>
         {sentences?.map((sentence) => (
           //Link로 디테일 페이지 보내기.
           <li key={sentence.id} className=' cursor-pointer my-4 relative'>
@@ -108,7 +108,9 @@ const SentenceStorage = ({
               />
             )}
             <SentenceUser sentenceId={sentence.user_id || ''} />
-            <div className='bg-gray-100 rounded-md ml-7 px-4 py-2'>
+            <div
+              className='bg-gray-100 rounded-md ml-7 px-4 py-2'
+              style={{ wordWrap: 'break-word' }}>
               <div className='text-sm'>{sentence.sentence_content}</div>
               <div className='text-[11px] text-[#3F3E4E] overflow-hidden overflow-ellipsis whitespace-nowrap mt-1'>
                 {sentence.sentence_page}p
@@ -117,17 +119,19 @@ const SentenceStorage = ({
           </li>
         ))}
       </ul>
-      <button
-        onClick={
-          selectedSentences.length > 0
-            ? handleDeleteSelected
-            : handleSentenceSaveBtn
-        }
-        className={`py-[15px] px-[20px] sticky bottom-4 left-[60%] text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer ${
-          selectedSentences.length > 0 ? 'bg-red-500' : 'bg-mainblue'
-        }`}>
-        {selectedSentences.length > 0 ? '선택된 문장 삭제' : '문장 공유하기'}
-      </button>
+      <div className='flex justify-end'>
+        <button
+          onClick={
+            selectedSentences.length > 0
+              ? handleDeleteSelected
+              : handleSentenceSaveBtn
+          }
+          className={`py-[15px] px-[20px] bottom-[110px] fixed text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer ${
+            selectedSentences.length > 0 ? 'bg-red-500' : 'bg-mainblue'
+          }`}>
+          {selectedSentences.length > 0 ? '선택된 문장 삭제' : '문장 공유하기'}
+        </button>
+      </div>
       <SentenceModal
         bookpage={bookpage}
         isModal={isModal}

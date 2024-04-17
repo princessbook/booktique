@@ -19,7 +19,15 @@ const EndButton = ({ id }: EndButtonProps) => {
         종료하기
       </button>
       {/* 모달 컴포넌트 */}
-      {isModalOpen && <Modal id={id} onClose={toggleModal} />}{' '}
+      {isModalOpen && <Modal id={id} onClose={toggleModal} />}
+      {/* 모달이 열려 있을 때, 주변 영역에 스크롤을 비활성화하는 스타일 적용 */}
+      {isModalOpen && (
+        <style jsx global>{`
+          body {
+            overflow: hidden;
+          }
+        `}</style>
+      )}
     </>
   );
 };

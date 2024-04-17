@@ -36,7 +36,9 @@ const Footer = () => {
   };
 
   return (
-    <div className='w-full md:w-[375px] h-[78px] fixed bottom-0 bg-white border-t-[4px] mx-auto'>
+    <div
+      className='w-full md:w-[375px] h-[78px] fixed bottom-0 bg-white mx-auto'
+      style={{ boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.25)' }}>
       <ul className='flex w-[90%] mx-auto justify-between  h-auto items-center text-[12px] text-center leading-[18px] font-medium px-2'>
         <li
           className={`flex h-[78px] justify-center ${

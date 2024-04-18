@@ -45,10 +45,10 @@ const Profile = ({ userId }: { userId: string | null }) => {
 
   // 대연 추가
   return (
-    <div className='flex flex-col w-full bg-[#F6F7F9] rounded-md p-2'>
+    <div className='flex flex-col w-full bg-[#F6F7F9] rounded-[10px] p-2'>
       <div className='flex flex-col p-2'>
         <div className='flex flex-row'>
-          <div className='flex justify-center align-middle w-20 h-20 max-w-full max-h-auto rounded-full'>
+          <div className='flex justify-center align-middle w-[56px] h-[56px] max-w-full max-h-auto rounded-full'>
             {userProfile?.photo_URL ? (
               <img
                 src={`${userProfile.photo_URL}?${new Date().getTime()}`}
@@ -74,7 +74,7 @@ const Profile = ({ userId }: { userId: string | null }) => {
           </div>
         </div>
 
-        <div className='mt-4 text-[14px] text-[#3F3E4E] opacity-80'>
+        <div className='mt-4 text-[14px] text-fontMain opacity-80'>
           <p>{userProfile?.introduction}</p>
         </div>
 

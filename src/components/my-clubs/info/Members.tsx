@@ -53,7 +53,7 @@ const Members = ({
   return (
     <div
       key={index}
-      className={` bg-grayBg rounded-lg p-2 w-[108px] h-[${
+      className={` bg-[#F6F7F9] rounded-lg p-2 w-[108px] h-[${
         height ? height : '146px'
       }]`}>
       <div className='flex flex-col items-center'>
@@ -61,7 +61,7 @@ const Members = ({
           <p className='text-[#B3C1CC] flex mr-1 text-[18px] font-bold'>
             {index + 1}
           </p>
-          <img
+          <Image
             src={userProfile?.photo_URL || '/booktique.png'}
             alt='Profile'
             width={56}

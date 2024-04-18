@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import EndButton from './EndButton';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import LoadingOverlay from '@/common/LoadingOverlay';
 interface MemberListProps {
   clubMembers: Tables<'members'>[];
   id: string;
@@ -29,6 +30,7 @@ const MemberList = ({
   const supabase = createClient();
   const [profiles, setProfiles] = useState<UserProfile[]>();
   const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProfiles = async () => {
@@ -73,11 +75,25 @@ const MemberList = ({
     };
     fetchProfiles();
   }, [clubMembers, supabase, id, timerVisible]);
-  // if (loading) {
-  //   return <LoadingOverlay show={loading} />;
-  // }
-  // console.log('clubMembers[0]', clubMembers[1]);
-  const router = useRouter();
+  if (loading) {
+    return (
+      <>
+        <div className='mt-[32px] mb-[16px] ml-[16px] font-bold text-[16px] leading-[22px] text-[#3F3E4E]'>
+          함께 책 읽기
+          <button className='ml-10'>채팅참여하기</button>
+        </div>
+        <div className='flex flex-wrap mx-auto gap-[9px] justify-start ml-[16px] mt-[16px]'>
+          {Array.from({ length: clubMembers.length }).map((_, index) => (
+            <div
+              key={index}
+              className='flex bg-[#EDEEF2] rounded-[10px] w-[108px] h-[146px]'
+            />
+          ))}
+        </div>
+      </>
+    );
+  }
+
   const handleChatting = () => {
     router.push(`/chat/${id}`);
   };
@@ -141,7 +157,7 @@ const MemberList = ({
               <p className='text-center mt-[4px] font-bold text-xs leading-4 h-[36px]'>
                 {profile?.display_name}
               </p>
-              <div className='text-center mt-2 font-bold text-lg leading-6 text-subblue mb-[11px]'>
+              <div className='text-center mt-2 font-bold text-lg leading-6 text-[#8A9DB3] mb-[11px]'>
                 {profile?.club_activities?.progress}%
               </div>
             </div>

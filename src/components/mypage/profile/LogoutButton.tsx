@@ -10,9 +10,9 @@ const LogoutButton = () => {
     localStorage.removeItem('selectedClubId');
   };
   return (
-    <div className='w-full h-[54px]'>
+    <div className='w-full h-[54px] mt-6'>
       <button
-        className='mt-6 text-gray-400 text-[12px] font-medium'
+        className=' text-gray-400 text-[12px] font-medium px-1'
         onClick={handleSignout}>
         로그아웃
       </button>

@@ -22,11 +22,13 @@ const ClubBook = ({ club }: { club: Club | null }) => {
           .from(CLUB_ACTIVITIES_TABLE)
           .select('progress')
           .eq('user_id', user.id)
-          .eq('club_id', club.id)
-          .single();
+          .eq('club_id', club.id);
 
-        if (activity && !activityError) {
-          setPercentage(activity.progress || 0);
+        if (activity && !activityError && activity.length > 0) {
+          setPercentage(activity[0].progress || 0);
+        } else {
+          // activity가 null이거나 비어 있다면 기본값 0으로 설정
+          setPercentage(0);
         }
       }
     };

@@ -1,14 +1,11 @@
 'use client';
 import React from 'react';
-import { Tables } from '@/lib/types/supabase';
-type Profile = Tables<'profiles'>;
 import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { useMutation } from '@tanstack/react-query';
 import { updateUserProfile } from '@/utils/userAPIs/Fns';
 import { useQueryClient } from '@tanstack/react-query';
 import { uploadAvatar } from '@/utils/userAPIs/storageAPI';
-import { createClient } from '@/utils/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/utils/userAPIs/Fns';
 import Link from 'next/link';
@@ -46,13 +43,6 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
       setIsEdit(false);
     }
   });
-  const handleEditProfile = () => {
-    setDisplayName(userProfile?.display_name ?? '');
-    setIntroduction(userProfile?.introduction ?? '');
-    setPhotoUrl(userProfile?.photo_URL ?? '');
-    setPreviewImg(null);
-    setIsEdit(true);
-  };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files?.[0];
@@ -190,7 +180,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                 placeholder='닉네임을 입력해주세요.'
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
-                className='w-full p-2 border rounded-lg bg-grayBg text-[#3F3E4E] text-opacity-60 pr-10' // pr-10 추가하여 오른쪽 여백을 확보
+                className='w-full p-2 border rounded-lg bg-grayBg text-[#3F3E4E] text-opacity-60 pr-10 text-[14px]' // pr-10 추가하여 오른쪽 여백을 확보
               />
               {displayName && (
                 <Image
@@ -211,7 +201,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
               value={introduction}
               placeholder='소개글을 입력해주세요.'
               onChange={(e) => setIntroduction(e.target.value)}
-              className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60 text-[#3F3E4E]'
+              className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60 text-[#3F3E4E] text-[14px]'
             />
           </div>
 

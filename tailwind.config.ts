@@ -46,7 +46,7 @@ const config: Config = {
         lineGray30: '#DBEBEB',
         lineGray60: '#DBEBEB',
         fontTitle: '#292929',
-        fontBlack: '#3F3E4E',
+        fontMain: '#3F3E4E',
         fontGray: '#939393',
         fontGray30: '#3F3E4E',
         fontGray60: '#3F3E4E',

@@ -15,7 +15,6 @@ export const getOrCreateUserProfile = async () => {
   if (user !== null) {
     const userId = user.id;
     const userEmail = user.email;
-    console.log('userId', userId, userEmail);
 
     // 프로필 조회
     const { data: profilesData } = await supabase
@@ -23,10 +22,7 @@ export const getOrCreateUserProfile = async () => {
       .select('*')
       .eq('id', userId);
 
-    console.log('123');
-
     if (!profilesData || profilesData.length > 0) {
-      console.log('profilesData', profilesData);
       return profilesData;
     }
 

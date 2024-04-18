@@ -15,7 +15,9 @@ const AllMySentences = async ({ userId }: { userId: string }) => {
               className=' bg-[#F6F7F9] rounded-md mb-3 p-2 flex flex-row items-center'>
               {sentence.sentence_content && (
                 <div className='w-[80%] flex flex-col'>
-                  <p className='text-[14px] text-[#3F3E4E]'>
+                  <p
+                    className='text-[14px] text-[#3F3E4E]'
+                    style={{ wordWrap: 'break-word' }}>
                     {sentence.sentence_content}
                   </p>
 
@@ -37,7 +39,7 @@ const AllMySentences = async ({ userId }: { userId: string }) => {
                 </div>
               )}
               <div className='ml-auto'>
-                <Link href={`/mypage/sentencedetail/${sentence.id}`}>
+                <Link href={`/my-clubs/${club?.id}/sentences`}>
                   <svg
                     width='22'
                     height='22'

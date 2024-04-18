@@ -5,7 +5,7 @@ import JoinAndResignBtn from './JoinAndResignBtn';
 import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/lib/types/supabase';
-import Members from '@/components/myclubinfo2/Members';
+import Members from '@/components/my-clubs/info/Members';
 
 const BookClubDetailCSR = ({
   id,

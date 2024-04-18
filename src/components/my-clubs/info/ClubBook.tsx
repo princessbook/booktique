@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import { Tables } from '@/lib/types/supabase';
 type Club = Tables<'clubs'>;
@@ -52,13 +53,11 @@ const ClubBook = ({ club }: { club: Club | null }) => {
         </div>
       </div>
       <div className='flex flex-col w-full mt-4'>
-        <p className='font-bold text-[14px] text-[#3F3E4E]'>
-          {club.book_title}
-        </p>
-        <p className='text-[12px] text-[#3F3E4E] font-medium'>
+        <p className='font-bold text-[14px] text-fontMain'>{club.book_title}</p>
+        <p className='text-[12px] text-fontMain font-medium'>
           {club.book_author}
         </p>
-        <p className='text-[#3F3E4E] text-opacity-60 text-[12px] font-medium'>
+        <p className='text-fontMain text-opacity-60 text-[12px] font-medium'>
           {club.book_category}
         </p>
       </div>

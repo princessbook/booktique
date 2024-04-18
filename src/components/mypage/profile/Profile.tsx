@@ -21,72 +21,72 @@ const Profile = ({ userId }: { userId: string | null }) => {
   const userProfile = profiles?.find((profile) => profile.id === userId);
 
   // 대연 추가
-  const supabase = createClient();
-  const [userClubs, setUserClubs] = useState<string[]>([]);
-  console.log('userClubs', userClubs);
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data: members, error } = await supabase
-        .from('members')
-        .select('club_id')
-        .eq('user_id', userId as string);
-      console.log('members', members);
-      if (error) {
-        // 오류 처리
-        console.error(
-          '멤버 정보를 가져오는 중 오류가 발생했습니다:',
-          error.message
-        );
-      } else {
-        // 사용자가 가입한 클럽 id만 배열로
-        const clubIds = members.map((membership) => membership.club_id);
-        setUserClubs(clubIds);
-        // 사용자가 가입한 클럽 정보 배열
-        const { data: userClubs, error: clubError } = await supabase
-          .from('clubs')
-          .select('*')
-          .in('id', clubIds);
-        if (clubError) {
-          console.error(
-            '클럽 정보를 가져오는 중 오류가 발생했습니다:',
-            clubError.message
-          );
-        } else {
-          console.log('사용자가 가입한 클럽:', userClubs);
-        }
-      }
+  // const supabase = createClient();
+  // const [userClubs, setUserClubs] = useState<string[]>([]);
+  // console.log('userClubs', userClubs);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const { data: members, error } = await supabase
+  //       .from('members')
+  //       .select('club_id')
+  //       .eq('user_id', userId as string);
+  //     console.log('members', members);
+  //     if (error) {
+  //       // 오류 처리
+  //       console.error(
+  //         '멤버 정보를 가져오는 중 오류가 발생했습니다:',
+  //         error.message
+  //       );
+  //     } else {
+  //       // 사용자가 가입한 클럽 id만 배열로
+  //       const clubIds = members.map((membership) => membership.club_id);
+  //       setUserClubs(clubIds);
+  //       // 사용자가 가입한 클럽 정보 배열
+  //       const { data: userClubs, error: clubError } = await supabase
+  //         .from('clubs')
+  //         .select('*')
+  //         .in('id', clubIds);
+  //       if (clubError) {
+  //         console.error(
+  //           '클럽 정보를 가져오는 중 오류가 발생했습니다:',
+  //           clubError.message
+  //         );
+  //       } else {
+  //         console.log('사용자가 가입한 클럽:', userClubs);
+  //       }
+  //     }
 
-      // const { data: clubMembers, error: membersError } = await supabase
-      //   .from('members')
-      //   .select('*')
-      //   .eq('club_id', id);
-      // if (membersError) {
-      //   throw new Error('멤버 정보를 가져오는 도중 오류가 발생했습니다.');
-      // }
-    };
-    fetchData();
-  }, [supabase, userId]);
+  //     // const { data: clubMembers, error: membersError } = await supabase
+  //     //   .from('members')
+  //     //   .select('*')
+  //     //   .eq('club_id', id);
+  //     // if (membersError) {
+  //     //   throw new Error('멤버 정보를 가져오는 도중 오류가 발생했습니다.');
+  //     // }
+  //   };
+  //   fetchData();
+  // }, [supabase, userId]);
 
-  useRealtimePostgresChanges(
-    'post',
-    `club_id=in.(${userClubs})`,
-    async (payload) => {
-      if (payload) {
-        console.log('payload', payload);
-        setTimeout(async () => {
-          const { data: alarm } = await supabase
-            .from('alarm')
-            .select('*')
-            .eq('target_user_id', userId as string)
-            .order('created_at', { ascending: true });
-          console.log('alarm', alarm);
-          if (alarm) {
-            alert(alarm[alarm.length - 1]?.content);
-          }
-        }, 1000); // 1초 지연  지연을 걸지 않았을 때 alarm테이블을 제대로 받아오지 못했음
-      }
-    }
-  );
+  // useRealtimePostgresChanges(
+  //   'post',
+  //   `club_id=in.(${userClubs})`,
+  //   async (payload) => {
+  //     if (payload) {
+  //       console.log('payload', payload);
+  //       setTimeout(async () => {
+  //         const { data: alarm } = await supabase
+  //           .from('alarm')
+  //           .select('*')
+  //           .eq('target_user_id', userId as string)
+  //           .order('created_at', { ascending: true });
+  //         console.log('alarm', alarm);
+  //         if (alarm) {
+  //           alert(alarm[alarm.length - 1]?.content);
+  //         }
+  //       }, 1000); // 1초 지연  지연을 걸지 않았을 때 alarm테이블을 제대로 받아오지 못했음
+  //     }
+  //   }
+  // );
 
   // 대연 추가
   return (

@@ -30,7 +30,7 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
     mutationFn: createPost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts', clubId] });
-      router.replace('/myclubinfo2');
+      router.replace(`/my-clubs/${clubId}/posts`);
     }
   });
 
@@ -39,7 +39,7 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['posts', clubId] });
       queryClient.invalidateQueries({ queryKey: ['article', postId] });
-      router.replace('/myclubinfo2');
+      router.replace(`/my-clubs/${clubId}/posts`);
     }
   });
 
@@ -151,7 +151,9 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
   return (
     <div className='mb-[78px] overflow-y-auto'>
       <section className='h-[54px] flex items-center justify-between sticky top-0 bg-white border-b-[1px] w-full'>
-        <p className='ml-4' onClick={() => router.push('/myclubinfo2')}>
+        <p
+          className='ml-4'
+          onClick={() => router.push(`/my-clubs/${clubId}/posts`)}>
           뒤로
         </p>
         <p className='text-[17px] font-bold'>글쓰기</p>

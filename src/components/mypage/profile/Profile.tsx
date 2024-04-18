@@ -18,6 +18,7 @@ const Profile = ({ userId }: { userId: string | null }) => {
     queryFn: getUserProfile
   });
   const userProfile = profiles?.find((profile) => profile.id === userId);
+  console.log(userProfile);
 
   // 대연 추가
   // const supabase = createClient();

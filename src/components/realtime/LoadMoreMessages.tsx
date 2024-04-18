@@ -7,6 +7,7 @@ import React from 'react';
 export default function LoadMoreMessages() {
   const page = useMessage((state) => state.page);
   const setMessage = useMessage((state) => state.setMessages);
+  const hasMore = useMessage((state) => state.hasMore);
   const fetchMore = async () => {
     const { from, to } = getFromAndTo(page, LIMIT_MESSAGE);
     const supabase = createClient();
@@ -21,9 +22,14 @@ export default function LoadMoreMessages() {
       setMessage(data.reverse());
     }
   };
-  return (
-    <button className='w-full bg-black' onClick={fetchMore}>
-      Load More
-    </button>
-  );
+  if (hasMore) {
+    return (
+      <button
+        className='w-full bg-[#1c2990] rounded-xl text-white px-3'
+        onClick={fetchMore}>
+        Load More
+      </button>
+    );
+  }
+  return <></>;
 }

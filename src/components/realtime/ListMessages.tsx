@@ -96,8 +96,8 @@ const ListMessage = ({ userId }: { userId: string | undefined }) => {
         className={`flex-1 flex flex-col custom-height overflow-y-auto bg-[#c6edff]`}
         ref={scrollRef}
         onScroll={handleOnScroll}>
-        <div className='flex-1'>
-          <LoadMoreMessages />{' '}
+        <div className='flex-1 fixed top-20 left-1/2 translate-x-[-50%]'>
+          <LoadMoreMessages />
         </div>
         {sortedMessages.map((value, index) => {
           if (value.club_id === params.id) {

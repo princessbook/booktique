@@ -194,6 +194,7 @@ const CreateBookPage = () => {
             id='clubName'
             className='border w-full px-4 py-2'
             type='text'
+            max={30}
             value={clubName}
             onChange={handleClubNameChange}
           />

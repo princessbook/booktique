@@ -5,6 +5,7 @@ import JoinAndResignBtn from './JoinAndResignBtn';
 import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/lib/types/supabase';
+import Members from '@/components/myclubinfo2/Members';
 
 const BookClubDetailCSR = ({
   id,
@@ -58,13 +59,20 @@ const BookClubDetailCSR = ({
   return (
     <>
       <section className='p-3'>
-        <h2 className='mb-4 font-bold'>{`참여인원(${
+        <h2 className='mb-4 font-bold text-[16px] text-[#292929]'>{`참여인원(${
           clubMembers ? clubMembers.length : 0
         }/${bookclub?.max_member_count})`}</h2>
         <div className='grid grid-cols-4 gap-3'>
           {clubMembers &&
             clubMembers.map((member, index) => {
-              return <ClubMemberProfile member={member} key={index} />;
+              return (
+                <Members
+                  height={'118px'}
+                  member={member}
+                  index={index}
+                  key={index}
+                />
+              );
             })}
         </div>
       </section>

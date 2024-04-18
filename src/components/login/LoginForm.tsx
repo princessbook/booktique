@@ -1,6 +1,5 @@
 'use client';
 import React, { ChangeEvent, useRef, useState } from 'react';
-import { login } from '@/app/login/action';
 import Input from '@/common/Input';
 import Image from 'next/image';
 import Link from 'next/link';

@@ -1,11 +1,11 @@
-import MyBookClub from '@/components/mypage/MyBookClub';
+import MyBookClub from '@/components/mypage/clubs/MyBookClub';
 import React from 'react';
-import MySentencesStore from '@/components/mypage/MySentencesStore';
-import ProfileDetail from '@/components/mypage/ProfileDetail';
+import MySentencesStore from '@/components/mypage/sentences/MySentencesStore';
+import ProfileDetail from '@/components/mypage/profile/ProfileDetail';
 export const dynamic = 'force-dynamic';
 import { createClient } from '@/utils/supabase/server';
-import LogoutButton from '@/components/mypage/LogoutButton';
-import Profile from '@/components/mypage/Profile';
+import LogoutButton from '@/components/mypage/profile/LogoutButton';
+import Profile from '@/components/mypage/profile/Profile';
 import Link from 'next/link';
 const MyPage = async () => {
   const supabase = createClient();

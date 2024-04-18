@@ -89,7 +89,6 @@ const ListMessage = ({ userId }: { userId: string | undefined }) => {
     // created_at 속성을 기준으로 오름차순으로 정렬합니다.
     return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
   });
-  console.log('33333333333333', sortedMessages);
   return (
     <>
       <div

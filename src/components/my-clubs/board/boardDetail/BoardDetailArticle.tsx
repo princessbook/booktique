@@ -42,7 +42,7 @@ const BoardDetailArticle = ({
       return;
     }
     router.push(
-      `/myclubinfo2/board/posting/${postId}?isModify=true&clubId=${clubId}`
+      `/my-clubs/${clubId}/posts/board/posting/${postId}?isModify=true&clubId=${clubId}`
     );
   };
 

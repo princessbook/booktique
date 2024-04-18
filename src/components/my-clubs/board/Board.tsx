@@ -32,7 +32,7 @@ const Board = ({ clubId }: { clubId: string }) => {
             <div className='m-4 flex'>
               <Link
                 className='w-full'
-                href={`/myclubinfo2/board/detail/${post.id}?clubId=${clubId}`}>
+                href={`/my-clubs/${clubId}/posts/board/detail/${post.id}?clubId=${clubId}`}>
                 <section className='flex gap-1 items-center'>
                   {post.profile?.photo_URL ? (
                     <Image

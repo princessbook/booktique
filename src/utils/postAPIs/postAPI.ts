@@ -27,7 +27,7 @@ export const fetchPosts = async ({
   const supabase = createClient();
   const { data, error } = await supabase
     .from('posts')
-    .select('*, profile:profiles (*), clubs (*)')
+    .select('*, profile:profiles(*), clubs(*), post_comments(count)')
     .eq('club_id', clubId);
 
   if (error) throw new Error(error.message);

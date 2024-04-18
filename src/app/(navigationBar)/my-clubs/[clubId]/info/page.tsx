@@ -1,27 +1,18 @@
-'use client';
-
 import HomeTab from '@/components/my-clubs/info/HomeTab';
-import useClubInfo from '@/hooks/info/useClubInfo';
-
-import { useParams } from 'next/navigation';
 import React from 'react';
+import { createClient } from '@/utils/supabase/server';
 
-type Props = {};
-
-const InfoPage = (props: Props) => {
-  const params = useParams<{
-    clubId: string;
-  }>();
-
-  const { clubs } = useClubInfo();
-
-  const club = clubs.find((club) => club.id === params.clubId);
-
+const InfoPage = async (props: { params: { clubId: string } }) => {
+  const clubId = props.params.clubId;
+  const supabase = createClient();
+  const { data: club } = await supabase
+    .from('clubs')
+    .select('*')
+    .eq('id', clubId);
   if (!club) {
     return null;
   }
-
-  return <HomeTab club={club} />;
+  return <HomeTab club={club[0]} />;
 };
 
 export default InfoPage;

@@ -42,7 +42,7 @@ const BoardDetailArticle = ({
       return;
     }
     router.push(
-      `/myclubinfo2/board/posting/${postId}?isModify=true&clubId=${clubId}`
+      `/my-clubs/${clubId}/posts/board/posting/${postId}?isModify=true&clubId=${clubId}`
     );
   };
 
@@ -94,7 +94,7 @@ const BoardDetailArticle = ({
             />
           ) : (
             <Image
-              src='/public/booktique.png'
+              src='/booktique.png'
               alt='기본 이미'
               width={50}
               height={50}

@@ -113,7 +113,7 @@ const MemberList = ({
                 )}
                 {profile?.photo_URL ? (
                   <Image
-                    src={`${profile.photo_URL}?${new Date().getTime()}`}
+                    src={profile.photo_URL}
                     alt='profile_image'
                     width={56}
                     height={56}

@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import Members from './Members';
 import ClubBook from './ClubBook';

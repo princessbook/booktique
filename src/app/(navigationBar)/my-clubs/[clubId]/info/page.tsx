@@ -10,7 +10,7 @@ const InfoPage = async (props: { params: { clubId: string } }) => {
     .select('*')
     .eq('id', clubId);
   if (!club) {
-    return <div>로딩 중...</div>;
+    return null;
   }
   return <HomeTab club={club[0]} />;
 };

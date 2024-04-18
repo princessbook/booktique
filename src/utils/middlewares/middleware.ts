@@ -17,18 +17,10 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
-          const cookieOptions = {
-            path: '/',
-            httpOnly: true,
-            secure: true,
-            sameSite: 'lax',
-            maxAge: 60, // 24시간 (24 hours * 60 minutes * 60 seconds)
-            ...options
-          };
           request.cookies.set({
             name,
             value,
-            ...cookieOptions
+            ...options
           });
           response = NextResponse.next({
             request: {
@@ -38,23 +30,14 @@ export async function updateSession(request: NextRequest) {
           response.cookies.set({
             name,
             value,
-            ...cookieOptions
+            ...options
           });
         },
         remove(name: string, options: CookieOptions) {
-          const cookieOptions = {
-            path: '/',
-            httpOnly: true,
-            secure: true,
-            sameSite: 'lax',
-            maxAge: 0, // 즉시 만료
-            ...options
-          };
-
           request.cookies.set({
             name,
             value: '',
-            ...cookieOptions
+            ...options
           });
           response = NextResponse.next({
             request: {
@@ -64,7 +47,7 @@ export async function updateSession(request: NextRequest) {
           response.cookies.set({
             name,
             value: '',
-            ...cookieOptions
+            ...options
           });
         }
       }

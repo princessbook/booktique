@@ -1,9 +1,8 @@
-import { type NextRequest } from 'next/server';
-import { updateSession } from '@/utils/supabase/middleware';
+import { chain } from '@/utils/middlewares/chain';
+import { authToken } from '@/utils/middlewares/authToken';
+import { protectRoute } from '@/utils/middlewares/protectRoute';
 
-export async function middleware(request: NextRequest) {
-  return await updateSession(request);
-}
+export default chain([authToken, protectRoute]);
 
 export const config = {
   matcher: [

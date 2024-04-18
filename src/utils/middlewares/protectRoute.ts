@@ -15,10 +15,14 @@ export function protectRoute(middleware: CustomMiddleware) {
   ) => {
     const supabase = createClient();
     const { data, error } = await supabase.auth.getUser();
-    console.log('??????????????????????????????????????!!!');
     const pathname = request.nextUrl.pathname;
-    const protectedPath = ['/mypage', '/chat', '/bookclubs'];
-
+    const protectedPath = [
+      '/mypage',
+      '/chat',
+      '/bookclubs',
+      '/readbook',
+      '/my-clubs'
+    ];
     if (protectedPath.some((path) => pathname.startsWith(path))) {
       if (error || !data?.user) {
         return NextResponse.redirect(new URL(`/login`, request.url));

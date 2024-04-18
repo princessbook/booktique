@@ -7,6 +7,7 @@ export type CustomMiddleware = (
   event: NextFetchEvent,
   response: NextResponse
 ) => NextMiddlewareResult | Promise<NextMiddlewareResult>;
+// 프로미스로 비동기처리<NextMiddlewareResult>
 
 type MiddlewareFactory = (middleware: CustomMiddleware) => CustomMiddleware;
 
@@ -15,7 +16,7 @@ export function chain(
   index = 0
 ): CustomMiddleware {
   const current = functions[index];
-
+  console.log('chain');
   if (current) {
     const next = chain(functions, index + 1);
     return current(next);

@@ -55,7 +55,6 @@ export async function updateSession(request: NextRequest) {
   );
 
   await supabase.auth.getUser();
-  console.log('진짜뭔데');
 
   return response;
 }

@@ -122,3 +122,17 @@ input[type='password']::-ms-reveal,
 input[type='password']::-ms-clear {
   display: none;
 }
+
+.bookSearchBox {
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23DBE3EB' stroke-width='6' stroke-dasharray='1%2c 10' stroke-dashoffset='6' stroke-linecap='square'/%3e%3c/svg%3e");
+  border-radius: 5px;
+}
+
+.custom-select input {
+  /* 원하는 스타일을 여기에 추가하세요 */
+
+  border-radius: 4px;
+  background: rgb(237 238 242 / var(--tw-bg-opacity));
+  font-size: 14px;
+  height: 36px; /* 특정 높이로 설정 */
+}

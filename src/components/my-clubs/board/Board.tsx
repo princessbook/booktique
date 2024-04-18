@@ -32,7 +32,7 @@ const Board = ({ clubId }: { clubId: string }) => {
             <div className='m-4 flex'>
               <Link
                 className='w-full'
-                href={`/myclubinfo2/board/detail/${post.id}?clubId=${clubId}`}>
+                href={`/my-clubs/${clubId}/posts/board/detail/${post.id}?clubId=${clubId}`}>
                 <section className='flex gap-1 items-center'>
                   {post.profile?.photo_URL ? (
                     <Image
@@ -62,6 +62,9 @@ const Board = ({ clubId }: { clubId: string }) => {
                     <p className='mt-1 mb-1 text-xs break-words line-clamp-2'>
                       {post.content}
                     </p>
+                    <p className='text-xs text-fontGrayBlue'>{`💬 ${
+                      (post.post_comments[0] as unknown as any).count // https://github.com/supabase/supabase/issues/20562
+                    }`}</p>
                   </div>
                   {post.thumbnail ? (
                     <Image

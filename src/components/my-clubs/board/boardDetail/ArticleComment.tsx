@@ -3,7 +3,7 @@
 import {
   deletePostComment,
   fetchPostComments
-} from '@/utils/api/postCommentAPIs/commentAPI';
+} from '@/utils/postAPIs/postCommentAPIs/commentAPI';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import ArticleTimeStamp from './ArticleTimeStamp';

@@ -1,6 +1,6 @@
 'use client';
 
-import { createPostComment } from '@/utils/api/postCommentAPIs/commentAPI';
+import { createPostComment } from '@/utils/postAPIs/postCommentAPIs/commentAPI';
 import { getUserId } from '@/utils/userAPIs/authAPI';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';

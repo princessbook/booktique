@@ -309,6 +309,7 @@ export type Database = {
       posts: {
         Row: {
           club_id: string | null;
+          comments: number | null;
           content: string | null;
           created_at: string;
           id: string;
@@ -318,6 +319,7 @@ export type Database = {
         };
         Insert: {
           club_id?: string | null;
+          comments?: number | null;
           content?: string | null;
           created_at?: string;
           id?: string;
@@ -327,6 +329,7 @@ export type Database = {
         };
         Update: {
           club_id?: string | null;
+          comments?: number | null;
           content?: string | null;
           created_at?: string;
           id?: string;

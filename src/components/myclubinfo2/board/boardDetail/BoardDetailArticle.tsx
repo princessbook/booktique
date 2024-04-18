@@ -92,7 +92,7 @@ const BoardDetailArticle = ({
             />
           ) : (
             <Image
-              src='/public/booktique.png'
+              src='/booktique.png'
               alt='기본 이미'
               width={50}
               height={50}

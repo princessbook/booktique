@@ -15,8 +15,8 @@ const Timer = ({
   const [seconds, setSeconds] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [isVisible, setIsVisible] = useState<boolean>(true); // 현재 화면 보는지 안보는지
-  const { isModalOpen, toggleModal } = useModalStore();
-  console.log('111111111111', isModalOpen);
+  const { isModalOpen } = useModalStore();
+
   const supabase = createClient();
   const formatTime = (timeInSeconds: number) => {
     const hours = Math.floor(timeInSeconds / 3600);

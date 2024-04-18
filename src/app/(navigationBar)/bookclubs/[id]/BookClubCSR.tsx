@@ -62,7 +62,7 @@ const BookClubDetailCSR = ({
         <h2 className='mb-4 font-bold text-[16px] text-[#292929]'>{`참여인원(${
           clubMembers ? clubMembers.length : 0
         }/${bookclub?.max_member_count})`}</h2>
-        <div className='grid grid-cols-4 gap-3'>
+        <div className='grid grid-cols-3 gap-6'>
           {clubMembers &&
             clubMembers.map((member, index) => {
               return (

@@ -91,7 +91,7 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
       </section>
       <section className='p-3'>
         <h2 className='mb-3 font-bold text-[16px] text-[#292929]'>모임 정보</h2>
-        <p className='text-[14px] mb-2'>
+        <p className='text-[14px] mb-2 text-fontBlack'>
           <span className=' text-mainblue font-bold mr-1'>모임 날</span>
           매주 월, 화, 수, 목, 금, 토, 일
         </p>

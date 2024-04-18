@@ -53,7 +53,7 @@ const Members = ({
   return (
     <div
       key={index}
-      className={`bg-[#EDEEF2] rounded-lg p-2 w-[108px] h-[${
+      className={` bg-grayBg rounded-lg p-2 w-[108px] h-[${
         height ? height : '146px'
       }]`}>
       <div className='flex flex-col items-center'>

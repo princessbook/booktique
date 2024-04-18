@@ -5,7 +5,7 @@ import { BookInfo } from '@/lib/types/BookAPI';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const CreateBookPage = () => {
   const [clubName, setClubName] = useState('');
@@ -16,10 +16,12 @@ const CreateBookPage = () => {
   const supabase = createClient();
   const [bookInfo, setBookInfo] = useState<BookInfo | undefined>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const router = useRouter();
 
   const uploadImageStorage = async (file: File) => {
+    if (!file) return undefined;
     const fileExt = file?.name.split('.').pop();
     const fileName = `${crypto.randomUUID()}.${fileExt}`;
 
@@ -40,10 +42,7 @@ const CreateBookPage = () => {
   };
 
   const insertBookClubDataToDB = async (storageImg: string | undefined) => {
-    if (!bookInfo) {
-      alert('북클럽에서 읽을 책을 선택해 주세요');
-      return;
-    }
+    if (!bookInfo) return;
     try {
       const { data, error } = await supabase
         .from('clubs')
@@ -115,10 +114,20 @@ const CreateBookPage = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    if (isSubmit) return;
     e.preventDefault();
     if (!description || !clubName) {
       alert('빈칸을 채워주세요.');
+      return;
     }
+    if (!bookInfo) {
+      alert('북클럽에서 읽을 책을 선택해 주세요');
+      return;
+    }
+    if (!isSubmit) {
+      setIsSubmit(true);
+    }
+
     const storageImg = await uploadImageStorage(selectedImage!);
     await insertBookClubDataToDB(storageImg);
     router.push('/bookclubs');
@@ -185,6 +194,7 @@ const CreateBookPage = () => {
             id='clubName'
             className='border w-full px-4 py-2'
             type='text'
+            max={30}
             value={clubName}
             onChange={handleClubNameChange}
           />
@@ -234,8 +244,11 @@ const CreateBookPage = () => {
         </div>
         <button
           type='submit'
-          className=' bg-mainblue text-white px-4 py-2 rounded'>
-          개설하기
+          className={` text-white px-4 py-2 rounded ${
+            isSubmit ? 'bg-gray-500 cursor-not-allowed' : 'bg-mainblue'
+          }`}
+          disabled={isSubmit}>
+          {isSubmit ? '제출 중...' : '개설하기'}
         </button>
       </form>
     </section>

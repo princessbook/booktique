@@ -7,6 +7,8 @@ import ProfileDetail from './ProfileDetail';
 type Profile = Tables<'profiles'>;
 import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/utils/userAPIs/Fns';
+import { createClient } from '@/utils/supabase/client';
+import useRealtimePostgresChanges from '@/hooks/useRealtimePostgresChanges';
 const Profile = ({ userId }: { userId: string | null }) => {
   const {
     data: profiles,
@@ -17,6 +19,31 @@ const Profile = ({ userId }: { userId: string | null }) => {
     queryFn: getUserProfile
   });
   const userProfile = profiles?.find((profile) => profile.id === userId);
+
+  // 대연 추가
+  const supabase = createClient();
+  useRealtimePostgresChanges(
+    'post',
+    `user_id=in.(${userId})`,
+    async (payload) => {
+      if (payload) {
+        console.log('payload', payload);
+        setTimeout(async () => {
+          const { data: alarm } = await supabase
+            .from('alarm')
+            .select('*')
+            .eq('target_user_id', userId as string)
+            .order('created_at', { ascending: true });
+          console.log('alarm', alarm);
+          if (alarm) {
+            alert(alarm[alarm.length - 1]?.content);
+          }
+        }, 1000); // 1초 지연  지연을 걸지 않았을 때 alarm테이블을 제대로 받아오지 못했음
+      }
+    }
+  );
+
+  // 대연 추가
   return (
     <div className='flex flex-col w-full bg-[#F6F7F9] rounded-md p-2'>
       <div className='flex flex-col p-2'>

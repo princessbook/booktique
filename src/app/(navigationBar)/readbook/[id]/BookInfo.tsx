@@ -7,6 +7,7 @@ import { getUserId } from '@/utils/userAPIs/authAPI';
 import QuizContainer from '@/components/quiz/QuizContainer';
 import { createClient } from '@/utils/supabase/client';
 import { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
+// import useRealtimePostgresChanges from '@/hooks/useRealtimePostgresChanges';
 // import useAlarmStore from '@/store';
 
 const BookInfo = ({
@@ -43,6 +44,14 @@ const BookInfo = ({
       [key: string]: string;
     }>>(null);
 
+  // useRealtimePostgresChanges(
+  //   'post',
+  //   `user_id=in.(${clubMembers.map((item) => item.user_id)})`,
+  //   (payload) => {
+  //     console.log('payload', payload);
+  //     setPostData(payload);
+  //   }
+  // );
   useEffect(() => {
     const channelA = supabase
       .channel('dy')
@@ -64,7 +73,7 @@ const BookInfo = ({
     return () => {
       channelA.unsubscribe();
     };
-  }, [clubMembers]);
+  }, [clubMembers, supabase]);
 
   useEffect(() => {
     const timerStarted = localStorage.getItem('timerStarted');
@@ -132,8 +141,55 @@ const BookInfo = ({
 
   const handleStartTimer = async () => {
     try {
+      // 방장 여부 확인
+      const isAdmin = clubMembers.some(
+        (member) => member.user_id === userId && member.role === 'admin'
+      );
+
+      // 멤버인 경우
+      if (!isAdmin) {
+        localStorage.setItem('timerStarted', 'true');
+        setTimerVisible(true);
+        setEndButtonVisible(false);
+        return;
+      }
+
+      // 10분 타이머 제한을 위한 로컬 스토리지 확인
+      const lastStartTime = localStorage.getItem('lastStartTime');
+
+      // 이전 시작 시간이 있는 경우
+      if (lastStartTime) {
+        const currentTime = new Date().getTime();
+        const differenceInMilliseconds =
+          currentTime - parseInt(lastStartTime, 10);
+        const requiredIntervalInMilliseconds = 10 * 60 * 1000; // 10분의 밀리초 수
+
+        // 이전 시작 시간부터 현재까지의 시간이 10분보다 작은 경우
+        if (differenceInMilliseconds < requiredIntervalInMilliseconds) {
+          // 남은 시간 계산
+          const remainingTimeInMilliseconds =
+            requiredIntervalInMilliseconds - differenceInMilliseconds;
+          const remainingMinutes = Math.floor(
+            remainingTimeInMilliseconds / (1000 * 60)
+          );
+          const remainingSeconds = Math.ceil(
+            (remainingTimeInMilliseconds % (1000 * 60)) / 1000
+          );
+
+          localStorage.setItem('timerStarted', 'true');
+          setTimerVisible(true);
+          setEndButtonVisible(false);
+          // 알림 표시
+          alert(
+            `모임은 시작 알림은 ${remainingMinutes}분 ${remainingSeconds}초 뒤에 가능합니다`
+          );
+          return;
+        }
+      }
+      // 10분 타이머 제한을 초과하거나 이전 시작 시간이 없는 경우
+      // 타이머 시작 및 모임 시작
       await startMeeting();
-      localStorage.setItem('timerStarted', 'true');
+      localStorage.setItem('lastStartTime', new Date().getTime().toString());
       setTimerVisible(true);
       setEndButtonVisible(false);
     } catch (error) {
@@ -143,14 +199,7 @@ const BookInfo = ({
 
   const startMeeting = async () => {
     try {
-      const admins = clubMembers.filter((member) => member.role === 'admin');
-      const adminUserId = admins.map((admin) => admin.user_id);
-
-      if (!adminUserId.includes(userId)) {
-        console.log('관리자만 모임을 시작할 수 있습니다.');
-        return;
-      }
-
+      // 역할이 admin 일때만
       await supabase.from('post').insert([
         {
           user_id: userId,
@@ -159,9 +208,9 @@ const BookInfo = ({
           club_id: clubId
         }
       ]);
-      console.log('삽입!@@@!@!@!@');
+      console.log('모임을 시작합니다.');
     } catch (error) {
-      console.error('데이터를 삽입하는 도중 오류가 발생했습니다:', error);
+      console.error('모임을 시작하는 도중 오류가 발생했습니다:', error);
     }
   };
 
@@ -181,7 +230,7 @@ const BookInfo = ({
             {!timerVisible && (
               <div className='flex'>
                 <div
-                  className='mb-[24px] flex w-[189px] h-[54px] bg-[#D8FA8E] rounded-[10px] text-center text-[#269AED] font-bold text-[17px] leading-[26px] justify-center items-center'
+                  className='mb-[24px] flex w-[189px] h-[54px] bg-[#D8FA8E] rounded-[10px] text-center text-[#269AED] font-bold text-[17px] leading-[26px] justify-center items-center cursor-pointer'
                   onClick={handleStartTimer}>
                   책 읽기 시작
                 </div>

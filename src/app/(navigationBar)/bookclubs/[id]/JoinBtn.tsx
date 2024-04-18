@@ -48,7 +48,7 @@ const JoinBtn = ({
       {!isMember ? (
         <div
           onClick={handleJoin}
-          className='bg-mainblue w-[302px] h-[56px] rounded-full text-bookyellow flex items-center justify-center fixed bottom-32 left-1/2 transform -translate-x-1/2 cursor-pointer'>
+          className='bg-mainblue w-[302px] h-[56px] rounded-xl text-white flex items-center justify-center fixed bottom-[106px] left-1/2 transform -translate-x-1/2 cursor-pointer'>
           참가하기
         </div>
       ) : (

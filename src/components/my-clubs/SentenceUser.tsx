@@ -2,6 +2,8 @@
 import { Tables } from '@/lib/types/supabase';
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
+import booktique from '../../../public/booktique.png';
+import Image from 'next/image';
 
 type Profiles = Tables<'profiles'>;
 
@@ -26,16 +28,29 @@ const SentenceUser = ({ sentenceId }: { sentenceId: string }) => {
 
     fetchProfile(sentenceId);
   }, [sentenceId]);
+  console.log(sentenceProfile?.photo_URL);
   return (
     <div>
       {sentenceProfile ? (
         <div>
           <div className='flex items-center'>
-            <img
-              className='w-[24px] h-[24px] rounded-[24px]'
-              src={sentenceProfile.photo_URL as string}
-              alt='프로필'
-            />
+            {sentenceProfile.photo_URL ? (
+              <Image
+                width={24}
+                height={24}
+                className='w-[24px] h-[24px] rounded-[24px]'
+                src={sentenceProfile.photo_URL}
+                alt='프로필'
+              />
+            ) : (
+              <Image
+                width={40}
+                height={40}
+                src={booktique}
+                alt='기본 이미지'
+                className='rounded-xl'
+              />
+            )}
             <span className='text-[12px] ml-1'>
               {sentenceProfile.display_name}
             </span>

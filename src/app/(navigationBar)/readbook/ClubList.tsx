@@ -19,8 +19,8 @@ const ClubList = ({
   id: string;
 }) => {
   // 현재 슬라이드 인덱스를 추적
-  const [currentSlide, setCurrentSlide] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [currentSlide, setCurrentSlide] = useState<number>(0);
+  // const [loading, setLoading] = useState<boolean>(true);
   const supabase = createClient();
   const [clubActivities, setClubActivities1] = useState<
     Tables<'club_activities'>[] | null
@@ -34,7 +34,7 @@ const ClubList = ({
           .select('*')
           .eq('user_id', id);
         setClubActivities1(clubActivities);
-        setLoading(false);
+        // setLoading(false);
 
         if (activitiesError) {
           throw activitiesError;
@@ -44,7 +44,7 @@ const ClubList = ({
           '클럽 활동 데이터를 가져오는 도중 오류가 발생했습니다:',
           error
         );
-        setLoading(false);
+        // setLoading(false);
       }
     };
     fetchClubActivities();
@@ -60,9 +60,9 @@ const ClubList = ({
     vertical: false,
     // 슬라이드가 변경될 때마다 현재 슬라이드 인덱스를 업데이트
     centerMode: true, // 가운데 정렬 모드 활성화
-    centerPadding: '30px', // 좌우 패딩 추가
+    centerPadding: '30px' // 좌우 패딩 추가
     // 슬라이드가 변경될 때마다 현재 슬라이드 인덱스를 업데이트
-    afterChange: (current: number) => setCurrentSlide(current)
+    // afterChange: (current: number) => setCurrentSlide(current)
   };
 
   const handleBookRead = async (clubId: string) => {

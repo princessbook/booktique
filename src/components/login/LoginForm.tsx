@@ -3,7 +3,7 @@ import React, { ChangeEvent, useRef, useState } from 'react';
 import Input from '@/common/Input';
 import Image from 'next/image';
 import Link from 'next/link';
-import { signInWithGoogle, kakaoLogin } from '@/utils/api/authAPI';
+import { signInWithSocialLogin } from '@/utils/api/authAPI';
 import { createClient } from '@/utils/supabase/client';
 import ToastUi from '@/common/ToastUi';
 import { useRouter } from 'next/navigation';
@@ -83,10 +83,10 @@ const LoginForm = () => {
           <Image src='/sns.png' width={100} height={50} alt='sns' />
         </div>
         <div className='flex justify-center mb-[74px]'>
-          <a className='mr-4' onClick={signInWithGoogle}>
+          <a className='mr-4' onClick={() => signInWithSocialLogin('google')}>
             <Image src='/logo_google.png' width={60} height={60} alt='google' />
           </a>
-          <a className='ml-4' onClick={kakaoLogin}>
+          <a className='ml-4' onClick={() => signInWithSocialLogin('kakao')}>
             <Image src='/login_kakao.png' width={60} height={60} alt='kakao' />
           </a>
         </div>

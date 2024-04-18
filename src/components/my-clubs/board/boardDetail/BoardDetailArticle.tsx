@@ -22,7 +22,7 @@ const BoardDetailArticle = ({
     mutationFn: deletePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts', clubId] });
-      router.push('/myclubinfo2');
+      router.push(`/my-clubs/${clubId}/posts`);
     }
   });
 
@@ -62,7 +62,9 @@ const BoardDetailArticle = ({
   return (
     <div key={article.id}>
       <section className='h-[54px] flex items-center justify-between sticky top-0 bg-white border-b-[1px] w-full'>
-        <p className='ml-4' onClick={() => router.push('/myclubinfo2')}>
+        <p
+          className='ml-4'
+          onClick={() => router.push(`/my-clubs/${clubId}/posts`)}>
           뒤로
         </p>
         <p className='text-[17px] font-bold absolute left-1/2 transform -translate-x-1/2'>

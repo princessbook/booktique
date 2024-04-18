@@ -7,13 +7,22 @@ import Image from 'next/image';
 import { PROFILES_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
 type MembersType = {
+  height?: string;
   club_id: string;
   id: string;
   role: 'admin' | 'member' | null;
   user_id: string | null;
   progress?: number | null; // progress 필드 추가
 };
-const Members = ({ member, index }: { member: MembersType; index: number }) => {
+const Members = ({
+  member,
+  index,
+  height
+}: {
+  member: MembersType;
+  index: number;
+  height?: string;
+}) => {
   const [userProfile, setUserProfile] = useState<Tables<'profiles'> | null>();
 
   const getUserProfile = async (userId: string) => {
@@ -44,7 +53,9 @@ const Members = ({ member, index }: { member: MembersType; index: number }) => {
   return (
     <div
       key={index}
-      className='bg-[#EDEEF2] rounded-lg p-2 w-[108px] h-[146px] '>
+      className={` bg-grayBg rounded-lg p-2 w-[108px] h-[${
+        height ? height : '146px'
+      }]`}>
       <div className='flex flex-col items-center'>
         <div className='mt-1 mr-3 relative flex justify-center align-middle max-w-full max-h-auto rounded-full'>
           <p className='text-[#B3C1CC] flex mr-1 text-[18px] font-bold'>
@@ -89,15 +100,17 @@ const Members = ({ member, index }: { member: MembersType; index: number }) => {
 
         <div className='w-full h-full flex flex-col items-center justify-center mt-1'>
           <div className='w-[68px] h-[36px]'>
-            <p className='font-bold text-[12px] text-center'>
+            <p className='font-bold text-[12px] text-center text-fontMain'>
               {userProfile?.display_name}
             </p>
           </div>
-          <div className=''>
-            <p className='text-subblue text-[18px] font-bold text-center'>
-              {member.progress !== null ? `${member.progress}%` : '0%'}
-            </p>
-          </div>
+          {member.progress !== undefined && (
+            <div className=''>
+              <p className='text-subblue text-[18px] font-bold text-center'>
+                {member.progress !== null ? `${member.progress}%` : '0%'}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

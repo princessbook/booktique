@@ -9,6 +9,8 @@ import ClubSearch from './ClubSearch';
 const BookClubsPage = async (props: any) => {
   const supabase = createClient();
   let bookclubs;
+  console.log('bookclubs');
+  console.log('props', props);
 
   if (props.searchParams.category) {
     if (props.searchParams.category === '기타') {
@@ -37,20 +39,35 @@ const BookClubsPage = async (props: any) => {
       bookclubs = categoryData;
     }
   } else if (props.searchParams.search) {
-    const { data: searchData, error } = await supabase
-      .from('clubs')
-      .select('*')
-      .or(
-        `name.ilike.%${props.searchParams.search}%,book_title.ilike.%${props.searchParams.search}%`
-      )
-      .order('created_at', { ascending: false });
+    if (props.searchParams.tab === '책제목') {
+      console.log('searchParams', props.searchParams);
+      const { data: searchData, error } = await supabase
+        .from('clubs')
+        .select('*')
+        .or(`book_title.ilike.%${props.searchParams.search}%`)
+        .order('created_at', { ascending: false });
 
-    if (error) {
-      console.error('Error fetching clubs by search term:', error.message);
-      return null;
+      if (error) {
+        console.error('Error fetching clubs by search term:', error.message);
+        return null;
+      }
+
+      bookclubs = searchData;
+    } else if (props.searchParams.tab === '클럽이름') {
+      console.log('searchParams', props.searchParams);
+      const { data: searchData, error } = await supabase
+        .from('clubs')
+        .select('*')
+        .or(`name.ilike.%${props.searchParams.search}%`)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching clubs by search term:', error.message);
+        return null;
+      }
+
+      bookclubs = searchData;
     }
-
-    bookclubs = searchData;
   } else {
     const { data: allData, error } = await supabase
       .from('clubs')
@@ -76,30 +93,37 @@ const BookClubsPage = async (props: any) => {
       </h2>
       <ClubSearch />
       <div className='bg-white mb-[78px] overflow-y-auto'>
-        <section className='p-3 '>
-          {bookclubs.map((bookclub) => {
+        <section className='p-3'>
+          {bookclubs.map((bookclub, index) => {
+            const isLastItem = index === bookclubs.length - 1;
             return (
               <Link key={bookclub.id} href={`/bookclubs/${bookclub.id}`}>
-                <div className='flex border-b-2 justify-between p-3 items-center'>
-                  <figure className='w-24  mr-2 flex items-center justify-center'>
-                    {bookclub.book_cover && (
-                      <Image
-                        width={78}
-                        height={100}
-                        src={bookclub.book_cover}
-                        alt='북클럽이미지'
-                      />
-                    )}
+                <div
+                  className={`flex ${
+                    isLastItem ? '' : 'border-b-2'
+                  } justify-between py-3 items-center`}>
+                  <figure className='w-[78px] mr-2 flex items-center justify-center'>
+                    <div className='w-[78px] h-full relative'>
+                      {bookclub.book_cover && (
+                        <Image
+                          width={78}
+                          height={100}
+                          className='w-full h-full object-cover'
+                          src={bookclub.book_cover}
+                          alt='북클럽이미지'
+                        />
+                      )}
+                    </div>
                   </figure>
                   <div className='flex-1'>
-                    <h1 className='mb-1 text-[14px] text-[#3F3E4E] font-bold'>
+                    <h1 className='mb-1 text-[14px] text-[#3F3E4E] font-bold break-words overflow-hidden line-clamp-2'>
                       {bookclub.name}
                     </h1>
                     <h2 className='mb-1 text-[14px] text-[#3F3E4E] w-64 break-words overflow-hidden line-clamp-2'>
                       {bookclub.book_title}
                     </h2>
 
-                    <p className='text-xs'>{bookclub.book_category}</p>
+                    {/* <p className='text-xs'>{bookclub.book_category}</p> */}
                     <div className='flex justify-between text-[14px] mb-2'>
                       <ClubAdminProfile clubId={bookclub.id} />
                       <div className='mr-3 text-[14px]'>
@@ -124,7 +148,7 @@ const BookClubsPage = async (props: any) => {
               href='/bookclubs/create'
               className={`py-[15px] px-[20px] fixed bottom-24  text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-[#3F3E4E]
               `}>
-              북클럽 개설하기
+              북클럽 만들기
             </Link>
           </div>
         </section>

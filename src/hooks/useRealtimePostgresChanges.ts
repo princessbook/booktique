@@ -1,6 +1,6 @@
 'use client';
 // useRealtimePostgresChanges.ts
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
 import { createClient } from '@/utils/supabase/client';
 // import { Tables } from '@/lib/types/supabase';
@@ -12,10 +12,10 @@ const useRealtimePostgresChanges = (
     payload: RealtimePostgresInsertPayload<{ [key: string]: string }>
   ) => void
 ) => {
-  const [supabase] = useState(createClient());
+  const supabase = createClient();
   useEffect(() => {
     const channel = supabase
-      .channel('realtime_changes')
+      .channel('dy')
       .on(
         'postgres_changes',
         {
@@ -26,6 +26,7 @@ const useRealtimePostgresChanges = (
         },
         (payload) => {
           callback(payload);
+          console.log('payload훅훅훅', payload);
         }
       )
       .subscribe();

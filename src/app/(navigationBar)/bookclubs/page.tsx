@@ -100,15 +100,16 @@ const BookClubsPage = async (props: any) => {
               <Link key={bookclub.id} href={`/bookclubs/${bookclub.id}`}>
                 <div
                   className={`flex ${
-                    isLastItem ? '' : 'border-b-2'
-                  } justify-between py-3 items-center`}>
+                    isLastItem ? '' : 'border-b'
+                  } justify-between py-3 items-center border-b-[#E9EEF3] `}>
                   <figure className='w-[78px] mr-2 flex items-center justify-center'>
                     <div className='w-[78px] h-full relative'>
                       {bookclub.book_cover && (
                         <Image
-                          width={78}
-                          height={100}
-                          className='w-full h-full object-cover'
+                          width='0'
+                          height='0'
+                          sizes='100vw'
+                          className='w-auto h-auto'
                           src={bookclub.book_cover}
                           alt='북클럽이미지'
                         />

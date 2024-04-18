@@ -6,6 +6,7 @@ import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import BackBtn from '../[id]/BackBtn';
 
 const CreateBookPage = () => {
   const [clubName, setClubName] = useState('');
@@ -149,8 +150,11 @@ const CreateBookPage = () => {
   };
 
   return (
-    <section className='p-4 mb-[78px] overflow-y-auto'>
-      <h1 className='text-2xl mb-4 text-center font-bold'>북클럽 만들기</h1>
+    <section className=' mb-[78px] overflow-y-auto'>
+      <h2 className='h-[54px] border border-b border-lineGray relative flex text-[17px] items-center justify-center'>
+        <BackBtn />
+        <div>북클럽 만들기</div>
+      </h2>
       {/* 책 검색 버튼 */}
       <button
         className='mb-4 bg-[#333333] text-white px-4 py-2 rounded'

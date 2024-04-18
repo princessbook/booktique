@@ -72,7 +72,7 @@ const ClubSearch = () => {
   return (
     <div
       className={` bg-mainblue pt-3  sticky top-0 w-full z-10 ${
-        isScrolled ? 'shadow' : ''
+        isScrolled ? '' : ''
       }`}>
       <div className='px-4 pb-3'>
         <div className='w-full flex bg-white  rounded-md justify-center items-center px-3'>
@@ -137,7 +137,7 @@ const ClubSearch = () => {
             책 분야로 개설된 북클럽
           </h1>
           <div
-            className='flex overflow-x-auto border-b-2 px-2'
+            className='flex overflow-x-auto border-b px-2 border-b-[#E9EEF3]'
             style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
             {bookCategories.map((bookCategory, idx) => {
               return (

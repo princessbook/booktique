@@ -16,7 +16,7 @@ export const signInWithGoogle = async () => {
   await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_PRODUCTION_URL}/auth/callback`
+      redirectTo: `https://booktique-omega.vercel.app/login/auth/callback`
     }
   });
 };

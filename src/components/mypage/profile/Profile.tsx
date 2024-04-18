@@ -1,9 +1,7 @@
 'use client';
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Tables } from '@/lib/types/supabase';
-import ProfileDetail from './ProfileDetail';
 type Profile = Tables<'profiles'>;
 import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/utils/userAPIs/Fns';
@@ -51,7 +49,7 @@ const Profile = ({ userId }: { userId: string | null }) => {
           <div className='flex justify-center align-middle w-[56px] h-[56px] max-w-full max-h-auto rounded-full'>
             {userProfile?.photo_URL ? (
               <img
-                src={`${userProfile.photo_URL}?${new Date().getTime()}`}
+                src={userProfile.photo_URL}
                 alt='미리보기'
                 width={96}
                 height={96}
@@ -78,9 +76,9 @@ const Profile = ({ userId }: { userId: string | null }) => {
           <p>{userProfile?.introduction}</p>
         </div>
 
-        <div className=''>
+        <div className='mt-4 mb-1'>
           <Link href={`/mypage/${userId}`}>
-            <button className='border-[#8A9DB3] w-full text-[#B3C1CC] text-[14px] border h-[35px] rounded-full mt-4'>
+            <button className=' border-[#B3C1CC] w-full text-[#8A9DB3] text-[14px] border h-[35px] rounded-full '>
               프로필 수정
             </button>
           </Link>

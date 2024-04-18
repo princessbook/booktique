@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import useUserSentences from '@/hooks/mypage/useUserSentences';
 import SentenceItem from './SentenceItem';
 const MySentencesStore = async ({ userId }: { userId: string }) => {

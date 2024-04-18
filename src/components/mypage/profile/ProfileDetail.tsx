@@ -180,7 +180,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                 placeholder='닉네임을 입력해주세요.'
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
-                className='w-full p-2 border rounded-lg bg-grayBg text-[#3F3E4E] text-opacity-60 pr-10' // pr-10 추가하여 오른쪽 여백을 확보
+                className='w-full p-2 border rounded-lg bg-grayBg text-[#3F3E4E] text-opacity-60 pr-10 text-[14px]' // pr-10 추가하여 오른쪽 여백을 확보
               />
               {displayName && (
                 <Image
@@ -201,7 +201,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
               value={introduction}
               placeholder='소개글을 입력해주세요.'
               onChange={(e) => setIntroduction(e.target.value)}
-              className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60 text-[#3F3E4E]'
+              className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60 text-[#3F3E4E] text-[14px]'
             />
           </div>
 

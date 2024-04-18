@@ -4,12 +4,10 @@ import { getCallbackURL } from '../getCallBackURL';
 const supabase = createClient();
 
 export const signInWithSocialLogin = async (provider: 'google' | 'kakao') => {
-  const iii = getCallbackURL();
-  console.log('????!!!!', iii);
   await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: getCallbackURL()
+      redirectTo: `${process.env.NEXT_PUBLIC_PRODUCTION_URL}/auth/callback`
     }
   });
 };

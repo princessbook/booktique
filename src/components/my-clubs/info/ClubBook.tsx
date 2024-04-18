@@ -41,7 +41,7 @@ const ClubBook = ({ club }: { club: Club | null }) => {
   }
   return (
     <div className='flex flex-col items-center justify-center'>
-      <div className='mt-4 bg-[#EEEFF3] w-[343px] h-[320px] rounded-xl flex flex-col items-center justify-center '>
+      <div className='mt-4 bg-[#EDEEF2] w-[343px] h-[320px] rounded-xl flex flex-col items-center justify-center '>
         <Image
           src={club.book_cover || '/booktiquereadblue.png'}
           alt='책 사진'

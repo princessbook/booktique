@@ -25,7 +25,7 @@ type NewComment = {
 };
 
 export const createPostComment = async (newComment: NewComment) => {
-  insertTotalOfComments(newComment.post_id);
+  // insertTotalOfComments(newComment.post_id);
   const supabase = createClient();
   const { data, error } = await supabase.from('post_comments').insert([
     {
@@ -40,7 +40,7 @@ export const createPostComment = async (newComment: NewComment) => {
 
 //댓글 삭제 함수
 export const deletePostComment = async (id: string) => {
-  deleteTotalOfComments(id);
+  // deleteTotalOfComments(id);
   const supabase = createClient();
   const { data, error } = await supabase
     .from('post_comments')

@@ -50,6 +50,7 @@ const SentenceStorage = ({
   const handleSentenceClick = (id: string) => {
     router.push(`/sentences/${id}`);
   };
+
   const handleSentenceSaveBtn = () => {
     setIsModal(true);
   };
@@ -98,7 +99,7 @@ const SentenceStorage = ({
       <ul className='relative'>
         {sentences?.map((sentence) => (
           //Link로 디테일 페이지 보내기.
-          <li key={sentence.id} className=' cursor-pointer my-4 relative'>
+          <li key={sentence.id} className=' my-4 relative'>
             {userId === sentence.user_id && ( // 로그인한 사용자와 문장 작성자의 ID가 일치하는 경우에만 체크박스 표시
               <input
                 type='checkbox'

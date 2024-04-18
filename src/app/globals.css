@@ -122,3 +122,25 @@ input[type='password']::-ms-reveal,
 input[type='password']::-ms-clear {
   display: none;
 }
+.custom-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 30px; /* 오른쪽에 아이콘 공간 확보 */
+  position: relative;
+  border: 0;
+  background: transparent;
+  width: 100%;
+  outline: none;
+}
+
+.arrow-icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  pointer-events: none; /* 아이콘 클릭 방지 */
+}
+.custom-select::-ms-expand {
+  display: none; /* IE에서 화살표 없애기 */
+}

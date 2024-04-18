@@ -8,7 +8,6 @@ export const uploadAvatar = async (userId: string, file: File) => {
       .upload(`${userId}/avatar.png`, file, {
         upsert: true
       });
-    console.log(data?.path);
     if (error) {
       console.error('Error uploading image:', error);
       return null;

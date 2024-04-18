@@ -1,16 +1,6 @@
 import { createClient } from '@/utils/supabase/client';
-// import { getCallbackURL } from '../getCallBackURL';
 
 const supabase = createClient();
-
-// export const signInWithSocialLogin = async (provider: 'google' | 'kakao') => {
-//   await supabase.auth.signInWithOAuth({
-//     provider,
-//     options: {
-//       redirectTo: `${process.env.NEXT_PUBLIC_PRODUCTION_URL}/auth/callback`
-//     }
-//   });
-// };
 
 export const signInWithGoogle = async () => {
   await supabase.auth.signInWithOAuth({

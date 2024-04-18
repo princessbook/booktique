@@ -1,7 +1,7 @@
 import React from 'react';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
-import AllMyBookClubs from '@/components/mypage/AllMyBookClubs';
+import AllMyBookClubs from '@/components/mypage/clubs/AllMyBookClubs';
 const MyBookClubsPage = async () => {
   const supabase = createClient();
   const {

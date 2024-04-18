@@ -11,7 +11,7 @@ const MainPage = async () => {
   if (!user?.id) {
     redirect('/login');
   } else {
-    redirect('/myclubinfo2');
+    redirect('/my-clubs');
   }
   return <div>page</div>;
 };

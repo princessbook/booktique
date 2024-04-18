@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import BoardDetailArticle from '@/components/myclubinfo2/board/boardDetail/BoardDetailArticle';
+import BoardDetailArticle from '@/components/my-clubs/board/boardDetail/BoardDetailArticle';
 import { useSearchParams } from 'next/navigation';
-import ArticleComment from '@/components/myclubinfo2/board/boardDetail/ArticleComment';
-import ArticleCommentInput from '@/components/myclubinfo2/board/boardDetail/ArticleCommentInput';
+import ArticleComment from '@/components/my-clubs/board/boardDetail/ArticleComment';
+import ArticleCommentInput from '@/components/my-clubs/board/boardDetail/ArticleCommentInput';
 
 const BoardDetailPage = ({ params }: { params: { postId: string } }) => {
   const [clubId, setClubId] = useState<string | null>('');

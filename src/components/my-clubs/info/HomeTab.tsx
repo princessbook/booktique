@@ -5,6 +5,7 @@ import { Tables } from '@/lib/types/supabase';
 import { getBookClubMembers } from '@/utils/userAPIs/authAPI';
 import { createClient } from '@/utils/supabase/client';
 type Clubs = Tables<'clubs'>;
+import formatDate from '@/utils/dateUtils';
 type MembersType = {
   club_id: string;
   id: string;
@@ -12,7 +13,6 @@ type MembersType = {
   user_id: string | null;
   progress?: number | null; // progress 필드 추가
 };
-
 const HomeTab = ({ club }: { club: Clubs | null }) => {
   const [clubMembers, setClubMembers] = useState<MembersType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -70,14 +70,6 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
       return 0;
     }
   };
-
-  const formatDate = (date: Date): string => {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}.${month}.${day}`;
-  };
-
   const createdAt = new Date(club?.created_at || '');
   const endDate = new Date(createdAt.getTime());
   endDate.setMonth(endDate.getMonth() + 1);
@@ -91,8 +83,8 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className='p-5'>
-          <p className='text-[16px] font-bold'>함께 읽고 있는 책</p>
+        <div className='p-5 text-fontMain'>
+          <p className='text-[16px] font-bold '>함께 읽고 있는 책</p>
           <ClubBook club={club} />
           <div className='mt-8'>
             <p className='text-[16px] mb-4 font-bold'>멤버별 독서 진행률</p>
@@ -102,16 +94,18 @@ const HomeTab = ({ club }: { club: Clubs | null }) => {
               ))}
             </div>
           </div>
-          <div className='mt-8 text-[#292929]'>
+          <div className='mt-8 text-fontTitle'>
             <p className='font-bold'>모임 정보</p>
             <div className=' mt-4 flex text-[14px] h-[40px] font-medium items-center py-[11px] w-full '>
               <p className='text-subblue font-bold'>모임 기간</p>
-              <p className='ml-4 text-[#3F3E4E]'>
+              <p className='ml-4 text-fontMain'>
                 {formattedStartDate} ~ {formattedEndDate}
               </p>
             </div>
             <p className='mt-8 font-bold'>북클럽 소개</p>
-            <p className='mt-4 text-[#3F3E4E]'>{club?.description}</p>
+            <p className='mt-4 text-fontMain text-[14px]'>
+              {club?.description}
+            </p>
           </div>
         </div>
       )}

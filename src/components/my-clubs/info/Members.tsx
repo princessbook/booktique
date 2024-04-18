@@ -100,7 +100,7 @@ const Members = ({
 
         <div className='w-full h-full flex flex-col items-center justify-center mt-1'>
           <div className='w-[68px] h-[36px]'>
-            <p className='font-bold text-[12px] text-center'>
+            <p className='font-bold text-[12px] text-center text-fontMain'>
               {userProfile?.display_name}
             </p>
           </div>

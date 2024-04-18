@@ -1,3 +1,4 @@
+'use client';
 import { createClient } from '@/utils/supabase/client';
 import React, { useEffect, useRef, useState } from 'react';
 import { QuizSchemaType, QuizsType } from '../quiz/QuizContainer';

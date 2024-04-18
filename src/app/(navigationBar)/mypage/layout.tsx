@@ -56,14 +56,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           console.log('사용자가 가입한 클럽:', userClubs);
         }
       }
-
-      // const { data: clubMembers, error: membersError } = await supabase
-      //   .from('members')
-      //   .select('*')
-      //   .eq('club_id', id);
-      // if (membersError) {
-      //   throw new Error('멤버 정보를 가져오는 도중 오류가 발생했습니다.');
-      // }
     };
     fetchData();
   }, [supabase, userId]);
@@ -73,7 +65,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     userClubs.length > 0 ? `club_id=in.(${userClubs})` : '', // userId가 null인 경우를 처리
     async (payload) => {
       if (payload) {
-        console.log('payload', payload);
+        console.log('payload11111111111', payload);
         setTimeout(async () => {
           if (!userId) return; // userId가 null인 경우에는 실행하지 않음
           const { data: alarm } = await supabase
@@ -85,7 +77,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           if (alarm) {
             alert(alarm[alarm.length - 1]?.content);
           }
-        }, 1000); // 1초 지연  지연을 걸지 않았을 때 alarm테이블을 제대로 받아오지 못했음
+        }, 3000); //  1초에서 3초로 바꾸고 테스트 지연걸기  지연을 걸지 않았을 때 alarm테이블을 제대로 받아오지 못했음
       }
     }
   );

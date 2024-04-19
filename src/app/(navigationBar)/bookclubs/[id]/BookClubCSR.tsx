@@ -1,11 +1,10 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import ClubMemberProfile from './ClubMemberProfile';
 import JoinAndResignBtn from './JoinAndResignBtn';
 import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/lib/types/supabase';
-import Members from '@/components/my-clubs/info/Members';
+import Members from './Members';
 
 const BookClubDetailCSR = ({
   id,

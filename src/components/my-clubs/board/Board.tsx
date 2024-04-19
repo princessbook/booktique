@@ -37,7 +37,7 @@ const Board = ({ clubId }: { clubId: string }) => {
                   {post.profile?.photo_URL ? (
                     <Image
                       className='rounded-full w-6 h-6'
-                      src={`${post.profile?.photo_URL}?${Math.random()}`}
+                      src={`${post.profile?.photo_URL}`}
                       alt='유저 프로필'
                       width={24}
                       height={24}
@@ -68,7 +68,7 @@ const Board = ({ clubId }: { clubId: string }) => {
                   </div>
                   {post.thumbnail ? (
                     <Image
-                      src={`${post.thumbnail}?${Math.random()}`}
+                      src={`${post.thumbnail}`}
                       alt='썸네일'
                       width={88}
                       height={88}

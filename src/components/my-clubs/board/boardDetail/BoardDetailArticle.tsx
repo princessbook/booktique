@@ -107,7 +107,7 @@ const BoardDetailArticle = ({
           {article.title}
         </p>
         {article.thumbnail ? (
-          <img src={`${article.thumbnail}?${Math.random()}`} alt='fsd' />
+          <img src={`${article.thumbnail}`} alt='fsd' />
         ) : (
           <></>
         )}

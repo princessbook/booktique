@@ -12,7 +12,7 @@ import mypage from '../../../public/footer_mypage.png';
 import mypageActive from '../../../public/footer_mypageactive.png';
 import { useSelectedLayoutSegment } from 'next/navigation';
 
-const Footer = () => {
+const NavigationBar = () => {
   const segment = useSelectedLayoutSegment();
   const activeLink = segment;
   return (
@@ -93,4 +93,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default NavigationBar;

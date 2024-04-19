@@ -80,7 +80,22 @@ const SaveCard = ({
   const handleSave = async () => {
     localStorage.removeItem('timerStarted');
     localStorage.removeItem('timerSeconds');
-    const memberId = await getUserId();
+    const userId = await getUserId();
+
+    if (!userId) {
+      return;
+    }
+    const { data: member, error: getMemberError } = await supabase
+      .from('members')
+      .select()
+      .eq('club_id', id)
+      .eq('user_id', userId)
+      .single();
+
+    if (getMemberError || !member) {
+      console.log('you are not even a member!');
+      return;
+    }
     setInputValid(false); // 이걸 false해줘야 저장을 하고도 버튼 비활성화 동작이 일어남
     router.refresh();
     if (!/^\d+$/.test(recordPage)) {
@@ -102,7 +117,7 @@ const SaveCard = ({
       .from('club_activities')
       .select('*')
       .eq('club_id', id)
-      .eq('user_id', memberId as string);
+      .eq('user_id', userId as string);
 
     if (fetchError) {
       throw new Error(
@@ -119,7 +134,7 @@ const SaveCard = ({
         .from('club_activities')
         .update({ progress: result })
         .eq('club_id', id)
-        .eq('user_id', memberId as string);
+        .eq('user_id', userId as string);
 
       if (updateError) {
         throw new Error(
@@ -135,7 +150,12 @@ const SaveCard = ({
       const { data: insertedData, error: insertError } = await supabase
         .from('club_activities')
         .insert([
-          { club_id: id, progress: result, user_id: memberId as string }
+          {
+            club_id: id,
+            progress: result,
+            user_id: userId as string,
+            member_id: member.id
+          }
         ]);
       if (insertError) {
         throw new Error('club_activities 테이블에 삽입하는 중 오류 발생:');

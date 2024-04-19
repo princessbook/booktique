@@ -50,7 +50,7 @@ const SentencePage = (props: Props) => {
     };
 
     fetchData();
-  }, [clubs]);
+  }, []);
 
   const club = clubs.find((club) => club.id === params.clubId);
 

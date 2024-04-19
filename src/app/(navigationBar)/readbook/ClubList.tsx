@@ -188,7 +188,7 @@ const ClubList = ({
                     height={161}
                     src={club.book_cover || ''}
                     alt='북이미지'
-                    className='absolute inset-0 w-full h-full object-fit rounded'
+                    className='absolute inset-0 w-full top-1/2 translate-y-[-50%] object-cover rounded'
                   />
                 </div>
                 <ProgressBar

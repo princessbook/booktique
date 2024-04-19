@@ -61,7 +61,7 @@ const BoardDetailArticle = ({
 
   return (
     <div key={article.id}>
-      <section className='h-[54px] flex items-center justify-between sticky top-0 bg-white border-b-[1px] w-full'>
+      <section className='h-[54px] fixed  max-w-[375px] bg-white flex items-center justify-between  top-[91px]  border-b-[1px] w-full'>
         <p
           className='ml-4'
           onClick={() => router.push(`/my-clubs/${clubId}/posts`)}>

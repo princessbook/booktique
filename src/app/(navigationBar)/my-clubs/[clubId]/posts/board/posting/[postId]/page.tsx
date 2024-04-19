@@ -150,7 +150,7 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
 
   return (
     <div className='mb-[78px] overflow-y-auto'>
-      <section className='h-[54px] flex items-center justify-between sticky top-0 bg-white border-b-[1px] w-full'>
+      <section className='h-[54px] flex items-center justify-between fixed top-[91px] max-w-[375px] bg-white border-b-[1px] w-full'>
         <p
           className='ml-4'
           onClick={() => router.push(`/my-clubs/${clubId}/posts`)}>

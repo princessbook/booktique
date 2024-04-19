@@ -19,7 +19,7 @@ const ClubList = ({
   id: string;
 }) => {
   // 현재 슬라이드 인덱스를 추적
-  // const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
   // const [loading, setLoading] = useState<boolean>(true);
   const supabase = createClient();
   const [clubActivities, setClubActivities1] = useState<
@@ -48,7 +48,7 @@ const ClubList = ({
       }
     };
     fetchClubActivities();
-  }, []);
+  }, [id, supabase]);
 
   var settings = {
     dots: false,
@@ -60,9 +60,9 @@ const ClubList = ({
     vertical: false,
     // 슬라이드가 변경될 때마다 현재 슬라이드 인덱스를 업데이트
     centerMode: true, // 가운데 정렬 모드 활성화
-    centerPadding: '30px' // 좌우 패딩 추가
+    centerPadding: '30px', // 좌우 패딩 추가
     // 슬라이드가 변경될 때마다 현재 슬라이드 인덱스를 업데이트
-    // afterChange: (current: number) => setCurrentSlide(current)
+    afterChange: (current: number) => setCurrentSlide(current)
   };
 
   const handleBookRead = async (clubId: string) => {
@@ -99,34 +99,75 @@ const ClubList = ({
   //   return <LoadingOverlay show={loading} />;
   // }
 
+  //   return (
+  //     <>
+  //       <Slider className='custom-slider h-auto' {...settings}>
+  //         {allClubData
+  //           .filter((club) => !club.archive)
+  //           .map((club) => (
+  //             <div
+  //               key={club.id}
+  //               className='flex cursor-pointer'
+  //               onClick={() => {
+  //                 handleBookRead(club.id);
+  //                 router.push(`/readbook/${club.id}`);
+  //               }}>
+  //               <div className='flex flex-col bg-white mb-[3px] w-[92%] h-[60%] rounded-[20px] shadow-md mx-auto items-center justify-center'>
+  //                 <div className=' w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center break-words line-clamp-2'>
+  //                   {/* {club.book_title &&
+  //                         (club.book_title.length > 25
+  //                           ? club.book_title.substring(0, 25) + '...'
+  //                           : club.book_title)} */}
+  //                   {club.book_title}
+  //                 </div>
+  //                 <div className='relative mx-8 mt-4 mb-2 w-48 h-72 rounded-lg overflow-hidden'>
+  //                   <Image
+  //                     width={111}
+  //                     height={161}
+  //                     src={club.book_cover || ''}
+  //                     alt='북이미지'
+  //                     className='absolute inset-0 w-full h-full object-cover rounded'
+  //                   />
+  //                 </div>
+  //                 <ProgressBar
+  //                   progress={
+  //                     clubActivities?.find(
+  //                       (activity) => activity.club_id === club.id
+  //                     )?.progress || 0
+  //                   }
+  //                   backgroundColor='#EDEEF2'
+  //                 />
+  //               </div>
+  //             </div>
+  //           ))}
+  //       </Slider>
+  //     </>
+  //   );
+  // };
+
+  // 책 읽기 버튼
   return (
-    <>
+    <div className='flex flex-col'>
       <Slider className='custom-slider h-auto' {...settings}>
         {allClubData
           .filter((club) => !club.archive)
           .map((club) => (
-            <div
-              key={club.id}
-              className='flex cursor-pointer'
-              onClick={() => {
-                handleBookRead(club.id);
-                router.push(`/readbook/${club.id}`);
-              }}>
-              <div className='flex flex-col bg-white mb-[3px] w-[92%] h-[60%] rounded-[20px] shadow-md mx-auto items-center justify-center'>
-                <div className=' w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center break-words line-clamp-2'>
-                  {/* {club.book_title &&
-                        (club.book_title.length > 25
-                          ? club.book_title.substring(0, 25) + '...'
-                          : club.book_title)} */}
-                  {club.book_title}
+            <div key={club.id} className='flex '>
+              <div className='flex flex-col bg-white mb-[40px] w-[92%] h-[60%] rounded-[20px] shadow-md mx-auto items-center justify-center'>
+                <div className='flex w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center'>
+                  {club.book_title &&
+                    (club.book_title.length > 25
+                      ? club.book_title.substring(0, 25) + '...'
+                      : club.book_title)}
                 </div>
+
                 <div className='relative mx-8 mt-4 mb-2 w-48 h-72 rounded-lg overflow-hidden'>
                   <Image
                     width={111}
                     height={161}
                     src={club.book_cover || ''}
                     alt='북이미지'
-                    className='absolute inset-0 w-full h-full object-cover rounded'
+                    className='absolute inset-0 w-full top-1/2 translate-y-[-50%] object-cover rounded'
                   />
                 </div>
                 <ProgressBar
@@ -141,63 +182,18 @@ const ClubList = ({
             </div>
           ))}
       </Slider>
-    </>
+
+      <div className='mb-[40px] justify-center flex'>
+        {/* 현재 슬라이드의 클럽 정보를 가져와서 버튼을 생성 */}
+        <Link href={`/readbook/${allClubData[currentSlide]?.id}`} passHref>
+          <ReadButton
+            clubId={allClubData[currentSlide]?.id}
+            onClick={() => handleBookRead(allClubData[currentSlide]?.id)}
+          />
+        </Link>
+      </div>
+    </div>
   );
 };
-
-// 책 읽기 버튼
-//   return (
-//     <div className='flex flex-col'>
-//       <Slider className='custom-slider h-auto' {...settings}>
-//         {filteredBookClubsData
-//           .filter((club) => !club.archive)
-//           .map((club) => (
-//             <div key={club.id} className='flex '>
-//               <div className='flex flex-col bg-white mb-[40px] w-[92%] h-[60%] rounded-[20px] shadow-md mx-auto items-center justify-center '>
-//                 <div className='flex w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center'>
-//                   {club.book_title &&
-//                     (club.book_title.length > 25
-//                       ? club.book_title.substring(0, 25) + '...'
-//                       : club.book_title)}
-//                 </div>
-
-//                 <div className='relative mx-8 mt-4 mb-2 w-48 h-72 rounded-lg overflow-hidden'>
-//                   <Image
-//                     width={111}
-//                     height={161}
-//                     src={club.book_cover || ''}
-//                     alt='북이미지'
-//                     className='absolute inset-0 w-full h-full object-cover rounded'
-//                   />
-//                 </div>
-//                 <ProgressBar
-//                   progress={
-//                     clubActivities?.find(
-//                       (activity) => activity.club_id === club.id
-//                     )?.progress || 0
-//                   }
-//                   backgroundColor='#EDEEF2'
-//                 />
-//               </div>
-//             </div>
-//           ))}
-//       </Slider>
-
-//       <div className='mb-[40px] justify-center flex'>
-//         {/* 현재 슬라이드의 클럽 정보를 가져와서 버튼을 생성 */}
-//         <Link
-//           href={`/readbook/${filteredBookClubsData[currentSlide]?.id}`}
-//           passHref>
-//           <ReadButton
-//             clubId={filteredBookClubsData[currentSlide]?.id}
-//             onClick={() =>
-//               handleBookRead(filteredBookClubsData[currentSlide]?.id)
-//             }
-//           />
-//         </Link>
-//       </div>
-//     </div>
-//   );
-// };
 
 export default ClubList;

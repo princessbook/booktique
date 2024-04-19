@@ -17,7 +17,7 @@ const Footer = () => {
   useEffect(() => {
     // 현재 URL 가져오기
     const currentURL = window.location.href;
-    console.log('currentURL', currentURL);
+    // console.log('currentURL', currentURL);
     // URL을 파싱하여 활성화할 링크 결정
     if (currentURL.includes('/my-clubs')) {
       setActiveLink('my-clubs');

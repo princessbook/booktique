@@ -138,7 +138,7 @@ input[type='password']::-ms-clear {
 }
 
 /* placeholder 폰트를 얇게 설정합니다. */
-::-webkit-input-placeholder {
+:-webkit-input-placeholder {
   font-weight: 400; /* 폰트 가중치를 얇게 설정합니다. */
 }
 
@@ -147,13 +147,14 @@ input[type='password']::-ms-clear {
   opacity: 1;
 }
 
-::-moz-placeholder {
+:-moz-placeholder {
   font-weight: 400;
   opacity: 1;
 }
 
 :-ms-input-placeholder {
   font-weight: 400;
+}
 .custom-select {
   -webkit-appearance: none;
   -moz-appearance: none;

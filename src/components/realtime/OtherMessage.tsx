@@ -16,7 +16,7 @@ const OtherMessage = ({ message }: { message: Imessage }) => {
         <div className='min-w-[40px]'>
           {message.profiles?.photo_URL ? (
             <Image
-              src={`${message.profiles?.photo_URL!}?${Math.random()}`}
+              src={`${message.profiles?.photo_URL!}`}
               alt='s'
               width={40}
               height={40}

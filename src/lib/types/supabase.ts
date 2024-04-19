@@ -48,6 +48,8 @@ export type Database = {
         Row: {
           club_id: string | null;
           id: string;
+          last_read: boolean | null;
+          member_id: string;
           progress: number | null;
           time: number | null;
           user_id: string;
@@ -55,6 +57,8 @@ export type Database = {
         Insert: {
           club_id?: string | null;
           id?: string;
+          last_read?: boolean | null;
+          member_id: string;
           progress?: number | null;
           time?: number | null;
           user_id: string;
@@ -62,6 +66,8 @@ export type Database = {
         Update: {
           club_id?: string | null;
           id?: string;
+          last_read?: boolean | null;
+          member_id?: string;
           progress?: number | null;
           time?: number | null;
           user_id?: string;
@@ -72,6 +78,20 @@ export type Database = {
             columns: ['club_id'];
             isOneToOne: false;
             referencedRelation: 'clubs';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'public_club_activities_member_id_fkey';
+            columns: ['member_id'];
+            isOneToOne: false;
+            referencedRelation: 'members';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'public_club_activities_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
             referencedColumns: ['id'];
           }
         ];
@@ -114,6 +134,7 @@ export type Database = {
           created_at: string;
           description: string | null;
           id: string;
+          last_read: boolean | null;
           max_member_count: number | null;
           name: string | null;
           thumbnail: string | null;
@@ -129,6 +150,7 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           id?: string;
+          last_read?: boolean | null;
           max_member_count?: number | null;
           name?: string | null;
           thumbnail?: string | null;
@@ -144,6 +166,7 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           id?: string;
+          last_read?: boolean | null;
           max_member_count?: number | null;
           name?: string | null;
           thumbnail?: string | null;

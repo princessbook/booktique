@@ -11,7 +11,7 @@ import searchActive from '../../../public/footer_searchclubactive.png';
 import mypage from '../../../public/footer_mypage.png';
 import mypageActive from '../../../public/footer_mypageactive.png';
 
-const Footer = () => {
+const NavigationBar = () => {
   const [activeLink, setActiveLink] = useState('');
 
   useEffect(() => {
@@ -113,4 +113,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default NavigationBar;

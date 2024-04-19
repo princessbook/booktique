@@ -23,7 +23,6 @@ const SaveCard = ({
   // );
   // console.log('progress', progress);
 
-  console.log('프롭스로 받아옴matchingActivities', matchingActivities);
   const [inputValid, setInputValid] = useState(false); // 입력값 유효성 상태
   const [overPage, setOverPage] = useState(false); // 페이지 초과
   const [invalidInput, setInvalidInput] = useState(false); // 숫자만 입력하게

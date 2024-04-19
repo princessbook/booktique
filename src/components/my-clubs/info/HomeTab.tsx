@@ -6,23 +6,23 @@ import { createClient } from '@/utils/supabase/server';
 type Clubs = Tables<'clubs'>;
 import formatDate from '@/utils/dateUtils';
 
-type MembersType = {
-  club_id: string;
-  id: string;
-  role: 'admin' | 'member' | null;
-  user_id: string | null;
-  progress?: number | null; // progress 필드 추가
-};
+// type MembersType = {
+//   club_id: string;
+//   id: string;
+//   role: 'admin' | 'member' | null;
+//   user_id: string | null;
+//   progress?: number | null; // progress 필드 추가
+// };
 const HomeTab = async ({ club }: { club: Clubs | null }) => {
   if (!club) {
     return null;
   }
   const supabase = createClient();
-  const getBookClubMembers = async (clubId: string): Promise<MembersType[]> => {
+  const getBookClubMembers = async (clubId: string) => {
     try {
       const { data, error } = await supabase
         .from('members')
-        .select('*')
+        .select('*, club_activities(*)')
         .eq('club_id', clubId);
       if (error) {
         console.error('클럽멤버 불러오기 실패:', error);
@@ -34,35 +34,28 @@ const HomeTab = async ({ club }: { club: Clubs | null }) => {
       return [];
     }
   };
-  const getUserProgress = async (userId: string | null, clubId: string) => {
-    if (!userId) return 0;
-    try {
-      const supabase = createClient();
-      const { data: activity, error: activityError } = await supabase
-        .from('club_activities')
-        .select('progress')
-        .eq('club_id', clubId)
-        .eq('user_id', userId)
-        .order('progress', { ascending: false });
+  // const getUserProgress = async (userId: string | null, clubId: string) => {
+  //   if (!userId) return 0;
+  //   try {
+  //     const supabase = createClient();
+  //     const { data: activity, error: activityError } = await supabase
+  //       .from('club_activities')
+  //       .select('progress')
+  //       .eq('club_id', clubId)
+  //       .eq('user_id', userId)
+  //       .order('progress', { ascending: false });
 
-      if (activityError) {
-        console.log('값 불러오는데 오류있음');
-        throw activityError;
-      }
-      return activity[0]?.progress || 0; // progress 값이 없을 경우 0 반환
-    } catch (error) {
-      console.error('값 불러오는데 오류있음:', error);
-      return 0;
-    }
-  };
-  let clubMembers = await getBookClubMembers(club.id);
-  clubMembers = await Promise.all(
-    clubMembers.map(async (member) => {
-      const progress = await getUserProgress(member.user_id, club.id);
-      return { ...member, progress };
-    })
-  );
-  clubMembers.sort((a, b) => (b.progress || 0) - (a.progress || 0)); // 내림차순 정렬
+  //     if (activityError) {
+  //       console.log('값 불러오는데 오류있음');
+  //       throw activityError;
+  //     }
+  //     return activity[0]?.progress || 0; // progress 값이 없을 경우 0 반환
+  //   } catch (error) {
+  //     console.error('값 불러오는데 오류있음:', error);
+  //     return 0;
+  //   }
+  // };
+  const clubMembers = await getBookClubMembers(club.id);
 
   const createdAt = new Date(club?.created_at || '');
   const endDate = new Date(createdAt.getTime());
@@ -80,9 +73,24 @@ const HomeTab = async ({ club }: { club: Clubs | null }) => {
         <div className='mt-8'>
           <p className='text-[16px] mb-4 font-bold'>멤버별 독서 진행률</p>
           <div className='grid grid-cols-3 gap-4'>
-            {clubMembers.map((member, index) => (
-              <Members member={member} key={index} index={index} />
-            ))}
+            {clubMembers
+              .map((member, index) => {
+                let progress = 0;
+                if (member.club_activities.length > 0) {
+                  progress = member.club_activities[0].progress ?? 0;
+                }
+                return {
+                  ...member,
+                  progress
+                };
+              })
+              .toSorted((a, b) => {
+                return b.progress - a.progress;
+              })
+              .map((data, index) => {
+                return <Members member={data} key={index} index={index} />;
+              })}
+            <br />
           </div>
         </div>
         <div className='mt-8 text-fontTitle'>

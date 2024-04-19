@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 import ClubSelector from './ClubSelector';
-
+import useMyClubInfo from '@/hooks/info/useMyClubInfo';
 type Props = {
   children: React.ReactNode;
   params: {
@@ -14,12 +14,13 @@ type Props = {
 const Layout = ({ children, params }: Props) => {
   const pathname = usePathname();
   const isSelected = (path: string) => pathname.includes(path);
+  const { clubs } = useMyClubInfo();
   return (
     <div>
       <div className='sticky top-0 left-0 right-0 z-10 bg-white flex flex-col justify-between'>
         {/* 북클럽 셀렉트 박스 */}
         <div className='relative inline-block'>
-          <ClubSelector />
+          <ClubSelector clubs={clubs} />
         </div>
         <div className='flex flex-row justify-between w-full font-bold'>
           <Link

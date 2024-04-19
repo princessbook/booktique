@@ -23,7 +23,6 @@ const SaveCard = ({
   // );
   // console.log('progress', progress);
 
-  console.log('프롭스로 받아옴matchingActivities', matchingActivities);
   const [inputValid, setInputValid] = useState(false); // 입력값 유효성 상태
   const [overPage, setOverPage] = useState(false); // 페이지 초과
   const [invalidInput, setInvalidInput] = useState(false); // 숫자만 입력하게
@@ -125,8 +124,9 @@ const SaveCard = ({
       );
     }
     setProgressPercentage(result);
-    router.refresh();
     router.push('/readbook');
+    router.refresh();
+
     // console.log('existingData', existingData);
     if (existingData && existingData.length > 0) {
       // 이미 삽입된 데이터가 있다면 해당 행을 업데이트
@@ -164,8 +164,9 @@ const SaveCard = ({
       // console.log('club_activities 테이블에 새로운 행 삽입 완료', insertedData);
     }
     setProgressPercentage(result);
-    router.refresh();
+
     router.push('/readbook');
+    router.refresh();
   };
 
   const toastStyle = {

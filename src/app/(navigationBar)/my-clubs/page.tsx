@@ -4,6 +4,7 @@ import NonMyClub from '@/components/my-clubs/info/NonMyClub';
 import useClubInfo from '@/hooks/info/useClubInfo';
 import { Tables } from '@/lib/types/supabase';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 type Clubs = Tables<'clubs'>;
 
@@ -16,12 +17,18 @@ const Page = (props: Props) => {
 
   const router = useRouter();
   const { clubs, isLoading } = useClubInfo();
+  const club = clubs[0];
+
+  useEffect(() => {
+    if (club) {
+      router.push(`/my-clubs/${club.id}/info`);
+    }
+  }, [club, router]);
 
   if (isLoading) {
     return <div>로딩중...</div>; // 로딩 중인 동안 로딩 표시
   }
 
-  const club = clubs[0];
   if (!club) {
     return (
       <>
@@ -55,7 +62,6 @@ const Page = (props: Props) => {
     );
   }
 
-  router.push(`/my-clubs/${club.id}/info`);
   return null;
 };
 

@@ -1,16 +1,14 @@
 'use client';
-
-import SearchModal from '@/app/(navigationBar)/bookclubs/create/search/SearchModal';
 import { BookInfo } from '@/lib/types/BookAPI';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import BackBtn from '../[id]/BackBtn';
 import { IoIosSearch } from 'react-icons/io';
-import ReactSelectBar from './ReactSelectBar';
 import { IoIosArrowDown } from 'react-icons/io';
 import HeaderWithBack from '../HeaderWithBack';
+import SearchModal from './search/SearchModal';
+
 const CreateBookPage = () => {
   const [clubName, setClubName] = useState('');
   const [description, setDiscription] = useState('');

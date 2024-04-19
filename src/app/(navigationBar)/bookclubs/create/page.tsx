@@ -1,16 +1,22 @@
 'use client';
 
-import SearchModal from '@/components/search/SearchModal';
+import SearchModal from '@/app/(navigationBar)/bookclubs/create/search/SearchModal';
 import { BookInfo } from '@/lib/types/BookAPI';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
+import BackBtn from '../[id]/BackBtn';
+import { IoIosSearch } from 'react-icons/io';
+import ReactSelectBar from './ReactSelectBar';
+import { IoIosArrowDown } from 'react-icons/io';
+import HeaderWithBack from '../HeaderWithBack';
 const CreateBookPage = () => {
   const [clubName, setClubName] = useState('');
   const [description, setDiscription] = useState('');
-  const [selectedParticipants, setSelectedParticipants] = useState(1);
+  const [selectedParticipants, setSelectedParticipants] = useState<
+    null | number
+  >(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const supabase = createClient();
@@ -120,6 +126,10 @@ const CreateBookPage = () => {
       alert('빈칸을 채워주세요.');
       return;
     }
+    if (!selectedParticipants) {
+      alert('참가자 수를 선택해 주세요.');
+      return;
+    }
     if (!bookInfo) {
       alert('북클럽에서 읽을 책을 선택해 주세요');
       return;
@@ -149,109 +159,163 @@ const CreateBookPage = () => {
   };
 
   return (
-    <section className='p-4 mb-[78px] overflow-y-auto'>
-      <h1 className='text-2xl mb-4 text-center font-bold'>북클럽 만들기</h1>
-      {/* 책 검색 버튼 */}
-      <button
-        className='mb-4 bg-[#333333] text-white px-4 py-2 rounded'
-        onClick={() => setIsModalOpen(true)}>
-        책 검색하기
-      </button>
-      {/* 책 정보 모달 */}
-      <SearchModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        setBookInfo={setBookInfo}
-      />
-      {/* 선택된 책 정보 표시 */}
-      {bookInfo && (
-        <div className='flex bg-gray-200 p-4 rounded-lg mb-4'>
-          <div className='mr-4 flex items-center'>
-            <Image
-              src={bookInfo.cover}
-              width={100}
-              height={150}
-              alt='book cover'
+    <div>
+      <HeaderWithBack title='북클럽 만들기' />
+      <section className='mb-[100px] overflow-y-auto px-4'>
+        {/* 책 검색 버튼 */}
+        <div className='mb-8'>
+          <h2 className='text-[16px] mb-4 font-bold text-fontMain'>
+            책 고르기
+          </h2>
+          <div
+            className='flex relative items-center justify-center w-full h-[292px] bg-[#EDEEF2] rounded-lg cursor-pointer'
+            onClick={() => setIsModalOpen(true)}>
+            <div
+              className={`${
+                !bookInfo && 'bookSearchBox'
+              } text-center text-[12px] text-fontGrayBlue flex flex-col items-center justify-center w-[156px] h-[244px]`}>
+              <div className='mb-2'>
+                이 곳을 눌러 <br />
+                함께 읽을 책을 <br />
+                골라주세요
+              </div>
+              <div className='flex justify-center text-[12px] items-center w-[77px] h-[22px] bg-fontGrayBlue text-white rounded-full'>
+                <IoIosSearch
+                  className='flex items-center text=[#3F3E4E] justify-center'
+                  size={14}
+                  color='#ffffff'
+                />
+                책 고르기
+              </div>
+            </div>
+            {bookInfo && (
+              <div className='absolute  flex items-center'>
+                <Image
+                  src={bookInfo.cover}
+                  width={156}
+                  height={260}
+                  alt='book cover'
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* 책 정보 모달 */}
+
+        {/* 선택된 책 정보 표시 */}
+
+        {/* 폼 */}
+        <form onSubmit={handleSubmit}>
+          <div className='mb-8'>
+            <label
+              htmlFor='clubName'
+              className='text-[16px] mb-4 font-bold text-fontMain'>
+              북클럽 이름
+            </label>
+            <input
+              id='clubName'
+              className='border w-full px-4  mt-4 h-[48px] bg-[#EDEEF2] rounded-lg text-[14px] placeholder-fontMain placeholder-opacity-60'
+              type='text'
+              max={30}
+              value={clubName}
+              onChange={handleClubNameChange}
+              placeholder='북클럽 이름을 정해주세요.'
             />
           </div>
-          <div>
-            <h1 className='text-xl font-bold mb-2'>{bookInfo.title}</h1>
-            <p className='text-gray-700 mb-2'>{bookInfo.author}</p>
-            <p className='text-gray-700'>
-              {bookInfo.categoryName.split('>')[1]}
-            </p>
-            <p className='text-gray-700'>{bookInfo.itemPage}p</p>
-          </div>
-        </div>
-      )}
-      {/* 폼 */}
-      <form onSubmit={handleSubmit}>
-        <div className='mb-4'>
-          <label htmlFor='clubName' className='block font-bold mb-1'>
-            북클럽 이름
-          </label>
-          <input
-            id='clubName'
-            className='border w-full px-4 py-2'
-            type='text'
-            max={30}
-            value={clubName}
-            onChange={handleClubNameChange}
-          />
-        </div>
-        <div className='mb-4'>
-          <label htmlFor='description' className='block font-bold mb-1'>
-            북클럽 소개
-          </label>
-          <textarea
-            id='description'
-            className='border w-full px-4 py-2'
-            value={description}
-            onChange={handleDescriptionChange}
-          />
-        </div>
-        <div className='mb-4'>
-          <label htmlFor='participants' className='block font-bold mb-1'>
-            모집 인원
-          </label>
-          <select
-            id='participants'
-            className='border w-full px-4 py-2'
-            value={selectedParticipants}
-            onChange={handleParticipantChange}>
-            {[...Array(10)].map((_, index) => (
-              <option key={index} value={index + 1}>
-                {index + 1}명
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className='mb-4'>
-          <label htmlFor='image' className='block font-bold mb-1'>
-            썸네일
-          </label>
-          <input
-            id='image'
-            className='border'
-            type='file'
-            onChange={handleImageChange}
-          />
-          {previewUrl && (
-            <div>
-              <Image src={previewUrl} alt='preview' width={100} height={100} />
+          {/* <div className='mb-8'>
+            <label
+              htmlFor='clubName'
+              className='block text-[16px] mb-4 font-bold text-fontMain'>
+              
+            </label>
+            <ReactSelectBar />
+          </div> */}
+          <div className='mb-8'>
+            <label
+              htmlFor='participants'
+              className='text-[16px] mb-4  font-bold text-fontMain'>
+              모집 인원
+            </label>
+            <div className='relative'>
+              <select
+                id='participants'
+                className={`border ${
+                  !selectedParticipants
+                    ? 'text-fontMain text-opacity-60'
+                    : 'text-fontMain'
+                } text-[14px] bg-[#EDEEF2] w-full px-4 h-[48px] mt-4 rounded-lg appearance-none pr-8`}
+                value={selectedParticipants!}
+                defaultValue=''
+                onChange={handleParticipantChange}>
+                <option value='' disabled hidden className=' '>
+                  참가자 수를 선택하세요
+                </option>
+                {[...Array(10)].map((_, index) => (
+                  <option key={index} value={index + 1}>
+                    {index + 1}명
+                  </option>
+                ))}
+              </select>
+              <div className='absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none top-4'>
+                <IoIosArrowDown className='text-gray-400' size={22} />
+              </div>
             </div>
-          )}
-        </div>
-        <button
-          type='submit'
-          className={` text-white px-4 py-2 rounded ${
-            isSubmit ? 'bg-gray-500 cursor-not-allowed' : 'bg-mainblue'
-          }`}
-          disabled={isSubmit}>
-          {isSubmit ? '제출 중...' : '개설하기'}
-        </button>
-      </form>
-    </section>
+          </div>
+          <div className='mb-8'>
+            <label
+              htmlFor='description'
+              className='text-[16px] mb-4 font-bold text-fontMain'>
+              북클럽 소개
+            </label>
+            <textarea
+              id='description'
+              className='border w-full px-4 py-4 h-[268px] mt-4 rounded-lg bg-[#EDEEF2] text-[14px] placeholder-fontMain placeholder-opacity-60'
+              value={description}
+              onChange={handleDescriptionChange}
+              placeholder='북클럽 소개글을 작성해 주세요'
+            />
+          </div>
+
+          {/* <div className='mb-8'>
+            <label
+              htmlFor='image'
+              className='text-[16px] mb-4 font-bold text-fontMain'>
+              썸네일
+            </label>
+            <input
+              id='image'
+              className='border mt-4'
+              type='file'
+              onChange={handleImageChange}
+            />
+            {previewUrl && (
+              <div>
+                <Image
+                  src={previewUrl}
+                  alt='preview'
+                  width={100}
+                  height={100}
+                />
+              </div>
+            )}
+          </div> */}
+          <button
+            type='submit'
+            className={` px-4 py-2 w-full bg-mainblue h-[56px] rounded-xl text-white flex items-center justify-center cursor-pointer ${
+              isSubmit ? 'bg-gray-500 cursor-not-allowed' : 'bg-mainblue'
+            }`}
+            disabled={isSubmit}>
+            {isSubmit ? '제출 중...' : '북클럽 만들기'}
+          </button>
+        </form>
+        <SearchModal
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          setBookInfo={setBookInfo}
+        />
+      </section>
+    </div>
   );
 };
 

@@ -11,7 +11,7 @@ const BackBtn = () => {
         router.back();
       }}
       size={25}
-      className='absolute left-3'
+      className='absolute left-3 text-[#292929]'
     />
   );
 };

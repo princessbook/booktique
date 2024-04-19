@@ -54,7 +54,6 @@ const ClubAdminProfile = async ({ clubId }: { clubId: string }) => {
           width={20}
           height={20}
           alt='방장프로필'
-          objectFit='cover'
           className='w-[20px] h-[20px] object-cover'
         />
       </span>

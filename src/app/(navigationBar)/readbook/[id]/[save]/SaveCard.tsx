@@ -92,7 +92,7 @@ const SaveCard = ({
       .single();
 
     if (getMemberError || !member) {
-      console.log('you are not even a member!');
+      // console.log('you are not even a member!');
       return;
     }
     setInputValid(false); // 이걸 false해줘야 저장을 하고도 버튼 비활성화 동작이 일어남
@@ -207,7 +207,10 @@ const SaveCard = ({
         <div className='w-[294px] h-[6px] mx-auto relative rounded-[10px] '>
           <div
             className='w-full h-full bg-[#35A5F6] rounded-full absolute'
-            style={{ width: `${progressPercentage}%` }}></div>
+            style={{
+              width: `${progressPercentage}%`,
+              backgroundImage: 'linear-gradient(to right, #E9FF8F, #59B9FF)'
+            }}></div>
           {/* <div className={`h-full bg-blue-500 rounded-full w-${progress}%`} /> */}
           <div className='w-full h-full bg-white rounded-full'></div>
           <div className='text-end text-subblue text-[14px] mt-1'>

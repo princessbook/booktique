@@ -64,7 +64,7 @@ const BookInfo = ({
           filter: `user_id=in.(${clubMembers.map((item) => item.user_id)})`
         },
         (payload) => {
-          console.log('payload', payload);
+          // console.log('payload', payload);
           setPostData(payload);
         }
       )
@@ -111,20 +111,20 @@ const BookInfo = ({
               .insert(newAlarm)
               .in('target_user_id', memberUserIds);
 
-            console.log('알람 테이블에 추가되었습니다.');
+            // console.log('알람 테이블에 추가되었습니다.');
 
             const { data: alarm } = await supabase
               .from('alarm')
               .select('*')
               .eq('target_user_id', writerId)
               .order('created_at', { ascending: true });
-            console.log('alarm', alarm);
+            // console.log('alarm', alarm);
 
             const isAdmin = clubMembers.some(
               (member) => member.user_id === userId && member.role === 'admin'
             );
             if (isAdmin) {
-              console.log('방장은 알럿을 받지 않습니다.');
+              // console.log('방장은 알럿을 받지 않습니다.');
               return;
             }
             if (alarm) {
@@ -208,7 +208,7 @@ const BookInfo = ({
           club_id: clubId
         }
       ]);
-      console.log('모임을 시작합니다.');
+      // console.log('모임을 시작합니다.');
     } catch (error) {
       console.error('모임을 시작하는 도중 오류가 발생했습니다:', error);
     }

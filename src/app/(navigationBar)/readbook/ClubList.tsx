@@ -83,7 +83,7 @@ const ClubList = ({
       const { data: member, error: getMemberError } = await supabase
         .from('members')
         .select()
-        .eq('club_id', id)
+        .eq('club_id', clubId)
         .eq('user_id', userId as string)
         .single();
 

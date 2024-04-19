@@ -94,6 +94,12 @@ const BookClubsPage = async (props: any) => {
       <ClubSearch />
       <div className='bg-white mb-[78px] overflow-y-auto'>
         <section className='p-3'>
+          {bookclubs.length === 0 && (
+            <p className='flex items-center justify-center text-center'>
+              {' '}
+              데이터가 없습니다.
+            </p>
+          )}
           {bookclubs.map((bookclub, index) => {
             const isLastItem = index === bookclubs.length - 1;
             return (

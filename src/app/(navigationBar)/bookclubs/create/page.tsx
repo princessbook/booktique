@@ -1,6 +1,6 @@
 'use client';
 
-import SearchModal from '@/components/search/SearchModal';
+import SearchModal from '@/app/(navigationBar)/bookclubs/create/search/SearchModal';
 import { BookInfo } from '@/lib/types/BookAPI';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
@@ -10,6 +10,7 @@ import BackBtn from '../[id]/BackBtn';
 import { IoIosSearch } from 'react-icons/io';
 import ReactSelectBar from './ReactSelectBar';
 import { IoIosArrowDown } from 'react-icons/io';
+import HeaderWithBack from '../HeaderWithBack';
 const CreateBookPage = () => {
   const [clubName, setClubName] = useState('');
   const [description, setDiscription] = useState('');
@@ -159,10 +160,7 @@ const CreateBookPage = () => {
 
   return (
     <div>
-      <h1 className='h-[54px] mb-8 border border-b border-lineGray relative flex text-[17px] items-center justify-center'>
-        <BackBtn />
-        <div>북클럽 만들기</div>
-      </h1>
+      <HeaderWithBack title='북클럽 만들기' />
       <section className='mb-[100px] overflow-y-auto px-4'>
         {/* 책 검색 버튼 */}
         <div className='mb-8'>

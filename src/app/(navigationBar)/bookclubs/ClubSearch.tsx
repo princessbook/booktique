@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { IoIosSearch } from 'react-icons/io';
 import { IoCloseOutline } from 'react-icons/io5';
+import SearchInput from './SearchInput';
 const ClubSearch = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeCategory, setActiveCategory] = useState('전체');
@@ -69,43 +70,29 @@ const ClubSearch = () => {
     };
   }, []);
 
+  const handleSearchEnter = () => {
+    setIsEnter(true);
+    router.push(`/bookclubs?search=${searchText}&tab=${activeTab}`);
+  };
+
+  const handleSearchClose = () => {
+    setSearchText('');
+    router.push('/bookclubs');
+  };
+
   return (
     <div
       className={` bg-mainblue pt-3  sticky top-0 w-full z-10 ${
         isScrolled ? '' : ''
       }`}>
       <div className='px-4 pb-3'>
-        <div className='w-full flex bg-white  rounded-md justify-center items-center px-3'>
-          <IoIosSearch
-            className='flex items-center text=[#3F3E4E] opacity-60 justify-center'
-            size={22}
-            color='#3F3E4E'
-          />
-          <input
-            className='w-full py-3 text=[#3F3E4E] outline-none flex-1'
-            placeholder='책 제목이나 클럽 이름을 검색해 보세요'
-            onChange={(e) => {
-              // router.push(`/bookclubs?search=${e.target.value}`);
-              handleSearchText(e);
-            }}
-            value={searchText}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                setIsEnter(true);
-                router.push(`/bookclubs?search=${searchText}&tab=${activeTab}`);
-              }
-            }}
-          />
-          {searchText && (
-            <IoCloseOutline
-              onClick={() => {
-                setSearchText('');
-                router.push('/bookclubs');
-              }}
-              className='rounded-full w-[22px] h-[22px] text-fontGray bg-grayBg'
-            />
-          )}
-        </div>
+        <SearchInput
+          placeholder='책 제목이나 클럽 이름을 검색해 보세요'
+          handleSearchClose={handleSearchClose}
+          handleSearchEnter={handleSearchEnter}
+          searchText={searchText}
+          handleSearchText={handleSearchText}
+        />
       </div>
       {isEnter ? (
         <div className='bg-white rounded-t-2xl pt-3 mt-2'>

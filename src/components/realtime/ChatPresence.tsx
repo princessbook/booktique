@@ -6,6 +6,7 @@ import { useMessage } from '@/store/messages';
 import Image from 'next/image';
 import booktique from '../../../public/booktique.png';
 import { IoIosArrowBack } from 'react-icons/io';
+import BackBtn from '@/app/(navigationBar)/bookclubs/[id]/BackBtn';
 
 const ChatPresence = ({ userId }: { userId: string | undefined }) => {
   const msgs = useMessage((state) => state.messages);
@@ -66,11 +67,12 @@ const ChatPresence = ({ userId }: { userId: string | undefined }) => {
   }
   return (
     <div className='flex items-center gap-2 bg-[#c6edff] px-2 py-5'>
-      <IoIosArrowBack
+      {/* <IoIosArrowBack
         className=' cursor-pointer'
         onClick={handleBack}
         size={40}
-      />
+      /> */}
+      <BackBtn />
       {clubData?.thumbnail ? (
         <Image
           width={40}

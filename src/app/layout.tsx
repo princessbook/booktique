@@ -8,8 +8,8 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Booktique',
-  description: '독서진짜배기들을위한 독서커뮤니티'
-  // icons: { icon: '/bookbookddakgi.png' }
+  description: '독서진짜배기들을위한 독서커뮤니티',
+  icons: { icon: '/favicon.png' }
 };
 
 export default function RootLayout({

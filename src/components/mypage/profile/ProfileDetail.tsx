@@ -24,7 +24,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
   });
 
   const userProfile = profiles?.find((profile) => profile.id === userId);
-
+  // const [inputColor,setInputColor] =useState<string>('#3F3E4E');
   const [isEdit, setIsEdit] = useState(false);
   const [displayName, setDisplayName] = useState(
     userProfile?.display_name ?? ''
@@ -140,36 +140,12 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                 />
               )}
               <div className='absolute bottom-0 right-0 ml-1 mt-2 cursor-pointer'>
-                <svg
-                  width='30'
-                  height='30'
-                  viewBox='0 0 30 30'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'>
-                  <circle
-                    cx='15'
-                    cy='15'
-                    r='13.5'
-                    fill='#8A9DB3'
-                    stroke='#8A9DB3'
-                  />
-                  <path
-                    d='M22.06 10.92H19.16L18.83 9.14C18.71 8.49 18.01 8 17.26 8H13.15C12.4 8 11.7 8.49 11.58 9.14L11.25 10.92H8.36C7.61 10.92 7 11.53 7 12.28V20.67C7 21.42 7.61 22.03 8.36 22.03H22.07C22.82 22.03 23.43 21.42 23.43 20.67V12.28C23.43 11.53 22.82 10.92 22.07 10.92H22.06Z'
-                    stroke='white'
-                    strokeMiterlimit='10'
-                  />
-                  <path
-                    d='M15.21 19.8898C17.1099 19.8898 18.65 18.3496 18.65 16.4498C18.65 14.5499 17.1099 13.0098 15.21 13.0098C13.3102 13.0098 11.77 14.5499 11.77 16.4498C11.77 18.3496 13.3102 19.8898 15.21 19.8898Z'
-                    stroke='white'
-                    strokeMiterlimit='10'
-                  />
-                  <path
-                    d='M20.2002 13.3008H21.3602'
-                    stroke='white'
-                    strokeMiterlimit='10'
-                    strokeLinecap='round'
-                  />
-                </svg>
+                <Image
+                  src='/camera.svg'
+                  alt='Camera Icon'
+                  width={25}
+                  height={25}
+                />
               </div>
 
               <input

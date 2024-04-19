@@ -21,8 +21,8 @@ const SearchModal = ({
     return;
   }
   return (
-    <div className='fixed inset-0 flex items-center justify-center'>
-      <div className='absolute w-full h-full bg-gray-900 opacity-50'></div>
+    <div className='fixed z-3 inset-0 flex items-center justify-center'>
+      <div className='absolute z-10 w-full h-full bg-gray-900 opacity-50'></div>
       <div className=' bg-white w-[360px] h-[600px] rounded-lg shadow-lg z-50 overflow-y-auto relative'>
         <IoClose
           onClick={() => {

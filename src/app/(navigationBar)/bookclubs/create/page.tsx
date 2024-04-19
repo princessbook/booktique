@@ -9,10 +9,13 @@ import { useState } from 'react';
 import BackBtn from '../[id]/BackBtn';
 import { IoIosSearch } from 'react-icons/io';
 import ReactSelectBar from './ReactSelectBar';
+import { IoIosArrowDown } from 'react-icons/io';
 const CreateBookPage = () => {
   const [clubName, setClubName] = useState('');
   const [description, setDiscription] = useState('');
-  const [selectedParticipants, setSelectedParticipants] = useState(1);
+  const [selectedParticipants, setSelectedParticipants] = useState<
+    null | number
+  >(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const supabase = createClient();
@@ -122,6 +125,10 @@ const CreateBookPage = () => {
       alert('빈칸을 채워주세요.');
       return;
     }
+    if (!selectedParticipants) {
+      alert('참가자 수를 선택해 주세요.');
+      return;
+    }
     if (!bookInfo) {
       alert('북클럽에서 읽을 책을 선택해 주세요');
       return;
@@ -197,11 +204,7 @@ const CreateBookPage = () => {
         </div>
 
         {/* 책 정보 모달 */}
-        <SearchModal
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          setBookInfo={setBookInfo}
-        />
+
         {/* 선택된 책 정보 표시 */}
 
         {/* 폼 */}
@@ -214,7 +217,7 @@ const CreateBookPage = () => {
             </label>
             <input
               id='clubName'
-              className='border w-full px-4  mt-4 h-[48px] bg-[#EDEEF2] rounded-lg text-[14px]'
+              className='border w-full px-4  mt-4 h-[48px] bg-[#EDEEF2] rounded-lg text-[14px] placeholder-fontMain placeholder-opacity-60'
               type='text'
               max={30}
               value={clubName}
@@ -222,31 +225,44 @@ const CreateBookPage = () => {
               placeholder='북클럽 이름을 정해주세요.'
             />
           </div>
-          <div className='mb-8'>
+          {/* <div className='mb-8'>
             <label
               htmlFor='clubName'
               className='block text-[16px] mb-4 font-bold text-fontMain'>
-              북클럽 요일
+              
             </label>
             <ReactSelectBar />
-          </div>
+          </div> */}
           <div className='mb-8'>
             <label
               htmlFor='participants'
-              className='text-[16px] mb-4 font-bold text-fontMain'>
+              className='text-[16px] mb-4  font-bold text-fontMain'>
               모집 인원
             </label>
-            <select
-              id='participants'
-              className='border w-full px-4 h-[48px] mt-4 rounded-lg'
-              value={selectedParticipants}
-              onChange={handleParticipantChange}>
-              {[...Array(10)].map((_, index) => (
-                <option key={index} value={index + 1}>
-                  {index + 1}명
+            <div className='relative'>
+              <select
+                id='participants'
+                className={`border ${
+                  !selectedParticipants
+                    ? 'text-fontMain text-opacity-60'
+                    : 'text-fontMain'
+                } text-[14px] bg-[#EDEEF2] w-full px-4 h-[48px] mt-4 rounded-lg appearance-none pr-8`}
+                value={selectedParticipants!}
+                defaultValue=''
+                onChange={handleParticipantChange}>
+                <option value='' disabled hidden className=' '>
+                  참가자 수를 선택하세요
                 </option>
-              ))}
-            </select>
+                {[...Array(10)].map((_, index) => (
+                  <option key={index} value={index + 1}>
+                    {index + 1}명
+                  </option>
+                ))}
+              </select>
+              <div className='absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none top-4'>
+                <IoIosArrowDown className='text-gray-400' size={22} />
+              </div>
+            </div>
           </div>
           <div className='mb-8'>
             <label
@@ -256,14 +272,14 @@ const CreateBookPage = () => {
             </label>
             <textarea
               id='description'
-              className='border w-full px-4 py-4 h-[268px] mt-4 rounded-lg bg-[#EDEEF2]'
+              className='border w-full px-4 py-4 h-[268px] mt-4 rounded-lg bg-[#EDEEF2] text-[14px] placeholder-fontMain placeholder-opacity-60'
               value={description}
               onChange={handleDescriptionChange}
               placeholder='북클럽 소개글을 작성해 주세요'
             />
           </div>
 
-          <div className='mb-8'>
+          {/* <div className='mb-8'>
             <label
               htmlFor='image'
               className='text-[16px] mb-4 font-bold text-fontMain'>
@@ -285,16 +301,21 @@ const CreateBookPage = () => {
                 />
               </div>
             )}
-          </div>
+          </div> */}
           <button
             type='submit'
-            className={` px-4 py-2 w-full bg-mainblue w-[302px] h-[56px] rounded-xl text-white flex items-center justify-center cursor-pointer ${
+            className={` px-4 py-2 w-full bg-mainblue h-[56px] rounded-xl text-white flex items-center justify-center cursor-pointer ${
               isSubmit ? 'bg-gray-500 cursor-not-allowed' : 'bg-mainblue'
             }`}
             disabled={isSubmit}>
             {isSubmit ? '제출 중...' : '북클럽 만들기'}
           </button>
         </form>
+        <SearchModal
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          setBookInfo={setBookInfo}
+        />
       </section>
     </div>
   );

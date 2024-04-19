@@ -7,6 +7,7 @@ import { createClient } from '@/utils/supabase/server';
 import ClubList from './ClubList';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+import { Database } from '@/lib/types/supabase';
 
 const ReadBookPage = async () => {
   revalidatePath('/', 'layout');
@@ -18,52 +19,52 @@ const ReadBookPage = async () => {
   if (!user?.id) {
     redirect('/login');
   }
-
-  const { data: memberData, error: memberError } = await supabase
-    .from('members')
-    .select('club_id')
-    .eq('user_id', user?.id as string);
-
-  if (memberError) {
-    throw new Error(
-      '해당 회원이 등록된 클럽정보를 가져오는 도중 오류가 발생했습니다.'
-    );
-  }
-
-  const clubDataPromises = memberData.map(async (member) => {
-    const clubId = member.club_id;
-    const { data: clubData, error: clubError } = await supabase
-      .from('clubs')
-      .select('*')
-      .eq('id', clubId)
-      .single();
-    if (clubError) {
-      throw new Error('클럽 정보를 가져오는 도중 오류가 발생했습니다.');
-    }
-    return clubData;
-  });
-
-  const allClubData = await Promise.all(clubDataPromises);
-
-  // const { data: activitiesData, error: activitiesError } = await supabase
-  //   .from('club_activities')
-  //   .select('*')
+  // promise로 가져오기: 166.931ms
+  // promise로 가져오기: 168.49ms
+  // promise로 가져오기: 191.214ms
+  // promise로 가져오기: 197.752ms
+  // promise로 가져오기: 143.268ms
+  // 평균 173.531
+  // const { data: memberData, error: memberError } = await supabase
+  //   .from('members')
+  //   .select('club_id')
   //   .eq('user_id', user?.id as string);
-  // console.log('activitiesData', activitiesData);
-  // if (activitiesError) {
-  //   throw new Error('클럽 활동을 가져오는 도중 오류가 발생했습니다.');
+
+  // if (memberError) {
+  //   throw new Error(
+  //     '해당 회원이 등록된 클럽정보를 가져오는 도중 오류가 발생했습니다.'
+  //   );
   // }
 
-  // const { data: bookClubsData, error: bookClubsError } = await supabase
-  //   .from('clubs')
-  //   .select('*');
-  // if (bookClubsError) {
-  //   throw new Error('책 정보를 가져오는 도중 오류가 발생했습니다.');
-  // }
-  // const filteredBookClubsData = bookClubsData.filter((bookClub) => {
-  //   return allClubData.some((club) => club.id === bookClub.id);
+  // const clubDataPromises = memberData.map(async (member) => {
+  //   const clubId = member.club_id;
+  //   const { data: clubData, error: clubError } = await supabase
+  //     .from('clubs')
+  //     .select('*')
+  //     .eq('id', clubId)
+  //     .single();
+  //   if (clubError) {
+  //     throw new Error('클럽 정보를 가져오는 도중 오류가 발생했습니다.');
+  //   }
+  //   return clubData;
   // });
 
+  // const allClubData = await Promise.all(clubDataPromises);
+
+  // join으로 가져오기: 53.627ms
+  // join으로 가져오기: 96.903ms
+  // join으로 가져오기: 56.521ms
+  // join으로 가져오기: 74.183ms
+  // join으로 가져오기: 75.683ms
+  // 평균 71.3834ms
+  const { data: members, error: memberError } = await supabase
+    .from('members')
+    .select('club_id, club:clubs(*)')
+    .eq('user_id', user?.id as string);
+  // members데이터값은 {club_id:'',club:{id:"",name:"",archive:"", ----max_member_count:""}} 이런식으로
+  const allClubData: Database['public']['Tables']['clubs']['Row'][] = members
+    ?.map((member) => member.club)
+    ?.filter(Boolean) as Database['public']['Tables']['clubs']['Row'][];
   return (
     <ReadBookLayout>
       <Suspense fallback={<></>}>

@@ -32,7 +32,7 @@ const MyBookClubsPage = async () => {
           내 북클럽
         </p>
       </div>
-      <div className='p-4 mb-[78px] overflow-y-auto'>
+      <div className='px-4 mb-[78px] overflow-y-auto'>
         <AllMyBookClubs userId={user.id} />
       </div>
     </div>

@@ -32,7 +32,7 @@ const Board = ({ clubId }: { clubId: string }) => {
             <div className='m-4 flex'>
               <Link
                 className='w-full'
-                href={`/myclubinfo2/board/detail/${post.id}?clubId=${clubId}`}>
+                href={`/my-clubs/${clubId}/posts/board/detail/${post.id}?clubId=${clubId}`}>
                 <section className='flex gap-1 items-center'>
                   {post.profile?.photo_URL ? (
                     <Image
@@ -62,6 +62,9 @@ const Board = ({ clubId }: { clubId: string }) => {
                     <p className='mt-1 mb-1 text-xs break-words line-clamp-2'>
                       {post.content}
                     </p>
+                    <p className='text-xs text-fontGrayBlue'>{`💬 ${
+                      (post.post_comments[0] as unknown as any).count // https://github.com/supabase/supabase/issues/20562
+                    }`}</p>
                   </div>
                   {post.thumbnail ? (
                     <Image
@@ -82,7 +85,7 @@ const Board = ({ clubId }: { clubId: string }) => {
       <div className='flex justify-end w-full'>
         <Link
           className='py-[15px] px-[20px] fixed bottom-24 text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-mainblue'
-          href={`/my-clubs/board/posting/${crypto.randomUUID()}?clubId=${clubId}`}>
+          href={`/my-clubs/${clubId}/posts/board/posting/${crypto.randomUUID()}?clubId=${clubId}`}>
           글 쓰러가기
         </Link>
       </div>

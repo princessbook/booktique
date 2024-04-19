@@ -26,7 +26,6 @@ const useRealtimePostgresChanges = (
         },
         (payload) => {
           callback(payload);
-          console.log('payload훅훅훅', payload);
         }
       )
       .subscribe();

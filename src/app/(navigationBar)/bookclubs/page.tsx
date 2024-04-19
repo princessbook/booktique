@@ -94,21 +94,28 @@ const BookClubsPage = async (props: any) => {
       <ClubSearch />
       <div className='bg-white mb-[78px] overflow-y-auto'>
         <section className='p-3'>
+          {bookclubs.length === 0 && (
+            <p className='flex items-center justify-center text-center'>
+              {' '}
+              데이터가 없습니다.
+            </p>
+          )}
           {bookclubs.map((bookclub, index) => {
             const isLastItem = index === bookclubs.length - 1;
             return (
               <Link key={bookclub.id} href={`/bookclubs/${bookclub.id}`}>
                 <div
                   className={`flex ${
-                    isLastItem ? '' : 'border-b-2'
-                  } justify-between py-3 items-center`}>
+                    isLastItem ? '' : 'border-b'
+                  } justify-between py-3 items-center border-b-[#E9EEF3] `}>
                   <figure className='w-[78px] mr-2 flex items-center justify-center'>
                     <div className='w-[78px] h-full relative'>
                       {bookclub.book_cover && (
                         <Image
-                          width={78}
-                          height={100}
-                          className='w-full h-full object-cover'
+                          width='0'
+                          height='0'
+                          sizes='100vw'
+                          className='w-auto h-auto'
                           src={bookclub.book_cover}
                           alt='북클럽이미지'
                         />

@@ -6,13 +6,6 @@ import { createClient } from '@/utils/supabase/server';
 type Clubs = Tables<'clubs'>;
 import formatDate from '@/utils/dateUtils';
 
-// type MembersType = {
-//   club_id: string;
-//   id: string;
-//   role: 'admin' | 'member' | null;
-//   user_id: string | null;
-//   progress?: number | null; // progress 필드 추가
-// };
 const HomeTab = async ({ club }: { club: Clubs | null }) => {
   if (!club) {
     return null;
@@ -22,8 +15,9 @@ const HomeTab = async ({ club }: { club: Clubs | null }) => {
     try {
       const { data, error } = await supabase
         .from('members')
-        .select('*, club_activities(*)')
+        .select('*, club_activities(progress)')
         .eq('club_id', clubId);
+
       if (error) {
         console.error('클럽멤버 불러오기 실패:', error);
         return [];
@@ -34,27 +28,6 @@ const HomeTab = async ({ club }: { club: Clubs | null }) => {
       return [];
     }
   };
-  // const getUserProgress = async (userId: string | null, clubId: string) => {
-  //   if (!userId) return 0;
-  //   try {
-  //     const supabase = createClient();
-  //     const { data: activity, error: activityError } = await supabase
-  //       .from('club_activities')
-  //       .select('progress')
-  //       .eq('club_id', clubId)
-  //       .eq('user_id', userId)
-  //       .order('progress', { ascending: false });
-
-  //     if (activityError) {
-  //       console.log('값 불러오는데 오류있음');
-  //       throw activityError;
-  //     }
-  //     return activity[0]?.progress || 0; // progress 값이 없을 경우 0 반환
-  //   } catch (error) {
-  //     console.error('값 불러오는데 오류있음:', error);
-  //     return 0;
-  //   }
-  // };
   const clubMembers = await getBookClubMembers(club.id);
 
   const createdAt = new Date(club?.created_at || '');

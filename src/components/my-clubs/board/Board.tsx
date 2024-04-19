@@ -84,7 +84,7 @@ const Board = ({ clubId }: { clubId: string }) => {
       )}
       <div className='flex justify-end w-full'>
         <Link
-          className='py-[15px] px-[20px] fixed bottom-24 text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-mainblue'
+          className='py-[15px] px-[20px] right-4 fixed bottom-[110px] text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-mainblue'
           href={`/my-clubs/${clubId}/posts/board/posting/${crypto.randomUUID()}?clubId=${clubId}`}>
           글 쓰러가기
         </Link>

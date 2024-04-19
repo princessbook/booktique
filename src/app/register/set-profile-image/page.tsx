@@ -12,20 +12,25 @@ const AvatarPage = () => {
   const imgRef = useRef<HTMLInputElement>(null);
   const supabase = createClient();
   const router = useRouter();
-
   const uploadImageStorage = async (file: File) => {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+    console.log(user?.id);
     const fileExt = file?.name.split('.').pop();
     const fileName = `${crypto.randomUUID()}.${fileExt}`;
 
     try {
       const { data, error } = await supabase.storage
         .from('profileAvatars')
-        .upload(`${fileName}`, file);
+        .upload(`${user?.id}/${fileName}`, file);
 
       if (error) {
         throw new Error('이미지 업로드 실패', error);
       }
-      return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profileAvatars/${fileName}`;
+      return `${
+        process.env.NEXT_PUBLIC_SUPABASE_URL
+      }/storage/v1/object/public/profileAvatars/${data.path}?${Math.random()}`;
     } catch (error) {
       console.log(error);
     }

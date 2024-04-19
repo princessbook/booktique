@@ -1,5 +1,6 @@
 'use client';
 
+import { IoIosArrowBack } from 'react-icons/io';
 import PhotoSection from '@/components/my-clubs/board/posting/PhotoSection';
 import {
   createPost,
@@ -150,18 +151,21 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
 
   return (
     <div className='mb-[78px] overflow-y-auto'>
-      <section className='h-[54px] flex items-center justify-between sticky top-0 bg-white border-b-[1px] w-full'>
-        <p
-          className='ml-4'
-          onClick={() => router.push(`/my-clubs/${clubId}/posts`)}>
-          뒤로
-        </p>
-        <p className='text-[17px] font-bold'>글쓰기</p>
-        <button className='mr-4' onClick={handleSubmit}>
-          저장
-        </button>
-      </section>
-      <div className='m-4 min-h-[700px]'>
+      <div className='fixed top-[84px] w-full'>
+        <section className='h-[54px] flex items-center justify-between fixed top-[91px] max-w-[375px] bg-white border-b-[1px] w-full'>
+          <IoIosArrowBack
+            className='ml-4'
+            size={25}
+            onClick={() => router.push(`/my-clubs/${clubId}/posts`)}
+          />
+          <p className='text-[17px] font-bold'>글쓰기</p>
+          <button className='mr-4' onClick={handleSubmit}>
+            저장
+          </button>
+        </section>
+      </div>
+
+      <div className='m-4 min-h-[700px] pt-[54px]'>
         <input
           className='w-full mb-4 text-base focus:outline-none border-b-[1px]'
           placeholder='제목'

@@ -63,7 +63,7 @@ const Layout = ({ children, params }: Props) => {
           </Link>
         </div>
       </div>
-      <div className='mb-[78px] overflow-y-auto'>
+      <div>
         {/* 탭 컨텐츠 */}
         {children}
       </div>

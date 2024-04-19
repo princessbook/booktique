@@ -67,7 +67,7 @@ const SavePage = async ({ params: { id } }: { params: { id: string } }) => {
     .from('club_activities')
     .select('*')
     .eq('user_id', matchingProfileId || '');
-
+  console.log('clubActivities1111111111111111111', clubActivities);
   if (activitiesError) {
     throw new Error('클럽 활동 정보를 가져오는 도중 오류가 발생했습니다.');
   }
@@ -87,6 +87,7 @@ const SavePage = async ({ params: { id } }: { params: { id: string } }) => {
   if (clubError) {
     throw new Error('클럽 정보를 가져오는 도중 오류가 발생했습니다.');
   }
+  // console.log('matchingActivities1111', matchingActivities);
   return (
     <div className='bg-white h-full'>
       <SaveBookInfo clubData={clubData} clubId={id} />

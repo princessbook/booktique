@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import React from 'react';
+export const dynamic = 'force-dynamic';
 
 const supabase = createClient();
 

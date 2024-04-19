@@ -108,7 +108,9 @@ export const uploadImageToPost = async (file: File, postId: string) => {
     throw new Error('Failed to upload image: ' + error.message);
   }
   if (data) {
-    const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/posts/${postId}`;
+    const url = `${
+      process.env.NEXT_PUBLIC_SUPABASE_URL
+    }/storage/v1/object/public/images/posts/${postId}?${Math.random()}`;
     return url;
   }
   return;

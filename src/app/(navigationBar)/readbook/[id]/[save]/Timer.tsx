@@ -101,10 +101,10 @@ const Timer = ({
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
         clearInterval(intervalRef.current as number);
-        console.log('타이머를 멈춥니다.');
+        // console.log('타이머를 멈춥니다.');
         setIsVisible(false);
       } else {
-        console.log('타이머를 다시 시작합니다.');
+        // console.log('타이머를 다시 시작합니다.');
         setIsVisible(true);
       }
     };

@@ -88,7 +88,7 @@ const ClubList = ({
         .single();
 
       if (getMemberError || !member) {
-        console.log('you are not even a member!');
+        // console.log('you are not even a member!');
         return;
       }
 

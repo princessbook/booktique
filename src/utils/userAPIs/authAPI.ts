@@ -4,7 +4,14 @@ type Profile = Tables<'profiles'>;
 type Clubs = Tables<'clubs'>;
 type Sentences = Tables<'sentences'>;
 type Sentence_Comments = Tables<'sentence_comments'>;
-
+type Member = Tables<'members'>;
+type MembersType = {
+  club_id: string;
+  id: string;
+  role: 'admin' | 'member' | null;
+  user_id: string | null;
+  progress?: number | null; // progress 필드 추가
+};
 export const getUserId = async (): Promise<string | null> => {
   try {
     const supabase = createClient();
@@ -117,6 +124,49 @@ export const getSentenceComments = async (
     return data || [];
   } catch (error) {
     console.error('문장의 댓글들 불러오기 실패:', error);
+    return [];
+  }
+};
+export const getClubActivityProgress = async (
+  clubId: string,
+  userId: string
+): Promise<number | null> => {
+  try {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from('club_activities')
+      .select('progress')
+      .eq('club_id', clubId)
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('내 진척상황 불러오기 실패', error);
+      return null;
+    }
+    // console.log(data[0].progress);
+    return data[0].progress;
+  } catch (error) {
+    console.error('Error fetching club activities:', error);
+    return null;
+  }
+};
+
+export const getBookClubMembers = async (
+  clubId: string
+): Promise<MembersType[]> => {
+  try {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from('members')
+      .select('*')
+      .eq('club_id', clubId);
+    if (error) {
+      console.error('클럽멤버 불러오기 실패:', error);
+      return [];
+    }
+    return data || [];
+  } catch (error) {
+    console.error('클럽멤버 불러오기 실패:', error);
     return [];
   }
 };

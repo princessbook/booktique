@@ -63,7 +63,7 @@ const BoardDetailArticle = ({
   return (
     <div key={article.id} className='flex flex-col'>
       <div className='w-full top-[84px]'>
-        <section className='h-[54px] flex items-center justify-between fixed top-[91px] max-w-[375px] bg-white border-b-[1px] w-full'>
+        <section className='h-[54px] flex items-center justify-between fixed top-[91px] md:max-w-[375px] bg-white border-b-[1px] w-full'>
           <IoIosArrowBack
             className='ml-4'
             size={25}

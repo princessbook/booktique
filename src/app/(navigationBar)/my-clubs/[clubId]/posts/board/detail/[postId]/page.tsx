@@ -24,7 +24,7 @@ const BoardDetailPage = ({ params }: { params: { postId: string } }) => {
     <div className='mb-[78px] overflow-y-auto'>
       <BoardDetailArticle postId={postId} clubId={clubId} />
       <ArticleComment postId={postId} />
-      <ArticleCommentInput postId={postId} />
+      <ArticleCommentInput postId={postId} clubId={clubId} />
     </div>
   );
 };

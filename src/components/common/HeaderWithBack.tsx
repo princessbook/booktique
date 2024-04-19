@@ -1,5 +1,5 @@
 import React from 'react';
-import BackBtn from './[id]/BackBtn';
+import BackBtn from '../../app/(navigationBar)/bookclubs/[id]/BackBtn';
 
 const HeaderWithBack = ({ title }: { title: string }) => {
   return (

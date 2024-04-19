@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { IoIosSearch } from 'react-icons/io';
 import { IoIosArrowDown } from 'react-icons/io';
-import HeaderWithBack from '../HeaderWithBack';
+import HeaderWithBack from '../../../../components/common/HeaderWithBack';
 import SearchModal from './search/SearchModal';
 
 const CreateBookPage = () => {

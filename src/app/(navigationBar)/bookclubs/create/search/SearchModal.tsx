@@ -4,7 +4,7 @@ import SearchForm from './SearchForm';
 import SearchResult from './SearchResult';
 import { BookInfo } from '@/lib/types/BookAPI';
 import { IoClose } from 'react-icons/io5';
-import HeaderWithBack from '../../HeaderWithBack';
+import HeaderWithBack from '../../../../../components/common/HeaderWithBack';
 import { IoIosArrowBack } from 'react-icons/io';
 type SearchModalProps = {
   setBookInfo: React.Dispatch<React.SetStateAction<BookInfo | undefined>>;

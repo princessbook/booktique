@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import ArticleTimeStamp from './ArticleTimeStamp';
+import { IoIosArrowBack } from 'react-icons/io';
 
 const BoardDetailArticle = ({
   postId,
@@ -60,29 +61,32 @@ const BoardDetailArticle = ({
   if (isError) return <>에러남</>;
 
   return (
-    <div key={article.id}>
-      <section className='h-[54px] flex items-center justify-between sticky top-0 bg-white border-b-[1px] w-full'>
-        <p
-          className='ml-4'
-          onClick={() => router.push(`/my-clubs/${clubId}/posts`)}>
-          뒤로
-        </p>
-        <p className='text-[17px] font-bold absolute left-1/2 transform -translate-x-1/2'>
-          자유 게시판
-        </p>
-        <div className='flex mr-4 gap-1'>
-          <p onClick={() => handleUpdatePost(article.user_id as string)}>
-            수정
+    <div key={article.id} className='flex flex-col'>
+      <div className='w-full top-[84px]'>
+        <section className='h-[54px] flex items-center justify-between fixed top-[91px] md:max-w-[375px] bg-white border-b-[1px] w-full'>
+          <IoIosArrowBack
+            className='ml-4'
+            size={25}
+            onClick={() => router.push(`/my-clubs/${clubId}/posts`)}
+          />
+          <p className='text-[17px] font-bold absolute left-1/2 transform -translate-x-1/2'>
+            자유 게시판
           </p>
-          <p
-            onClick={() =>
-              handleDeletePost(article.id, article.user_id as string)
-            }>
-            삭제
-          </p>
-        </div>
-      </section>
-      <section className='m-4'>
+          <div className='flex mr-4 gap-1'>
+            <p onClick={() => handleUpdatePost(article.user_id as string)}>
+              수정
+            </p>
+            <p
+              onClick={() =>
+                handleDeletePost(article.id, article.user_id as string)
+              }>
+              삭제
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <section className='m-4 pt-[54px] flex-1'>
         <div className='flex items-center gap-1'>
           {article.profile.photo_URL ? (
             <Image
@@ -107,7 +111,7 @@ const BoardDetailArticle = ({
           {article.title}
         </p>
         {article.thumbnail ? (
-          <img src={`${article.thumbnail}?${Math.random()}`} alt='fsd' />
+          <img src={`${article.thumbnail}`} alt='fsd' />
         ) : (
           <></>
         )}

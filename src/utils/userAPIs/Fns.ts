@@ -18,9 +18,9 @@ export const getUserProfile = async (): Promise<Profile[] | null> => {
 };
 export const updateUserProfile = async (formData: FormData) => {
   const displayName = formData.get('display_name') as string;
-  const interests = formData.get('interests') as string;
+
   const introduction = formData.get('introduction') as string;
-  const mostFavoriteBook = formData.get('most_favorite_book') as string;
+
   const photoUrl = formData.get('photo_URL') as string;
   const id = formData.get('id') as string;
 
@@ -30,9 +30,9 @@ export const updateUserProfile = async (formData: FormData) => {
     .from('profiles')
     .update({
       display_name: displayName,
-      interests: interests,
+
       introduction: introduction,
-      most_favorite_book: mostFavoriteBook,
+
       photo_URL: photoUrl
     })
     .match({ id: id });

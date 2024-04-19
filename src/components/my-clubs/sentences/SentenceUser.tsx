@@ -2,7 +2,7 @@
 import { Tables } from '@/lib/types/supabase';
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import booktique from '../../../public/booktique.png';
+import booktique from '../../../../public/booktique.png';
 import Image from 'next/image';
 
 type Profiles = Tables<'profiles'>;

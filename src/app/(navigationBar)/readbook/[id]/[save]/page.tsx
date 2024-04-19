@@ -67,7 +67,7 @@ const SavePage = async ({ params: { id } }: { params: { id: string } }) => {
     .from('club_activities')
     .select('*')
     .eq('user_id', matchingProfileId || '');
-  console.log('clubActivities1111111111111111111', clubActivities);
+  // console.log('clubActivities1111111111111111111', clubActivities);
   if (activitiesError) {
     throw new Error('클럽 활동 정보를 가져오는 도중 오류가 발생했습니다.');
   }

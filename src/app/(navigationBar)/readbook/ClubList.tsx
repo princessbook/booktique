@@ -88,7 +88,7 @@ const ClubList = ({
         .single();
 
       if (getMemberError || !member) {
-        console.log('you are not even a member!');
+        // console.log('you are not even a member!');
         return;
       }
 
@@ -168,7 +168,7 @@ const ClubList = ({
 
   // 책 읽기 버튼
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col h-full'>
       <Slider className='custom-slider h-auto' {...settings}>
         {allClubData
           .filter((club) => !club.archive)

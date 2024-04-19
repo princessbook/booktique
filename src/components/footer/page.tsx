@@ -10,31 +10,11 @@ import search from '../../../public/footer_searchclub.png';
 import searchActive from '../../../public/footer_searchclubactive.png';
 import mypage from '../../../public/footer_mypage.png';
 import mypageActive from '../../../public/footer_mypageactive.png';
+import { useSelectedLayoutSegment } from 'next/navigation';
 
 const Footer = () => {
-  const [activeLink, setActiveLink] = useState('');
-
-  useEffect(() => {
-    // 현재 URL 가져오기
-    const currentURL = window.location.href;
-    // console.log('currentURL', currentURL);
-    // URL을 파싱하여 활성화할 링크 결정
-    if (currentURL.includes('/my-clubs')) {
-      setActiveLink('my-clubs');
-    } else if (currentURL.includes('/readbook')) {
-      setActiveLink('readbook');
-    } else if (currentURL.includes('/bookclubs')) {
-      setActiveLink('bookclubs');
-    } else if (currentURL.includes('/mypage')) {
-      setActiveLink('mypage');
-    }
-  }, []);
-
-  const handleClick = (link: string) => {
-    setActiveLink(link);
-    // localStorage.setItem('activeLink', link);
-  };
-
+  const segment = useSelectedLayoutSegment();
+  const activeLink = segment;
   return (
     <div
       className='w-full md:w-[375px] h-[78px] fixed bottom-0 bg-white mx-auto'
@@ -46,7 +26,7 @@ const Footer = () => {
               ? 'text-[#35A5F6] mb-[2px]'
               : 'text-[#B2B5B9] mb-[2px]'
           }`}>
-          <Link href='/my-clubs' onClick={() => handleClick('my-clubs')}>
+          <Link href='/my-clubs'>
             <Image
               src={activeLink === 'my-clubs' ? mybookclubActive : mybookclub}
               alt='mybookclub'
@@ -63,7 +43,7 @@ const Footer = () => {
               ? 'text-[#35A5F6] mb-[2px]'
               : 'text-[#B2B5B9] mb-[2px]'
           }`}>
-          <Link href='/readbook' onClick={() => handleClick('readbook')}>
+          <Link href='/readbook'>
             <Image
               src={activeLink === 'readbook' ? readbookActive : readbook}
               alt='mybookclub'
@@ -80,7 +60,7 @@ const Footer = () => {
               ? 'text-[#35A5F6] mb-[2px]'
               : 'text-[#B2B5B9] mb-[2px]'
           }`}>
-          <Link href='/bookclubs' onClick={() => handleClick('bookclubs')}>
+          <Link href='/bookclubs'>
             <Image
               src={activeLink === 'bookclubs' ? searchActive : search}
               alt='mybookclub'
@@ -97,7 +77,7 @@ const Footer = () => {
               ? 'text-[#35A5F6] mb-[2px]'
               : 'text-[#B2B5B9] mb-[2px]'
           }`}>
-          <Link href='/mypage' onClick={() => handleClick('mypage')}>
+          <Link href='/mypage'>
             <Image
               src={activeLink === 'mypage' ? mypageActive : mypage}
               alt='mybookclub'

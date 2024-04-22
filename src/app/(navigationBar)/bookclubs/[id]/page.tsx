@@ -40,7 +40,7 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
 
   if (!bookclub) return;
   return (
-    <div className='mb-[78px] overflow-y-auto '>
+    <div className='mb-[160px] overflow-y-auto '>
       <h2 className='h-[54px] relative flex text-[17px] items-center justify-center'>
         <BackBtn />
         <div>북클럽 찾기</div>

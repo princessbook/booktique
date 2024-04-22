@@ -32,12 +32,12 @@ const Board = ({ clubId }: { clubId: string }) => {
             <div className='m-4 flex'>
               <Link
                 className='w-full'
-                href={`/my-clubs/${clubId}/posts/board/detail/${post.id}?clubId=${clubId}`}>
+                href={`/board/detail/${post.id}?clubId=${clubId}`}>
                 <section className='flex gap-1 items-center'>
                   {post.profile?.photo_URL ? (
                     <Image
                       className='rounded-full w-6 h-6'
-                      src={`${post.profile?.photo_URL}?${Math.random()}`}
+                      src={`${post.profile?.photo_URL}`}
                       alt='유저 프로필'
                       width={24}
                       height={24}
@@ -68,7 +68,7 @@ const Board = ({ clubId }: { clubId: string }) => {
                   </div>
                   {post.thumbnail ? (
                     <Image
-                      src={`${post.thumbnail}?${Math.random()}`}
+                      src={`${post.thumbnail}`}
                       alt='썸네일'
                       width={88}
                       height={88}
@@ -85,7 +85,7 @@ const Board = ({ clubId }: { clubId: string }) => {
       <div className='flex px-4 justify-end w-full'>
         <Link
           className='py-[15px] px-[20px] fixed bottom-[110px] text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-mainblue'
-          href={`/my-clubs/${clubId}/posts/board/posting/${crypto.randomUUID()}?clubId=${clubId}`}>
+          href={`/board/posting/${crypto.randomUUID()}?clubId=${clubId}`}>
           글 쓰러가기
         </Link>
       </div>

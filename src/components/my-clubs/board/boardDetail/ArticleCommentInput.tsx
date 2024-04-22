@@ -51,21 +51,19 @@ const ArticleCommentInput = ({
   };
 
   return (
-    <div className='w-full flex h-[74px] bg-grayBg'>
-      <div className=''>
-        <div className='w-full flex h-[74px] items-center justify-center gap-2 mx-4'>
-          <input
-            className='border w-10/12 h-2/3 rounded-[10px] text-sm'
-            placeholder='  댓글을 입력해주세요'
-            onChange={(e) => handleChangeComment(e)}
-            value={content}
-          />
-          <button
-            className='rounded-full bg-fontGrayBlue w-12 h-12 text-white'
-            onClick={handleSubmit}>
-            Go
-          </button>
-        </div>
+    <div className='w-full flex h-[74px] bg-grayBg md:max-w-[375px] fixed bottom-[78px]'>
+      <div className='w-full flex h-[74px] items-center justify-center gap-2 mx-4'>
+        <input
+          className='border w-10/12 h-2/3 rounded-[10px] text-sm'
+          placeholder='  댓글을 입력해주세요'
+          onChange={(e) => handleChangeComment(e)}
+          value={content}
+        />
+        <button
+          className='rounded-full bg-fontGrayBlue w-12 h-12 text-white'
+          onClick={handleSubmit}>
+          Go
+        </button>
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ type Props = {
   children: React.ReactNode;
   params: {
     clubId: string;
+    postId: string;
   };
 };
 

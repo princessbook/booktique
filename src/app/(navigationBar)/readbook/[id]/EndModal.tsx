@@ -11,7 +11,7 @@ const EndModal = ({ onClose, id }: ModalProps) => {
 
   const handleStopTimerAndNavigate = async () => {
     // alert('현재 테스트 중입니다 조금만 기다려주세요!');
-    onClose();
+    // onClose();
     router.refresh();
     localStorage.removeItem('timerStarted');
     localStorage.removeItem('timerSeconds');

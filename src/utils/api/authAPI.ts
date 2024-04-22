@@ -13,7 +13,9 @@ export const signInWithSocialLogin = async (provider: 'google' | 'kakao') => {
 };
 
 export const signInCheckUsers = async () => {
-  const { data: profileUsers } = await supabase.from('profiles').select('*');
+  const { data: profileUsers } = await supabase
+    .from('profiles')
+    .select('email');
 
   return profileUsers;
 };

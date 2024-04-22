@@ -26,7 +26,6 @@ const ClubList = ({
   const [clubActivities, setClubActivities1] = useState<
     Tables<'club_activities'>[] | null
   >(null);
-  const sliderRef = useRef<Slider>(null); // useRef로 sliderRef 생성
   const router = useRouter();
   useEffect(() => {
     const fetchClubActivities = async () => {
@@ -34,7 +33,8 @@ const ClubList = ({
         const { data: clubActivities, error: activitiesError } = await supabase
           .from('club_activities')
           .select('*')
-          .eq('user_id', id);
+          .eq('user_id', id)
+          .order('last_read', { ascending: false });
         setClubActivities1(clubActivities);
         // setLoading(false);
 
@@ -110,61 +110,11 @@ const ClubList = ({
     }
   };
   const handleReadButtonClick = (clubId: string) => {
-    if (sliderRef.current) {
-      sliderRef.current.slickGoTo(currentSlide, false);
-    }
-
     handleBookRead(clubId);
   };
   // if (loading) {
   //   return <LoadingOverlay show={loading} />;
   // }
-
-  //   return (
-  //     <>
-  //       <Slider className='custom-slider h-auto' {...settings}>
-  //         {allClubData
-  //           .filter((club) => !club.archive)
-  //           .map((club) => (
-  //             <div
-  //               key={club.id}
-  //               className='flex cursor-pointer'
-  //               onClick={() => {
-  //                 handleBookRead(club.id);
-  //                 router.push(`/readbook/${club.id}`);
-  //               }}>
-  //               <div className='flex flex-col bg-white mb-[3px] w-[92%] h-[60%] rounded-[20px] shadow-md mx-auto items-center justify-center'>
-  //                 <div className=' w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center break-words line-clamp-2'>
-  //                   {/* {club.book_title &&
-  //                         (club.book_title.length > 25
-  //                           ? club.book_title.substring(0, 25) + '...'
-  //                           : club.book_title)} */}
-  //                   {club.book_title}
-  //                 </div>
-  //                 <div className='relative mx-8 mt-4 mb-2 w-48 h-72 rounded-lg overflow-hidden'>
-  //                   <Image
-  //                     width={111}
-  //                     height={161}
-  //                     src={club.book_cover || ''}
-  //                     alt='북이미지'
-  //                     className='absolute inset-0 w-full h-full object-cover rounded'
-  //                   />
-  //                 </div>
-  //                 <ProgressBar
-  //                   progress={
-  //                     clubActivities?.find(
-  //                       (activity) => activity.club_id === club.id
-  //                     )?.progress || 0
-  //                   }
-  //                   backgroundColor='#EDEEF2'
-  //                 />
-  //               </div>
-  //             </div>
-  //           ))}
-  //       </Slider>
-  //     </>
-  //   );
-  // };
 
   // 책 읽기 버튼
   return (
@@ -173,7 +123,7 @@ const ClubList = ({
         {allClubData
           .filter((club) => !club.archive)
           .map((club) => (
-            <div key={club.id} className='flex '>
+            <div key={club.id} className='flex cursor-pointer '>
               <div className='flex flex-col bg-white mb-[40px] w-[92%] h-[60%] rounded-[20px] shadow-md mx-auto items-center justify-center'>
                 <div className='flex w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center'>
                   {club.book_title &&
@@ -182,13 +132,13 @@ const ClubList = ({
                       : club.book_title)}
                 </div>
 
-                <div className='relative mx-8 mt-4 mb-2 w-48 h-72 rounded-lg overflow-hidden'>
+                <div className='relative flex mx-8 mt-4 mb-2 w-48 h-72 rounded-lg overflow-hidden'>
                   <Image
-                    width={111}
-                    height={161}
+                    width={196}
+                    height={304}
                     src={club.book_cover || ''}
                     alt='북이미지'
-                    className='absolute inset-0 w-full top-1/2 translate-y-[-50%] object-cover rounded'
+                    className='flex w-full rounded mb-[8px] object-contain'
                   />
                 </div>
                 <ProgressBar
@@ -210,7 +160,6 @@ const ClubList = ({
           <ReadButton
             clubId={allClubData[currentSlide]?.id}
             onClick={() => handleReadButtonClick(allClubData[currentSlide]?.id)}
-            // sliderRef={sliderRef}
           />
         </Link>
       </div>
@@ -219,3 +168,48 @@ const ClubList = ({
 };
 
 export default ClubList;
+//   return (
+//     <>
+//       <Slider className='custom-slider h-auto' {...settings}>
+//         {allClubData
+//           .filter((club) => !club.archive)
+//           .map((club) => (
+//             <div
+//               key={club.id}
+//               className='flex cursor-pointer'
+//               onClick={() => {
+//                 handleBookRead(club.id);
+//                 router.push(`/readbook/${club.id}`);
+//               }}>
+//               <div className='flex flex-col bg-white mb-[3px] w-[92%] h-[60%] rounded-[20px] shadow-md mx-auto items-center justify-center'>
+//                 <div className=' w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center break-words line-clamp-2'>
+//                   {/* {club.book_title &&
+//                         (club.book_title.length > 25
+//                           ? club.book_title.substring(0, 25) + '...'
+//                           : club.book_title)} */}
+//                   {club.book_title}
+//                 </div>
+//                 <div className='relative mx-8 mt-4 mb-2 w-48 h-72 rounded-lg overflow-hidden'>
+//                   <Image
+//                     width={111}
+//                     height={161}
+//                     src={club.book_cover || ''}
+//                     alt='북이미지'
+//                     className='absolute inset-0 w-full h-full object-cover rounded'
+//                   />
+//                 </div>
+//                 <ProgressBar
+//                   progress={
+//                     clubActivities?.find(
+//                       (activity) => activity.club_id === club.id
+//                     )?.progress || 0
+//                   }
+//                   backgroundColor='#EDEEF2'
+//                 />
+//               </div>
+//             </div>
+//           ))}
+//       </Slider>
+//     </>
+//   );
+// };

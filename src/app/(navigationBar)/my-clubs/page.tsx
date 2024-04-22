@@ -1,7 +1,6 @@
 'use client';
 
 import NonMyClub from '@/components/my-clubs/info/NonMyClub';
-import useClubInfo from '@/hooks/info/useClubInfo';
 import { Tables } from '@/lib/types/supabase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -15,11 +14,9 @@ const Page = (props: Props) => {
   // TODO: 내 북클럽 찾아서 첫번째 녀석으로 리다이렉션
 
   const router = useRouter();
-  //getOrCreateUserProfile없는 코드, 푸터의 내 북클럽 누르면 /my-clubs로 가서 렌더링 지연. 별차이없는거같긴함 ㅋㅋ
-  // const { clubs, isLoading } = useMyClubInfo();
-  const { clubs, isLoading } = useClubInfo();
+  const { clubs, isLoading } = useMyClubInfo();
   const club = clubs[0];
-  console.log(club);
+
   useEffect(() => {
     if (club) {
       router.push(`/my-clubs/${club.id}/info`);

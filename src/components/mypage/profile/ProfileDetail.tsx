@@ -174,16 +174,16 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                     setDisplayNameError(null); // 에러 메시지 초기화
                     setIsModified(true);
                   }}
+                  maxLength={12}
                   className={`w-full p-2 border rounded-lg ${
                     displayNameError ? 'border-primary400' : 'border-grayBg'
                   } bg-grayBg text-fontMain pr-10 text-[14px]`} // pr-10 추가하여 오른쪽 여백을 확보
-                  // ref={(input) => {
-                  //   if (input && displayNameError) {
-                  //     input.focus();
-                  //   }
-                  // }}
                 />
-
+                {displayName && ( // displayName이 비어있지 않은 경우에만 숫자 표시 부분을 렌더링합니다.
+                  <div className='absolute right-8 top-1/2 transform -translate-y-1/2 text-[12px] text-[#939393]'>
+                    {Math.min(displayName.length, 12)}/{12}
+                  </div>
+                )}
                 {displayName && (
                   <Image
                     className='absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer' // right-2 추가하여 오른쪽 여백을 조정하고, top 값을 조정하여 높이 중앙에 위치

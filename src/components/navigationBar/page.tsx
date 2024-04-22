@@ -30,9 +30,10 @@ const NavigationBar = () => {
             <Image
               src={activeLink === 'my-clubs' ? mybookclubActive : mybookclub}
               alt='mybookclub'
-              width={64.69}
+              width={64}
               height={46}
-              className='mt-1 w-[64.69px] h-[46px]'
+              priority={true}
+              className='mt-1 w-[64px] h-[46px]'
             />
             내 북클럽
           </Link>
@@ -47,15 +48,16 @@ const NavigationBar = () => {
             <Image
               src={activeLink === 'readbook' ? readbookActive : readbook}
               alt='mybookclub'
-              width={64.69}
+              width={64}
               height={46}
-              className='mt-1 w-[64.69px] h-[46px]'
+              priority={true}
+              className='mt-1 w-[64px] h-[46px]'
             />
             책 읽기
           </Link>
         </li>
         <li
-          className={`flex  h-[78px] justify-center ${
+          className={`flex h-[78px] justify-center ${
             activeLink === 'bookclubs'
               ? 'text-[#35A5F6] mb-[2px]'
               : 'text-[#B2B5B9] mb-[2px]'
@@ -66,6 +68,7 @@ const NavigationBar = () => {
               alt='mybookclub'
               width={64}
               height={46}
+              priority={true}
               className='mt-1 w-[64px] h-[46px]'
             />
             북클럽 찾기
@@ -83,6 +86,7 @@ const NavigationBar = () => {
               alt='mybookclub'
               width={64}
               height={46}
+              priority={true}
               className='mt-1 w-[64px] h-[46px]'
             />
             마이 페이지

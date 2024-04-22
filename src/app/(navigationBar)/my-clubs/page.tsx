@@ -6,6 +6,7 @@ import { Tables } from '@/lib/types/supabase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import useMyClubInfo from '@/hooks/info/useMyClubInfo';
+import Image from 'next/image';
 type Clubs = Tables<'clubs'>;
 
 type Props = {};
@@ -26,7 +27,21 @@ const Page = (props: Props) => {
   }, [club, router]);
 
   if (isLoading) {
-    return <div>로딩중...</div>;
+    return (
+      <div className='flex justify-center items-center h-screen flex-col'>
+        <div>
+          <Image
+            src={'/readbook_noclub.png'}
+            alt='로딩중이미지'
+            width={150}
+            height={150}
+          />
+        </div>
+        <div className='mt-4 relative h-4 w-40 bg-gray-200 rounded-full overflow-hidden'>
+          <div className=' absolute top-0 left-0 h-full bg-gradient-to-r from-secondary500 to-primary400 rounded-full animate-fill'></div>
+        </div>
+      </div>
+    );
   }
 
   if (!club) {

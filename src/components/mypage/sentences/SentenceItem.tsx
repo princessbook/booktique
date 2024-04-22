@@ -18,31 +18,31 @@ type SentenceItemProps = {
 
 const SentenceItem: React.FC<SentenceItemProps> = ({ sentence, club }) => {
   return (
-    <li className='bg-[#F6F7F9] rounded-[10px] mb-3 py-2 px-4 flex flex-row items-center'>
-      {sentence.sentence_content && (
-        <div className='w-[90%] flex flex-col'>
-          <p
-            className='text-[14px] text-fontMain'
-            style={{ wordWrap: 'break-word' }}>
-            {sentence.sentence_content}
-          </p>
-          {club && (
-            <div className='text-[11px] mt-1'>
-              <div className='flex flex-col'>
-                <p className='text-[#8A9DB3] font-bold text-[12px]'>
-                  {club.name}
-                </p>
-                <p className='text-fontMain opacity-60 font-medium'>
-                  {club.book_title}
-                </p>
-                <p className='text-[#939393]'>{sentence.sentence_page}p</p>
+    <Link href={`/my-clubs/${club?.id}/sentences`}>
+      <li className='bg-[#F6F7F9] rounded-[10px] mb-3 py-2 px-4 flex flex-row items-center'>
+        {sentence.sentence_content && (
+          <div className='w-[90%] flex flex-col'>
+            <p
+              className='text-[14px] text-fontMain'
+              style={{ wordWrap: 'break-word' }}>
+              {sentence.sentence_content}
+            </p>
+            {club && (
+              <div className='text-[11px] mt-1'>
+                <div className='flex flex-col'>
+                  <p className='text-[#8A9DB3] font-bold text-[12px]'>
+                    {club.name}
+                  </p>
+                  <p className='text-fontMain opacity-60 font-medium'>
+                    {club.book_title}
+                  </p>
+                  <p className='text-[#939393]'>{sentence.sentence_page}p</p>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      )}
-      <div className='ml-auto'>
-        <Link href={`/my-clubs/${club?.id}/sentences`}>
+            )}
+          </div>
+        )}
+        <div className='ml-auto'>
           <svg
             width='22'
             height='22'
@@ -56,9 +56,9 @@ const SentenceItem: React.FC<SentenceItemProps> = ({ sentence, club }) => {
               strokeLinecap='round'
             />
           </svg>
-        </Link>
-      </div>
-    </li>
+        </div>
+      </li>
+    </Link>
   );
 };
 

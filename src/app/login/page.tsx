@@ -6,13 +6,11 @@ export default async function LoginPage() {
   const supabase = createClient();
   const { data } = await supabase.auth.getUser();
 
-  if (data.user) {
-    redirect('/my-clubs');
-    return null;
-  }
+  const { data: users } = await supabase.from('profiles').select('*');
+
   return (
     <div className=' h-full'>
-      <LoginForm />
+      <LoginForm users={users || []} />
     </div>
   );
 }

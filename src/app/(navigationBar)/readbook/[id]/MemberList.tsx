@@ -77,12 +77,12 @@ const MemberList = ({
   }, [clubMembers, supabase, id, timerVisible]);
   if (loading) {
     return (
-      <>
+      <div className='flex flex-col'>
         <div className='mt-[32px] mb-[16px] ml-[16px] font-bold text-[16px] leading-[22px] text-[#3F3E4E]'>
           함께 책 읽기
           <button className='ml-10'>채팅참여하기</button>
         </div>
-        <div className='flex flex-wrap mx-auto gap-[9px] justify-start ml-[16px] mt-[16px]'>
+        <div className='grid grid-cols-3 mx-auto gap-[9px] justify-start items-center '>
           {Array.from({ length: clubMembers.length }).map((_, index) => (
             <div
               key={index}
@@ -90,7 +90,7 @@ const MemberList = ({
             />
           ))}
         </div>
-      </>
+      </div>
     );
   }
 
@@ -106,7 +106,7 @@ const MemberList = ({
             채팅참여하기
           </button>
         </div>
-        <div className='flex flex-wrap mx-auto gap-[9px] justify-start ml-[16px]'>
+        <div className='grid grid-cols-3 mx-auto gap-[9px] justify-start items-center text-center'>
           {profiles?.map((profile, index) => (
             <div
               key={index}

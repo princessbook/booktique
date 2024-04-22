@@ -335,6 +335,17 @@ const BookInfo = ({
           duration={3000}
         />
       )}
+      {activeTab === '채팅' && (
+        <>
+          <MemberList
+            id={clubId}
+            clubMembers={clubMembers}
+            endButtonVisible={endButtonVisible}
+            timerVisible={timerVisible}
+            userId={userId}
+          />
+        </>
+      )}
     </>
   );
 };

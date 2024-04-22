@@ -123,6 +123,10 @@ const RegisterForm = () => {
     setPasswordConfirm(inputPasswordConfirm);
     if (inputPasswordConfirm !== password) {
       setPasswordError('비밀번호가 일치하지 않습니다.');
+    } else if (!validatePassword(password)) {
+      setPasswordError(
+        '비밀번호는 영문 대문자, 소문자, 숫자를 포함하고, 6~20자로 이루어져야 합니다.'
+      );
     } else {
       setPasswordError('');
     }

@@ -284,7 +284,7 @@ const BookInfo = ({
             onClick={() => setActiveTab('퀴즈')}>
             퀴즈
           </div>
-          {/* <div
+          <div
             className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '채팅'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
@@ -292,7 +292,7 @@ const BookInfo = ({
             }`}
             onClick={() => setActiveTab('채팅')}>
             채팅
-          </div> */}
+          </div>
         </div>
       </div>
 

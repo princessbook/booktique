@@ -145,7 +145,7 @@ const BookInfo = ({
   const toastStyle = {
     width: '343px',
     height: '50px',
-    top: '48px', // 헤더 48이라 임시로 해놓음
+    top: '30%', // 헤더 48이라 임시로 해놓음
     left: '50%', // 화면 중앙
     transform: 'translateX(-50%)',
     fontSize: '8px'

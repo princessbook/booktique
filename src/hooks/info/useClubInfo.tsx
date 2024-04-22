@@ -17,17 +17,17 @@ const useClubInfo = () => {
       try {
         const fetchedUserId = await getUserId();
         if (fetchedUserId) {
-          const fetchedUserProfile = await getOrCreateUserProfile();
-          if (fetchedUserProfile) {
-            const fetchedClubIds = await getUserClubIds(fetchedUserId);
-            const fetchClubInfo = await getClubInfo(
-              fetchedClubIds.filter(
-                (id) => !clubs.find((club) => club.id === id)?.archive
-              )
-            );
-            setClubs(fetchClubInfo);
-            setIsLoading(false);
-          }
+          // const fetchedUserProfile = await getOrCreateUserProfile();
+          // if (fetchedUserProfile) {
+          const fetchedClubIds = await getUserClubIds(fetchedUserId);
+          const fetchClubInfo = await getClubInfo(
+            fetchedClubIds.filter(
+              (id) => !clubs.find((club) => club.id === id)?.archive
+            )
+          );
+          setClubs(fetchClubInfo);
+          setIsLoading(false);
+          // }
         }
       } catch (error) {
         console.error('Error fetching data:', error);

@@ -19,7 +19,7 @@ const Page = (props: Props) => {
   // const { clubs, isLoading } = useMyClubInfo();
   const { clubs, isLoading } = useClubInfo();
   const club = clubs[0];
-
+  console.log(club);
   useEffect(() => {
     if (club) {
       router.push(`/my-clubs/${club.id}/info`);

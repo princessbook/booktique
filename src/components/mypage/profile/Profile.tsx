@@ -100,7 +100,7 @@ const Profile = ({ userId }: { userId: string | null }) => {
                 alt='미리보기'
                 width={96}
                 height={96}
-                className='rounded-full object-cover'
+                className='rounded-full object-cover w-[56px] h-[56px]'
               />
             ) : (
               <img

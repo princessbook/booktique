@@ -2,6 +2,7 @@
 import { createClient } from '@/utils/supabase/client';
 import React, { useEffect, useRef, useState } from 'react';
 import { QuizSchemaType, QuizsType } from '../quiz/QuizContainer';
+import Image from 'next/image';
 const parseSchema = (schema: string) => {
   try {
     return JSON.parse(schema);
@@ -63,8 +64,19 @@ const QuizArchiving = ({ clubId }: { clubId: string }) => {
     <section className='overflow-scroll p-3 py-5 pb-10'>
       {quizsData?.length === 0 && (
         <div className='flex w-full h-full justify-center items-center'>
-          <div className='flex w-full text-center'>
-            <p className='text-center w-full'>등록된 퀴즈가 없습니다</p>
+          <div className='flex flex-col w-full text-center justify-center items-center'>
+            <p className='text-fontGrayBlue mb-16 mt-20 text-[14px]'>
+              책 내용으로 퀴즈를 만들어 <br />
+              북클럽 멤버들과 서로 맞춰보세요!
+            </p>
+            <div className='w-[191px] h-[130px]'>
+              <Image
+                src='/no_quiz.png'
+                alt='no_quiz'
+                width='191'
+                height='130'
+              />
+            </div>
           </div>
         </div>
       )}

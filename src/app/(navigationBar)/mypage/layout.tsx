@@ -112,7 +112,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <ToastUi
           message={`${alarm[alarm.length - 1]?.content}`}
           onClose={() => setShowToast(false)}
-          isSuccess={false}
+          isSuccess={true}
           style={toastStyle}
           duration={10000}
         />

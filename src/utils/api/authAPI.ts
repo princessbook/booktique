@@ -12,6 +12,12 @@ export const signInWithSocialLogin = async (provider: 'google' | 'kakao') => {
   });
 };
 
+export const signInCheckUsers = async () => {
+  const { data: profileUsers } = await supabase.from('profiles').select('*');
+
+  return profileUsers;
+};
+
 // export const signInWithGoogle = async () => {
 //   await supabase.auth.signInWithOAuth({
 //     provider: 'google',

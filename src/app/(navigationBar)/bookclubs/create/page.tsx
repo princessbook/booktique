@@ -254,7 +254,7 @@ const CreateBookPage = () => {
                 showSteps={true}
                 className='max-w-md h-8'
                 value={selectedParticipants!} // 현재 슬라이더 값 설정
-                onChange={(newValue: number) =>
+                onChange={(newValue: number | number[]) =>
                   setSelectedParticipants(newValue as number)
                 }
                 marks={[

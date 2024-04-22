@@ -11,11 +11,10 @@ export const getOrCreateUserProfile = async () => {
   if (error) {
     throw error;
   }
-
   if (user !== null) {
     const userId = user.id;
     const userEmail = user.email;
-
+    const displayName = user.user_metadata.full_name;
     // 프로필 조회
     const { data: profilesData } = await supabase
       .from('profiles')
@@ -31,7 +30,8 @@ export const getOrCreateUserProfile = async () => {
       .from('profiles')
       .insert({
         id: userId,
-        email: userEmail
+        email: userEmail,
+        display_name: displayName
       });
 
     if (newProfileError) {

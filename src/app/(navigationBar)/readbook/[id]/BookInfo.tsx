@@ -8,6 +8,9 @@ import QuizContainer from '@/components/quiz/QuizContainer';
 import { createClient } from '@/utils/supabase/client';
 import { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
 import ToastUi from '@/common/ToastUi';
+import Image from 'next/image';
+import Link from 'next/link';
+import close from '../../../../../public/close_read.png';
 // import useRealtimePostgresChanges from '@/hooks/useRealtimePostgresChanges';
 // import useAlarmStore from '@/store';
 
@@ -145,7 +148,7 @@ const BookInfo = ({
   const toastStyle = {
     width: '343px',
     height: '50px',
-    top: '30%', // 헤더 48이라 임시로 해놓음
+    top: '10%', // 헤더 48이라 임시로 해놓음
     left: '50%', // 화면 중앙
     transform: 'translateX(-50%)',
     fontSize: '8px'
@@ -241,26 +244,41 @@ const BookInfo = ({
   return (
     <>
       <div className='sticky top-0 z-10'>
-        <div className='h-[42px] bg-mainblue'></div>
+        {!timerVisible && (
+          <div className='flex flex-row bg-[#35A5F6] border-b-[1px] border-[#DBE3EB] border-opacity-30 w-full '>
+            <Link href='/readbook' passHref>
+              <Image
+                src={close}
+                className='w-[22px] h-[22px] m-[16px]'
+                alt='close'
+              />
+            </Link>
+            <div className='flex h-[54px] items-center ml-[94px] text-white text-[17px] leading-[26px] font-bold text-center'>
+              책 읽기 종료
+            </div>
+          </div>
+        )}
         <div
           className={`sticky flex flex-col bg-mainblue items-center ${containerHeight}`}>
-          <div className='mt-[16px] '>
-            {!timerVisible && (
-              <div className='flex'>
-                <div
-                  className='mb-[24px] flex w-[189px] h-[54px] bg-[#D8FA8E] rounded-[10px] text-center text-[#269AED] font-bold text-[17px] leading-[26px] justify-center items-center cursor-pointer'
-                  onClick={handleStartTimer}>
-                  책 읽기 시작
-                </div>
+          {/* <div className='mt-[16px] '> */}
+          {!timerVisible && (
+            <div className='flex h-full'>
+              <div
+                className='flex w-[189px] h-[54px] my-auto bg-[#D8FA8E] rounded-[10px] text-center text-[#269AED] font-bold text-[17px] leading-[26px] justify-center items-center cursor-pointer'
+                onClick={handleStartTimer}>
+                책 읽기 시작
               </div>
-            )}
-            {timerVisible && (
-              <Timer clubId={clubId} userId={userId as string} />
-            )}
-          </div>
+            </div>
+          )}
+
+          {/* {timerVisible && <Timer clubId={clubId} userId={userId as string} />} */}
+          {/* </div> */}
           {timerVisible && (
-            <div className='text-white mt-[8px] mb-[16px] w-[295px] text-center break-words line-clamp-2'>
-              {clubData[0].book_title}
+            <div className='my-auto flex flex-col justify-center items-center gap-[8px]'>
+              <Timer clubId={clubId} userId={userId as string} />
+              <div className='flex text-white  w-[295px] text-center break-words line-clamp-2'>
+                {clubData[0].book_title}
+              </div>
             </div>
           )}
         </div>
@@ -316,6 +334,17 @@ const BookInfo = ({
           style={toastStyle}
           duration={3000}
         />
+      )}
+      {activeTab === '채팅' && (
+        <>
+          <MemberList
+            id={clubId}
+            clubMembers={clubMembers}
+            endButtonVisible={endButtonVisible}
+            timerVisible={timerVisible}
+            userId={userId}
+          />
+        </>
       )}
     </>
   );

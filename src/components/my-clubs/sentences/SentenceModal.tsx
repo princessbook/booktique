@@ -137,6 +137,7 @@ const SentenceModal = ({
             저장
           </button>
           <ToastUi
+            duration={1000}
             style={{}}
             onClose={() => setToastMessage('')}
             message={toastMessage}

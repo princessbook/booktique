@@ -196,6 +196,7 @@ const RegisterForm = () => {
             회원가입 하기
           </button>
           <ToastUi
+            duration={1000}
             style={{}}
             onClose={() => setToastMessage('')}
             message={toastMessage}

@@ -24,7 +24,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
   });
 
   const userProfile = profiles?.find((profile) => profile.id === userId);
-  // const [inputColor,setInputColor] =useState<string>('#3F3E4E');
+  const [isModified, setIsModified] = useState(false); // 변경 여부를 저장하는 상태
   const [isEdit, setIsEdit] = useState(false);
   const [displayName, setDisplayName] = useState(
     userProfile?.display_name ?? ''
@@ -35,7 +35,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
   const [photoUrl, setPhotoUrl] = useState<string | null>(
     userProfile?.photo_URL ?? ''
   );
-
+  const [displayNameError, setDisplayNameError] = useState<string | null>(null);
   const [previewImg, setPreviewImg] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
@@ -54,11 +54,17 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
       console.log(reader);
       reader.onloadend = () => {
         setPhotoUrl(reader.result as string);
+        setIsModified(true);
       };
       reader.readAsDataURL(selectedFile);
     }
   };
   const handleSave = async () => {
+    if (!displayName.trim()) {
+      setDisplayNameError('닉네임은 필수입니다.');
+      return; // 함수 종료
+    }
+    // setDisplayNameError(null);
     const formData = new FormData();
     if (previewImg) {
       const storageImageUrl = await uploadAvatar(
@@ -78,12 +84,9 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
     formData.append('display_name', displayName);
     formData.append('introduction', introduction);
     mutateToUpdateProfile(formData);
+    setIsModified(false);
     router.push('/mypage');
   };
-
-  if (isLoading) {
-    return <p>로딩 중...</p>;
-  }
 
   return (
     <div className='flex flex-col w-full items-center '>
@@ -109,10 +112,12 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
             />
           </svg>
         </Link>
-        <p className='items-center flex-grow text-center font-bold text-[17px] ml-4'>
+        <p className='items-center flex-grow text-center font-bold text-[17px] ml-4 text-fontTitle'>
           프로필 수정
         </p>
-        <button className='text-[#939393]' onClick={handleSave}>
+        <button
+          className={isModified ? 'text-fontMain' : 'text-[#939393]'}
+          onClick={handleSave}>
           완료
         </button>
       </div>
@@ -159,14 +164,26 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
             </label>
 
             <div className='w-full relative'>
-              <div className='relative flex items-center mb-[11px] mt-8'>
+              <div className='relative flex items-center mt-8'>
                 <input
                   type='text'
                   placeholder='닉네임을 입력해주세요.'
                   value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  className='w-full p-2 border rounded-lg bg-grayBg text-[#3F3E4E] text-opacity-60 pr-10 text-[14px]' // pr-10 추가하여 오른쪽 여백을 확보
+                  onChange={(e) => {
+                    setDisplayName(e.target.value);
+                    setDisplayNameError(null); // 에러 메시지 초기화
+                    setIsModified(true);
+                  }}
+                  className={`w-full p-2 border rounded-lg ${
+                    displayNameError ? 'border-primary400' : 'border-grayBg'
+                  } bg-grayBg text-fontMain pr-10 text-[14px]`} // pr-10 추가하여 오른쪽 여백을 확보
+                  // ref={(input) => {
+                  //   if (input && displayNameError) {
+                  //     input.focus();
+                  //   }
+                  // }}
                 />
+
                 {displayName && (
                   <Image
                     className='absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer' // right-2 추가하여 오른쪽 여백을 조정하고, top 값을 조정하여 높이 중앙에 위치
@@ -178,15 +195,23 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                   />
                 )}
               </div>
+              {displayNameError && (
+                <p className='text-[#939393] text-[12px] ml-2'>
+                  {displayNameError}
+                </p>
+              )}
             </div>
 
-            <div className='mb-4 w-full'>
+            <div className='mt-[11px] mb-4 w-full'>
               <textarea
                 style={{ height: '240px', width: '100%' }}
                 value={introduction}
                 placeholder='소개글을 입력해주세요.'
-                onChange={(e) => setIntroduction(e.target.value)}
-                className='w-full p-2 border rounded-lg bg-grayBg text-opacity-60 text-[#3F3E4E] text-[14px]'
+                onChange={(e) => {
+                  setIntroduction(e.target.value);
+                  setIsModified(true);
+                }}
+                className='w-full p-2 border rounded-lg bg-grayBg text-[14px] text-fontMain'
               />
             </div>
           </>

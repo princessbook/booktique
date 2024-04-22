@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import ReadBookLayout from '../readbook/layout';
 import Image from 'next/image';
-import noclub from '../../../../public/noclub.png';
+import readbook_noclub from '../../../../public/readbook_noclub.png';
 import blue from '../../../../public/booktiquereadblue.png';
 import { createClient } from '@/utils/supabase/server';
 import ClubList from './ClubList';
@@ -68,7 +68,9 @@ const ReadBookPage = async () => {
   return (
     <ReadBookLayout>
       <Suspense fallback={<></>}>
-        {allClubData.length > 0 ? (
+        {allClubData
+          .map((club) => club.archive)
+          .filter((item) => item === false).length > 0 ? (
           <>
             <div></div>
             <Image
@@ -95,11 +97,11 @@ const ReadBookPage = async () => {
             />
             <div className='flex flex-row'>
               <div className='bg-[#DBE3EB] mb-[40px] w-[302px] h-[464px] rounded-[20px]  mx-auto mt-[24px]'>
-                <div className='flex mt-[108px] mb-[37px] w-[196px] h-[48px] text-center font-bold text-[18px] leading-[24px] text-[white]  mx-auto justify-center items-center'>
-                  가입한 북클럽이 없습니다. 북클럽에 가입해서 책 읽어보세요
+                <div className='flex mt-[108px] mb-[37px] w-[196px] h-[48px] text-center font-medium text-[14px] leading-[20px] text-[#3F3E4E] mx-auto justify-center items-center'>
+                  가입한 북클럽이 없습니다. 북클럽을 찾고 함께 책 읽어보세요.
                 </div>
                 <Image
-                  src={noclub}
+                  src={readbook_noclub}
                   width={166}
                   height={166}
                   alt={'noclub'}

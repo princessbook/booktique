@@ -151,8 +151,8 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
 
   return (
     <div className='mb-[78px] overflow-y-auto'>
-      <div className='fixed top-[84px] w-full'>
-        <section className='h-[54px] flex items-center justify-between fixed top-[91px] md:max-w-[375px] bg-white border-b-[1px] w-full'>
+      <div className='fixed w-full'>
+        <section className='h-[54px] flex items-center justify-between fixed md:max-w-[375px] bg-white border-b-[1px] w-full'>
           <IoIosArrowBack
             className='ml-4'
             size={25}

@@ -3,31 +3,34 @@ import React from 'react';
 import Link from 'next/link';
 
 type BookClubItemProps = {
-  club: {
-    id: string;
-    archive: boolean | null;
+  club_id: string;
+  clubs: {
     name: string | null;
-  };
+    archive: boolean | null;
+    created_at: string | null;
+  } | null;
 };
 
-const BookClubItem: React.FC<BookClubItemProps> = ({ club }) => {
+const BookClubItem = ({ club }: { club: BookClubItemProps }) => {
   return (
-    <li className='bg-[#F6F7F9] rounded-[10px] p-4 mt-2 flex flex-row items-center'>
-      <div className='flex flex-col'>
-        {club.archive ? (
-          <p className='text-center w-[37px] h-[17px] px-1 border text-[10px] text-white bg-[#B3C1CC] rounded-md'>
-            종료
-          </p>
-        ) : (
-          <p className='text-center px-1 border w-[37px] h-[17px] text-[10px] text-white bg-subblue rounded-md'>
-            진행중
-          </p>
-        )}
-        <div className='w-[178px] text-[#3F3E4E] mt-1'>{club.name}</div>
-      </div>
+    <Link href={`/my-clubs/${club.club_id}/info`}>
+      <li className='bg-[#F6F7F9] rounded-[10px] p-4 mt-2 flex flex-row items-center'>
+        <div className='flex flex-col'>
+          {club.clubs?.archive ? (
+            <p className='text-center w-[37px] h-[17px] px-1 border text-[10px] text-white bg-[#B3C1CC] rounded-md'>
+              종료
+            </p>
+          ) : (
+            <p className='text-center px-1 border w-[37px] h-[17px] text-[10px] text-white bg-subblue rounded-md'>
+              진행중
+            </p>
+          )}
+          <div className='w-[178px] text-[#3F3E4E] mt-1'>
+            {club.clubs?.name}
+          </div>
+        </div>
 
-      <div className='ml-auto'>
-        <Link href={`/my-clubs/${club.id}/info`}>
+        <div className='ml-auto'>
           <svg
             width='22'
             height='22'
@@ -41,9 +44,9 @@ const BookClubItem: React.FC<BookClubItemProps> = ({ club }) => {
               strokeLinecap='round'
             />
           </svg>
-        </Link>
-      </div>
-    </li>
+        </div>
+      </li>
+    </Link>
   );
 };
 

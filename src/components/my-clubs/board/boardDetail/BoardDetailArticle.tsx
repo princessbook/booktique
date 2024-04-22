@@ -42,9 +42,7 @@ const BoardDetailArticle = ({
       alert('본인의 글만 수정 삭제 가능합니다');
       return;
     }
-    router.push(
-      `/my-clubs/${clubId}/posts/board/posting/${postId}?isModify=true&clubId=${clubId}`
-    );
+    router.push(`/board/posting/${postId}?isModify=true&clubId=${clubId}`);
   };
 
   const {
@@ -63,7 +61,7 @@ const BoardDetailArticle = ({
   return (
     <div key={article.id} className='flex flex-col'>
       <div className='w-full top-[84px]'>
-        <section className='h-[54px] flex items-center justify-between fixed top-[91px] md:max-w-[375px] bg-white border-b-[1px] w-full'>
+        <section className='h-[54px] flex items-center justify-between fixed md:max-w-[375px] bg-white border-b-[1px] w-full'>
           <IoIosArrowBack
             className='ml-4'
             size={25}

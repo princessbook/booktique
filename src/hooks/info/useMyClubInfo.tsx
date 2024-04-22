@@ -19,16 +19,25 @@ const useMyClubInfo = () => {
         if (user) {
           let { data, error } = await supabase
             .from('members')
-            .select('*,clubs(name)')
+            .select('*,clubs(name,archive)')
             .eq('user_id', user.id);
-          // console.log(data);
+          // .eq('clubs(archive)', false);
+          // .filter('clubs(archive)', 'eq', false);
+
           if (error) throw error;
 
-          const clubList = data?.map((item: any) => ({
-            id: item.club_id,
-            name: item.clubs.name
-          }));
+          // const clubList = data?.map((item: any) => ({
+          //   id: item.club_id,
+          //   name: item.clubs.name
+          // }));
 
+          //archive false인것만 가져오기
+          const clubList = data
+            ?.filter((item: any) => item.clubs?.archive === false)
+            .map((item: any) => ({
+              id: item.club_id,
+              name: item.clubs.name
+            }));
           setClubs(clubList || []);
           setIsLoading(false);
         }

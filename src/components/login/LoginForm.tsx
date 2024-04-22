@@ -130,13 +130,6 @@ const LoginForm = ({ users }: { users: Users[] }) => {
             회원가입
           </Link>
         </div>
-        {/* <ToastUi
-          duration={1000}
-          style={toastStyle}
-          onClose={() => setToastMessage('')}
-          message={toastMessage}
-          isSuccess={!toastMessage.startsWith('로그인정보가')}
-        /> */}
       </form>
     </div>
   );

@@ -145,7 +145,7 @@ const BookInfo = ({
   const toastStyle = {
     width: '343px',
     height: '50px',
-    top: '30%', // 헤더 48이라 임시로 해놓음
+    top: '10%', // 헤더 48이라 임시로 해놓음
     left: '50%', // 화면 중앙
     transform: 'translateX(-50%)',
     fontSize: '8px'
@@ -266,7 +266,7 @@ const BookInfo = ({
         </div>
         <div className='flex w-full justify-center bg-white text-center border-b h-[49px] '>
           <div
-            className={`cursor-pointer w-1/2 py-[15px] ${
+            className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '책읽기'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black '
                 : 'text-[14px] text-[#3A3B42] text-opacity-50 leading-[17px] text-center font-bold '
@@ -276,7 +276,7 @@ const BookInfo = ({
           </div>
 
           <div
-            className={`cursor-pointer w-1/2 py-[15px] ${
+            className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '퀴즈'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
                 : 'text-[14px] text-[#3A3B42] text-opacity-50  leading-[17px] text-center font-bold'
@@ -284,7 +284,7 @@ const BookInfo = ({
             onClick={() => setActiveTab('퀴즈')}>
             퀴즈
           </div>
-          {/* <div
+          <div
             className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '채팅'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
@@ -292,7 +292,7 @@ const BookInfo = ({
             }`}
             onClick={() => setActiveTab('채팅')}>
             채팅
-          </div> */}
+          </div>
         </div>
       </div>
 
@@ -316,6 +316,17 @@ const BookInfo = ({
           style={toastStyle}
           duration={3000}
         />
+      )}
+      {activeTab === '채팅' && (
+        <>
+          <MemberList
+            id={clubId}
+            clubMembers={clubMembers}
+            endButtonVisible={endButtonVisible}
+            timerVisible={timerVisible}
+            userId={userId}
+          />
+        </>
       )}
     </>
   );

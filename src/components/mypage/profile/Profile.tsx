@@ -17,8 +17,8 @@ const Profile = ({ userId }: { userId: string | null }) => {
     queryKey: ['profiles'],
     queryFn: getUserProfile
   });
+
   const userProfile = profiles?.find((profile) => profile.id === userId);
-  console.log(userProfile);
 
   // 대연 추가
   // const supabase = createClient();
@@ -113,7 +113,7 @@ const Profile = ({ userId }: { userId: string | null }) => {
             )}
           </div>
           <div className='flex items-center ml-2'>
-            <p className='text-[18px] font-bold '>
+            <p className='text-[18px] font-bold text-fontTitle'>
               {userProfile?.display_name}
             </p>
           </div>

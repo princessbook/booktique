@@ -132,7 +132,7 @@ const SaveCard = ({
       // 이미 삽입된 데이터가 있다면 해당 행을 업데이트
       const { data: updatedData, error: updateError } = await supabase
         .from('club_activities')
-        .update({ progress: result })
+        .update({ progress: result, last_read: true })
         .eq('club_id', id)
         .eq('user_id', userId as string);
 
@@ -154,7 +154,8 @@ const SaveCard = ({
             club_id: id,
             progress: result,
             user_id: userId as string,
-            member_id: member.id
+            member_id: member.id,
+            last_read: true
           }
         ]);
       if (insertError) {
@@ -206,7 +207,7 @@ const SaveCard = ({
       <div className='w-[343px] h-[70px] bg-[#F5F5F7] px-[24.5px] py-[32px] mt-[16px] mx-auto rounded-[10px]'>
         <div className='w-[294px] h-[6px] mx-auto relative rounded-[10px] '>
           <div
-            className='w-full h-full bg-[#35A5F6] rounded-full absolute'
+            className='w-full h-full bg-[#35A5F6] rounded-full absolute transition-width duration-1000 ease-out'
             style={{
               width: `${progressPercentage}%`,
               backgroundImage: 'linear-gradient(to right, #E9FF8F, #59B9FF)'
@@ -224,6 +225,7 @@ const SaveCard = ({
           onClose={() => setOverPage(false)}
           isSuccess={false}
           style={toastStyle}
+          duration={2500}
         />
       )}
       {invalidInput && (
@@ -232,6 +234,7 @@ const SaveCard = ({
           onClose={() => setInvalidInput(false)}
           isSuccess={false}
           style={toastStyle}
+          duration={2500}
         />
       )}
       <button

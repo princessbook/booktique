@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 import ArticleTimeStamp from './boardDetail/ArticleTimeStamp';
+import NoContentMessage from '@/components/common/NoContentMessage';
 
 const Board = ({ clubId }: { clubId: string }) => {
   const {
@@ -24,6 +25,13 @@ const Board = ({ clubId }: { clubId: string }) => {
 
   return (
     <div className='w-full'>
+      {posts?.length === 0 && (
+        <NoContentMessage imgUrl='/no_post.png' width={121}>
+          {' '}
+          클럽원들과 책에 대해 <br />
+          자유롭게 소통해 보세요.
+        </NoContentMessage>
+      )}
       {posts?.map(
         (
           post //FIXME - query는 타입명시 필요

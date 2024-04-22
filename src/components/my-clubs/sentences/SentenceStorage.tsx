@@ -6,6 +6,8 @@ import { getAllSentences, getSentenceComments } from '@/utils/userAPIs/authAPI';
 import { createClient } from '@/utils/supabase/client';
 import SentenceUser from './SentenceUser';
 import SentenceModal from './SentenceModal';
+import Image from 'next/image';
+import NoContentMessage from '@/components/common/NoContentMessage';
 
 type Sentences = Tables<'sentences'>;
 
@@ -97,9 +99,11 @@ const SentenceStorage = ({
   return (
     <div className='px-4'>
       {sentences.length === 0 ? (
-        <p className='text-center mt-4 text-gray-500'>
-          등록된 문장이 없습니다.
-        </p>
+        <NoContentMessage imgUrl='/no_sentence.png' width={191}>
+          {' '}
+          책을 읽고 좋았던 문장을 저장해 <br />
+          클럽원들과 함께 나눠 보세요.
+        </NoContentMessage>
       ) : (
         <ul className='relative'>
           {sentences?.map((sentence) => (

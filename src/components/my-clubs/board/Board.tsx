@@ -53,7 +53,7 @@ const Board = ({ clubId }: { clubId: string }) => {
                   ) : (
                     <Image
                       className='rounded-full w-6 h-6'
-                      src={'/booktique.png'}
+                      src={'/defaultImage.svg'}
                       alt='유저 프로필'
                       width={24}
                       height={24}

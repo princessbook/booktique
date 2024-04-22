@@ -77,7 +77,7 @@ const AvatarPage = () => {
             />
           ) : (
             <Image
-              src='/booktique.png'
+              src='/defaultImage.svg'
               alt='Default Avatar'
               style={{ objectFit: 'cover', cursor: 'pointer' }}
               fill={true}

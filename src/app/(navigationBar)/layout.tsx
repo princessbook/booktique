@@ -1,4 +1,4 @@
-import Footer from '@/components/navigationBar/page';
+import NavigationBar from '@/components/navigationBar/page';
 
 export default function RootLayout({
   children
@@ -8,7 +8,7 @@ export default function RootLayout({
   return (
     <>
       {children}
-      <Footer />
+      <NavigationBar />
     </>
   );
 }

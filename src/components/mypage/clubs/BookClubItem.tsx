@@ -14,8 +14,8 @@ type BookClubItemProps = {
 const BookClubItem = ({ club }: { club: BookClubItemProps }) => {
   return (
     <Link href={`/my-clubs/${club.club_id}/info`}>
-      <li className='bg-[#F6F7F9] rounded-[10px] p-4 mt-2 flex flex-row items-center'>
-        <div className='flex flex-col'>
+      <li className='bg-[#F6F7F9] rounded-[10px] p-4 mt-2 flex flex-row items-center justify-between'>
+        <div className='flex-grow flex flex-col'>
           {club.clubs?.archive ? (
             <p className='text-center w-[37px] h-[17px] px-1 border text-[10px] text-white bg-[#B3C1CC] rounded-md'>
               종료
@@ -25,12 +25,12 @@ const BookClubItem = ({ club }: { club: BookClubItemProps }) => {
               진행중
             </p>
           )}
-          <div className='w-[178px] text-[#3F3E4E] mt-1'>
+          <div className='flex-grow w-full text-[#3F3E4E] mt-1'>
             <p style={{ wordWrap: 'break-word' }}>{club.clubs?.name}</p>
           </div>
         </div>
 
-        <div className='ml-auto'>
+        <div className='flex-shrink-0 '>
           <svg
             width='22'
             height='22'

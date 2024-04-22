@@ -16,7 +16,7 @@ const AvatarPage = () => {
     const {
       data: { user }
     } = await supabase.auth.getUser();
-    console.log(user?.id);
+    // console.log(user?.id);
     const fileExt = file?.name.split('.').pop();
     const fileName = `${crypto.randomUUID()}.${fileExt}`;
 

@@ -57,7 +57,7 @@ const QuizQuestion = ({
         prevQuiz.id === quiz.id ? updatedQuiz : prevQuiz
       )
     );
-    console.log(updatedQuiz);
+    // console.log(updatedQuiz);
   };
 
   const handleAddAnswer = () => {

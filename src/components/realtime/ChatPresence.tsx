@@ -49,7 +49,7 @@ const ChatPresence = ({ userId }: { userId: string | undefined }) => {
     const channel = supabase.channel(params.id[0]);
     channel
       .on('presence', { event: 'sync' }, () => {
-        console.log('Synced presence state: ', channel.presenceState());
+        // console.log('Synced presence state: ', channel.presenceState());
         const userIds = Object.keys(channel.presenceState()); // 프리젠스 상태에서 사용자 ID 추출
         setOnlineUsers(userIds.length);
       })

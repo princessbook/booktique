@@ -17,7 +17,7 @@ export default function LoadMoreMessages() {
       .range(from, to)
       .order('created_at', { ascending: false }); //메세지 생성시간 기준으로 내림차순 정렬
     if (error) {
-      console.log(error);
+      console.error(error);
     } else {
       setMessage(data.reverse());
     }

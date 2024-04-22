@@ -16,7 +16,7 @@ export async function login(formData: FormData) {
   if (error) {
     console.log(error);
   }
-  console.log('로그인');
+  // console.log('로그인');
   revalidatePath('/', 'layout');
   // redirect('/myclub');
 }

@@ -12,7 +12,7 @@ const Button = ({ large, small, selected, text, onClick }: ButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className={`${small && selected ? 'bg-blue-600 ' : 'bg-blue-400'} 
+      className={`${small && selected ? 'bg-primary500 ' : 'bg-primary500'} 
        ${
          large
            ? 'w-[343px] bg-bookyellow rounded-lg text-black'

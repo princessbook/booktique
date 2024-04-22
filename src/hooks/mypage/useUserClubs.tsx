@@ -1,26 +1,13 @@
 import { createClient } from '@/utils/supabase/server';
-import { Tables } from '@/lib/types/supabase';
-type Club = Tables<'clubs'>;
-const useUserClubs = async (userId: string): Promise<Club[]> => {
+
+const useUserClubs = async (userId: string) => {
   const supabase = createClient();
 
-  const { data } = await supabase
+  const { data: clubData } = await supabase
     .from('members')
-    .select('club_id')
-    .eq('user_id', userId);
-
-  const clubIds = data?.map((row: any) => row.club_id) || [];
-  let clubData: Club[] = [];
-
-  if (clubIds.length > 0) {
-    const { data: clubs } = await supabase
-      .from('clubs')
-      .select('*')
-      .in('id', clubIds)
-      .order('created_at', { ascending: false });
-
-    clubData = clubs || [];
-  }
+    .select('club_id,clubs(name,archive,created_at)')
+    .eq('user_id', userId)
+    .order('clubs(created_at)', { ascending: false });
 
   return clubData;
 };

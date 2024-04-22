@@ -1,25 +1,22 @@
 'use client';
 
-import useClubInfo from '@/hooks/info/useMyClubInfo';
+import useMyClubInfo from '@/hooks/info/useMyClubInfo';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
 
-// type Props = {};
-type Props = {
-  clubs: { id: string; name: string }[];
-};
-const ClubSelector = ({ clubs }: Props) => {
+type Props = {};
+// type Props = {
+//   clubs: { id: string; name: string }[];
+// };
+const ClubSelector = (props: Props) => {
   const params = useParams<{
     clubId: string;
   }>();
-
   const router = useRouter();
   // TODO: hook으로 만들어서 재사용하던지... 음... 최상단에서 한번만 호출해서 props로 나리던지... memoization을 하던지...
-  // const { clubs, isLoading } = useClubInfo();
-  // if (isLoading) {
-  //   return <div className='h-[49px]'></div>;
-  // }
+  const { clubs } = useMyClubInfo();
+
   if (!clubs || clubs.length === 0) {
     return <div className='h-[49px]'></div>;
   }

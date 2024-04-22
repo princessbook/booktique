@@ -3,7 +3,7 @@ import { BookInfo } from '@/lib/types/BookAPI';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { DOMAttributes, useState } from 'react';
 import { IoIosSearch } from 'react-icons/io';
 import HeaderWithBack from '../../../../components/common/HeaderWithBack';
 import SearchModal from './search/SearchModal';
@@ -254,7 +254,7 @@ const CreateBookPage = () => {
                 showSteps={true}
                 className='max-w-md h-8'
                 value={selectedParticipants!} // 현재 슬라이더 값 설정
-                onChange={(newValue) =>
+                onChange={(newValue: number) =>
                   setSelectedParticipants(newValue as number)
                 }
                 marks={[
@@ -300,7 +300,7 @@ const CreateBookPage = () => {
                     'data-[dragging=true]:w-7 data-[dragging=true]:h-7 data-[dragging=true]:after:h-6 data-[dragging=true]:after:w-6'
                   ]
                 }}
-                renderThumb={(props) => (
+                renderThumb={(props: DOMAttributes<HTMLDivElement>) => (
                   <div {...props} className='group relative top-2'>
                     {/* thumb 내부에 value 값을 표시하는 요소를 추가합니다. */}
 

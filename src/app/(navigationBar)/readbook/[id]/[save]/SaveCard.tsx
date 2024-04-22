@@ -41,9 +41,6 @@ const SaveCard = ({
       setLoading(false); // matchingActivities 로드 완료 시 로딩 상태 변경
     }
   }, [matchingActivities]);
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
@@ -178,10 +175,39 @@ const SaveCard = ({
     transform: 'translateX(-50%)',
     fontSize: '8px'
   };
-  // console.log(
-  //   '프롭스로 받아옴matchingActivities22222222222',
-  //   matchingActivities
-  // );
+
+  if (loading) {
+    return (
+      <>
+        <input
+          className='flex mx-auto w-[334px] h-[38px] mt-[28px] bg-[#EDEEF2] px-[16px] py-[14px] rounded-[10px]
+        text-[14px]'
+          placeholder='페이지를 입력해주세요.(숫자만)'
+        />
+        <div className='mt-[49px] ml-[16px] text-[16px] leading-[22px] font-bold text-[#3F3E4E]'>
+          내 독서 진행률
+        </div>
+        <div className='w-[343px] h-[70px] bg-[#F5F5F7] px-[24.5px] py-[32px] mt-[16px] mx-auto rounded-[10px]'>
+          <div className='w-[294px] h-[6px] mx-auto relative rounded-[10px] '>
+            <div
+              className='w-full h-full bg-[#35A5F6] rounded-full absolute transition-width duration-1000 ease-out'
+              style={{
+                width: `${progressPercentage}%`,
+                backgroundImage: 'linear-gradient(to right, #E9FF8F, #59B9FF)'
+              }}></div>
+            <div className='w-full h-full bg-white rounded-full'></div>
+            <div className='text-end text-subblue text-[14px] mt-1'>
+              {progressPercentage}%
+            </div>
+          </div>
+        </div>
+        <button
+          className={`fixed bottom-0 mb-[137px] ml-[16px] w-[343px] h-[56px] rounded-full ${'bg-[#EDEEF2] text-[#B3C1CC] text-[16px] leading-[22px] font-bold text-center'}`}>
+          저장
+        </button>
+      </>
+    );
+  }
 
   return (
     <div className='flex flex-col justify-center'>

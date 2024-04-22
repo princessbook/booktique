@@ -109,9 +109,9 @@ const ClubList = ({
       console.error('클럽 활동 추가 중 오류:', error);
     }
   };
-  const handleReadButtonClick = (clubId: string) => {
-    handleBookRead(clubId);
-  };
+  // const handleReadButtonClick = (clubId: string) => {
+  //   handleBookRead(clubId);
+  // };
   // if (loading) {
   //   return <LoadingOverlay show={loading} />;
   // }
@@ -156,10 +156,9 @@ const ClubList = ({
 
       <div className='mb-[40px] justify-center flex'>
         {/* 현재 슬라이드의 클럽 정보를 가져와서 버튼을 생성 */}
-        <Link href={`/readbook/${allClubData[currentSlide]?.id}`} passHref>
+        <Link prefetch href={`/readbook/${allClubData[currentSlide]?.id}`}>
           <ReadButton
-            clubId={allClubData[currentSlide]?.id}
-            onClick={() => handleReadButtonClick(allClubData[currentSlide]?.id)}
+            onClick={() => handleBookRead(allClubData[currentSlide]?.id)}
           />
         </Link>
       </div>

@@ -59,7 +59,7 @@ const ArticleComment = ({ postId }: { postId: string }) => {
             />
           ) : (
             <Image
-              src={'/booktique.png'}
+              src={'/defaultImage.svg'}
               alt='야호링'
               width={32}
               height={32}

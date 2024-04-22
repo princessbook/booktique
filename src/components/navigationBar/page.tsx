@@ -10,11 +10,17 @@ import search from '../../../public/footer_searchclub.png';
 import searchActive from '../../../public/footer_searchclubactive.png';
 import mypage from '../../../public/footer_mypage.png';
 import mypageActive from '../../../public/footer_mypageactive.png';
-import { useSelectedLayoutSegment } from 'next/navigation';
+import { usePathname, useSelectedLayoutSegment } from 'next/navigation';
 
 const NavigationBar = () => {
   const segment = useSelectedLayoutSegment();
   const activeLink = segment;
+  const pathname = usePathname();
+
+  // if (pathname.startsWith('/readbook/') && !pathname.endsWith('/save')) {
+  //   return null;
+  // }
+
   return (
     <div
       className='w-full md:w-[375px] h-[78px] fixed bottom-0 bg-white mx-auto'

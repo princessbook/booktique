@@ -17,9 +17,9 @@ const NavigationBar = () => {
   const activeLink = segment;
   const pathname = usePathname();
 
-  if (pathname.startsWith('/readbook/') && !pathname.endsWith('/save')) {
-    return null;
-  }
+  // if (pathname.startsWith('/readbook/') && !pathname.endsWith('/save')) {
+  //   return null;
+  // }
 
   return (
     <div

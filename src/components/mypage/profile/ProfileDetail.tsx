@@ -136,8 +136,8 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                   className='rounded-full w-[72px] h-[72px] cursor-pointer object-cover'
                 />
               ) : (
-                <img
-                  src='/booktique.png'
+                <Image
+                  src='/defaultImage.svg'
                   alt='미리보기'
                   width={72}
                   height={72}

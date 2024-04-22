@@ -100,11 +100,11 @@ const Profile = ({ userId }: { userId: string | null }) => {
                 alt='미리보기'
                 width={96}
                 height={96}
-                className='rounded-full object-cover'
+                className='rounded-full object-cover w-[56px] h-[56px]'
               />
             ) : (
-              <img
-                src='/booktique.png'
+              <Image
+                src='/defaultImage.svg'
                 alt='프로필사진 없음'
                 width={96}
                 height={96}

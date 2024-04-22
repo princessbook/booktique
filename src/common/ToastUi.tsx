@@ -8,21 +8,28 @@ interface Props {
   onClose: () => void;
   isSuccess: boolean;
   style: React.CSSProperties;
+  duration: number;
 }
 
-const ToastUi: React.FC<Props> = ({ message, onClose, isSuccess, style }) => {
+const ToastUi: React.FC<Props> = ({
+  message,
+  onClose,
+  isSuccess,
+  style,
+  duration
+}) => {
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
     if (message) {
       setIsVisible(true);
       const timeout = setTimeout(() => {
         onClose();
-      }, 1000);
+      }, duration);
       return () => clearTimeout(timeout);
     } else {
       setIsVisible(false);
     }
-  }, [message, onClose]);
+  }, [message, onClose, duration]);
 
   return (
     <div

@@ -7,6 +7,7 @@ import { getUserId } from '@/utils/userAPIs/authAPI';
 import QuizContainer from '@/components/quiz/QuizContainer';
 import { createClient } from '@/utils/supabase/client';
 import { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
+import ToastUi from '@/common/ToastUi';
 // import useRealtimePostgresChanges from '@/hooks/useRealtimePostgresChanges';
 // import useAlarmStore from '@/store';
 
@@ -23,6 +24,9 @@ const BookInfo = ({
   const [timerVisible, setTimerVisible] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [endButtonVisible, setEndButtonVisible] = useState(true);
+  const [showToast, setShowToast] = useState(false);
+  const [remainingMinutes, setRemainingMinutes] = useState<number>(0);
+  const [remainingSeconds, setRemainingSeconds] = useState<number>(0);
   const supabase = createClient();
 
   useEffect(() => {
@@ -138,6 +142,14 @@ const BookInfo = ({
       postAlarm();
     }
   }, [postData, userId, clubMembers, supabase]);
+  const toastStyle = {
+    width: '343px',
+    height: '50px',
+    top: '48px', // 헤더 48이라 임시로 해놓음
+    left: '50%', // 화면 중앙
+    transform: 'translateX(-50%)',
+    fontSize: '8px'
+  };
 
   const handleStartTimer = async () => {
     try {
@@ -175,14 +187,20 @@ const BookInfo = ({
           const remainingSeconds = Math.ceil(
             (remainingTimeInMilliseconds % (1000 * 60)) / 1000
           );
-
+          console.log('remainingMinutes', remainingMinutes);
           localStorage.setItem('timerStarted', 'true');
           setTimerVisible(true);
           setEndButtonVisible(false);
+
           // 알림 표시
-          alert(
-            `모임은 시작 알림은 ${remainingMinutes}분 ${remainingSeconds}초 뒤에 가능합니다`
-          );
+          if (remainingMinutes >= 0 && remainingSeconds >= 0) {
+            setRemainingMinutes(remainingMinutes); // remainingMinutes 설정
+            setRemainingSeconds(remainingSeconds); // remainingSeconds 설정
+            setShowToast(true); // 상태 변경
+          }
+          // alert(
+          //   `모임 시작 알림은 ${remainingMinutes}분 ${remainingSeconds}초 뒤에 가능합니다`
+          // );
           return;
         }
       }
@@ -281,6 +299,15 @@ const BookInfo = ({
         </>
       )}
       {activeTab === '퀴즈' && <QuizContainer clubId={clubId} />}
+      {showToast && (
+        <ToastUi
+          message={`모임 시작알림은 ${remainingMinutes}분 ${remainingSeconds}초 뒤에 가능합니다`}
+          onClose={() => setShowToast(false)}
+          isSuccess={false}
+          style={toastStyle}
+          duration={3000}
+        />
+      )}
     </>
   );
 };

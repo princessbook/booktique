@@ -49,7 +49,7 @@ const ChatInput = () => {
         created_at: new Date().toISOString(),
         profiles: {
           id: data.user?.id,
-          photo_URL: photoURL || '/booktique.png',
+          photo_URL: photoURL || '/defaultImage.svg',
           created_at: new Date().toISOString(),
           display_name: user?.user_metadata.display_name,
           email: user?.user_metadata.email,

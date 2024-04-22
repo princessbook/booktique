@@ -138,7 +138,7 @@ const MemberList = ({
                   />
                 ) : (
                   <Image
-                    src='/booktique.png'
+                    src='/defaultImage.svg'
                     width={56}
                     height={56}
                     alt='default_profile_image'

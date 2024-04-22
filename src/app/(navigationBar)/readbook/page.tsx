@@ -68,7 +68,9 @@ const ReadBookPage = async () => {
   return (
     <ReadBookLayout>
       <Suspense fallback={<></>}>
-        {allClubData.length > 0 ? (
+        {allClubData
+          .map((club) => club.archive)
+          .filter((item) => item === false).length > 0 ? (
           <>
             <div></div>
             <Image

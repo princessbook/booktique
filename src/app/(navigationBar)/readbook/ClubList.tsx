@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Tables } from '@/lib/types/supabase';
 import Image from 'next/image';
 import Slider from 'react-slick';
@@ -10,6 +10,7 @@ import ReadButton from '../readbook/ReadButton';
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { getUserId } from '@/utils/userAPIs/authAPI';
 
 const ClubList = ({
   allClubData,
@@ -25,6 +26,7 @@ const ClubList = ({
   const [clubActivities, setClubActivities1] = useState<
     Tables<'club_activities'>[] | null
   >(null);
+  const sliderRef = useRef<Slider>(null); // useRef로 sliderRef 생성
   const router = useRouter();
   useEffect(() => {
     const fetchClubActivities = async () => {
@@ -77,14 +79,27 @@ const ClubList = ({
         // console.log('이미 클럽 활동이 있습니다. 시간 업데이트함');
         return;
       }
+      const userId = await getUserId();
+      const { data: member, error: getMemberError } = await supabase
+        .from('members')
+        .select()
+        .eq('club_id', clubId)
+        .eq('user_id', userId as string)
+        .single();
+
+      if (getMemberError || !member) {
+        // console.log('you are not even a member!');
+        return;
+      }
 
       await supabase.from('club_activities').insert([
         {
           user_id: id,
           club_id: clubId,
           progress: 0,
+          member_id: member.id,
           // time: 3600 // 기본 1시간으로 제한
-          time: 0 // 기본 1시간으로 제한
+          time: 0 // 기본 1시간으로 제한,
         }
       ]);
       // console.log('111111', 111111);
@@ -94,7 +109,13 @@ const ClubList = ({
       console.error('클럽 활동 추가 중 오류:', error);
     }
   };
+  const handleReadButtonClick = (clubId: string) => {
+    if (sliderRef.current) {
+      sliderRef.current.slickGoTo(currentSlide, false);
+    }
 
+    handleBookRead(clubId);
+  };
   // if (loading) {
   //   return <LoadingOverlay show={loading} />;
   // }
@@ -147,7 +168,7 @@ const ClubList = ({
 
   // 책 읽기 버튼
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col h-full'>
       <Slider className='custom-slider h-auto' {...settings}>
         {allClubData
           .filter((club) => !club.archive)
@@ -167,7 +188,7 @@ const ClubList = ({
                     height={161}
                     src={club.book_cover || ''}
                     alt='북이미지'
-                    className='absolute inset-0 w-full h-full object-cover rounded'
+                    className='absolute inset-0 w-full top-1/2 translate-y-[-50%] object-cover rounded'
                   />
                 </div>
                 <ProgressBar
@@ -188,7 +209,8 @@ const ClubList = ({
         <Link href={`/readbook/${allClubData[currentSlide]?.id}`} passHref>
           <ReadButton
             clubId={allClubData[currentSlide]?.id}
-            onClick={() => handleBookRead(allClubData[currentSlide]?.id)}
+            onClick={() => handleReadButtonClick(allClubData[currentSlide]?.id)}
+            // sliderRef={sliderRef}
           />
         </Link>
       </div>

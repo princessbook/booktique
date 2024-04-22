@@ -1,6 +1,6 @@
 import ToastUi from '@/common/ToastUi';
 import { createClient } from '@/utils/supabase/client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 const SentenceModal = ({
   isModal,
   onClose,
@@ -18,7 +18,11 @@ const SentenceModal = ({
   const [content, setContent] = useState('');
   const [page, setPage] = useState<number>(0);
   const [toastMessage, setToastMessage] = useState<string>('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
+  useEffect(() => {
+    setIsButtonDisabled(!(content && page > 0));
+  }, [content, page]);
   const handleContentChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -107,8 +111,8 @@ const SentenceModal = ({
         <div className='relative'>
           <div className='relative'>
             <textarea
-              className='w-full bg-[#F6F7F9] h-80 py-[10px] px-4'
-              placeholder='문장내용'
+              className='w-full bg-[#F6F7F9] h-80 py-[10px] px-4 text-sm'
+              placeholder='문장을 입력해주세요'
               value={content}
               maxLength={400}
               onChange={handleContentChange}></textarea>
@@ -117,13 +121,18 @@ const SentenceModal = ({
             </div>
           </div>
           <input
-            className='w-full bg-[#F6F7F9] px-4 py-[10px] text-[14px]'
+            className='w-full bg-[#F6F7F9] px-4 py-[10px] text-sm'
             placeholder='페이지를 입력해주세요(숫자만)'
             value={page === 0 ? '' : page.toString()} // 숫자를 문자열로 변환하여 출력, 0인 경우 빈 문자열 출력
             onChange={handlePageChange} // 페이지 입력값 변경 핸들러
           />
           <button
-            className='w-full bg-mainblue py-4 rounded-[10px] mt-6'
+            disabled={isButtonDisabled}
+            className={`w-full py-4 rounded-[10px] mt-6 ${
+              isButtonDisabled
+                ? 'bg-gray-300 text-[#B3C1CC]'
+                : 'bg-mainblue text-white font-bold'
+            }`}
             onClick={handleSave}>
             저장
           </button>

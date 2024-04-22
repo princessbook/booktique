@@ -96,30 +96,36 @@ const SentenceStorage = ({
 
   return (
     <div className='px-4'>
-      <ul className='relative'>
-        {sentences?.map((sentence) => (
-          //Link로 디테일 페이지 보내기.
-          <li key={sentence.id} className=' my-4 relative'>
-            {userId === sentence.user_id && ( // 로그인한 사용자와 문장 작성자의 ID가 일치하는 경우에만 체크박스 표시
-              <input
-                type='checkbox'
-                className='absolute right-3'
-                checked={selectedSentences.includes(sentence.id)}
-                onChange={(event) => handleCheckboxChange(event, sentence.id)}
-              />
-            )}
-            <SentenceUser sentenceId={sentence.user_id || ''} />
-            <div
-              className='bg-gray-100 rounded-md ml-7 px-4 py-2'
-              style={{ wordWrap: 'break-word' }}>
-              <div className='text-sm'>{sentence.sentence_content}</div>
-              <div className='text-[11px] text-[#3F3E4E] overflow-hidden overflow-ellipsis whitespace-nowrap mt-1'>
-                {sentence.sentence_page}p
+      {sentences.length === 0 ? (
+        <p className='text-center mt-4 text-gray-500'>
+          등록된 문장이 없습니다.
+        </p>
+      ) : (
+        <ul className='relative'>
+          {sentences?.map((sentence) => (
+            //Link로 디테일 페이지 보내기.
+            <li key={sentence.id} className=' my-4 relative'>
+              {userId === sentence.user_id && ( // 로그인한 사용자와 문장 작성자의 ID가 일치하는 경우에만 체크박스 표시
+                <input
+                  type='checkbox'
+                  className='absolute right-3'
+                  checked={selectedSentences.includes(sentence.id)}
+                  onChange={(event) => handleCheckboxChange(event, sentence.id)}
+                />
+              )}
+              <SentenceUser sentenceId={sentence.user_id || ''} />
+              <div
+                className='bg-gray-100 rounded-md ml-7 px-4 py-2'
+                style={{ wordWrap: 'break-word' }}>
+                <div className='text-sm'>{sentence.sentence_content}</div>
+                <div className='text-[11px] text-[#3F3E4E] overflow-hidden overflow-ellipsis whitespace-nowrap mt-1'>
+                  {sentence.sentence_page}p
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      )}
       <div className='flex justify-end'>
         <button
           onClick={

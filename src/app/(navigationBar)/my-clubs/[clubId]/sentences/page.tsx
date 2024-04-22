@@ -1,7 +1,7 @@
 'use client';
 
 import { getOrCreateUserProfile } from '@/app/auth/authAPI';
-import SentenceStorage from '@/components/my-clubs/SentenceStorage';
+import SentenceStorage from '@/components/my-clubs/sentences/SentenceStorage';
 import { Tables } from '@/lib/types/supabase';
 import {
   getUserId,

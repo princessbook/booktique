@@ -58,8 +58,10 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
               <Image
                 src={bookclub.book_cover}
                 alt='북커버'
-                width={78}
-                height={141}
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='w-auto h-auto'
               />
             )}
           </div>
@@ -89,7 +91,7 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
           <p className='text-[14px] text-fontBlack'>{bookclub.description}</p>
         </div>
       </section>
-      <section className='p-3'>
+      <section className='p-3 mb-3'>
         <h2 className='mb-3 font-bold text-[16px] text-[#292929]'>모임 정보</h2>
         <p className='text-[14px] mb-2 text-fontBlack'>
           <span className=' text-mainblue font-bold mr-1'>모임 날</span>

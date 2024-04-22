@@ -41,16 +41,18 @@ const ClubBook = ({ club }: { club: Club | null }) => {
   }
   return (
     <div className='flex flex-col items-center justify-center'>
-      <div className='mt-4 bg-[#EDEEF2] w-[343px] h-[320px] rounded-xl flex flex-col items-center justify-center '>
-        <Image
-          src={club.book_cover || '/booktiquereadblue.png'}
-          alt='책 사진'
-          width={100}
-          height={100}
-          priority={true}
-          className='w-[156px] h-[244px] mt-6 '
-        />
-        <div className='mt-2'>
+      <div className='mt-4 relative bg-[#EDEEF2] w-[343px] h-[320px] rounded-xl flex flex-col items-center justify-center '>
+        <div className='flex justify-center items-center w-[156px] max-h-[244px]'>
+          <Image
+            src={club.book_cover || '/booktiquereadblue.png'}
+            alt='책 사진'
+            width={100}
+            height={100}
+            priority={true}
+            className='w-[156px] max-h-[244px]'
+          />
+        </div>
+        <div className='absolute -bottom-3'>
           <ProgressBar progress={percentage} backgroundColor='white' />
         </div>
       </div>

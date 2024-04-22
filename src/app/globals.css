@@ -177,3 +177,15 @@ input[type='password']::-ms-clear {
 .custom-select::-ms-expand {
   display: none; /* IE에서 화살표 없애기 */
 }
+@keyframes fillAnimation {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-fill {
+  animation: fillAnimation 2s linear infinite;
+}

@@ -5,11 +5,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { IoIosSearch } from 'react-icons/io';
-import { IoIosArrowDown } from 'react-icons/io';
 import HeaderWithBack from '../../../../components/common/HeaderWithBack';
 import SearchModal from './search/SearchModal';
 import { CiCamera } from 'react-icons/ci';
-import ReactSlider, { SliderItem } from 'react-slider';
 import { Slider } from '@nextui-org/react';
 import ToastUi from '@/common/ToastUi';
 const CreateBookPage = () => {
@@ -118,8 +116,8 @@ const CreateBookPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (isSubmit) return;
     e.preventDefault();
-    if (!description || !clubName) {
-      alert('빈칸을 채워주세요.');
+    if (!clubName) {
+      alert('북클럽 이름을 입력해 주세요.');
       return;
     }
     if (!selectedParticipants) {
@@ -172,6 +170,7 @@ const CreateBookPage = () => {
         <div className='mb-8 '>
           <h2 className='text-[16px] mb-4 font-bold text-fontMain'>
             책 고르기
+            <span className=' text-errorRed'> *</span>
           </h2>
           <div
             className='flex relative items-center justify-center w-full h-[292px] bg-[#EDEEF2] rounded-lg cursor-pointer'
@@ -217,7 +216,7 @@ const CreateBookPage = () => {
             <label
               htmlFor='clubName'
               className='text-[16px] mb-4 font-bold text-fontMain'>
-              북클럽 이름
+              북클럽 이름 <span className=' text-errorRed'>*</span>
             </label>
             <input
               id='clubName'
@@ -241,7 +240,7 @@ const CreateBookPage = () => {
             <label
               htmlFor='participants'
               className='text-[16px] mb-4 font-bold text-fontMain'>
-              모집 인원
+              모집 인원<span className=' text-errorRed '> *</span>
             </label>
             <div className='relative mt-4'>
               <Slider

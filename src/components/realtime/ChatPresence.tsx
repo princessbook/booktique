@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useMessage } from '@/store/messages';
 import Image from 'next/image';
-import booktique from '../../../public/booktique.png';
+import booktique from '../../../public/defaultImage.svg';
 import { IoIosArrowBack } from 'react-icons/io';
 import BackBtn from '@/app/(navigationBar)/bookclubs/[id]/BackBtn';
 

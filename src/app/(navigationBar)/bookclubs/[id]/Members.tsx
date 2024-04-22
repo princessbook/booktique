@@ -46,7 +46,7 @@ const Members = ({
     <MemberCard
       height={'118px'}
       index={index}
-      photoURL={userProfile?.photo_URL || '/booktique.png'}
+      photoURL={userProfile?.photo_URL || '/defaultImage.svg'}
       displayName={userProfile?.display_name || ''}
       isAdmin={member.role === 'admin'}
     />

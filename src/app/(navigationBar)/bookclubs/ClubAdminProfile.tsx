@@ -49,7 +49,7 @@ const ClubAdminProfile = async ({ clubId }: { clubId: string }) => {
           src={
             profiles[0] && profiles[0].photo_URL
               ? (profiles[0].photo_URL as string)
-              : '/booktique.png'
+              : '/defaultImage.svg'
           }
           width={20}
           height={20}

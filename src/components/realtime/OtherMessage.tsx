@@ -24,7 +24,7 @@ const OtherMessage = ({ message }: { message: Imessage }) => {
             />
           ) : (
             <Image
-              src='/booktique.png'
+              src='/defaultImage.svg'
               alt='s'
               width={40}
               height={40}

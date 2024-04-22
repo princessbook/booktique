@@ -8,7 +8,10 @@ import { IoIosSearch } from 'react-icons/io';
 import { IoIosArrowDown } from 'react-icons/io';
 import HeaderWithBack from '../../../../components/common/HeaderWithBack';
 import SearchModal from './search/SearchModal';
-
+import { CiCamera } from 'react-icons/ci';
+import ReactSlider, { SliderItem } from 'react-slider';
+import { Slider } from '@nextui-org/react';
+import ToastUi from '@/common/ToastUi';
 const CreateBookPage = () => {
   const [clubName, setClubName] = useState('');
   const [description, setDiscription] = useState('');
@@ -112,11 +115,6 @@ const CreateBookPage = () => {
     setDiscription(e.target.value);
   };
 
-  const handleParticipantChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected = parseInt(e.target.value, 10);
-    setSelectedParticipants(selected);
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (isSubmit) return;
     e.preventDefault();
@@ -138,6 +136,7 @@ const CreateBookPage = () => {
 
     const storageImg = await uploadImageStorage(selectedImage!);
     await insertBookClubDataToDB(storageImg);
+
     router.push('/bookclubs');
     router.refresh();
   };
@@ -156,12 +155,21 @@ const CreateBookPage = () => {
     }
   };
 
+  const toastStyle = {
+    width: '343px',
+    height: '50px',
+    // 헤더 48이라 임시로 해놓음
+    left: '50%', // 화면 중앙
+    transform: 'translateX(-50%)',
+    fontSize: '8px'
+  };
+
   return (
     <div>
       <HeaderWithBack title='북클럽 만들기' />
       <section className='mb-[100px] overflow-y-auto px-4'>
         {/* 책 검색 버튼 */}
-        <div className='mb-8'>
+        <div className='mb-8 '>
           <h2 className='text-[16px] mb-4 font-bold text-fontMain'>
             책 고르기
           </h2>
@@ -232,32 +240,80 @@ const CreateBookPage = () => {
           <div className='mb-8'>
             <label
               htmlFor='participants'
-              className='text-[16px] mb-4  font-bold text-fontMain'>
+              className='text-[16px] mb-4 font-bold text-fontMain'>
               모집 인원
             </label>
-            <div className='relative'>
-              <select
-                id='participants'
-                className={`border ${
-                  !selectedParticipants
-                    ? 'text-fontMain text-opacity-60'
-                    : 'text-fontMain'
-                } text-[14px] bg-[#EDEEF2] w-full px-4 h-[48px] mt-4 rounded-lg appearance-none pr-8`}
-                value={selectedParticipants!}
-                defaultValue=''
-                onChange={handleParticipantChange}>
-                <option value='' disabled hidden className=' '>
-                  참가자 수를 선택하세요
-                </option>
-                {[...Array(10)].map((_, index) => (
-                  <option key={index} value={index + 1}>
-                    {index + 1}명
-                  </option>
-                ))}
-              </select>
-              <div className='absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none top-4'>
+            <div className='relative mt-4'>
+              <Slider
+                // label='Temperature'
+                step={1}
+                maxValue={10}
+                minValue={1}
+                defaultValue={1}
+                showTooltip={true}
+                showOutline={true}
+                showSteps={true}
+                className='max-w-md h-8'
+                value={selectedParticipants!} // 현재 슬라이더 값 설정
+                onChange={(newValue) =>
+                  setSelectedParticipants(newValue as number)
+                }
+                marks={[
+                  {
+                    value: 1,
+                    label: '1'
+                  },
+                  {
+                    value: 5,
+                    label: '5'
+                  },
+                  {
+                    value: 10,
+                    label: '10'
+                  }
+                ]}
+                tooltipProps={{
+                  offset: 0,
+                  placement: 'bottom',
+                  classNames: {
+                    base: [
+                      // arrow color
+                      ''
+                    ],
+                    content: ['', 'text-[#3F3E4E] text-[14px]  bg-white ']
+                  }
+                }}
+                classNames={{
+                  base: 'max-w-md ',
+                  filler: 'bg-lineGray rounded-lg ',
+                  labelWrapper: 'mb-2',
+                  step: `w-[2px] h-[28px] bg-grayBg data-[in-range=true]:bg-lineGray`,
+                  track: 'bg-grayBg h-4',
+                  mark: 'mt-5 text-fontGrayBlue z-0 opacity-100 text-[12px]',
+                  label:
+                    'font-medium mt-3 text-default-700 text-medium text-fontGrayBlue',
+                  value:
+                    'font-medium mt-3 text-default-500 text-small text-fontGrayBlue',
+                  thumb: [
+                    'transition-size',
+                    'bg-gradient-to-r from-secondary-400 to-primary-500',
+                    'data-[dragging=true]:shadow-lg data-[dragging=true]:shadow-black/20',
+                    'data-[dragging=true]:w-7 data-[dragging=true]:h-7 data-[dragging=true]:after:h-6 data-[dragging=true]:after:w-6'
+                  ]
+                }}
+                renderThumb={(props) => (
+                  <div {...props} className='group relative top-2'>
+                    {/* thumb 내부에 value 값을 표시하는 요소를 추가합니다. */}
+
+                    <div className='group p-1 top-10 bg-lineGray border-small border-default-200 dark:border-default-400/50 shadow-medium rounded-full cursor-grab data-[dragging=true]:cursor-grabbing'>
+                      <span className='transition-transform bg-gradient-to-br shadow-small from-secondary-100 to-secondary-500 rounded-full w-5 h-5 block group-data-[dragging=true]:scale-80' />
+                    </div>
+                  </div>
+                )}
+              />
+              {/* <div className='absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none top-4'>
                 <IoIosArrowDown className='text-gray-400' size={22} />
-              </div>
+              </div> */}
             </div>
           </div>
           <div className='mb-8'>
@@ -275,29 +331,40 @@ const CreateBookPage = () => {
             />
           </div>
 
-          {/* <div className='mb-8'>
+          <div className='mb-8'>
             <label
               htmlFor='image'
               className='text-[16px] mb-4 font-bold text-fontMain'>
-              썸네일
+              채팅방 배경화면
             </label>
-            <input
-              id='image'
-              className='border mt-4'
-              type='file'
-              onChange={handleImageChange}
-            />
-            {previewUrl && (
-              <div>
+            <div className=' relative border mt-4 w-[100px] rounded-lg bg-grayBg h-[140px] flex items-center justify-center cursor-pointer flex-col'>
+              <input
+                id='image'
+                className='absolute inset-0 opacity-0 w-full h-full cursor-pointer' // input을 숨깁니다.
+                type='file'
+                onChange={handleImageChange}
+              />
+              {previewUrl ? ( // 미리보기 이미지가 있을 때
                 <Image
                   src={previewUrl}
-                  alt='preview'
+                  alt='미리보기'
                   width={100}
-                  height={100}
+                  height={140}
+                  className='object-cover' // 이미지를 부모 요소에 맞춰서 자릅니다.
                 />
-              </div>
-            )}
-          </div> */}
+              ) : (
+                // 미리보기 이미지가 없을 때
+                <>
+                  <CiCamera size={24} className=' text-fontGray mb-2' />
+                  <div className='text-center text-sm text-fontGray text-[14px]'>
+                    이미지를
+                    <br />
+                    선택해 주세요
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
           <button
             type='submit'
             className={` px-4 py-2 w-full bg-mainblue h-[56px] rounded-xl text-white flex items-center justify-center cursor-pointer ${
@@ -312,6 +379,15 @@ const CreateBookPage = () => {
           setIsModalOpen={setIsModalOpen}
           setBookInfo={setBookInfo}
         />
+        {isSubmit && (
+          <ToastUi
+            message='북클럽을 만들었습니다'
+            onClose={() => {}}
+            isSuccess={true}
+            duration={100}
+            style={toastStyle}
+          />
+        )}
       </section>
     </div>
   );

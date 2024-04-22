@@ -50,7 +50,13 @@ const LoginForm = () => {
     <div className='flex items-center justify-center px-4'>
       <form className='w-full max-w-md relative' onSubmit={handleSubmit}>
         <div className='mt-[35px]'>
-          <img className='mx-auto' src='/login_logo.png' alt='로그인화면로고' />
+          <Image
+            width={140}
+            height={38}
+            className='mx-auto'
+            src='/login_logo.png'
+            alt='로그인화면로고'
+          />
           <span className='block text-center text-mainblue text-[17px] font-bold my-8'>
             북티크에서 같이 읽으면
             <br />더 이상 책이 어렵지 않아요!
@@ -96,12 +102,13 @@ const LoginForm = () => {
             회원가입
           </Link>
         </div>
-        <ToastUi
+        {/* <ToastUi
+          duration={1000}
           style={toastStyle}
           onClose={() => setToastMessage('')}
           message={toastMessage}
           isSuccess={!toastMessage.startsWith('로그인정보가')}
-        />
+        /> */}
       </form>
     </div>
   );

@@ -11,7 +11,7 @@ const EndModal = ({ onClose, id }: ModalProps) => {
 
   const handleStopTimerAndNavigate = async () => {
     // alert('현재 테스트 중입니다 조금만 기다려주세요!');
-    // onClose();
+    onClose(); // 여기 주석했다가 버그발견 책읽기 시작-> ~~ 책 읽기 시작 모달창 등장
     router.refresh();
     localStorage.removeItem('timerStarted');
     localStorage.removeItem('timerSeconds');

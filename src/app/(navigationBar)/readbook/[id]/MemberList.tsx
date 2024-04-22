@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import EndButton from './EndButton';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import LoadingOverlay from '@/common/LoadingOverlay';
+
 interface MemberListProps {
   clubMembers: Tables<'members'>[];
   id: string;

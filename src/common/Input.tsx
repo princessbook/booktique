@@ -10,6 +10,7 @@ type InputProps = {
   placeholder: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: boolean;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -19,19 +20,18 @@ const Input: React.FC<InputProps> = ({
   type,
   placeholder,
   value,
-  onChange
+  onChange,
+  error = false
 }) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [rightMargin, setRightMargin] = useState<string>('right-10');
 
   const handleFocus = () => {
     setIsFocused(true);
-    // console.log(isFocused);
   };
 
   const handleBlur = () => {
     setIsFocused(false);
-    // console.log(isFocused);
   };
 
   const handleClear = () => {
@@ -41,7 +41,7 @@ const Input: React.FC<InputProps> = ({
   // useEffect(() => {
   //   setRightMargin(type === 'password' ? 'right-10' : 'right-3');
   // }, [type]);
-
+  const errorClass = error ? 'border-[#EF4444]' : '';
   return (
     <div>
       {label && (
@@ -51,7 +51,7 @@ const Input: React.FC<InputProps> = ({
       )}
       <div className='relative mt-2'>
         <input
-          className='bg-gray-200 p-2 outline-none border-2 focus:border-mainblue px-3 py-[12px] mb-3 placeholder-opacity-60 rounded-[10px] w-full'
+          className={`bg-gray-200 p-2 outline-none border-2 ${errorClass} px-3 py-[12px] mb-3 placeholder-opacity-60 rounded-[10px] w-full`}
           ref={inputRef}
           id={label || ''}
           name={name}

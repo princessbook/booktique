@@ -19,7 +19,7 @@ const MyPage = async () => {
   return (
     //head부분
     <div className='flex flex-col '>
-      <header className='bg-white sticky top-0 left-0 right-0 z-10 flex items-center mb-8 border-b-2 h-[58px] p-4'>
+      <header className='bg-white sticky top-0 left-0 right-0 z-10 flex items-center mb-8 border-b-[1px] h-[58px] p-4'>
         <p className='text-[22px] font-bold text-fontTitle'>마이페이지</p>
       </header>
       <div className='px-4 mb-[78px] overflow-y-auto'>

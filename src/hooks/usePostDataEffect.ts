@@ -25,7 +25,7 @@ const usePostDataEffect = (
             const newAlarm = {
               created_at: postData.commit_timestamp,
               target_user_id: userId,
-              content: `${writerName}님이${postData.new.title}모임을 시작하셨습니다: `,
+              content: `${writerName}님이${postData.new.title}모임을 시작하셨습니다. `,
               post_id: postData.new.id
             };
 

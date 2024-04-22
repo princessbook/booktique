@@ -133,7 +133,8 @@ const MemberList = ({
                     alt='profile_image'
                     width={56}
                     height={56}
-                    className='mx-auto rounded-full object-cover w-[56px] h-[56px] mt-[11px] mb-1 '
+                    priority={true}
+                    className='mx-auto rounded-full object-cover w-[56px] h-[56px] mt-[11px] mb-1'
                   />
                 ) : (
                   <Image

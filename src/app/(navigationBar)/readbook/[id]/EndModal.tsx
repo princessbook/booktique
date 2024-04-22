@@ -25,7 +25,7 @@ const EndModal = ({ onClose, id }: ModalProps) => {
           alt='end'
           width={144}
           height={144}
-          className='mt-[38px] mb-[16px]'
+          className='mt-[38px] mb-[16px] w-[144px] h-[144px]'
         />
         <h1 className=' mb-[32px] font-medium text-[16px] leading-[22px] text-center text-[#3F3E4E]'>
           아직 책 읽기로한 시간을 채우지 못했어요. <br />

@@ -8,6 +8,7 @@ type Props = {
   children: React.ReactNode;
   params: {
     clubId: string;
+    postId: string;
   };
 };
 
@@ -15,6 +16,7 @@ const Layout = ({ children, params }: Props) => {
   const pathname = usePathname();
   const isSelected = (path: string) => pathname.includes(path);
   const { clubs } = useMyClubInfo();
+
   return (
     <div>
       <div className='sticky top-0 left-0 right-0 z-10 bg-white flex flex-col justify-between'>

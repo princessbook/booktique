@@ -16,10 +16,17 @@ const useClubInfo = () => {
     const fetchData = async () => {
       try {
         const fetchedUserId = await getUserId();
+        console.log('1', fetchedUserId);
+
         if (fetchedUserId) {
+          console.log('2', fetchedUserId);
           const fetchedUserProfile = await getOrCreateUserProfile();
+          setIsLoading(false);
           if (fetchedUserProfile) {
+            console.log('profile', fetchedUserProfile);
             const fetchedClubIds = await getUserClubIds(fetchedUserId);
+            console.log('3', fetchedClubIds);
+
             const fetchClubInfo = await getClubInfo(
               fetchedClubIds.filter(
                 (id) => !clubs.find((club) => club.id === id)?.archive

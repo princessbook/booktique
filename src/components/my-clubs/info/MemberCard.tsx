@@ -28,7 +28,7 @@ const MemberCard: React.FC<MemberCardProps> = ({
             {index + 1}
           </p>
           <Image
-            src={photoURL || '/booktique.png'}
+            src={photoURL || '/defaultImage.svg'}
             alt='Profile'
             width={56}
             height={56}

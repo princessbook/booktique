@@ -12,7 +12,7 @@ const Members = async ({ member, index }: { member: any; index: number }) => {
   return (
     <MemberCard
       index={index}
-      photoURL={userProfile?.photo_URL || '/booktique.png'}
+      photoURL={userProfile?.photo_URL || '/defaultImage.svg'}
       displayName={userProfile?.display_name || ''}
       progress={member.progress}
       isAdmin={member.role === 'admin'}

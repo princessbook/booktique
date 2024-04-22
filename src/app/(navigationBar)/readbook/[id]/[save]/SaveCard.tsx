@@ -214,7 +214,9 @@ const SaveCard = ({
       <input
         value={recordPage}
         onChange={handleInputChange}
-        type='number'
+        type='text'
+        pattern='[0-9]*'
+        inputMode='numeric'
         placeholder='페이지를 입력해주세요.(숫자만)'
         className='flex mx-auto w-[334px] h-[38px] mt-[28px] bg-[#EDEEF2] px-[16px] py-[14px] rounded-[10px]
         text-[14px]'

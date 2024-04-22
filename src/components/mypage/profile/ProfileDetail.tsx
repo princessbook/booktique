@@ -51,7 +51,6 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
       const selectedFile = e.target.files?.[0];
       setPreviewImg(selectedFile);
       const reader = new FileReader();
-      console.log(reader);
       reader.onloadend = () => {
         setPhotoUrl(reader.result as string);
         setIsModified(true);

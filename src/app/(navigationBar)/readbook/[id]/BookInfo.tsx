@@ -104,7 +104,7 @@ const BookInfo = ({
             const newAlarm = {
               created_at: postData.commit_timestamp,
               target_user_id: userId,
-              content: `${writerName}님이${postData.new.title}모임을 시작하셨습니다: `,
+              content: `${writerName}님이${postData.new.title}모임을 시작하셨습니다. `,
               post_id: postData.new.id
             };
 
@@ -187,7 +187,7 @@ const BookInfo = ({
           const remainingSeconds = Math.ceil(
             (remainingTimeInMilliseconds % (1000 * 60)) / 1000
           );
-          console.log('remainingMinutes', remainingMinutes);
+          // console.log('remainingMinutes', remainingMinutes);
           localStorage.setItem('timerStarted', 'true');
           setTimerVisible(true);
           setEndButtonVisible(false);
@@ -266,7 +266,7 @@ const BookInfo = ({
         </div>
         <div className='flex w-full justify-center bg-white text-center border-b h-[49px] '>
           <div
-            className={`cursor-pointer w-1/2 py-[15px] ${
+            className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '책읽기'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black '
                 : 'text-[14px] text-[#3A3B42] text-opacity-50 leading-[17px] text-center font-bold '
@@ -276,13 +276,22 @@ const BookInfo = ({
           </div>
 
           <div
-            className={`cursor-pointer w-1/2 py-[15px] ${
+            className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '퀴즈'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
                 : 'text-[14px] text-[#3A3B42] text-opacity-50  leading-[17px] text-center font-bold'
             }`}
             onClick={() => setActiveTab('퀴즈')}>
             퀴즈
+          </div>
+          <div
+            className={`cursor-pointer w-1/3 py-[15px] ${
+              activeTab === '채팅'
+                ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
+                : 'text-[14px] text-[#3A3B42] text-opacity-50  leading-[17px] text-center font-bold'
+            }`}
+            onClick={() => setActiveTab('채팅')}>
+            채팅
           </div>
         </div>
       </div>

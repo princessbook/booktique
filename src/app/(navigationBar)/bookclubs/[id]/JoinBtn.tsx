@@ -44,7 +44,7 @@ const JoinBtn = ({
     //   className='fixed bottom-32 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full bg-blue-500 text-white'>
     //   {isMember ? '이미참가함' : '참가하기'}
     // </button>
-    <div className='px-4 fixed bottom-[106px]  left-1/2 transform -translate-x-1/2  w-full'>
+    <div className='px-4 fixed bottom-[106px] w-full left-1/2 transform -translate-x-1/2  sm:w-full md:w-[375px]'>
       {!isMember ? (
         <div
           onClick={handleJoin}

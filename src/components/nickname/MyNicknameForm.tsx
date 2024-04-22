@@ -45,7 +45,7 @@ const MyNicknameForm = () => {
           setNickname(data[0].display_name);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     fetchUserData();

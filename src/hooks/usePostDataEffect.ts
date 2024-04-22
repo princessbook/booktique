@@ -36,20 +36,20 @@ const usePostDataEffect = (
               .insert(newAlarm)
               .in('target_user_id', memberUserIds);
 
-            console.log('알람 테이블에 추가되었습니다.');
+            // console.log('알람 테이블에 추가되었습니다.');
 
             const { data: alarm } = await supabase
               .from('alarm')
               .select('*')
               .eq('target_user_id', writerId)
               .order('created_at', { ascending: true });
-            console.log('alarm', alarm);
+            // console.log('alarm', alarm);
 
             const isAdmin = clubMembers.some(
               (member) => member.user_id === userId && member.role === 'admin'
             );
             if (isAdmin) {
-              console.log('방장은 알럿을 받지 않습니다.');
+              // console.log('방장은 알럿을 받지 않습니다.');
               return;
             }
             if (alarm) {

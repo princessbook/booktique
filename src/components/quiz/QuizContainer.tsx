@@ -51,7 +51,7 @@ const QuizContainer = ({ clubId }: { clubId: string }) => {
             ...item,
             schema: parseSchema(item.schema as string)
           }));
-          console.log('parsed Data', parsedData);
+          // console.log('parsed Data', parsedData);
           setQuizsData(parsedData);
         }
 

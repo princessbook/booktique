@@ -26,12 +26,12 @@ const Input: React.FC<InputProps> = ({
 
   const handleFocus = () => {
     setIsFocused(true);
-    console.log(isFocused);
+    // console.log(isFocused);
   };
 
   const handleBlur = () => {
     setIsFocused(false);
-    console.log(isFocused);
+    // console.log(isFocused);
   };
 
   const handleClear = () => {

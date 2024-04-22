@@ -51,7 +51,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
       const selectedFile = e.target.files?.[0];
       setPreviewImg(selectedFile);
       const reader = new FileReader();
-      console.log(reader);
+      // console.log(reader);
       reader.onloadend = () => {
         setPhotoUrl(reader.result as string);
         setIsModified(true);
@@ -72,7 +72,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
         previewImg
       );
       if (storageImageUrl) {
-        console.log('storageUrl', storageImageUrl);
+        // console.log('storageUrl', storageImageUrl);
         setPhotoUrl(storageImageUrl);
         formData.append('photo_URL', storageImageUrl);
       }

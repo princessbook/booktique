@@ -75,7 +75,7 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
   const fetchDefaultPost = async (postId: string) => {
     setIsLoading(true);
     const data = await fetchSinglePost(postId);
-    console.log(data);
+    // console.log(data);
     if (data.title && data.content) {
       setTitle(data.title);
       setContent(data.content);

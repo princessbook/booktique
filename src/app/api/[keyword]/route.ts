@@ -3,7 +3,7 @@ export async function GET(
   { params }: { params: { keyword: string } }
 ) {
   const { keyword } = params;
-  console.log(keyword);
+  // console.log(keyword);
 
   try {
     const targetUrl = `${process.env.ALADIN_BOOK_SEARCH_API_URL}?ttbkey=${

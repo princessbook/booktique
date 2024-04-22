@@ -39,7 +39,7 @@ export const getOrCreateUserProfile = async () => {
       throw newProfileError;
     }
 
-    console.log('newProfile', data);
+    // console.log('newProfile', data);
     return data;
   }
 

@@ -28,7 +28,7 @@ const SentenceUser = ({ sentenceId }: { sentenceId: string }) => {
 
     fetchProfile(sentenceId);
   }, [sentenceId]);
-  console.log(sentenceProfile?.photo_URL);
+  // console.log(sentenceProfile?.photo_URL);
   return (
     <div>
       {sentenceProfile ? (

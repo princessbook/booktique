@@ -26,7 +26,7 @@ const BookClubItem = ({ club }: { club: BookClubItemProps }) => {
             </p>
           )}
           <div className='w-[178px] text-[#3F3E4E] mt-1'>
-            {club.clubs?.name}
+            <p style={{ wordWrap: 'break-word' }}>{club.clubs?.name}</p>
           </div>
         </div>
 

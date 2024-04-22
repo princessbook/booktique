@@ -30,7 +30,7 @@ const PhotoSection = ({
     const setThumbnail = async () => {
       if (isModify) {
         setPreviewPhoto(prev);
-        console.log(previewPhoto);
+        // console.log(previewPhoto);
       }
     };
     setThumbnail();

@@ -9,8 +9,8 @@ import ClubSearch from './ClubSearch';
 const BookClubsPage = async (props: any) => {
   const supabase = createClient();
   let bookclubs;
-  console.log('bookclubs');
-  console.log('props', props);
+  // console.log('bookclubs');
+  // console.log('props', props);
 
   if (props.searchParams.category) {
     if (props.searchParams.category === '기타') {
@@ -40,7 +40,7 @@ const BookClubsPage = async (props: any) => {
     }
   } else if (props.searchParams.search) {
     if (props.searchParams.tab === '책제목') {
-      console.log('searchParams', props.searchParams);
+      // console.log('searchParams', props.searchParams);
       const { data: searchData, error } = await supabase
         .from('clubs')
         .select('*')
@@ -54,7 +54,7 @@ const BookClubsPage = async (props: any) => {
 
       bookclubs = searchData;
     } else if (props.searchParams.tab === '클럽이름') {
-      console.log('searchParams', props.searchParams);
+      // console.log('searchParams', props.searchParams);
       const { data: searchData, error } = await supabase
         .from('clubs')
         .select('*')

@@ -75,7 +75,7 @@ const ChatInput = () => {
       };
       addMessage(newMessage as Imessage);
       setOptimisticIds(newMessage.id);
-      console.log(newMessage);
+      // console.log(newMessage);
       // supabase 불러오기
       const { error } = await supabase
         .from('messages')

@@ -76,7 +76,7 @@ const SentenceModal = ({
       // alert('문장을 저장하는 도중 오류가 발생했습니다.');
       return;
     }
-    console.log('Supabase insert success:', data);
+    // console.log('Supabase insert success:', data);
     // 모달 닫기
     // 토스트 메시지가 나타난 후 1초 후에 모달 닫기
     setTimeout(() => {

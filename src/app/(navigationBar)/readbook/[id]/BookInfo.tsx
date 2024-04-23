@@ -14,11 +14,13 @@ import ToastUi from '@/common/ToastUi';
 const BookInfo = ({
   clubData,
   clubId,
-  clubMembers
+  clubMembers,
+  chat
 }: {
   clubData: Tables<'clubs'>[];
   clubId: string;
   clubMembers: Tables<'members'>[];
+  chat: React.ReactNode;
 }) => {
   const [activeTab, setActiveTab] = useState('책읽기');
   const [timerVisible, setTimerVisible] = useState(false);
@@ -28,7 +30,6 @@ const BookInfo = ({
   const [remainingMinutes, setRemainingMinutes] = useState<number>(0);
   const [remainingSeconds, setRemainingSeconds] = useState<number>(0);
   const supabase = createClient();
-
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -319,13 +320,7 @@ const BookInfo = ({
       )}
       {activeTab === '채팅' && (
         <>
-          <MemberList
-            id={clubId}
-            clubMembers={clubMembers}
-            endButtonVisible={endButtonVisible}
-            timerVisible={timerVisible}
-            userId={userId}
-          />
+          <div>{chat}</div>
         </>
       )}
     </>

@@ -55,7 +55,7 @@ const ClubBook = ({ club }: { club: Club | null }) => {
       <div className='mt-4 relative bg-[#EDEEF2] w-[343px] h-[320px] rounded-xl flex flex-col items-center justify-center '>
         <div className='flex justify-center items-center w-[156px] max-h-[244px]'>
           <Image
-            src={club.book_cover || '/booktiquereadblue.png'}
+            src={club.book_cover || '/readbook_yet_read.png'}
             alt='책 사진'
             width={100}
             height={100}

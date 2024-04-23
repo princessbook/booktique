@@ -316,7 +316,8 @@ const CreateBookPage = () => {
             <div className='relative mt-4'>
               <Slider
                 // label='Temperature'
-                label='slider'
+                // label='slider'
+                aria-label='slider'
                 step={1}
                 maxValue={10}
                 minValue={1}

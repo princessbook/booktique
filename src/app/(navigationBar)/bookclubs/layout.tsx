@@ -114,7 +114,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           onClose={() => setShowToast(false)}
           isSuccess={true}
           style={toastStyle}
-          duration={10000}
+          duration={5000}
         />
       )}
     </div>

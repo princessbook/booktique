@@ -337,7 +337,7 @@ const BookInfo = ({
             alignItems: 'center',
             paddingRight: '22px'
           }}
-          duration={200000}
+          duration={5000}
         />
       )}
 

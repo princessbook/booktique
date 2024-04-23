@@ -363,7 +363,7 @@ const BookInfo = ({
             paddingRight: '22px',
             textAlign: 'center'
           }}
-          duration={20000}
+          duration={5000}
         />
       )}
       {activeTab === '채팅' && (

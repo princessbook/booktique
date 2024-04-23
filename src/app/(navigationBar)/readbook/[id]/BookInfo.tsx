@@ -279,7 +279,7 @@ const BookInfo = ({
         </div>
         <div className='flex w-full justify-center bg-white text-center border-b h-[49px] '>
           <div
-            className={`cursor-pointer w-1/2 py-[15px] ${
+            className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '책읽기'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black '
                 : 'text-[14px] text-[#3A3B42] text-opacity-50 leading-[17px] text-center font-bold '
@@ -289,7 +289,7 @@ const BookInfo = ({
           </div>
 
           <div
-            className={`cursor-pointer w-1/2 py-[15px] ${
+            className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '퀴즈'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
                 : 'text-[14px] text-[#3A3B42] text-opacity-50  leading-[17px] text-center font-bold'
@@ -297,7 +297,7 @@ const BookInfo = ({
             onClick={() => setActiveTab('퀴즈')}>
             퀴즈
           </div>
-          {/* <div
+          <div
             className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '채팅'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
@@ -305,7 +305,7 @@ const BookInfo = ({
             }`}
             onClick={() => setActiveTab('채팅')}>
             채팅
-          </div> */}
+          </div>
         </div>
       </div>
 

@@ -32,7 +32,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     queryFn: getUserId,
     staleTime: 1000 * 5
   });
-
   // 기존의 유저정보 get
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -48,6 +47,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setUserId(data as string);
       if (!userId) return; // userId가 null인 경우에는 실행하지 않음
       const { data: members, error } = await supabase
         .from('members')
@@ -81,7 +81,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       }
     };
     fetchData();
-  }, [supabase, userId]);
+  }, [supabase, userId, data]);
   const toastStyle = {
     width: '343px',
     height: '50px',
@@ -114,7 +114,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }
   );
   if (isLoading) return null;
-  console.log(data);
+
   return (
     <div>
       {children}

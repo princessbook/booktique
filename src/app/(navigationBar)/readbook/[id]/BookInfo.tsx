@@ -374,11 +374,7 @@ const BookInfo = ({
           duration={5000}
         />
       )}
-      {activeTab === '채팅' && (
-        <>
-          <div>{chat}</div>
-        </>
-      )}
+      {activeTab === '채팅' && <>{chat}</>}
     </>
   );
 };

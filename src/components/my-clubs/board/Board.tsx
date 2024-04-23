@@ -24,7 +24,7 @@ const Board = ({ clubId }: { clubId: string }) => {
   if (error) return <div>에러: {error.message}</div>;
 
   return (
-    <div className='w-full'>
+    <div className='w-full pb-[74px]'>
       {posts?.length === 0 && (
         <NoContentMessage imgUrl='/no_post.png' width={121}>
           {' '}

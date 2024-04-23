@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 interface MemberListProps {
   clubMembers: Tables<'members'>[];
-  id: string;
+  clubId: string;
   endButtonVisible: boolean;
   timerVisible: boolean;
   userId: string | null;
@@ -22,7 +22,7 @@ interface UserProfile extends Tables<'profiles'> {
 // const MemberList = ({ clubMembers, id }: MemberListProps) => {
 const MemberList = ({
   clubMembers,
-  id,
+  clubId,
   endButtonVisible,
   timerVisible,
   userId
@@ -51,7 +51,7 @@ const MemberList = ({
               .from('club_activities')
               .select('progress, time')
               .eq('user_id', clubMember.user_id as string)
-              .eq('club_id', id);
+              .eq('club_id', clubId);
           if (activitiesError) {
             throw new Error('클럽 활동을 가져오는 도중 오류가 발생했습니다.');
           }
@@ -74,7 +74,7 @@ const MemberList = ({
       }
     };
     fetchProfiles();
-  }, [clubMembers, supabase, id, timerVisible]);
+  }, [clubMembers, supabase, clubId, timerVisible]);
   if (loading) {
     return (
       <div className='flex flex-col'>
@@ -95,7 +95,7 @@ const MemberList = ({
   }
 
   const handleChatting = () => {
-    router.push(`/chat/${id}`);
+    router.push(`/chat/${clubId}`);
   };
   return (
     <>
@@ -164,7 +164,7 @@ const MemberList = ({
             </div>
           ))}
         </div>
-        {!endButtonVisible && <EndButton id={id} />}
+        {!endButtonVisible && <EndButton clubId={clubId} />}
       </div>
     </>
   );

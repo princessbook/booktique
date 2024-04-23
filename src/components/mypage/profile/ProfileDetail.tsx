@@ -90,7 +90,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
 
   return (
     <div className='flex flex-col w-full items-center '>
-      <div className='w-full flex flex-row items-center border-b-2 p-3 h-[58px]'>
+      <div className='w-full flex flex-row items-center border-b-[1px] border-[#DBE3EB] p-3 h-[58px]'>
         <Link href='/mypage' onClick={() => setIsEdit(false)}>
           <svg
             width='22'

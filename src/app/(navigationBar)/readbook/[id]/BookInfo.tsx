@@ -17,11 +17,13 @@ import close from '../../../../../public/close_read.png';
 const BookInfo = ({
   clubData,
   clubId,
-  clubMembers
+  clubMembers,
+  chat
 }: {
   clubData: Tables<'clubs'>[];
   clubId: string;
   clubMembers: Tables<'members'>[];
+  chat: React.ReactNode;
 }) => {
   const [activeTab, setActiveTab] = useState('책읽기');
   const [timerVisible, setTimerVisible] = useState(false);
@@ -32,7 +34,6 @@ const BookInfo = ({
   const [remainingMinutes, setRemainingMinutes] = useState<number>(0);
   const [remainingSeconds, setRemainingSeconds] = useState<number>(0);
   const supabase = createClient();
-
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -278,7 +279,7 @@ const BookInfo = ({
         </div>
         <div className='flex w-full justify-center bg-white text-center border-b h-[49px] '>
           <div
-            className={`cursor-pointer w-1/2 py-[15px] ${
+            className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '책읽기'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black '
                 : 'text-[14px] text-[#3A3B42] text-opacity-50 leading-[17px] text-center font-bold '
@@ -288,7 +289,7 @@ const BookInfo = ({
           </div>
 
           <div
-            className={`cursor-pointer w-1/2 py-[15px] ${
+            className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '퀴즈'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
                 : 'text-[14px] text-[#3A3B42] text-opacity-50  leading-[17px] text-center font-bold'
@@ -296,7 +297,7 @@ const BookInfo = ({
             onClick={() => setActiveTab('퀴즈')}>
             퀴즈
           </div>
-          {/* <div
+          <div
             className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '채팅'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
@@ -304,7 +305,7 @@ const BookInfo = ({
             }`}
             onClick={() => setActiveTab('채팅')}>
             채팅
-          </div> */}
+          </div>
         </div>
       </div>
 
@@ -368,13 +369,7 @@ const BookInfo = ({
       )}
       {activeTab === '채팅' && (
         <>
-          <MemberList
-            id={clubId}
-            clubMembers={clubMembers}
-            endButtonVisible={endButtonVisible}
-            timerVisible={timerVisible}
-            userId={userId}
-          />
+          <div>{chat}</div>
         </>
       )}
     </>

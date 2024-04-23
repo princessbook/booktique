@@ -170,7 +170,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
                   placeholder='닉네임을 입력해주세요.'
                   value={displayName}
                   onChange={(e) => {
-                    setDisplayName(e.target.value);
+                    setDisplayName(e.target.value.replace(/\s/g, ''));
                     setDisplayNameError(null); // 에러 메시지 초기화
                     setIsModified(true);
                   }}

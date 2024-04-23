@@ -40,7 +40,9 @@ const OtherMessage = ({ message }: { message: Imessage }) => {
           </div>
         </div>
         <div className='flex items-end ml-1'>
-          <p className='text-fontGray text-[12px]'>
+          <p
+            className='text-fontGray text-[12px] font-thin'
+            style={{ WebkitTextStroke: '0.2px black' }}>
             {getMessageTime(message.created_at)}
           </p>
         </div>

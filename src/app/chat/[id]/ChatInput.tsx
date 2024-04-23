@@ -98,7 +98,7 @@ const ChatInput = () => {
         e.preventDefault();
         handleSendMessage();
       }}>
-      <div className='relative p-1 px-3 bg-[#c6edff]'>
+      <div className='relative p-1 px-3 '>
         <input
           value={messageText}
           className='w-full rounded-xl pl-3 py-[10px]'

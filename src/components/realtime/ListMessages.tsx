@@ -92,10 +92,10 @@ const ListMessage = ({ userId }: { userId: string | undefined }) => {
   return (
     <>
       <div
-        className={`flex-1 flex flex-col custom-height overflow-y-auto bg-[#c6edff]`}
+        className={`flex-1 flex flex-col custom-height overflow-y-auto `}
         ref={scrollRef}
         onScroll={handleOnScroll}>
-        <div className='flex-1 fixed top-20 left-1/2 translate-x-[-50%]'>
+        <div className='flex-1 fixed top-[220px] left-1/2 translate-x-[-50%]'>
           <LoadMoreMessages />
         </div>
         {sortedMessages.map((value, index) => {

@@ -67,12 +67,18 @@ const HomeTab = async ({ club }: { club: Clubs | null }) => {
           </div>
         </div>
         <div className='mt-8 text-fontTitle'>
-          <p className='font-bold'>북클럽 기간</p>
-          <div className=' mt-4 flex text-[14px] h-[40px] font-medium items-center py-[11px] w-full '>
-            <p className='text-subblue font-bold'>기간</p>
-            <p className='ml-4 text-fontMain'>
-              {formattedStartDate} ~ {formattedEndDate}
-            </p>
+          <p className='font-bold'>북클럽 정보</p>
+          <div className=' mt-4 flex flex-col text-[14px] font-medium w-full '>
+            <div className='flex flex-row'>
+              <p className='text-subblue font-bold'>요일</p>
+              <p className='ml-4 text-fontMain'>매주 {club?.weekday}</p>
+            </div>
+            <div className='flex flex-row'>
+              <p className='text-subblue font-bold'>기간</p>
+              <p className='ml-4 text-fontMain'>
+                {formattedStartDate} ~ {formattedEndDate}
+              </p>
+            </div>
           </div>
           <p className='mt-8 font-bold'>북클럽 소개</p>
           <p className='mt-4 text-fontMain text-[14px]'>{club?.description}</p>

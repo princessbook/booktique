@@ -253,11 +253,9 @@ const CreateBookPage = () => {
             />
           </div>
           <div className='mb-8'>
-            <label
-              htmlFor='clubName'
-              className='block text-[16px] mb-4 font-bold text-fontMain'>
+            <div className='block text-[16px] mb-4 font-bold text-fontMain'>
               북클럽 요일<span className=' text-errorRed'>*</span>
-            </label>
+            </div>
             <div className='relative'>
               <div className='flex items-center border w-full px-4  mt-4 h-[48px] bg-[#EDEEF2] rounded-lg text-[14px] placeholder-fontMain placeholder-opacity-60'>
                 <div className='flex flex-wrap items-center'>
@@ -312,14 +310,13 @@ const CreateBookPage = () => {
             {/* <ReactSelectBa/> */}
           </div>
           <div className='mb-10'>
-            <label
-              htmlFor='participants'
-              className='text-[16px] mb-4 font-bold text-fontMain'>
+            <div className='text-[16px] mb-4 font-bold text-fontMain'>
               모집 인원<span className=' text-errorRed '> *</span>
-            </label>
+            </div>
             <div className='relative mt-4'>
               <Slider
                 // label='Temperature'
+                label='slider'
                 step={1}
                 maxValue={10}
                 minValue={1}
@@ -440,6 +437,7 @@ const CreateBookPage = () => {
             </div>
           </div>
           <button
+            aria-label='Close modal'
             type='submit'
             className={` px-4 py-2 w-full bg-mainblue h-[56px] rounded-xl text-white flex items-center justify-center cursor-pointer ${
               isSubmit ? 'bg-gray-500 cursor-not-allowed' : 'bg-mainblue'

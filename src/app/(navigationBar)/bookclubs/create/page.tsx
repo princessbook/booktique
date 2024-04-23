@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { DOMAttributes, useState } from 'react';
-import { IoIosSearch } from 'react-icons/io';
+import { IoIosArrowDown, IoIosSearch } from 'react-icons/io';
 import HeaderWithBack from '../../../../components/common/HeaderWithBack';
 import SearchModal from './search/SearchModal';
 import { CiCamera } from 'react-icons/ci';
@@ -15,7 +15,7 @@ const CreateBookPage = () => {
   const [description, setDiscription] = useState('');
   const [selectedParticipants, setSelectedParticipants] = useState<
     null | number
-  >(null);
+  >(1);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const supabase = createClient();
@@ -64,7 +64,8 @@ const CreateBookPage = () => {
             book_author: bookInfo.author,
             book_category: bookInfo.categoryName.split('>')[1],
             book_cover: bookInfo.cover,
-            book_page: bookInfo.itemPage
+            book_page: bookInfo.itemPage,
+            weekday: selectedDays.join(',')
           }
         ])
         .select();
@@ -116,18 +117,23 @@ const CreateBookPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (isSubmit) return;
     e.preventDefault();
+    if (!bookInfo) {
+      alert('북클럽에서 읽을 책을 선택해 주세요');
+      return;
+    }
     if (!clubName) {
       alert('북클럽 이름을 입력해 주세요.');
+      return;
+    }
+    if (selectedDays.length === 0) {
+      alert('요일을 선택해 주세요');
       return;
     }
     if (!selectedParticipants) {
       alert('참가자 수를 선택해 주세요.');
       return;
     }
-    if (!bookInfo) {
-      alert('북클럽에서 읽을 책을 선택해 주세요');
-      return;
-    }
+
     if (!isSubmit) {
       setIsSubmit(true);
     }
@@ -160,6 +166,24 @@ const CreateBookPage = () => {
     left: '50%', // 화면 중앙
     transform: 'translateX(-50%)',
     fontSize: '8px'
+  };
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const toggleDay = (day: string) => {
+    if (selectedDays.includes(day)) {
+      setSelectedDays(selectedDays.filter((d) => d !== day));
+    } else {
+      setSelectedDays([...selectedDays, day]);
+    }
+  };
+
+  const handleItemClick = (day: string) => {
+    toggleDay(day);
   };
 
   return (
@@ -228,15 +252,66 @@ const CreateBookPage = () => {
               placeholder='북클럽 이름을 정해주세요.'
             />
           </div>
-          {/* <div className='mb-8'>
+          <div className='mb-8'>
             <label
               htmlFor='clubName'
               className='block text-[16px] mb-4 font-bold text-fontMain'>
-              
+              북클럽 요일<span className=' text-errorRed'>*</span>
             </label>
-            <ReactSelectBar />
-          </div> */}
-          <div className='mb-8'>
+            <div className='relative'>
+              <div className='flex items-center border w-full px-4  mt-4 h-[48px] bg-[#EDEEF2] rounded-lg text-[14px] placeholder-fontMain placeholder-opacity-60'>
+                <div className='flex flex-wrap items-center'>
+                  {selectedDays.length === 0 && (
+                    <span className=' text-fontMain text-opacity-60'>
+                      북클럽 요일을 정해주세요(중복선택 가능)
+                    </span>
+                  )}
+                  {selectedDays
+                    .sort((a, b) => {
+                      const daysOfWeek = [
+                        '월',
+                        '화',
+                        '수',
+                        '목',
+                        '금',
+                        '토',
+                        '일'
+                      ];
+                      return daysOfWeek.indexOf(a) - daysOfWeek.indexOf(b);
+                    })
+                    .map((day, i) => (
+                      <span
+                        key={day}
+                        className='inline-block rounded-full  text-sm font-semibold text-fontMain mr-2'>
+                        {day}
+                        {selectedDays.length - 1 !== i && ','}
+                      </span>
+                    ))}
+                  <span
+                    className='absolute cursor-pointer right-2'
+                    onClick={toggleOpen}>
+                    <IoIosArrowDown className='text-gray-400' size={22} />
+                  </span>
+                </div>
+                {isOpen && (
+                  <ul className='absolute top-10 z-10 left-0 w-full mt-2 bg-white border border-gray-400 rounded shadow-md'>
+                    {['월', '화', '수', '목', '금', '토', '일'].map((val) => (
+                      <li
+                        key={val}
+                        className={`px-4 py-2 cursor-pointer ${
+                          selectedDays.includes(val) ? ' bg-grayBgLight' : ''
+                        }`}
+                        onClick={() => handleItemClick(val)}>
+                        {val}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+            {/* <ReactSelectBa/> */}
+          </div>
+          <div className='mb-10'>
             <label
               htmlFor='participants'
               className='text-[16px] mb-4 font-bold text-fontMain'>

@@ -53,9 +53,9 @@ const ChatInput = () => {
           created_at: new Date().toISOString(),
           display_name: user?.user_metadata.display_name,
           email: user?.user_metadata.email,
-          interests: user?.user_metadata.interests,
-          introduction: user?.user_metadata.introduction,
-          most_favorite_book: user?.user_metadata.most_favorite_book
+          // interests: user?.user_metadata.interests,
+          introduction: user?.user_metadata.introduction
+          // most_favorite_book: user?.user_metadata.most_favorite_book
         },
         clubs: {
           id: user?.user_metadata.id,
@@ -70,7 +70,9 @@ const ChatInput = () => {
           description: user?.user_metadata.description,
           max_member_count: user?.user_metadata.max_member_count,
           name: user?.user_metadata.name,
-          thumbnail: user?.user_metadata.thumbnail
+          thumbnail: user?.user_metadata.thumbnail,
+          weekday: user?.user_metadata.thumbnail,
+          last_read: user?.user_metadata.thumbnail
         }
       };
       addMessage(newMessage as Imessage);

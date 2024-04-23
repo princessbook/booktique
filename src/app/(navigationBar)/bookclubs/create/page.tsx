@@ -316,7 +316,8 @@ const CreateBookPage = () => {
             <div className='relative mt-4'>
               <Slider
                 // label='Temperature'
-                label='slider'
+                // label='slider'
+                aria-label='slider'
                 step={1}
                 maxValue={10}
                 minValue={1}
@@ -385,6 +386,16 @@ const CreateBookPage = () => {
               {/* <div className='absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none top-4'>
                 <IoIosArrowDown className='text-gray-400' size={22} />
               </div> */}
+            </div>
+          </div>
+          <div className='mb-8'>
+            <label
+              htmlFor='clubName'
+              className='text-[16px] mb-4 font-bold text-fontMain'>
+              책 읽기 목표 시간
+            </label>
+            <div className='border w-full px-4  mt-4 h-[48px] bg-[#EDEEF2] rounded-lg text-[14px] text-fontMain text-opacity-60 flex items-center'>
+              1시간 (책 읽기 목표 시간은 1시간으로 고정입니다)
             </div>
           </div>
           <div className='mb-8'>

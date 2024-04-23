@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/lib/types/supabase';
 import useModalStore from '@/store/modalstore';
+import CompleteModal from '../CompleteModal';
 
 const Timer = ({
   clubId,
@@ -16,7 +17,7 @@ const Timer = ({
   const [loading, setLoading] = useState<boolean>(true);
   const [isVisible, setIsVisible] = useState<boolean>(true); // 현재 화면 보는지 안보는지
   const { isModalOpen } = useModalStore();
-
+  const [isEndButtonVisible, setIsEndButtonVisible] = useState<boolean>(false);
   const supabase = createClient();
   const formatTime = (timeInSeconds: number) => {
     const hours = Math.floor(timeInSeconds / 3600);
@@ -34,11 +35,20 @@ const Timer = ({
   // 타이머 시작 및 중지 처리
   useEffect(() => {
     if (isVisible && !isModalOpen)
+      // isModalOpen넣어서 모달뜰떄 중지
       intervalRef.current = setInterval(() => {
         setSeconds((prevSeconds: number) => {
-          const timeInSeconds = Math.max(prevSeconds + 1, 0);
+          const timeInSeconds = Math.max(prevSeconds - 1, 0);
+          // const timeInSeconds = Math.max(prevSeconds + 1, 0);
           saveTimeToSupabase(timeInSeconds);
-          localStorage.setItem('timerSeconds', timeInSeconds.toString());
+
+          if (timeInSeconds === 0) {
+            saveTimeToSupabase(timeInSeconds);
+            setIsEndButtonVisible(true);
+            clearInterval(intervalRef.current as number);
+          }
+
+          // localStorage.setItem('timerSeconds', timeInSeconds.toString());
           return timeInSeconds;
         });
       }, 1000);
@@ -47,7 +57,9 @@ const Timer = ({
       clearInterval(intervalRef.current as number);
     };
   }, [isVisible, isModalOpen, seconds]);
+  // }, [isVisible, seconds]);
 
+  // const saveTimeToSupabase = async (timeInSeconds: number) => {
   const saveTimeToSupabase = async (timeInSeconds: number) => {
     try {
       localStorage.getItem('userId');
@@ -126,6 +138,7 @@ const Timer = ({
             <p className='text-[#E9FF8F] font-bold text-[33px] leading-[39px] w-[134px] h-[40px]'>
               {formatTime(seconds)}
             </p>
+            {isEndButtonVisible && <CompleteModal clubId={clubId} />}
           </div>
         </div>
       )}

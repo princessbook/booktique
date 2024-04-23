@@ -69,16 +69,6 @@ const ClubList = ({
 
   const handleBookRead = async (clubId: string) => {
     try {
-      if (!id || !clubId) return;
-      const existingActivity = clubActivities?.find(
-        (activity) => activity.user_id === id && activity.club_id === clubId
-      );
-      if (existingActivity) {
-        localStorage.removeItem('timerSeconds');
-        localStorage.removeItem('timerStarted');
-        // console.log('이미 클럽 활동이 있습니다. 시간 업데이트함');
-        return;
-      }
       const userId = await getUserId();
       const { data: member, error: getMemberError } = await supabase
         .from('members')
@@ -86,6 +76,25 @@ const ClubList = ({
         .eq('club_id', clubId)
         .eq('user_id', userId as string)
         .single();
+
+      if (!id || !clubId || !member) return;
+      const existingActivity = clubActivities?.find(
+        (activity) => activity.user_id === id && activity.club_id === clubId
+      );
+      if (existingActivity) {
+        localStorage.removeItem('timerSeconds');
+        localStorage.removeItem('timerStarted');
+
+        await supabase
+          .from('club_activities')
+          .update({
+            time: 3600
+          })
+          .eq('user_id', id);
+        // .eq('club_id', clubId);
+        // console.log('이미 클럽 활동이 있습니다. 시간 업데이트함');
+        return;
+      }
 
       if (getMemberError || !member) {
         // console.log('you are not even a member!');
@@ -98,8 +107,8 @@ const ClubList = ({
           club_id: clubId,
           progress: 0,
           member_id: member.id,
-          // time: 3600 // 기본 1시간으로 제한
-          time: 0 // 기본 1시간으로 제한,
+          time: 3600 // 기본 1시간으로 제한
+          // time: 0 // 기본 1시간으로 제한,
         }
       ]);
       // console.log('111111', 111111);

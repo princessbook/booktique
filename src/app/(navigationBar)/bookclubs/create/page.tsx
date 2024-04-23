@@ -390,6 +390,16 @@ const CreateBookPage = () => {
           </div>
           <div className='mb-8'>
             <label
+              htmlFor='clubName'
+              className='text-[16px] mb-4 font-bold text-fontMain'>
+              책 읽기 목표 시간
+            </label>
+            <div className='border w-full px-4  mt-4 h-[48px] bg-[#EDEEF2] rounded-lg text-[14px] text-fontMain text-opacity-60 flex items-center'>
+              1시간 (책 읽기 목표 시간은 1시간으로 고정입니다)
+            </div>
+          </div>
+          <div className='mb-8'>
+            <label
               htmlFor='description'
               className='text-[16px] mb-4 font-bold text-fontMain'>
               북클럽 소개

@@ -3,14 +3,8 @@ import { createClient } from '@/utils/supabase/client';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useMessage } from '@/store/messages';
-import Image from 'next/image';
-import booktique from '../../../public/defaultImage.svg';
-import { IoIosArrowBack } from 'react-icons/io';
-import BackBtn from '@/app/(navigationBar)/bookclubs/[id]/BackBtn';
 
 const ChatPresence = ({ userId }: { userId: string | undefined }) => {
-  const msgs = useMessage((state) => state.messages);
-  console.log('msgs', msgs);
   const [clubData, setClubData] = useState<any>(null);
   const params = useParams();
   const clubId = params.id;

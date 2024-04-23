@@ -12,9 +12,9 @@ export type Imessage = {
     display_name: string | null;
     email: string | null;
     id: string;
-    interests: string | null;
+    // interests: string | null;
     introduction: string | null;
-    most_favorite_book: string | null;
+    // most_favorite_book: string | null;
     photo_URL: string | null;
   } | null;
   clubs: {
@@ -31,6 +31,8 @@ export type Imessage = {
     max_member_count: number | null;
     name: string | null;
     thumbnail: string | null;
+    weekday: string | null;
+    last_read: boolean | null;
   } | null;
 };
 interface MessageState {

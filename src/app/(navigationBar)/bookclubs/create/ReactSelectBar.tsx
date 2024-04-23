@@ -23,7 +23,7 @@ export default function ReactSelectBar() {
       isMulti
       options={colourOptions}
       placeholder='북클럽 요일을 정해주세요(중복선택 가능)'
-      className='text-[14px] h-[48px] custom-select rounded-lg'
+      className='text-[14px] h-[48px] custom-select rounded-lg w-full'
     />
   );
 }

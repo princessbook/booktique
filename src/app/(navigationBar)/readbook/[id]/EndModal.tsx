@@ -37,12 +37,12 @@ const EndModal = ({ onClose, id }: ModalProps) => {
         </h1>
         <div className='flex flex-col gap-[12px] w-[279px]'>
           <button
-            className='px-4 py-2 text-white bg-subblue rounded-full text-[14px]'
+            className='px-4 py-2 text-white bg-subblue rounded-full text-[14px] h-[44px]'
             onClick={onClose}>
             계속 읽기
           </button>
           <button
-            className='px-4 py-2 text-[#8A9DB3] rounded-full border border-[#DBE3EB] text-[14px]'
+            className='px-4 py-2 text-[#8A9DB3] rounded-full border border-[#DBE3EB] text-[14px] h-[44px]'
             onClick={handleStopTimerAndNavigate}>
             그만 읽기
           </button>

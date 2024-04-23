@@ -27,7 +27,8 @@ const BookInfo = ({
   const [timerVisible, setTimerVisible] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [endButtonVisible, setEndButtonVisible] = useState(true);
-  const [showToast, setShowToast] = useState(false);
+  const [alarmToast, setAlarmToast] = useState(false);
+  const [remainTimeToast, setRemainTimeToast] = useState(false);
   const [remainingMinutes, setRemainingMinutes] = useState<number>(0);
   const [remainingSeconds, setRemainingSeconds] = useState<number>(0);
   const supabase = createClient();
@@ -145,14 +146,6 @@ const BookInfo = ({
       postAlarm();
     }
   }, [postData, userId, clubMembers, supabase]);
-  const toastStyle = {
-    width: '343px',
-    height: '50px',
-    top: '10%', // 헤더 48이라 임시로 해놓음
-    left: '50%', // 화면 중앙
-    transform: 'translateX(-50%)',
-    fontSize: '8px'
-  };
 
   const handleStartTimer = async () => {
     try {
@@ -199,7 +192,7 @@ const BookInfo = ({
           if (remainingMinutes >= 0 && remainingSeconds >= 0) {
             setRemainingMinutes(remainingMinutes); // remainingMinutes 설정
             setRemainingSeconds(remainingSeconds); // remainingSeconds 설정
-            setShowToast(true); // 상태 변경
+            setRemainTimeToast(true); // 상태 변경
           }
           // alert(
           //   `모임 시작 알림은 ${remainingMinutes}분 ${remainingSeconds}초 뒤에 가능합니다`
@@ -209,6 +202,7 @@ const BookInfo = ({
       }
       // 10분 타이머 제한을 초과하거나 이전 시작 시간이 없는 경우
       // 타이머 시작 및 모임 시작
+      setAlarmToast(true);
       await startMeeting();
       localStorage.setItem('lastStartTime', new Date().getTime().toString());
       setTimerVisible(true);
@@ -274,9 +268,9 @@ const BookInfo = ({
           {/* {timerVisible && <Timer clubId={clubId} userId={userId as string} />} */}
           {/* </div> */}
           {timerVisible && (
-            <div className='my-auto flex flex-col justify-center items-center gap-[8px]'>
+            <div className='my-auto flex flex-col justify-center items-center gap-[8px] w-[295px]'>
               <Timer clubId={clubId} userId={userId as string} />
-              <div className='flex text-white  w-[295px] text-center break-words line-clamp-2'>
+              <div className='text-white mx-auto text-[16px] font-bold items-center text-center break-words line-clamp-2'>
                 {clubData[0].book_title}
               </div>
             </div>
@@ -326,13 +320,50 @@ const BookInfo = ({
         </>
       )}
       {activeTab === '퀴즈' && <QuizContainer clubId={clubId} />}
-      {showToast && (
+      {remainTimeToast && (
         <ToastUi
-          message={`모임 시작알림은 ${remainingMinutes}분 ${remainingSeconds}초 뒤에 가능합니다`}
-          onClose={() => setShowToast(false)}
+          message={`모임 시작 알림은 ${remainingMinutes}분 ${remainingSeconds}초 뒤에 가능합니다`}
+          onClose={() => setRemainTimeToast(false)}
           isSuccess={false}
-          style={toastStyle}
-          duration={3000}
+          style={{
+            width: '343px',
+            height: '50px',
+            top: '123px',
+            left: '50%', // 화면 중앙
+            transform: 'translateX(-50%)',
+            fontSize: '8px',
+            position: 'fixed',
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingRight: '22px'
+          }}
+          duration={200000}
+        />
+      )}
+
+      {alarmToast && (
+        <ToastUi
+          message={`<${
+            (clubData[0].description?.length as number) > 20
+              ? clubData[0].description?.substring(0, 20) + '...'
+              : clubData[0].description
+          }> 모임의 회원들에게 시작 알림을 보냈습니다!`}
+          onClose={() => setAlarmToast(false)}
+          isSuccess={true}
+          style={{
+            width: '343px',
+            height: '50px',
+            top: '123px',
+            left: '50%', // 화면 중앙
+            transform: 'translateX(-50%)',
+            fontSize: '8px',
+            position: 'fixed',
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingRight: '22px',
+            textAlign: 'center'
+          }}
+          duration={20000}
         />
       )}
       {activeTab === '채팅' && (

@@ -102,9 +102,6 @@ const MemberList = ({
       <div className='flex flex-col h-full'>
         <div className='mt-[32px] mb-[16px] ml-[16px] font-bold text-[16px] leading-[22px] text-[#3F3E4E]'>
           함께 책 읽기
-          <button className='ml-10' onClick={handleChatting}>
-            채팅참여하기
-          </button>
         </div>
         <div className='grid grid-cols-3 mx-auto gap-[9px] justify-start items-center text-center'>
           {profiles?.map((profile, index) => (

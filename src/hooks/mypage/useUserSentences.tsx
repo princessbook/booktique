@@ -4,20 +4,14 @@ const useUserSentences = async (userId: string) => {
   const supabase = createClient();
   const { data: userSentences } = await supabase
     .from('sentences')
-    .select('*')
-    .eq('user_id', userId);
-
+    .select('*,clubs(book_title,name,id,book_author)')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
   if (userSentences) {
-    const clubIds = userSentences.map((sentence) => sentence.club_id);
-    const { data: clubsData } = await supabase
-      .from('clubs')
-      .select('book_title,name,id,book_author')
-      .in('id', clubIds);
-
-    return { userSentences, clubsData };
+    return userSentences;
   }
 
-  return { userSentences: [], clubsData: [] };
+  return [];
 };
 
 export default useUserSentences;

@@ -73,6 +73,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     };
     fetchData();
   }, [supabase, userId]);
+
   const toastStyle = {
     width: '343px',
     height: '50px',

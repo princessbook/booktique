@@ -95,7 +95,7 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
         <h2 className='mb-3 font-bold text-[16px] text-[#292929]'>모임 정보</h2>
         <p className='text-[14px] mb-2 text-fontBlack'>
           <span className=' text-mainblue font-bold mr-1'>모임 날</span>
-          매주 월, 화, 수, 목, 금, 토, 일
+          {bookclub.weekday && bookclub.weekday}
         </p>
         <p className='text-[14px] text-fontBlack'>
           <span className='text-mainblue font-bold mr-1'>모임 기간</span>

@@ -65,7 +65,7 @@ const CreateBookPage = () => {
             book_category: bookInfo.categoryName.split('>')[1],
             book_cover: bookInfo.cover,
             book_page: bookInfo.itemPage,
-            weekday: selectedDays.join(',')
+            weekday: selectedDays.join(', ')
           }
         ])
         .select();

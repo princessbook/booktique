@@ -26,6 +26,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }[]
   >([]);
 
+  //승희가 바꾼 유저정보 get
   const { data, isError, isLoading } = useQuery({
     queryKey: ['user_id'],
     queryFn: getUserId,
@@ -44,25 +45,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   //   };
   //   fetchData();
   // }, [userId]);
-
-  //승희가 바꾼 유저정보 get
-  const fetchData = async () => {
-    try {
-      const { data, isError, isLoading } = useQuery({
-        queryKey: ['user_id'],
-        queryFn: getUserId,
-        staleTime: 1000 * 5
-      });
-      if (data) {
-        setUserId(data);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, [userId]);
 
   useEffect(() => {
     const fetchData = async () => {

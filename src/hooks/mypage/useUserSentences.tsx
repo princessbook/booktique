@@ -7,7 +7,6 @@ const useUserSentences = async (userId: string) => {
     .select('*,clubs(book_title,name,id,book_author)')
     .eq('user_id', userId)
     .order('created_at', { ascending: false });
-  console.log(userSentences);
   if (userSentences) {
     return userSentences;
   }

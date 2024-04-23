@@ -41,8 +41,8 @@ const ChatBackImg = ({ userId }: { userId: string | undefined }) => {
   }, []);
   const backgroundStyle = {
     backgroundImage: `url(${clubData?.thumbnail})`,
-    backgroundSize: 'contain',
-    backgroundPosition: 'contain',
+    backgroundSize: 'cover',
+    backgroundPosition: 'cover',
     height: `chatHight`
   };
   return (

@@ -8,6 +8,9 @@ import QuizContainer from '@/components/quiz/QuizContainer';
 import { createClient } from '@/utils/supabase/client';
 import { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
 import ToastUi from '@/common/ToastUi';
+import Image from 'next/image';
+import Link from 'next/link';
+import close from '../../../../../public/close_read.png';
 // import useRealtimePostgresChanges from '@/hooks/useRealtimePostgresChanges';
 // import useAlarmStore from '@/store';
 
@@ -241,32 +244,47 @@ const BookInfo = ({
   return (
     <>
       <div className='sticky top-0 z-10'>
-        <div className='h-[42px] bg-mainblue'></div>
+        {!timerVisible && (
+          <div className='flex flex-row bg-[#35A5F6] border-b-[1px] border-[#DBE3EB] border-opacity-30 w-full '>
+            <Link href='/readbook' passHref>
+              <Image
+                src={close}
+                className='w-[22px] h-[22px] m-[16px]'
+                alt='close'
+              />
+            </Link>
+            <div className='flex h-[54px] items-center ml-[94px] text-white text-[17px] leading-[26px] font-bold text-center'>
+              책 읽기 종료
+            </div>
+          </div>
+        )}
         <div
           className={`sticky flex flex-col bg-mainblue items-center ${containerHeight}`}>
-          <div className='mt-[16px] '>
-            {!timerVisible && (
-              <div className='flex'>
-                <div
-                  className='mb-[24px] flex w-[189px] h-[54px] bg-[#D8FA8E] rounded-[10px] text-center text-[#269AED] font-bold text-[17px] leading-[26px] justify-center items-center cursor-pointer'
-                  onClick={handleStartTimer}>
-                  책 읽기 시작
-                </div>
+          {/* <div className='mt-[16px] '> */}
+          {!timerVisible && (
+            <div className='flex h-full'>
+              <div
+                className='flex w-[189px] h-[54px] my-auto bg-[#D8FA8E] rounded-[10px] text-center text-[#269AED] font-bold text-[17px] leading-[26px] justify-center items-center cursor-pointer'
+                onClick={handleStartTimer}>
+                책 읽기 시작
               </div>
-            )}
-            {timerVisible && (
-              <Timer clubId={clubId} userId={userId as string} />
-            )}
-          </div>
+            </div>
+          )}
+
+          {/* {timerVisible && <Timer clubId={clubId} userId={userId as string} />} */}
+          {/* </div> */}
           {timerVisible && (
-            <div className='text-white mt-[8px] mb-[16px] w-[295px] text-center break-words line-clamp-2'>
-              {clubData[0].book_title}
+            <div className='my-auto flex flex-col justify-center items-center gap-[8px]'>
+              <Timer clubId={clubId} userId={userId as string} />
+              <div className='flex text-white  w-[295px] text-center break-words line-clamp-2'>
+                {clubData[0].book_title}
+              </div>
             </div>
           )}
         </div>
         <div className='flex w-full justify-center bg-white text-center border-b h-[49px] '>
           <div
-            className={`cursor-pointer w-1/3 py-[15px] ${
+            className={`cursor-pointer w-1/2 py-[15px] ${
               activeTab === '책읽기'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black '
                 : 'text-[14px] text-[#3A3B42] text-opacity-50 leading-[17px] text-center font-bold '
@@ -276,7 +294,7 @@ const BookInfo = ({
           </div>
 
           <div
-            className={`cursor-pointer w-1/3 py-[15px] ${
+            className={`cursor-pointer w-1/2 py-[15px] ${
               activeTab === '퀴즈'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
                 : 'text-[14px] text-[#3A3B42] text-opacity-50  leading-[17px] text-center font-bold'
@@ -284,7 +302,7 @@ const BookInfo = ({
             onClick={() => setActiveTab('퀴즈')}>
             퀴즈
           </div>
-          <div
+          {/* <div
             className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '채팅'
                 ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
@@ -292,7 +310,7 @@ const BookInfo = ({
             }`}
             onClick={() => setActiveTab('채팅')}>
             채팅
-          </div>
+          </div> */}
         </div>
       </div>
 

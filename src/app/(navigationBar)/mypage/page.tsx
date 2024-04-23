@@ -7,6 +7,7 @@ import { createClient } from '@/utils/supabase/server';
 import LogoutButton from '@/components/mypage/profile/LogoutButton';
 import Profile from '@/components/mypage/profile/Profile';
 import Link from 'next/link';
+
 const MyPage = async () => {
   const supabase = createClient();
   const {
@@ -15,7 +16,24 @@ const MyPage = async () => {
   if (!user) {
     return null;
   }
+  // const handleDeleteUser = async () => {
+  //   if (window.confirm('정말로 회원 탈퇴하시겠습니까?')) {
+  //     try {
+  //       // Supabase에서 사용자 삭제하기
+  //       const { error } = await supabase.auth.admin.deleteUser(user.id);
 
+  //       if (error) {
+  //         throw error;
+  //       }
+  //       // 사용자 삭제 성공
+  //       console.log('사용자가 성공적으로 삭제되었습니다.');
+  //       // 여기에 추가적인 처리나 리다이렉션 등을 할 수 있습니다.
+  //     } catch (error) {
+  //       console.error('사용자 삭제 중 오류가 발생했습니다:', error);
+  //       // 오류 발생 시 사용자에게 알림을 보여줄 수 있습니다.
+  //     }
+  //   }
+  // };
   return (
     //head부분
     <div className='flex flex-col '>

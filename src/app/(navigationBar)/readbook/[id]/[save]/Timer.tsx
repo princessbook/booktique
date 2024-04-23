@@ -118,7 +118,7 @@ const Timer = ({
   return (
     <>
       {!loading && (
-        <div className='flex h-[40px] mx-auto items-center justify-center'>
+        <div className='h-[40px] mx-auto'>
           <div className='flex flex-row gap-[10px] items-center justify-center'>
             <div className='text-[14px] leading-5 font-bold w-[60px] h-[28px] bg-[#E9FF8F] bg-opacity-20 text-[#E9FF8F] py-[4px] px-[8px] rounded-md text-center'>
               독서중

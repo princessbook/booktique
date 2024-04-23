@@ -6,22 +6,33 @@ import Image from 'next/image';
 import ProgressBar from '@/app/(navigationBar)/readbook/ProgressBar';
 import { createClient } from '@/utils/supabase/client';
 import { CLUB_ACTIVITIES_TABLE } from '@/common/constants/tableNames';
+import { useQuery } from '@tanstack/react-query';
+import { getUserId } from '@/utils/userAPIs/authAPI';
 
 const ClubBook = ({ club }: { club: Club | null }) => {
   const [percentage, setPercentage] = useState<number>(0);
-
+  //승희 개선
+  const {
+    data: user,
+    isError,
+    isLoading
+  } = useQuery({
+    queryKey: ['user_id'],
+    queryFn: getUserId,
+    staleTime: 1000 * 5
+  });
   useEffect(() => {
     const fetchUserAndProgress = async () => {
       const supabase = createClient();
-      const {
-        data: { user }
-      } = await supabase.auth.getUser();
+      // const {
+      //   data: { user }
+      // } = await supabase.auth.getUser();
 
       if (user && club) {
         const { data: activity, error: activityError } = await supabase
           .from(CLUB_ACTIVITIES_TABLE)
           .select('progress')
-          .eq('user_id', user.id)
+          .eq('user_id', user)
           .eq('club_id', club.id);
 
         if (activity && !activityError && activity.length > 0) {

@@ -5,6 +5,7 @@ import useRealtimePostgresChanges from '@/hooks/useRealtimePostgresChanges';
 import { Tables } from '@/lib/types/supabase';
 import { createClient } from '@/utils/supabase/client';
 import { getUserId } from '@/utils/userAPIs/authAPI';
+import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -25,15 +26,41 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }[]
   >([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchUserId = await getUserId();
-        setUserId(fetchUserId as string);
-      } catch (error) {
-        console.error(error);
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ['user_id'],
+    queryFn: getUserId,
+    staleTime: 1000 * 5
+  });
+
+  // 기존의 유저정보 get
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const fetchUserId = await getUserId();
+  //       setUserId(fetchUserId as string);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [userId]);
+
+  //승희가 바꾼 유저정보 get
+  const fetchData = async () => {
+    try {
+      const { data, isError, isLoading } = useQuery({
+        queryKey: ['user_id'],
+        queryFn: getUserId,
+        staleTime: 1000 * 5
+      });
+      if (data) {
+        setUserId(data);
       }
-    };
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, [userId]);
 
@@ -104,7 +131,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       }
     }
   );
-
+  if (isLoading) return null;
+  console.log(data);
   return (
     <div>
       {children}

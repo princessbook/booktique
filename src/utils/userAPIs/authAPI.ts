@@ -12,17 +12,25 @@ type MembersType = {
   user_id: string | null;
   progress?: number | null; // progress 필드 추가
 };
+
 export const getUserId = async (): Promise<string | null> => {
   try {
-    const supabase = createClient();
-    const {
-      data: { user }
-    } = await supabase.auth.getUser();
+    const { data: user } = await getUser();
     return user!.id;
   } catch (error) {
     console.error('유저아이디 받아올 수 없음:', error);
     return null;
   }
+};
+
+//리팩토링중 승희
+export const getUser = async () => {
+  console.log('승희함수 요청');
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  // return {data:data.user, error}
+  if (error) return { data: null, error: error };
+  return { data: data.user, error: null };
 };
 
 export const getUserProfile = async (

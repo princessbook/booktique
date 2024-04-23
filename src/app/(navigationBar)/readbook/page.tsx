@@ -97,15 +97,16 @@ const ReadBookPage = async () => {
             />
             <div className='flex flex-row'>
               <div className='bg-[#DBE3EB] mb-[40px] w-[302px] h-[464px] rounded-[20px]  mx-auto mt-[24px]'>
-                <div className='flex mt-[108px] mb-[37px] w-[196px] h-[48px] text-center font-medium text-[14px] leading-[20px] text-[#3F3E4E] mx-auto justify-center items-center'>
-                  가입한 북클럽이 없습니다. 북클럽을 찾고 함께 책 읽어보세요.
+                <div className='flex mt-[134px] mb-[24px] w-[196px] h-[48px] text-center font-medium text-[14px] leading-[20px] text-[#3F3E4E] mx-auto justify-center items-center'>
+                  가입한 북클럽이 없습니다.
+                  <br /> 북클럽을 찾고 함께 책 읽어보세요.
                 </div>
                 <Image
                   src={readbook_noclub}
-                  width={166}
-                  height={166}
+                  width={138}
+                  height={124}
                   alt={'noclub'}
-                  className=' w-[166px] h-[166px] mx-auto'
+                  className=' w-[138px] h-[124px] mx-auto'
                 />
               </div>
             </div>

@@ -11,6 +11,7 @@ import ToastUi from '@/common/ToastUi';
 import Image from 'next/image';
 import Link from 'next/link';
 import close from '../../../../../public/close_read.png';
+import useModalStore from '@/store/modalstore';
 // import useRealtimePostgresChanges from '@/hooks/useRealtimePostgresChanges';
 // import useAlarmStore from '@/store';
 
@@ -34,6 +35,7 @@ const BookInfo = ({
   const [remainingMinutes, setRemainingMinutes] = useState<number>(0);
   const [remainingSeconds, setRemainingSeconds] = useState<number>(0);
   const supabase = createClient();
+  const { resetModal } = useModalStore();
   useEffect(() => {
     const fetchUserId = async () => {
       try {
@@ -109,10 +111,10 @@ const BookInfo = ({
             const newAlarm = {
               created_at: postData.commit_timestamp,
               target_user_id: userId,
-              content: `${writerName}님이${postData.new.title}모임을 시작하셨습니다. `,
+              content: `${writerName}님이 <${postData.new.title}>모임을 시작하셨습니다. `,
               post_id: postData.new.id
             };
-
+            // console.log('postData', postData);
             // 모든 멤버에게 알림을 보내기
             const memberUserIds = clubMembers.map((member) => member.user_id);
             await supabase
@@ -149,6 +151,11 @@ const BookInfo = ({
   }, [postData, userId, clubMembers, supabase]);
 
   const handleStartTimer = async () => {
+    resetModal();
+    // 정상 흐름 : 책 읽기 시작 -> 종료하기 버튼 등장 -> 종료하기 클릭 -> 모달 등장 반복
+    // 나타난 버그 : 책 읽기 시작 -> 종료하기 버튼 등장 -> 종료하기 클릭 -> 모달 등장 -> 반복 시
+    // 책 읽기 시작 -> (종료하기 버튼 안뜸)-> 모달등장;; 모달상태를 전역으로 관리를 해서 true에서 바뀌지 않는듯함
+    // 모달상태를 false로 바꿔주는 resetModal생성
     try {
       // 방장 여부 확인
       const isAdmin = clubMembers.some(
@@ -312,7 +319,7 @@ const BookInfo = ({
       {activeTab === '책읽기' && (
         <>
           <MemberList
-            id={clubId}
+            clubId={clubId}
             clubMembers={clubMembers}
             endButtonVisible={endButtonVisible}
             timerVisible={timerVisible}
@@ -345,10 +352,10 @@ const BookInfo = ({
       {alarmToast && (
         <ToastUi
           message={`<${
-            (clubData[0].description?.length as number) > 20
-              ? clubData[0].description?.substring(0, 20) + '...'
-              : clubData[0].description
-          }> 모임의 회원들에게 시작 알림을 보냈습니다!`}
+            (clubData[0].name?.length as number) > 20
+              ? clubData[0].name?.substring(0, 20) + '...'
+              : clubData[0].name
+          }> 모임의 회원들에게 모임이 시작되었다고 알림을 보냈습니다.`}
           onClose={() => setAlarmToast(false)}
           isSuccess={true}
           style={{

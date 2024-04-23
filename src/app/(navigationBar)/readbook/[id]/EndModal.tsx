@@ -2,21 +2,22 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import readbook_yet_read from '../../../../../public/readbook_yet_read.png';
+import useModalStore from '@/store/modalstore';
 
 interface ModalProps {
-  onClose: () => void;
-  id: string;
+  clubId: string;
 }
-const EndModal = ({ onClose, id }: ModalProps) => {
+const EndModal = ({ clubId }: ModalProps) => {
   const router = useRouter();
-
+  const { toggleModal, resetModal } = useModalStore();
   const handleStopTimerAndNavigate = async () => {
     // alert('현재 테스트 중입니다 조금만 기다려주세요!');
-    onClose(); // 여기 주석했다가 버그발견 책읽기 시작-> ~~ 책 읽기 시작 모달창 등장
+    // onClose(); // 여기 주석했다가 버그발견 책읽기 시작-> ~~ 책 읽기 시작 모달창 등장
+
     router.refresh();
     localStorage.removeItem('timerStarted');
     localStorage.removeItem('timerSeconds');
-    router.push(`/readbook/${id}/save`);
+    router.push(`/readbook/${clubId}/save`);
   };
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20'>
@@ -35,7 +36,7 @@ const EndModal = ({ onClose, id }: ModalProps) => {
         <div className='flex flex-col gap-[12px] w-[279px]'>
           <button
             className='px-4 py-2 text-white bg-subblue rounded-full text-[14px] h-[44px]'
-            onClick={onClose}>
+            onClick={toggleModal}>
             계속 읽기
           </button>
           <button

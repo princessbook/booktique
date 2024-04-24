@@ -6,36 +6,62 @@ import { Tables } from '@/lib/types/supabase';
 import { useRouter } from 'next/navigation';
 // import SaveProgressBar from './SaveProgressBar';
 import ToastUi from '@/common/ToastUi';
-
+interface ClubData {
+  archive?: boolean | null;
+  book_author?: string | null;
+  book_category?: string | null;
+  book_cover?: string | null;
+  book_id?: string | null;
+  book_page?: number | null;
+  book_title?: string | null;
+  created_at?: string;
+  description?: string | null;
+  id?: string;
+  last_read?: boolean | null;
+  max_member_count?: number | null;
+  name?: string | null;
+  thumbnail?: string | null;
+  weekday?: string | null;
+  club_activities: Tables<'club_activities'>[];
+  // club_activities: {
+  //   club_id: string | null;
+  //   id: string;
+  //   last_read: boolean | null;
+  //   member_id: string;
+  //   progress: number | null;
+  //   time: number | null;
+  //   user_id: string;
+  // }[];
+}
 const supabase = createClient();
 const SaveCard = ({
   id,
-  clubData,
-  matchingActivities
-}: {
+  clubData
+}: // matchingActivities
+{
   id: string;
-  clubData: Tables<'clubs'>;
-  matchingActivities: Tables<'club_activities'>[];
+  clubData: ClubData | null;
+  // matchingActivities: Tables<'club_activities'>[];
 }) => {
+  // console.log('matchingActivities', matchingActivities);
   const [recordPage, setRecordPage] = useState('');
   const [inputValid, setInputValid] = useState(false); // 입력값 유효성 상태
   const [overPage, setOverPage] = useState(false); // 페이지 초과
   const [invalidInput, setInvalidInput] = useState(false); // 숫자만 입력하게
   const [progressPercentage, setProgressPercentage] = useState(
-    matchingActivities[0]?.progress as number
+    clubData?.club_activities[0]?.progress as number
   ); // 페이지 진행률 상태 추가
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
   useEffect(() => {
     inputRef.current?.focus();
-  }, []);
-  useEffect(() => {
-    if (matchingActivities.length > 0) {
-      setProgressPercentage(matchingActivities[0]?.progress as number);
+    if (clubData?.club_activities[0]) {
+      setProgressPercentage(clubData.club_activities[0]?.progress as number);
       setLoading(false); // matchingActivities 로드 완료 시 로딩 상태 변경
     }
-  }, [matchingActivities]);
+  }, [clubData]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
@@ -48,7 +74,7 @@ const SaveCard = ({
       setInvalidInput(false);
 
       const inputValueNumber = Math.floor(
-        (Number(inputValueAsNumber) / (clubData.book_page as number)) * 100
+        (Number(inputValueAsNumber) / (clubData?.book_page as number)) * 100
       );
 
       if (inputValueNumber > 100) {
@@ -95,10 +121,10 @@ const SaveCard = ({
     }
 
     const result = Math.floor(
-      (Number(recordPage) / (clubData.book_page as number)) * 100
+      (Number(recordPage) / (clubData?.book_page as number)) * 100
     );
 
-    if (Number(recordPage) > (clubData.book_page as number)) {
+    if (Number(recordPage) > (clubData?.book_page as number)) {
       setOverPage(true); // 페이지 수 초과 알림 표시
       setRecordPage('');
       return;

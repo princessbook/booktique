@@ -23,6 +23,10 @@ const ClubList = ({
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   // const [loading, setLoading] = useState<boolean>(true);
   const supabase = createClient();
+  const [clickedSlideIndex, setClickedSlideIndex] = useState<number | null>(
+    null
+  );
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [clubActivities, setClubActivities1] = useState<
     Tables<'club_activities'>[] | null
   >(null);
@@ -64,12 +68,25 @@ const ClubList = ({
     centerMode: true, // 가운데 정렬 모드 활성화
     centerPadding: '30px', // 좌우 패딩 추가
     // 슬라이드가 변경될 때마다 현재 슬라이드 인덱스를 업데이트
-    afterChange: (current: number) => setCurrentSlide(current)
+    afterChange: (current: number) => {
+      setCurrentSlide(current);
+      // 슬라이드 변경 후에 버튼 활성화
+      setButtonDisabled(false);
+    },
+    beforeChange: () => {
+      // 슬라이드 변경 중에 버튼 비활성화
+      setButtonDisabled(true);
+    }
   };
 
   const handleBookRead = async (clubId: string) => {
+    localStorage.removeItem('timerStarted');
     try {
       const userId = await getUserId();
+      // 클릭된 슬라이드 인덱스가 존재하고, 현재 슬라이드 인덱스와 일치하는지 확인
+      if (clickedSlideIndex !== null && clickedSlideIndex !== currentSlide) {
+        return; // 클릭된 슬라이드가 변경된 경우 클릭 이벤트를 처리하지 않음
+      }
       const { data: member, error: getMemberError } = await supabase
         .from('members')
         .select()
@@ -125,14 +142,22 @@ const ClubList = ({
   //   return <LoadingOverlay show={loading} />;
   // }
 
+  // 클릭된 슬라이드 인덱스를 설정하는 함수
+  const handleClickSlide = (index: number) => {
+    setClickedSlideIndex(index);
+  };
+
   // 책 읽기 버튼
   return (
     <div className='flex flex-col h-full'>
       <Slider className='custom-slider h-auto' {...settings}>
         {allClubData
           .filter((club) => club.archive === false)
-          .map((club) => (
-            <div key={club.id} className='flex cursor-pointer '>
+          .map((club, index) => (
+            <div
+              key={club.id}
+              className='flex cursor-pointer '
+              onClick={() => handleClickSlide(index)}>
               <div className='flex flex-col bg-white mb-[40px] w-[92%] h-[60%] rounded-[20px] shadow-md mx-auto items-center justify-center'>
                 <div className='flex w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center'>
                   {club.book_title &&
@@ -177,6 +202,7 @@ const ClubList = ({
                   ?.id
               )
             }
+            disabled={buttonDisabled}
           />
         </Link>
       </div>

@@ -1,15 +1,23 @@
 'use client';
 import React from 'react';
-import { Tables } from '@/lib/types/supabase';
-type Profile = Tables<'profiles'>;
 
 import ProfileDetail from '@/components/mypage/profile/ProfileDetail';
-
+import Head from 'next/head';
 const ProfilePage = ({
   params: { userId }
 }: {
   params: { userId: string | null };
 }) => {
-  return <ProfileDetail userId={userId} />;
+  return (
+    <>
+      <Head>
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
+        />
+      </Head>
+      <ProfileDetail userId={userId} />
+    </>
+  );
 };
 export default ProfilePage;

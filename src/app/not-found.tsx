@@ -6,7 +6,9 @@ import React from 'react';
 const NotFound = () => {
   const router = useRouter();
   return (
+
     <div className='flex flex-col items-center justify-center align-middle min-h-screen'>
+
       <div className='flex flex-col items-center w-[302px] h-[308px] text-[#8A9DB3]'>
         <div>
           <Image src={'/notFound.svg'} alt='404' width={166} height={166} />

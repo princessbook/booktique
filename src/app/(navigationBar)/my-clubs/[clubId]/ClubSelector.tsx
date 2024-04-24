@@ -4,19 +4,32 @@ import useMyClubInfo from '@/hooks/info/useMyClubInfo';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
+import Image from 'next/image';
 
-type Props = {};
-// type Props = {
-//   clubs: { id: string; name: string }[];
-// };
-const ClubSelector = (props: Props) => {
+const ClubSelector = () => {
   const params = useParams<{
     clubId: string;
   }>();
   const router = useRouter();
   // TODO: hook으로 만들어서 재사용하던지... 음... 최상단에서 한번만 호출해서 props로 나리던지... memoization을 하던지...
-  const { clubs } = useMyClubInfo();
-
+  const { clubs, isLoading } = useMyClubInfo();
+  if (isLoading) {
+    return (
+      <div className='flex justify-center items-center h-screen flex-col'>
+        <div>
+          <Image
+            src={'/readbook_noclub.png'}
+            alt='로딩중이미지'
+            width={150}
+            height={150}
+          />
+        </div>
+        <div className='mt-4 relative h-4 w-40 bg-gray-200 rounded-full overflow-hidden'>
+          <div className=' absolute top-0 left-0 h-full bg-gradient-to-r from-secondary500 to-primary400 rounded-full animate-fill'></div>
+        </div>
+      </div>
+    );
+  }
   if (!clubs || clubs.length === 0) {
     return <div className='h-[49px]'></div>;
   }

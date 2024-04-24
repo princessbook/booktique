@@ -130,7 +130,7 @@ const ClubList = ({
     <div className='flex flex-col h-full'>
       <Slider className='custom-slider h-auto' {...settings}>
         {allClubData
-          .filter((club) => !club.archive)
+          .filter((club) => club.archive === false)
           .map((club) => (
             <div key={club.id} className='flex cursor-pointer '>
               <div className='flex flex-col bg-white mb-[40px] w-[92%] h-[60%] rounded-[20px] shadow-md mx-auto items-center justify-center'>
@@ -165,9 +165,18 @@ const ClubList = ({
 
       <div className='mb-[40px] justify-center flex'>
         {/* 현재 슬라이드의 클럽 정보를 가져와서 버튼을 생성 */}
-        <Link prefetch href={`/readbook/${allClubData[currentSlide]?.id}`}>
+        <Link
+          prefetch
+          href={`/readbook/${
+            allClubData.filter((id) => id.archive === false)[currentSlide]?.id
+          }`}>
           <ReadButton
-            onClick={() => handleBookRead(allClubData[currentSlide]?.id)}
+            onClick={() =>
+              handleBookRead(
+                allClubData.filter((id) => id.archive === false)[currentSlide]
+                  ?.id
+              )
+            }
           />
         </Link>
       </div>

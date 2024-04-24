@@ -12,18 +12,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import close from '../../../../../public/close_read.png';
 import useModalStore from '@/store/modalstore';
+import { useQuery } from '@tanstack/react-query';
+import { getReadBookPageData } from '@/utils/testAPIs';
 // import useRealtimePostgresChanges from '@/hooks/useRealtimePostgresChanges';
 // import useAlarmStore from '@/store';
 
 const BookInfo = ({
-  clubData,
+  // clubData,
   clubId,
-  clubMembers,
+  // clubMembers,
   chat
 }: {
-  clubData: Tables<'clubs'>[];
+  // clubData: Tables<'clubs'>[];
   clubId: string;
-  clubMembers: Tables<'members'>[];
+  // clubMembers: Tables<'members'>[];
   chat: React.ReactNode;
 }) => {
   const [activeTab, setActiveTab] = useState('책읽기');
@@ -50,6 +52,15 @@ const BookInfo = ({
     fetchUserId();
   }, []);
 
+  //승희가 변경중
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['readbook', clubId],
+    queryFn: getReadBookPageData,
+    staleTime: 1000 * 10
+  });
+
+  console.log(data);
+
   const [postData, setPostData] =
     useState<null | RealtimePostgresInsertPayload<{
       [key: string]: string;
@@ -72,7 +83,7 @@ const BookInfo = ({
           event: 'INSERT',
           schema: 'public',
           table: 'post',
-          filter: `user_id=in.(${clubMembers.map((item) => item.user_id)})`
+          filter: `user_id=in.(${data?.members.map((item) => item.user_id)})`
         },
         (payload) => {
           // console.log('payload', payload);
@@ -84,7 +95,7 @@ const BookInfo = ({
     return () => {
       channelA.unsubscribe();
     };
-  }, [clubMembers, supabase]);
+  }, [data, supabase]);
 
   useEffect(() => {
     const timerStarted = localStorage.getItem('timerStarted');
@@ -116,11 +127,11 @@ const BookInfo = ({
             };
             // console.log('postData', postData);
             // 모든 멤버에게 알림을 보내기
-            const memberUserIds = clubMembers.map((member) => member.user_id);
+            const memberUserIds = data?.members.map((member) => member.user_id);
             await supabase
               .from('alarm')
               .insert(newAlarm)
-              .in('target_user_id', memberUserIds);
+              .in('target_user_id', memberUserIds as any);
 
             // console.log('알람 테이블에 추가되었습니다.');
 
@@ -131,7 +142,7 @@ const BookInfo = ({
               .order('created_at', { ascending: true });
             // console.log('alarm', alarm);
 
-            const isAdmin = clubMembers.some(
+            const isAdmin = data?.members.some(
               (member) => member.user_id === userId && member.role === 'admin'
             );
             if (isAdmin) {
@@ -148,7 +159,7 @@ const BookInfo = ({
       };
       postAlarm();
     }
-  }, [postData, userId, clubMembers, supabase]);
+  }, [postData, userId, data, supabase]);
 
   const handleStartTimer = async () => {
     resetModal();
@@ -158,7 +169,7 @@ const BookInfo = ({
     // 모달상태를 false로 바꿔주는 resetModal생성
     try {
       // 방장 여부 확인
-      const isAdmin = clubMembers.some(
+      const isAdmin = data?.members.some(
         (member) => member.user_id === userId && member.role === 'admin'
       );
 
@@ -226,7 +237,7 @@ const BookInfo = ({
       await supabase.from('post').insert([
         {
           user_id: userId,
-          title: clubData[0].name,
+          title: data?.name,
           created_at: new Date().toISOString(),
           club_id: clubId
         }
@@ -237,9 +248,12 @@ const BookInfo = ({
     }
   };
 
-  const bookTitle = clubData[0].book_title || '';
-  const titleLength = bookTitle.length;
-  const isSingleLine = titleLength <= 40;
+  if (isLoading && isError && !data) return null;
+
+  // const bookTitle = clubData[0].book_title || '';
+  const bookTitle = data?.book_title;
+  const titleLength = bookTitle?.length;
+  const isSingleLine = (titleLength as number) <= 40;
   const containerHeight =
     isSingleLine || !timerVisible ? 'h-[102px]' : 'h-[124px]';
 
@@ -279,7 +293,7 @@ const BookInfo = ({
             <div className='my-auto flex flex-col justify-center items-center gap-[8px] w-[295px]'>
               <Timer clubId={clubId} userId={userId as string} />
               <div className='text-white mx-auto text-[16px] font-bold items-center text-center break-words line-clamp-2'>
-                {clubData[0].book_title}
+                {data?.book_title}
               </div>
             </div>
           )}
@@ -320,7 +334,7 @@ const BookInfo = ({
         <>
           <MemberList
             clubId={clubId}
-            clubMembers={clubMembers}
+            // clubMembers={clubMembers}
             endButtonVisible={endButtonVisible}
             timerVisible={timerVisible}
             userId={userId}
@@ -352,9 +366,11 @@ const BookInfo = ({
       {alarmToast && (
         <ToastUi
           message={`<${
-            (clubData[0].name?.length as number) > 20
-              ? clubData[0].name?.substring(0, 20) + '...'
-              : clubData[0].name
+            data
+              ? (data.name?.length as number) > 20
+                ? data.name?.substring(0, 20) + '...'
+                : data.name
+              : null
           }> 모임의 회원들에게 모임이 시작되었다고 알림을 보냈습니다.`}
           onClose={() => setAlarmToast(false)}
           isSuccess={true}

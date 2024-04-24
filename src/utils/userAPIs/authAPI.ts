@@ -14,6 +14,7 @@ type MembersType = {
 };
 
 export const getUserId = async (): Promise<string | null> => {
+  console.log('getUserId 요청');
   try {
     const { data: user } = await getUser();
     return user!.id;

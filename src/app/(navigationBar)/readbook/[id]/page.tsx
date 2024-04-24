@@ -11,8 +11,6 @@ const ReadBookDetail = async ({
   params: { id: string };
 }) => {
   const supabase = createClient();
-
-  //로그인 확인은 query getUser로 이따 바꾸고
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -55,7 +53,7 @@ const ReadBookDetail = async ({
         // clubData={clubData}
         clubId={id}
         // clubMembers={clubMembers}
-        chat={<ChatInfo />}
+        chat={<ChatInfo id={id} />}
       />
     </>
   );

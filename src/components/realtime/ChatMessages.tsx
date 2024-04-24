@@ -6,11 +6,13 @@ import ChatPresence from './ChatPresence';
 import { LIMIT_MESSAGE } from '@/lib/constant';
 import ChatBackImg from './ChatBackImg';
 
-const ChatMessages = async () => {
+const ChatMessages = async ({ id }: { id: string }) => {
   const supabase = createClient();
+  console.log('클럽id', id);
   const { data } = await supabase
     .from('messages')
     .select('*,profiles(*),clubs(*)')
+    .eq('club_id', id)
     .range(0, LIMIT_MESSAGE)
     .order('created_at', { ascending: false });
   const getUser = await supabase.auth.getUser();

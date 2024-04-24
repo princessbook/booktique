@@ -43,6 +43,7 @@ interface MessageState {
   optimisticIds: string[];
   setOptimisticIds: (id: string) => void;
   setMessages: (messages: Imessage[]) => void;
+  resetPage: () => void;
 }
 
 export const useMessage = create<MessageState>()((set) => ({
@@ -62,5 +63,11 @@ export const useMessage = create<MessageState>()((set) => ({
     set((state) => ({
       messages: [...state.messages, newMessages],
       optimisticIds: [...state.optimisticIds, newMessages.id]
+    })),
+  resetPage: () =>
+    set(() => ({
+      page: 1,
+      hasMore: true,
+      messages: []
     }))
 }));

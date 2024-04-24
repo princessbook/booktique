@@ -8,13 +8,39 @@ import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import { getUserId } from '@/utils/userAPIs/authAPI';
 // import LoadingOverlay from '@/common/LoadingOverlay';
-
+interface ClubData {
+  archive?: boolean | null;
+  book_author?: string | null;
+  book_category?: string | null;
+  book_cover?: string | null;
+  book_id?: string | null;
+  book_page?: number | null;
+  book_title?: string | null;
+  created_at?: string;
+  description?: string | null;
+  id?: string;
+  last_read?: boolean | null;
+  max_member_count?: number | null;
+  name?: string | null;
+  thumbnail?: string | null;
+  weekday?: string | null;
+  club_activities: Tables<'club_activities'>[];
+  // club_activities: {
+  //   club_id: string | null;
+  //   id: string;
+  //   last_read: boolean | null;
+  //   member_id: string;
+  //   progress: number | null;
+  //   time: number | null;
+  //   user_id: string;
+  // }[];
+}
 const supabase = createClient();
 const SaveBookInfo = ({
   clubData,
   clubId
 }: {
-  clubData: Tables<'clubs'>;
+  clubData: ClubData | null;
   clubId: string;
 }) => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -91,7 +117,7 @@ const SaveBookInfo = ({
   // if (loading) {
   //   return <LoadingOverlay show={loading} />;
   // }
-  const bookTitle = clubData.book_title || '';
+  const bookTitle = clubData?.book_title || '';
   const titleLength = bookTitle.length;
   const isSingleLine = titleLength <= 40;
 
@@ -132,7 +158,7 @@ const SaveBookInfo = ({
             {/* {clubData.book_title?.length && clubData.book_title?.length > 40
                 ? clubData.book_title?.substring(0, 40) + '...'
                 : clubData.book_title} */}
-            {clubData.book_title}
+            {clubData?.book_title}
           </p>
         </div>
         {/* <div>{clubData.book_author}</div>

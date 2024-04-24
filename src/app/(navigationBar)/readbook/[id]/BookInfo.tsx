@@ -59,8 +59,6 @@ const BookInfo = ({
     staleTime: 1000 * 10
   });
 
-  console.log(data);
-
   const [postData, setPostData] =
     useState<null | RealtimePostgresInsertPayload<{
       [key: string]: string;

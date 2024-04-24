@@ -86,8 +86,6 @@ const MemberList = ({
     staleTime: 1000 * 10
   });
 
-  console.log(data);
-
   const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   if (isLoading) {
@@ -123,13 +121,13 @@ const MemberList = ({
             <div
               key={index}
               className={`flex flex-col ${
-                member?.club_activities[0]?.time
+                (member?.club_activities[0]?.progress as number) > 0
                   ? 'bg-[#EDEEF2]'
                   : 'bg-[#EDEEF2] bg-opacity-50'
               } rounded-[10px] w-[108px] h-[146px]`}>
               <div className='relative'>
                 {/*독서중 표기, 시간은 책 읽기를 한번도 하지 않은 사람은 아예 club_activities data가 없어용.. 비교 연산자를 쓸 수 없슴 ㅜㅜ*/}
-                {member?.club_activities[0]?.time && (
+                {(member?.club_activities[0]?.time as number) < 3600 && (
                   <div className='p-1 gap-2 absolute w-[42px] h-[17px] left-[11px] top-[10px] bg-[#269AED] rounded-md text-[11px] leading-[10px] font-medium text-white'>
                     독서중
                   </div>

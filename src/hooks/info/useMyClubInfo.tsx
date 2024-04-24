@@ -29,7 +29,7 @@ const useMyClubInfo = () => {
         // const { data: user } = await getUser();
 
         if (user) {
-          let { data, error } = await supabase
+          const { data, error } = await supabase
             .from('members')
             .select('*,clubs(name,archive)')
             .eq('user_id', user);

@@ -16,7 +16,7 @@ const HomeTab = async ({ club }: { club: Clubs | null }) => {
     try {
       const { data, error } = await supabase
         .from('members')
-        .select('*, club_activities(progress)')
+        .select('*, club_activities(progress),profiles(photo_URL,display_name)')
         .eq('club_id', clubId);
 
       if (error) {

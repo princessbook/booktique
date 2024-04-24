@@ -18,11 +18,6 @@ const SaveCard = ({
   matchingActivities: Tables<'club_activities'>[];
 }) => {
   const [recordPage, setRecordPage] = useState('');
-  // const [progress, setProgress] = useState(
-  //   matchingActivities[0]?.progress as number
-  // );
-  // console.log('progress', progress);
-
   const [inputValid, setInputValid] = useState(false); // 입력값 유효성 상태
   const [overPage, setOverPage] = useState(false); // 페이지 초과
   const [invalidInput, setInvalidInput] = useState(false); // 숫자만 입력하게
@@ -98,6 +93,7 @@ const SaveCard = ({
       setInvalidInput(true); // 숫자만 입력해주세요 알림 표시
       return;
     }
+
     const result = Math.floor(
       (Number(recordPage) / (clubData.book_page as number)) * 100
     );

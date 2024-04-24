@@ -296,12 +296,12 @@ const BookInfo = ({
             </div>
           )}
         </div>
-        <div className='flex w-full justify-center bg-white text-center border-b h-[49px] '>
+        <div className='flex w-full justify-center bg-white text-center h-[49px] '>
           <div
             className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '책읽기'
-                ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black '
-                : 'text-[14px] text-[#3A3B42] text-opacity-50 leading-[17px] text-center font-bold '
+                ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-[#3A3B42] '
+                : 'text-[14px] text-[#3A3B42] text-opacity-50 leading-[17px] text-center font-bold border-b-2 border-[#DBE3EB]'
             }`}
             onClick={() => setActiveTab('책읽기')}>
             책읽기
@@ -310,8 +310,8 @@ const BookInfo = ({
           <div
             className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '퀴즈'
-                ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
-                : 'text-[14px] text-[#3A3B42] text-opacity-50  leading-[17px] text-center font-bold'
+                ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-[#3A3B42]'
+                : 'text-[14px] text-[#3A3B42] text-opacity-50  leading-[17px] text-center font-bold border-b-2 border-[#DBE3EB]'
             }`}
             onClick={() => setActiveTab('퀴즈')}>
             퀴즈
@@ -319,8 +319,8 @@ const BookInfo = ({
           <div
             className={`cursor-pointer w-1/3 py-[15px] ${
               activeTab === '채팅'
-                ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-black'
-                : 'text-[14px] text-[#3A3B42] text-opacity-50  leading-[17px] text-center font-bold'
+                ? 'text-[14px] text-[#3A3B42] leading-[17px] text-center font-bold border-b-2 border-[#3A3B42]'
+                : 'text-[14px] text-[#3A3B42] text-opacity-50  leading-[17px] text-center font-bold border-b-2 border-[#DBE3EB]'
             }`}
             onClick={() => setActiveTab('채팅')}>
             채팅

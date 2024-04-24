@@ -123,9 +123,7 @@ const ClubSearch = () => {
           <h1 className=' text-lg font-bold px-3 mb-2 text-[#292929]'>
             책 분야로 개설된 북클럽
           </h1>
-          <div
-            className='flex overflow-x-auto border-b px-2 border-b-[#E9EEF3]'
-            style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
+          <div className='flex overflow-x-auto border-b px-2 border-b-[#E9EEF3]'>
             {bookCategories.map((bookCategory, idx) => {
               return (
                 <span

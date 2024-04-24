@@ -28,8 +28,7 @@ const Board = ({ clubId }: { clubId: string }) => {
       {posts?.length === 0 && (
         <NoContentMessage imgUrl='/no_post.png' width={121}>
           {' '}
-          클럽원들과 책에 대해 <br />
-          자유롭게 소통해 보세요.
+          클럽원들과 자유롭게 이야기를 나눠보세요.
         </NoContentMessage>
       )}
       {posts?.map(

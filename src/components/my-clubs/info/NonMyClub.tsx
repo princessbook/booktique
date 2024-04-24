@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@/common/Button';
 import Image from 'next/image';
-import booktiquereadblue from '../../../public/booktiquereadblue.png';
 import { useRouter } from 'next/navigation';
 const NonMyClub = () => {
   const router = useRouter();

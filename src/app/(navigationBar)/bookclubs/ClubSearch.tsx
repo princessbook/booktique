@@ -2,8 +2,6 @@
 import { bookCategories } from '@/common/constants/bookCategories';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { IoIosSearch } from 'react-icons/io';
-import { IoCloseOutline } from 'react-icons/io5';
 import SearchInput from './SearchInput';
 const ClubSearch = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -94,7 +92,7 @@ const ClubSearch = () => {
           handleSearchText={handleSearchText}
         />
       </div>
-      {isEnter ? (
+      {isEnter && searchText ? (
         <div className='bg-white rounded-t-2xl pt-3 mt-2'>
           <h1 className=' text-lg font-bold px-3 mb-2 text-[#292929]'>
             &apos;{searchText}&apos;로 찾은 검색 결과

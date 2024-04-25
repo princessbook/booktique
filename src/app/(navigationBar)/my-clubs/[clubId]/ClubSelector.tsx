@@ -6,37 +6,31 @@ import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
 import Image from 'next/image';
 
-const ClubSelector = () => {
-  const params = useParams<{
-    clubId: string;
-  }>();
+type Props = {
+  clubs: { id: string; name: string }[];
+  currentClubId: string;
+};
+const ClubSelector = ({ clubs, currentClubId }: Props) => {
+  // const params = useParams<{
+  //   clubId: string;
+  // }>();
   const router = useRouter();
   // TODO: hook으로 만들어서 재사용하던지... 음... 최상단에서 한번만 호출해서 props로 나리던지... memoization을 하던지...
-  const { clubs, isLoading } = useMyClubInfo();
-  if (isLoading) {
-    return (
-      <div className='flex justify-center items-center h-screen flex-col'>
-        <div>
-          <Image
-            src={'/readbook_noclub.png'}
-            alt='로딩중이미지'
-            width={150}
-            height={150}
-          />
-        </div>
-        <div className='mt-4 relative h-4 w-40 bg-gray-200 rounded-full overflow-hidden'>
-          <div className=' absolute top-0 left-0 h-full bg-gradient-to-r from-secondary500 to-primary400 rounded-full animate-fill'></div>
-        </div>
-      </div>
-    );
-  }
+  // const { clubs, isLoading } = useMyClubInfo();
+  // if (isLoading) {
+  //   return (
+  //     <div className='h-screen flex justify-center items-center align-middle'>
+  //       <Animation />
+  //     </div>
+  //   );
+  // }
   if (!clubs || clubs.length === 0) {
     return <div className='h-[49px]'></div>;
   }
   return (
     <div className='font-bold text-[22px] whitespace-nowrap '>
       <select
-        value={params.clubId || ''}
+        value={currentClubId || ''}
         onChange={(event) => {
           router.push(`/my-clubs/${event.target.value}/info`);
         }}

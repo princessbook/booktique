@@ -109,6 +109,7 @@ const MemberList = ({
   const handleChatting = () => {
     router.push(`/chat/${clubId}`);
   };
+
   return (
     <>
       <div className='flex flex-col h-full'>
@@ -119,21 +120,20 @@ const MemberList = ({
           {data?.members?.map((member, index) => (
             <div
               key={index}
-              className={`flex flex-col ${
-                (member?.club_activities[0]?.progress as number) > 0
+              className={`flex flex-col rounded-[10px] w-[108px] h-[146px] ${
+                (member?.club_activities[0]?.progress as number) > 0 ||
+                (member.profiles?.id === userId && timerVisible)
                   ? 'bg-[#EDEEF2]'
                   : 'bg-[#EDEEF2] bg-opacity-50'
-              } rounded-[10px] w-[108px] h-[146px]`}>
+              }`}>
               <div className='relative'>
-                {/*독서중 표기, 시간은 책 읽기를 한번도 하지 않은 사람은 아예 club_activities data가 없어용.. 비교 연산자를 쓸 수 없슴 ㅜㅜ*/}
-                {(member?.club_activities[0]?.time as number) < 3600 && (
-                  <div className='p-1 gap-2 absolute w-[42px] h-[17px] left-[11px] top-[10px] bg-[#269AED] rounded-md text-[11px] leading-[10px] font-medium text-white'>
+                {member.profiles?.id === userId && timerVisible && (
+                  <div className='p-1 gap-2 absolute w-[42px] h-[17px] left-[11px] top-[10px] bg-[#269AED] rounded-md text-[11px] leading-[10px] font-medium text-white '>
                     독서중
                   </div>
                 )}
-                {/* 나는 바보다 책 읽기 시작하기 누르면 아래에 내 프로필에 독서중 나타남*/}
-                {member.profiles?.id === userId && timerVisible && (
-                  <div className='p-1 gap-2 absolute w-[42px] h-[17px] left-[11px] top-[10px] bg-[#269AED] rounded-md text-[11px] leading-[10px] font-medium text-white '>
+                {(member?.club_activities[0]?.progress as number) > 0 && (
+                  <div className='p-1 gap-2 absolute w-[42px] h-[17px] left-[11px] top-[10px] bg-[#269AED] rounded-md text-[11px] leading-[10px] font-medium text-white'>
                     독서중
                   </div>
                 )}

@@ -15,10 +15,9 @@ const ListMessage = ({ userId }: { userId: string | undefined }) => {
   const { messages, addMessage, optimisticIds } = useMessage((state) => state);
   const supabase = createClient();
   const router = useRouter();
-
   useEffect(() => {
     const channel = supabase
-      .channel('chat-room')
+      .channel(`${params.id}/chatting`)
       .on(
         'postgres_changes',
         {
@@ -85,6 +84,9 @@ const ListMessage = ({ userId }: { userId: string | undefined }) => {
     setNotification(0);
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   };
+  // const filteredMessages = messages.filter(
+  //   (message) => message.club_id === params.id
+  // );
   const sortedMessages = messages.slice().sort((a, b) => {
     // created_at 속성을 기준으로 오름차순으로 정렬합니다.
     return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();

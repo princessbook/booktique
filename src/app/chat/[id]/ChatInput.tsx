@@ -14,13 +14,14 @@ const ChatInput = () => {
   const setOptimisticIds = useMessage((state) => state.setOptimisticIds);
   const [photoURL, setPhotoURL] = useState<string | undefined>(undefined);
   const [messageText, setMessageText] = useState<string>('');
+  const [displayName, setDisplayName] = useState<string>('');
 
   useEffect(() => {
     const fetchUserData = async () => {
       const { data } = await supabase.auth.getUser();
       const { data: users, error } = await supabase
         .from('profiles')
-        .select('photo_URL')
+        .select('photo_URL, display_name')
         .eq('id', data?.user?.id!);
 
       if (error) {
@@ -30,6 +31,7 @@ const ChatInput = () => {
 
       if (users && users.length > 0) {
         setPhotoURL(users[0].photo_URL!); // photo_URL 값을 상태로 설정
+        setDisplayName(users[0].display_name!);
       }
     };
 
@@ -99,10 +101,10 @@ const ChatInput = () => {
         handleSendMessage();
       }}>
       <div className='relative p-1 px-3 '>
-        <input
+        <textarea
           value={messageText}
-          className='w-full rounded-xl pl-3 py-[10px]'
-          placeholder='send message'
+          className='w-5/6 h-[44px] rounded-xl pl-3 py-[10px] '
+          placeholder={`${displayName}(으)로 메세지 작성`}
           onChange={(e) => setMessageText(e.target.value)}
           onKeyPress={(e) => {
             if (e.key === 'Enter') {

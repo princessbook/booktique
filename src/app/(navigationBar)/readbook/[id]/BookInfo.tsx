@@ -14,6 +14,8 @@ import close from '../../../../../public/close_read.png';
 import useModalStore from '@/store/modalstore';
 import { useQuery } from '@tanstack/react-query';
 import { getReadBookPageData } from '@/utils/testAPIs';
+import { useMessage } from '@/store/messages';
+import { useRouter } from 'next/navigation';
 // import useRealtimePostgresChanges from '@/hooks/useRealtimePostgresChanges';
 // import useAlarmStore from '@/store';
 
@@ -36,6 +38,8 @@ const BookInfo = ({
   const [remainTimeToast, setRemainTimeToast] = useState(false);
   const [remainingMinutes, setRemainingMinutes] = useState<number>(0);
   const [remainingSeconds, setRemainingSeconds] = useState<number>(0);
+  const router = useRouter();
+  const resetPage = useMessage((state) => state.resetPage);
   const supabase = createClient();
   const { resetModal } = useModalStore();
   useEffect(() => {
@@ -256,18 +260,28 @@ const BookInfo = ({
   const containerHeight =
     isSingleLine || !timerVisible ? 'h-[102px]' : 'h-[124px]';
 
+  //추가04.25 04:37(x버튼누르면 reset되서 기존데이터날라가는거)
+
+  // const handleResetAndNavigate = (e: any) => {
+  //   e.preventDefault();
+  //   resetPage();
+  //   router.push('/readbook');
+  // };
+
   return (
     <>
       <div className='sticky top-0 z-10'>
         {!timerVisible && (
           <div className='flex flex-row bg-[#35A5F6] border-b-[1px] border-[#DBE3EB] border-opacity-30 w-full '>
-            <Link href='/readbook' passHref>
-              <Image
-                src={close}
-                className='w-[22px] h-[22px] m-[16px]'
-                alt='close'
-              />
-            </Link>
+            <div>
+              <Link href='/readbook' passHref>
+                <Image
+                  src={close}
+                  className='w-[22px] h-[22px] m-[16px]'
+                  alt='close'
+                />
+              </Link>
+            </div>
             <div className='flex h-[54px] items-center ml-[94px] text-white text-[17px] leading-[26px] font-bold text-center'>
               책 읽기 종료
             </div>

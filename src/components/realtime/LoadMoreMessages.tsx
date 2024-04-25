@@ -2,24 +2,26 @@ import { LIMIT_MESSAGE } from '@/lib/constant';
 import { getFromAndTo } from '@/lib/utils';
 import { useMessage } from '@/store/messages';
 import { createClient } from '@/utils/supabase/client';
-import React from 'react';
+import { useParams } from 'next/navigation';
+import React, { useEffect } from 'react';
 
 export default function LoadMoreMessages() {
-  const page = useMessage((state) => state.page); //page현재로드된 메세지페이지번호
-  const setMessage = useMessage((state) => state.setMessages); //메세지의 상태
-  const hasMore = useMessage((state) => state.hasMore); //더 업데이트할 메세지가 있는지
+  const params = useParams();
+  const { page, setMessages, hasMore } = useMessage((state) => state);
   const fetchMore = async () => {
     const { from, to } = getFromAndTo(page, LIMIT_MESSAGE);
+    console.log(from, to);
     const supabase = createClient();
     const { data, error } = await supabase
       .from('messages')
       .select('*,profiles(*),clubs(*)')
+      .eq('club_id', params.id)
       .range(from, to)
       .order('created_at', { ascending: false }); //메세지 생성시간 기준으로 내림차순 정렬
     if (error) {
       console.error(error);
     } else {
-      setMessage(data.reverse());
+      setMessages(data.reverse());
     }
   };
   if (hasMore) {

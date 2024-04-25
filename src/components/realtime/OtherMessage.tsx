@@ -45,7 +45,7 @@ const OtherMessage = ({ message }: { message: Imessage }) => {
             </Button>
           )}
           <Modal
-            className=' bg-slate-800 rounded-3xl'
+            className='md:max-w-[375px] bg-slate-800 rounded-3xl'
             isOpen={isOpen}
             onOpenChange={onOpenChange}>
             <ModalContent className='px-4'>
@@ -74,7 +74,16 @@ const OtherMessage = ({ message }: { message: Imessage }) => {
         <div className='ml-2'>
           <div>{message.profiles?.display_name}</div>
           <div className='flex items-end'>
-            <div style={messageTextStyle}>{message.text}</div>
+            <div style={messageTextStyle}>
+              {message.send_photo_URL && (
+                <img
+                  className=' rounded-2xl h-20'
+                  src={message.send_photo_URL}
+                  alt='사진'
+                />
+              )}
+              <span>{message.text}</span>
+            </div>
             {/* 현재 시간 표시 */}
           </div>
         </div>
@@ -87,7 +96,7 @@ const OtherMessage = ({ message }: { message: Imessage }) => {
         </div>
       </div>
       {isOpen && (
-        <div className='fixed inset-0 z-50 bg-black bg-opacity-60'></div>
+        <div className='fixed md:max-w-[375px] w-full left-1/2 translate-x-[-50%] inset-0 z-50 bg-black bg-opacity-60'></div>
       )}
     </div>
   );

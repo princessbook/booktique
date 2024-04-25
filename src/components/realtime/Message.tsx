@@ -20,9 +20,8 @@ const Message = ({ message }: { message: Imessage }) => {
           </p>
           <div style={messageTextStyle}>
             {message.send_photo_URL && (
-              <Image
-                width={20}
-                height={20}
+              <img
+                className=' rounded-2xl h-20'
                 src={message.send_photo_URL}
                 alt='사진'
               />

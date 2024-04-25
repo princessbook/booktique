@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { TbSend } from 'react-icons/tb';
-import Image from 'next/image';
+import { IoMdClose } from 'react-icons/io';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 
 const ChatInput = () => {
@@ -78,9 +78,11 @@ const ChatInput = () => {
   const handleSendMessage = async () => {
     const { data } = await supabase.auth.getUser();
     const userId = data.user?.id;
-    if (messageText.trim()) {
+    if (messageText.trim() || selectedFile) {
       // 이미지 업로드 및 파일 이름 설정
-      const storageImg = await uploadChatFileStorage(selectedFile!);
+      const storageImg = selectedFile
+        ? await uploadChatFileStorage(selectedFile)
+        : undefined;
 
       const newMessage = {
         id: uuidv4(),
@@ -131,7 +133,10 @@ const ChatInput = () => {
       alert('빈값입니다');
     }
   };
-
+  const handleCancelPhoto = () => {
+    setSelectedFile(null);
+    setImagePreview(undefined);
+  };
   return (
     <form
       onSubmit={(e) => {
@@ -140,24 +145,30 @@ const ChatInput = () => {
       }}>
       <div className='relative p-1 px-3 flex items-center'>
         <div>
-          <label htmlFor='file-upload'>
+          <label className=' cursor-pointer' htmlFor='file-upload'>
             <MdAddPhotoAlternate size={25} />
           </label>
           <input
             id='file-upload'
             className='hidden'
             type='file'
-            accept='.gif, .jpg, .png, .jpeg'
+            accept='.gif, .jpg, .png, .jpeg .jfif'
             onChange={handleFileChange}
           />
         </div>
         {imagePreview && (
-          <Image
-            src={imagePreview}
-            alt='Image Preview'
-            width={50}
-            height={50}
-          />
+          <div className='absolute w-2/3 bg-slate-500 bg-opacity-75 top-[-200px] left-2 h-48'>
+            <img
+              src={imagePreview}
+              alt='Image Preview'
+              className='h-full mx-auto'
+            />
+            <div
+              onClick={handleCancelPhoto}
+              className='absolute bg-white right-0 top-0 rounded-full border-black border-[1px] cursor-pointer'>
+              <IoMdClose size={25} />
+            </div>
+          </div>
         )}
         <textarea
           value={messageText}

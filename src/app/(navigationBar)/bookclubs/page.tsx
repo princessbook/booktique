@@ -5,12 +5,11 @@ import ClubMembersCount from './ClubMembersCount';
 import Image from 'next/image';
 import ClubAdminProfile from './ClubAdminProfile';
 import ClubSearch from './ClubSearch';
+import NoContentMessage from '@/components/common/NoContentMessage';
 
 const BookClubsPage = async (props: any) => {
   const supabase = createClient();
   let bookclubs;
-  // console.log('bookclubs');
-  // console.log('props', props);
 
   if (props.searchParams.category) {
     if (props.searchParams.category === '기타') {
@@ -95,10 +94,9 @@ const BookClubsPage = async (props: any) => {
       <div className='bg-white mb-[78px] overflow-y-auto'>
         <section className='p-3'>
           {bookclubs.length === 0 && (
-            <p className='flex items-center justify-center text-center'>
-              {' '}
-              데이터가 없습니다.
-            </p>
+            <NoContentMessage imgUrl='/no_search.png' width={125}>
+              검색 결과가 없습니다
+            </NoContentMessage>
           )}
           {bookclubs.map((bookclub, index) => {
             const isLastItem = index === bookclubs.length - 1;
@@ -129,8 +127,6 @@ const BookClubsPage = async (props: any) => {
                     <h2 className='mb-1 text-[14px] text-[#3F3E4E] w-64 break-words overflow-hidden line-clamp-2'>
                       {bookclub.book_title}
                     </h2>
-
-                    {/* <p className='text-xs'>{bookclub.book_category}</p> */}
                     <div className='flex justify-between text-[14px] mb-2'>
                       <ClubAdminProfile clubId={bookclub.id} />
                       <div className='mr-3 text-[14px]'>
@@ -149,7 +145,6 @@ const BookClubsPage = async (props: any) => {
               </Link>
             );
           })}
-          {/* 개설하기 버튼 */}
           <div className='flex justify-end'>
             <Link
               href='/bookclubs/create'

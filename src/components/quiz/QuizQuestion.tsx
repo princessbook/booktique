@@ -29,7 +29,11 @@ const QuizQuestion = ({
   const handleQuestionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
+    if (event.target.value.length > 60) {
+      return;
+    }
     setQuestionInput(event.target.value);
+
     const updatedQuiz = { ...quiz, question: event.target.value };
     setQuiz((prevQuizes) =>
       prevQuizes.map((prevQuiz) =>

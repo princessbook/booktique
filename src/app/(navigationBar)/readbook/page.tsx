@@ -59,17 +59,26 @@ const ReadBookPage = async () => {
   // 평균 71.3834ms
   const { data: members, error: memberError } = await supabase
     .from('members')
-    .select('club_id, club:clubs(*)')
+    .select('club_id, club:clubs(*),club_activities(*)')
+    .eq('user_id', user?.id as string);
+  // console.log('members', members);
+  const { data: members1, error: memberErro1 } = await supabase
+    .from('members')
+    .select('club_id, club:clubs(*),club_activities(*)')
     .eq('user_id', user?.id as string);
   // members데이터값은 {club_id:'',club:{id:"",name:"",archive:"", ----max_member_count:""}} 이런식으로
-  const allClubData: Database['public']['Tables']['clubs']['Row'][] = members
-    ?.map((member) => member.club)
-    ?.filter(Boolean) as Database['public']['Tables']['clubs']['Row'][];
+  // const allClubData: Database['public']['Tables']['clubs']['Row'][] = members1
+  //   ?.map((member) => member.club)
+  //   ?.filter(Boolean) as Database['public']['Tables']['clubs']['Row'][];
+
+  if (!members) {
+    return null;
+  }
   return (
     <ReadBookLayout>
       <Suspense fallback={<></>}>
-        {allClubData
-          .map((club) => club.archive)
+        {members
+          ?.map((club) => club?.club?.archive)
           .filter((item) => item === false).length > 0 ? (
           <>
             <div></div>
@@ -81,7 +90,7 @@ const ReadBookPage = async () => {
               className='pt-[38px] mx-auto mb-[24px]'
               priority={true}
             />
-            <ClubList id={user?.id as string} allClubData={allClubData} />
+            <ClubList user_id={user?.id as string} allClubData={members} />
           </>
         ) : (
           /* 가입한 북클럽이 없습니다. 북클럽에 가입해서 책 읽어보세요 */

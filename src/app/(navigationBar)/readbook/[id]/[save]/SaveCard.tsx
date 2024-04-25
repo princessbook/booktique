@@ -54,7 +54,6 @@ const SaveCard = ({
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-
   useEffect(() => {
     inputRef.current?.focus();
     if (clubData?.club_activities[0]) {
@@ -151,7 +150,11 @@ const SaveCard = ({
       // 이미 삽입된 데이터가 있다면 해당 행을 업데이트
       const { data: updatedData, error: updateError } = await supabase
         .from('club_activities')
-        .update({ progress: result, last_read: true })
+        .update({
+          progress: result,
+          last_read: true,
+          read_page: recordPage as unknown as number
+        })
         .eq('club_id', id)
         .eq('user_id', userId as string);
 
@@ -174,7 +177,8 @@ const SaveCard = ({
             progress: result,
             user_id: userId as string,
             member_id: member.id,
-            last_read: true
+            last_read: true,
+            read_page: recordPage as unknown as number
           }
         ]);
       if (insertError) {
@@ -236,7 +240,7 @@ const SaveCard = ({
       <input
         value={recordPage}
         onChange={handleInputChange}
-        type='text'
+        type='number'
         pattern='[0-9]*'
         inputMode='numeric'
         placeholder='페이지를 입력해주세요.(숫자만)'

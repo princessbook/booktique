@@ -53,7 +53,7 @@ const ClubBook = ({ club }: { club: Club | null }) => {
   return (
     <div className='flex flex-col items-center justify-center'>
       <div className='mt-4 relative bg-[#EDEEF2] w-[343px] h-[320px] rounded-xl flex flex-col items-center justify-center '>
-        <div className='flex justify-center items-center w-[156px] max-h-[244px]'>
+        <div className='flex justify-center items-center w-[156px] max-h-[244px] mb-4'>
           <Image
             src={club.book_cover || '/readbook_yet_read.png'}
             alt='책 사진'
@@ -63,7 +63,7 @@ const ClubBook = ({ club }: { club: Club | null }) => {
             className='w-[156px] max-h-[244px]'
           />
         </div>
-        <div className='absolute -bottom-3'>
+        <div className='absolute -bottom-3 '>
           <ProgressBar progress={percentage} backgroundColor='white' />
         </div>
       </div>

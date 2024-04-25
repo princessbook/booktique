@@ -8,6 +8,7 @@ export type Imessage = {
   is_edit: boolean;
   send_from: string;
   text: string;
+  send_photo_URL: string | null;
   profiles: {
     display_name: string | null;
     email: string | null;

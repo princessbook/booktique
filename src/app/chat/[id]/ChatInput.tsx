@@ -6,6 +6,9 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { TbSend } from 'react-icons/tb';
+import Image from 'next/image';
+import { MdAddPhotoAlternate } from 'react-icons/md';
+
 const ChatInput = () => {
   const supabase = createClient();
   const params = useParams<{ id: string }>();
@@ -15,24 +18,9 @@ const ChatInput = () => {
   const [photoURL, setPhotoURL] = useState<string | undefined>(undefined); //이미지
   const [messageText, setMessageText] = useState<string>('');
   const [displayName, setDisplayName] = useState<string>('');
-  const [selectedFile, setSelectedFile] = useState<File>();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null); //채팅방 파일첨부
   const [fileName, setFileName] = useState<string>('');
   const [imagePreview, setImagePreview] = useState<string | undefined>();
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setFileName(file.name);
-      console.log(selectedFile);
-      console.log(fileName);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -55,11 +43,45 @@ const ChatInput = () => {
 
     fetchUserData();
   }, []);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const uploadChatFileStorage = async (file: File) => {
+    if (!file) return undefined;
+    const fileExt = file?.name.split('.').pop();
+    const fileName = `${crypto.randomUUID()}.${fileExt}`;
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.storage
+        .from('images')
+        .upload(`bookclubChat/${fileName}`, file);
+
+      if (error) {
+        throw new Error('이미지 업로드 실패', error);
+      }
+      console.log(fileName);
+      return `${process.env
+        .NEXT_PUBLIC_SUPABASE_URL!}/storage/v1/object/public/images/bookclubChat/${fileName}`;
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleSendMessage = async () => {
     const { data } = await supabase.auth.getUser();
-    await supabase.from('profiles').select('*').eq('id', data?.user?.id!);
     const userId = data.user?.id;
     if (messageText.trim()) {
+      // 이미지 업로드 및 파일 이름 설정
+      const storageImg = await uploadChatFileStorage(selectedFile!);
+
       const newMessage = {
         id: uuidv4(),
         text: messageText,
@@ -67,15 +89,14 @@ const ChatInput = () => {
         is_edit: false,
         club_id: params?.id,
         created_at: new Date().toISOString(),
+        send_photo_URL: storageImg,
         profiles: {
           id: data.user?.id,
           photo_URL: photoURL || '/defaultImage.svg',
           created_at: new Date().toISOString(),
           display_name: user?.user_metadata.display_name,
           email: user?.user_metadata.email,
-          // interests: user?.user_metadata.interests,
           introduction: user?.user_metadata.introduction
-          // most_favorite_book: user?.user_metadata.most_favorite_book
         },
         clubs: {
           id: user?.user_metadata.id,
@@ -95,43 +116,49 @@ const ChatInput = () => {
           last_read: user?.user_metadata.thumbnail
         }
       };
+
       addMessage(newMessage as Imessage);
       setOptimisticIds(newMessage.id);
-      setImagePreview(undefined);
-      const formData = new FormData();
-      formData.append('file', selectedFile!);
-      formData.append('text', messageText);
 
-      console.log(newMessage);
-      // supabase 불러오기
-      const { error } = await supabase
-        .from('messages')
-        .insert([
-          { text: messageText, club_id: params.id, send_from: userId ?? '' }
-        ]);
-      if (error) {
-        console.log(error);
-      }
+      // 메시지 전송 후 상태 초기화
       setMessageText('');
+      setSelectedFile(null);
+      setImagePreview(undefined);
+
+      // 콘솔에 메시지 확인
+      console.log('전송된 메시지:', newMessage);
     } else {
       alert('빈값입니다');
     }
   };
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         handleSendMessage();
       }}>
-      <div className='relative p-1 px-3 bg-yellow-400'>
-        <label htmlFor='file-upload'>사진</label>
-        <input
-          id='file-upload'
-          className='hidden'
-          type='file'
-          accept='.gif, .jpg, .png, .jpeg'
-          onChange={handleFileChange}
-        />
+      <div className='relative p-1 px-3 flex items-center'>
+        <div>
+          <label htmlFor='file-upload'>
+            <MdAddPhotoAlternate size={25} />
+          </label>
+          <input
+            id='file-upload'
+            className='hidden'
+            type='file'
+            accept='.gif, .jpg, .png, .jpeg'
+            onChange={handleFileChange}
+          />
+        </div>
+        {imagePreview && (
+          <Image
+            src={imagePreview}
+            alt='Image Preview'
+            width={50}
+            height={50}
+          />
+        )}
         <textarea
           value={messageText}
           className='w-5/6 h-[44px] rounded-xl pl-3 py-[10px] '
@@ -146,7 +173,7 @@ const ChatInput = () => {
         />
         <button
           type='submit'
-          className='absolute  right-3 w-[42px] h-[44px] rounded-r-xl '>
+          className='absolute  right-0 w-[42px] h-[44px] rounded-r-xl '>
           <TbSend size={25} />
         </button>
       </div>

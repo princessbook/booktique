@@ -262,18 +262,18 @@ const BookInfo = ({
 
   //추가04.25 04:37(x버튼누르면 reset되서 기존데이터날라가는거)
 
-  // const handleResetAndNavigate = (e: any) => {
-  //   e.preventDefault();
-  //   resetPage();
-  //   router.push('/readbook');
-  // };
+  const handleResetAndNavigate = (e: any) => {
+    e.preventDefault();
+    resetPage();
+    router.push('/readbook');
+  };
 
   return (
     <>
       <div className='sticky top-0 z-10'>
         {!timerVisible && (
           <div className='flex flex-row bg-[#35A5F6] border-b-[1px] border-[#DBE3EB] border-opacity-30 w-full '>
-            <div>
+            <div onClick={handleResetAndNavigate}>
               <Link href='/readbook' passHref>
                 <Image
                   src={close}

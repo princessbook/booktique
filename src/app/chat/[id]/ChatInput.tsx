@@ -12,9 +12,27 @@ const ChatInput = () => {
   const user = useUser((state) => state.user);
   const addMessage = useMessage((state) => state.addMessage);
   const setOptimisticIds = useMessage((state) => state.setOptimisticIds);
-  const [photoURL, setPhotoURL] = useState<string | undefined>(undefined);
+  const [photoURL, setPhotoURL] = useState<string | undefined>(undefined); //이미지
   const [messageText, setMessageText] = useState<string>('');
   const [displayName, setDisplayName] = useState<string>('');
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const [fileName, setFileName] = useState<string>('');
+  const [imagePreview, setImagePreview] = useState<string | undefined>();
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      setFileName(file.name);
+      console.log(selectedFile);
+      console.log(fileName);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -79,7 +97,12 @@ const ChatInput = () => {
       };
       addMessage(newMessage as Imessage);
       setOptimisticIds(newMessage.id);
-      // console.log(newMessage);
+      setImagePreview(undefined);
+      const formData = new FormData();
+      formData.append('file', selectedFile!);
+      formData.append('text', messageText);
+
+      console.log(newMessage);
       // supabase 불러오기
       const { error } = await supabase
         .from('messages')
@@ -100,7 +123,15 @@ const ChatInput = () => {
         e.preventDefault();
         handleSendMessage();
       }}>
-      <div className='relative p-1 px-3 '>
+      <div className='relative p-1 px-3 bg-yellow-400'>
+        <label htmlFor='file-upload'>사진</label>
+        <input
+          id='file-upload'
+          className='hidden'
+          type='file'
+          accept='.gif, .jpg, .png, .jpeg'
+          onChange={handleFileChange}
+        />
         <textarea
           value={messageText}
           className='w-5/6 h-[44px] rounded-xl pl-3 py-[10px] '

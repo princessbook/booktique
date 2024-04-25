@@ -1,0 +1,26 @@
+{
+  "name": "북티크",
+  "short_name": "북티크",
+  "icons": [
+    {
+      "src": "/192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-launchericon-512-512.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-launchericon-512-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

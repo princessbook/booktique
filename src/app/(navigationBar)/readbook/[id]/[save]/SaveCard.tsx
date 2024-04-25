@@ -49,15 +49,22 @@ const SaveCard = ({
   const [overPage, setOverPage] = useState(false); // 페이지 초과
   const [invalidInput, setInvalidInput] = useState(false); // 숫자만 입력하게
   const [progressPercentage, setProgressPercentage] = useState(
-    clubData?.club_activities[0]?.progress as number
+    clubData?.club_activities.filter(
+      (club) => club.user_id === localStorage.getItem('userId')
+    )[0].progress
   ); // 페이지 진행률 상태 추가
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
   useEffect(() => {
     inputRef.current?.focus();
-    if (clubData?.club_activities[0]) {
-      setProgressPercentage(clubData.club_activities[0]?.progress as number);
+    if (clubData?.club_activities) {
+      setProgressPercentage(
+        clubData?.club_activities.filter(
+          (club) => club.user_id === localStorage.getItem('userId')
+        )[0].progress
+      );
       setLoading(false); // matchingActivities 로드 완료 시 로딩 상태 변경
     }
   }, [clubData]);
@@ -294,7 +301,7 @@ const SaveCard = ({
       <button
         onClick={handleSave}
         disabled={!inputValid}
-        className={`fixed bottom-0 mb-[137px] ml-[16px] w-[343px] h-[56px] rounded-full ${
+        className={`left-0 right-0 mx-auto fixed bottom-0 mb-[137px] w-[343px] h-[56px] rounded-full ${
           inputValid
             ? 'bg-[#35A5F6] text-white text-[16px] leading-[22px] font-bold text-center'
             : 'bg-[#EDEEF2] text-[#B3C1CC] text-[16px] leading-[22px] font-bold text-center'

@@ -6,6 +6,9 @@ const LogoutButton = () => {
   const handleSignout = async () => {
     await supabase.auth.signOut();
     window.location.href = '/login';
+    localStorage.removeItem('timerStarted');
+    localStorage.removeItem('lastStartTime');
+    localStorage.removeItem('userId');
     localStorage.removeItem('selectedTab');
     localStorage.removeItem('selectedClubId');
   };

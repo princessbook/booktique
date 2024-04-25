@@ -43,9 +43,9 @@ const ClubList = ({
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   // const [loading, setLoading] = useState<boolean>(true);
   const supabase = createClient();
-  // const [clickedSlideIndex, setClickedSlideIndex] = useState<number | null>(
-  //   null
-  // );
+  const [clickedSlideIndex, setClickedSlideIndex] = useState<number | null>(
+    null
+  );
   // const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [clubActivities, setClubActivities] = useState<
     Tables<'club_activities'>[] | null
@@ -166,9 +166,9 @@ const ClubList = ({
   // }
 
   // 클릭된 슬라이드 인덱스를 설정하는 함수
-  // const handleClickSlide = (index: number) => {
-  //   setClickedSlideIndex(index);
-  // };
+  const handleClickSlide = (index: number) => {
+    setClickedSlideIndex(index);
+  };
 
   // 책 읽기 버튼
   //   return (
@@ -242,7 +242,7 @@ const ClubList = ({
       <Slider className='custom-slider h-auto' {...settings}>
         {allClubData
           ?.filter((club) => club.club?.archive === false)
-          .map((club) => (
+          .map((club, index) => (
             <div
               key={club.club?.id}
               className='flex cursor-pointer'
@@ -250,6 +250,13 @@ const ClubList = ({
                 handleBookRead(club.club?.id as string);
                 router.push(`/readbook/${club.club?.id}`);
               }}>
+              {/* onClick={() => handleClickSlide(index)}>
+              <Link
+                href={`/readbook/${
+                  allClubData?.filter((id) => id.club?.archive === false)[
+                    currentSlide
+                  ].club?.id
+                }`}> */}
               <div className='flex flex-col bg-white mb-[3px] w-[92%] h-[60%] rounded-[20px] shadow-md mx-auto items-center justify-center'>
                 {/* <div className='flex flex-col w-[92%] bg-white items-center'> */}
                 <div className=' w-[196px] h-[48px] text-center font-bold text-[18px] leading-6 text-[#3F3E4E] mx-auto mt-[34px] justify-center break-words line-clamp-2'>
@@ -265,7 +272,7 @@ const ClubList = ({
                   height={225}
                   src={club.club?.book_cover || ''}
                   alt='북이미지'
-                  className='mx-auto inset-0 w-[144px] h-[225px] object-cover rounded border-r-4 border border-solid border-blue-200/40'
+                  className='mx-auto w-[144px] h-[225px] object-contain rounded  border border-solid border-blue-200/40'
                 />
                 {/* </div> */}
                 <p className='text-[14px] leading-[20px] text-center font-medium text-[#3F3E4E] mt-[26px]'>
@@ -288,6 +295,7 @@ const ClubList = ({
                 />
                 {/* </div> */}
               </div>
+              {/* </Link> */}
             </div>
           ))}
       </Slider>

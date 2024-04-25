@@ -14,7 +14,7 @@ type MembersType = {
 };
 
 export const getUserId = async (): Promise<string | null> => {
-  console.log('getUserId 요청');
+  // console.log('getUserId 요청');
   try {
     const { data: user } = await getUser();
     return user!.id;
@@ -26,7 +26,7 @@ export const getUserId = async (): Promise<string | null> => {
 
 //리팩토링중 승희
 export const getUser = async () => {
-  console.log('승희함수 요청');
+  // console.log('승희함수 요청');
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
   // return {data:data.user, error}

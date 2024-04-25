@@ -24,6 +24,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
+      <head>
+        {/* 모바일 테스트 */}
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        {/* 모바일 테스트 */}
+      </head>
       <body
         className={` ${inter.className} sm:w-full md:w-[375px]  flex flex-col mx-auto h-screen items-center`}>
         <QueryProvider>

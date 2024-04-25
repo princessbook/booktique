@@ -79,7 +79,6 @@ const MemberList = ({
   // }, [clubMembers, supabase, clubId, timerVisible]);
 
   //승희가 변경중
-
   const { data, isLoading, isError } = useQuery({
     queryKey: ['readbook', clubId],
     queryFn: getReadBookPageData,

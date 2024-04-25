@@ -11,7 +11,6 @@ const ChatBackImg = ({ userId }: { userId: string | undefined }) => {
   const params = useParams();
   const clubId = params.id;
   const backgroundImg = clubData?.thumbnail;
-  console.log(backgroundImg);
   useEffect(() => {
     const fetchClubData = async () => {
       try {

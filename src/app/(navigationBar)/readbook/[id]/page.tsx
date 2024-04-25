@@ -11,8 +11,6 @@ const ReadBookDetail = async ({
   params: { id: string };
 }) => {
   const supabase = createClient();
-
-  //로그인 확인은 query getUser로 이따 바꾸고
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -23,6 +21,13 @@ const ReadBookDetail = async ({
 
   // 데이터를 가져오는 부분이 SSR 인데? 화면에 뿌리지는 않음,, 이걸 가지고 client 컴포넌트에 Props로 넘기고 있는데..
   // 기존이 좋은걸까,, 아니면 필요한 부분에서 데이터를 get 해오는게 좋은걸까
+  // const { data, error } = await supabase
+  //   .from('clubs')
+  //   .select('*, members(*, profiles(*), club_activities(*))')
+  //   .eq('id', id)
+  //   .single();
+
+  // console.log(data, '==============================');
 
   // const { data: clubMembers, error: membersError } = await supabase
   //   .from('members')
@@ -40,14 +45,6 @@ const ReadBookDetail = async ({
   //   throw new Error('클럽 정보를 가져오는 도중 오류가 발생했습니다.');
   // }
 
-  // const { data, error } = await supabase
-  //   .from('clubs')
-  //   .select('*, members(*, profiles(*), club_activities(*))')
-  //   .eq('id', id)
-  //   .single();
-
-  // console.log(data, '==============================');
-
   return (
     <>
       <BookInfo
@@ -55,7 +52,7 @@ const ReadBookDetail = async ({
         // clubData={clubData}
         clubId={id}
         // clubMembers={clubMembers}
-        chat={<ChatInfo />}
+        chat={<ChatInfo id={id} />}
       />
     </>
   );

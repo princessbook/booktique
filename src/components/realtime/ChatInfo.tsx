@@ -2,10 +2,11 @@ import React from 'react';
 import ChatMessages from './ChatMessages';
 import ChatInput from '@/app/chat/[id]/ChatInput';
 
-const ChatInfo = () => {
+const ChatInfo = ({ id }: { id: string }) => {
+  console.log('clubInfo', id);
   return (
     <>
-      <ChatMessages />
+      <ChatMessages id={id} />
       <ChatInput />
     </>
   );

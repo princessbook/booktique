@@ -157,6 +157,7 @@ const ClubList = ({
       console.error('클럽 활동 추가 중 오류:', error);
     }
   };
+
   // const handleReadButtonClick = (clubId: string) => {
   //   handleBookRead(clubId);
   // };
@@ -271,7 +272,11 @@ const ClubList = ({
                   독서 상황
                 </p>
                 <p className='text-[16px] leading-[22px] text-center font-bold text-[#3F3E4E] mt-[16px]'>
-                  p.{club.club_activities[0]?.read_page}
+                  {/* p.{club.club_activities[0]?.read_page} */}
+                  {club.club_activities[0]?.read_page &&
+                  club.club_activities[0].read_page > 0
+                    ? `p.${club.club_activities[0]?.read_page}`
+                    : 'p.0'}
                 </p>
                 <ProgressBar
                   progress={

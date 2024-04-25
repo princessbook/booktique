@@ -246,7 +246,7 @@ const CreateBookPage = () => {
               id='clubName'
               className='border w-full px-4  mt-4 h-[48px] bg-[#EDEEF2] rounded-lg text-[14px] placeholder-fontMain placeholder-opacity-60'
               type='text'
-              max={30}
+              maxLength={30}
               value={clubName}
               onChange={handleClubNameChange}
               placeholder='북클럽 이름을 정해주세요.'

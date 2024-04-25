@@ -72,6 +72,7 @@ const BookInfo = ({
   //     setPostData(payload);
   //   }
   // );
+
   useEffect(() => {
     const channelA = supabase
       .channel('dy')

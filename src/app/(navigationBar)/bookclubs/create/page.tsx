@@ -258,7 +258,9 @@ const CreateBookPage = () => {
             </div>
             <div className='relative'>
               <div className='flex items-center border w-full px-4  mt-4 h-[48px] bg-[#EDEEF2] rounded-lg text-[14px] placeholder-fontMain placeholder-opacity-60'>
-                <div className='flex flex-wrap items-center'>
+                <div
+                  onClick={toggleOpen}
+                  className='flex flex-wrap items-center cursor-pointer'>
                   {selectedDays.length === 0 && (
                     <span className=' text-fontMain text-opacity-60'>
                       북클럽 요일을 정해주세요(중복선택 가능)
@@ -285,14 +287,12 @@ const CreateBookPage = () => {
                         {selectedDays.length - 1 !== i && ','}
                       </span>
                     ))}
-                  <span
-                    className='absolute cursor-pointer right-2'
-                    onClick={toggleOpen}>
+                  <span className='absolute cursor-pointer right-2'>
                     <IoIosArrowDown className='text-gray-400' size={22} />
                   </span>
                 </div>
                 {isOpen && (
-                  <ul className='absolute top-10 z-10 left-0 w-full mt-2 bg-white border border-gray-400 rounded shadow-md'>
+                  <ul className='absolute top-10 z-10 left-0 w-full mt-2 bg-white border rounded-lg shadow-md'>
                     {['월', '화', '수', '목', '금', '토', '일'].map((val) => (
                       <li
                         key={val}
@@ -357,27 +357,21 @@ const CreateBookPage = () => {
                 }}
                 classNames={{
                   base: 'max-w-md ',
-                  filler: 'bg-lineGray rounded-lg ',
+                  filler: 'bg-[#DBE3EB] rounded-lg ',
                   labelWrapper: 'mb-2',
-                  step: `w-[2px] h-[28px] bg-grayBg data-[in-range=true]:bg-lineGray`,
+                  step: `w-[2px] h-[28px] bg-grayBg data-[in-range=true]:bg-[#DBE3EB]`,
                   track: 'bg-grayBg h-4',
                   mark: 'mt-5 text-fontGrayBlue z-0 opacity-100 text-[12px]',
                   label:
                     'font-medium mt-3 text-default-700 text-medium text-fontGrayBlue',
                   value:
-                    'font-medium mt-3 text-default-500 text-small text-fontGrayBlue',
-                  thumb: [
-                    'transition-size',
-                    'bg-gradient-to-r from-secondary-400 to-primary-500',
-                    'data-[dragging=true]:shadow-lg data-[dragging=true]:shadow-black/20',
-                    'data-[dragging=true]:w-7 data-[dragging=true]:h-7 data-[dragging=true]:after:h-6 data-[dragging=true]:after:w-6'
-                  ]
+                    'font-medium mt-3 text-default-500 text-small text-fontGrayBlue'
                 }}
                 renderThumb={(props: DOMAttributes<HTMLDivElement>) => (
                   <div {...props} className='group relative top-2'>
                     {/* thumb 내부에 value 값을 표시하는 요소를 추가합니다. */}
 
-                    <div className='group p-1 top-10 bg-lineGray border-small border-default-200 dark:border-default-400/50 shadow-medium rounded-full cursor-grab data-[dragging=true]:cursor-grabbing'>
+                    <div className='group p-1 top-10 bg-[#DBE3EB] border-small border-default-200 dark:border-default-400/50 shadow-medium rounded-full cursor-grab data-[dragging=true]:cursor-grabbing'>
                       <span className='transition-transform bg-gradient-to-br shadow-small from-secondary-100 to-secondary-500 rounded-full w-5 h-5 block group-data-[dragging=true]:scale-80' />
                     </div>
                   </div>

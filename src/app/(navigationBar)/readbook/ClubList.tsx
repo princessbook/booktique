@@ -271,7 +271,7 @@ const ClubList = ({
                   독서 상황
                 </p>
                 <p className='text-[16px] leading-[22px] text-center font-bold text-[#3F3E4E] mt-[16px]'>
-                  p.{club.club_activities[0].read_page}
+                  p.{club.club_activities[0]?.read_page}
                 </p>
                 <ProgressBar
                   progress={

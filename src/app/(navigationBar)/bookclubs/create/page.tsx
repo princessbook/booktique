@@ -10,6 +10,7 @@ import SearchModal from './search/SearchModal';
 import { CiCamera } from 'react-icons/ci';
 import { Slider } from '@nextui-org/react';
 import ToastUi from '@/common/ToastUi';
+import LoadingPopUp from '@/components/common/LoadingPopUp';
 const CreateBookPage = () => {
   const [clubName, setClubName] = useState('');
   const [description, setDiscription] = useState('');
@@ -465,6 +466,7 @@ const CreateBookPage = () => {
             style={toastStyle}
           />
         )}
+        <LoadingPopUp />
       </section>
     </div>
   );

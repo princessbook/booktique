@@ -86,8 +86,9 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
     formData.append('display_name', displayName);
     formData.append('introduction', introduction);
 
-    mutateToUpdateProfile(formData);
+    await mutateToUpdateProfile(formData);
     setIsModified(false);
+
     router.push('/mypage');
     setIsSaving(false);
   };

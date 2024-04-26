@@ -4,13 +4,7 @@ import { Tables } from '@/lib/types/supabase';
 import useModalStore from '@/store/modalstore';
 import CompleteModal from '../CompleteModal';
 
-const Timer = ({
-  clubId,
-  userId
-}: {
-  clubId: string;
-  userId: string | null;
-}) => {
+const Timer = ({ clubId, userId }: { clubId: string; userId: string }) => {
   const intervalRef = useRef<number | NodeJS.Timeout | undefined>(undefined);
   const [clubActivity, setClubActivity] = useState<Tables<'club_activities'>>();
   const [seconds, setSeconds] = useState<number>(0);
@@ -62,14 +56,16 @@ const Timer = ({
   // const saveTimeToSupabase = async (timeInSeconds: number) => {
   const saveTimeToSupabase = async (timeInSeconds: number) => {
     try {
-      localStorage.getItem('userId');
+      // localStorage.getItem('userId');
       await supabase
         .from('club_activities')
         .update({ time: timeInSeconds })
         // 새로고침 후 supabase 통신 중 1초가 지나면 userId가 null값
         // 2초부터는 정상 출력되는 상황
         // .eq('user_id', userId as string)  <- 기존 코드
-        .eq('user_id', localStorage.getItem('userId') as string)
+        // .eq('user_id', localStorage.getItem('userId') as string)
+        .eq('user_id', userId)
+
         .eq('club_id', clubId as string);
     } catch (error) {
       console.error('Error updating time in Supabase:', error);
@@ -78,13 +74,15 @@ const Timer = ({
 
   useEffect(() => {
     const fetchClubActivity = async () => {
-      localStorage.getItem('userId');
+      // localStorage.getItem('userId');
       try {
         const { data, error } = await supabase
           .from('club_activities')
           .select('*')
           .eq('club_id', clubId)
-          .eq('user_id', localStorage.getItem('userId') as string)
+          // .eq('user_id', localStorage.getItem('userId') as string)
+          .eq('user_id', userId)
+
           .single();
         if (error) {
           throw error;

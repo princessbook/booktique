@@ -38,29 +38,31 @@ interface ClubData {
 const supabase = createClient();
 const SaveBookInfo = ({
   clubData,
-  clubId
+  clubId,
+  userId
 }: {
   clubData: ClubData | null;
   clubId: string;
+  userId: string;
 }) => {
-  const [userId, setUserId] = useState<string | null>(null);
+  // const [userId, setUserId] = useState<string | null>(null);
   const [clubActivity, setClubActivity] = useState<Tables<'club_activities'>>();
   const [loading, setLoading] = useState<boolean>(true);
 
   // console.log('clubActivity', clubActivity);
-  useEffect(() => {
-    const fetchUserId = async () => {
-      try {
-        const id = await getUserId();
-        // console.log('id', id);
-        setUserId(id);
-      } catch (error) {
-        console.error('사용자 ID를 가져오는 도중 오류가 발생했습니다:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUserId = async () => {
+  //     try {
+  //       const id = await getUserId();
+  //       // console.log('id', id);
+  //       setUserId(id);
+  //     } catch (error) {
+  //       console.error('사용자 ID를 가져오는 도중 오류가 발생했습니다:', error);
+  //     }
+  //   };
 
-    fetchUserId();
-  }, []);
+  //   fetchUserId();
+  // }, []);
 
   useEffect(() => {
     const fetchClubActivity = async () => {
@@ -72,6 +74,7 @@ const SaveBookInfo = ({
           .eq('club_id', clubId)
           .eq('user_id', userId as string)
           .single();
+        console.log('test', test);
         // console.log('test', test);
         if (error) {
           throw error;
@@ -88,9 +91,12 @@ const SaveBookInfo = ({
       }
     };
 
-    if (userId && clubId) {
-      fetchClubActivity();
-    }
+    // if (userId && clubId) {
+    //   console.log('userId', userId);
+    //   console.log('clubId', clubId);
+
+    // }
+    fetchClubActivity();
   }, [userId, clubId]);
 
   useEffect(() => {

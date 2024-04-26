@@ -6,16 +6,20 @@ import Image from 'next/image';
 import ClubAdminProfile from './ClubAdminProfile';
 import ClubSearch from './ClubSearch';
 import NoContentMessage from '@/components/common/NoContentMessage';
-
+import LoadingAnimation from '@/components/common/LoadingAnimation';
+import { fetchClubs } from '@/action/fetch-clubs';
+import { LoadMore } from './LoadMore';
+import ClubsCard from '../../../components/common/ClubsCard';
+const supabase = createClient();
 const BookClubsPage = async (props: any) => {
-  const supabase = createClient();
   let bookclubs;
-
   if (props.searchParams.category) {
     if (props.searchParams.category === '기타') {
+      bookclubs = null;
       const { data, error } = await supabase
         .from('clubs')
-        .select('*')
+        .select('*,members(*,profiles(*))')
+        .order('created_at', { ascending: false })
         .not(
           'book_category',
           'in',
@@ -24,9 +28,10 @@ const BookClubsPage = async (props: any) => {
         .order('created_at', { ascending: false });
       bookclubs = data;
     } else {
+      bookclubs = null;
       const { data: categoryData, error } = await supabase
         .from('clubs')
-        .select('*')
+        .select('*,members(*,profiles(*))')
         .eq('book_category', props.searchParams.category)
         .order('created_at', { ascending: false });
 
@@ -38,11 +43,12 @@ const BookClubsPage = async (props: any) => {
       bookclubs = categoryData;
     }
   } else if (props.searchParams.search) {
+    bookclubs = null;
     if (props.searchParams.tab === '책제목') {
       // console.log('searchParams', props.searchParams);
       const { data: searchData, error } = await supabase
         .from('clubs')
-        .select('*')
+        .select('*,members(*,profiles(*))')
         .or(`book_title.ilike.%${props.searchParams.search}%`)
         .order('created_at', { ascending: false });
 
@@ -53,10 +59,11 @@ const BookClubsPage = async (props: any) => {
 
       bookclubs = searchData;
     } else if (props.searchParams.tab === '클럽이름') {
+      bookclubs = null;
       // console.log('searchParams', props.searchParams);
       const { data: searchData, error } = await supabase
         .from('clubs')
-        .select('*')
+        .select('*,members(*,profiles(*))')
         .or(`name.ilike.%${props.searchParams.search}%`)
         .order('created_at', { ascending: false });
 
@@ -67,11 +74,13 @@ const BookClubsPage = async (props: any) => {
 
       bookclubs = searchData;
     } else if (props.searchParams.tab === '작가') {
+      bookclubs = null;
       console.log('작가르르르');
       const { data: searchData, error } = await supabase
         .from('clubs')
-        .select('*')
+        .select('*,members(*,profiles(*))')
         .or(`book_author.ilike.%${props.searchParams.search}%`)
+
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -81,21 +90,15 @@ const BookClubsPage = async (props: any) => {
       bookclubs = searchData;
     }
   } else {
-    const { data: allData, error } = await supabase
-      .from('clubs')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching clubs:', error.message);
-      return null;
-    }
-
-    bookclubs = allData;
+    bookclubs = await fetchClubs(0);
   }
 
   if (!bookclubs) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <LoadingAnimation />
+      </div>
+    );
   }
 
   return (
@@ -111,53 +114,10 @@ const BookClubsPage = async (props: any) => {
               검색 결과가 없습니다
             </NoContentMessage>
           )}
-          {bookclubs.map((bookclub, index) => {
-            const isLastItem = index === bookclubs.length - 1;
-            return (
-              <Link key={bookclub.id} href={`/bookclubs/${bookclub.id}`}>
-                <div
-                  className={`flex ${
-                    isLastItem ? '' : 'border-b'
-                  } justify-between py-3 items-center border-b-[#E9EEF3] `}>
-                  <figure className='w-[78px] mr-2 flex items-center justify-center'>
-                    <div className='w-[78px] h-full relative'>
-                      {bookclub.book_cover && (
-                        <Image
-                          width='0'
-                          height='0'
-                          sizes='100vw'
-                          className='w-auto h-auto'
-                          src={bookclub.book_cover}
-                          alt='북클럽이미지'
-                        />
-                      )}
-                    </div>
-                  </figure>
-                  <div className='flex-1'>
-                    <h1 className='mb-1 text-[14px] text-[#3F3E4E] font-bold break-words overflow-hidden line-clamp-2'>
-                      {bookclub.name}
-                    </h1>
-                    <h2 className='mb-1 text-[14px] text-[#3F3E4E] w-64 break-words overflow-hidden line-clamp-2'>
-                      {bookclub.book_title}
-                    </h2>
-                    <div className='flex justify-between text-[14px] mb-2'>
-                      <ClubAdminProfile clubId={bookclub.id} />
-                      <div className='mr-3 text-[14px]'>
-                        <div>
-                          <ClubMembersCount clubId={bookclub.id} />/
-                          {bookclub.max_member_count}
-                        </div>
-                      </div>
-                    </div>
-                    <p className='mb-1 text-[12px] text-fontGray'>
-                      활동기간 : {extractDate(bookclub.created_at)}-
-                      {extractDate(addOneMonth(bookclub.created_at))}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+          <ClubsCard clubs={bookclubs!} />
+          {!props.searchParams.search && !props.searchParams.category && (
+            <LoadMore />
+          )}
           <div className='flex justify-end'>
             <Link
               href='/bookclubs/create'

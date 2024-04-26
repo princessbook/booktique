@@ -11,6 +11,7 @@ import { getUserProfile } from '@/utils/userAPIs/Fns';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Animation from '@/components/common/LoadingAnimation';
+import LoadingPopUp from '@/components/common/LoadingPopUp';
 const ProfileDetail = ({ userId }: { userId: string | null }) => {
   const router = useRouter();
 
@@ -93,11 +94,7 @@ const ProfileDetail = ({ userId }: { userId: string | null }) => {
     setIsSaving(false);
   };
   if (isSaving) {
-    return (
-      <div className='h-screen flex justify-center items-center align-middle'>
-        <Animation />
-      </div>
-    );
+    return <LoadingPopUp />;
   }
   return (
     <div className='flex flex-col w-full items-center '>

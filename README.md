@@ -29,9 +29,9 @@
 
 -Deployment : Vercel
 
-</br></br>
+</br>
 
-**# 팀원 소개**
+**# 팀원 소개1**
 |김대연|김예린|김철균|황현미|김승희|
 |---|---|---|---|---|
 |<img src="https://avatars.githubusercontent.com/u/103303516?v=4" width="100" height="100"/>|<img src="https://avatars.githubusercontent.com/u/118904207?v=4" width="100" height="100"/>|<img src="https://avatars.githubusercontent.com/u/97039528?v=4" width="100" height="100"/>|<img src="https://img.cjthemarket.com/images/file/product/166/20230131131750628.jpg?SF=webp" width="100" height="100"/>|<img src="https://avatars.githubusercontent.com/u/154486286?v=4" width="100" height="100"/>|

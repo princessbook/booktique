@@ -17,11 +17,27 @@ const JoinBtn = ({
 }>) => {
   const supabase = createClient();
   const router = useRouter();
+
+  const getUserClubs = async (userId: string) => {
+    const { data: joinClubs, error } = await supabase
+      .from(MEMBERS_TABLE)
+      .select('*')
+      .eq('user_id', userId);
+
+    return joinClubs;
+  };
   const handleJoin = async () => {
     if (isMember) return;
+
     const {
       data: { user }
     } = await supabase.auth.getUser();
+    const userClubs = await getUserClubs(user!.id);
+    console.log('userClubs', userClubs);
+    if (userClubs!.length >= 5) {
+      alert('5개 이상의 북클럽에 가입할 수 없습니다.');
+      return;
+    }
     if (user) {
       const { data: members, error } = await supabase
         .from(MEMBERS_TABLE)

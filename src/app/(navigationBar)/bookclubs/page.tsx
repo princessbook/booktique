@@ -66,6 +66,19 @@ const BookClubsPage = async (props: any) => {
       }
 
       bookclubs = searchData;
+    } else if (props.searchParams.tab === '작가') {
+      console.log('작가르르르');
+      const { data: searchData, error } = await supabase
+        .from('clubs')
+        .select('*')
+        .or(`book_author.ilike.%${props.searchParams.search}%`)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching clubs by search term:', error.message);
+        return null;
+      }
+      bookclubs = searchData;
     }
   } else {
     const { data: allData, error } = await supabase

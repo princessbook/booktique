@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import ClubSelector from './ClubSelector';
 import useMyClubInfo from '@/hooks/info/useMyClubInfo';
-import Animation from '@/components/common/Animation';
+import Animation from '@/components/common/LoadingAnimation';
 type Props = {
   children: React.ReactNode;
   params: {

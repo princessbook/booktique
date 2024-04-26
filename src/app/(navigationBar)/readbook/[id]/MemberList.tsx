@@ -132,6 +132,7 @@ const MemberList = ({
                     width={56}
                     height={56}
                     alt='default_profile_image'
+                    priority={true}
                     className='mx-auto rounded-full object-cover w-[56px] h-[56px] mt-[11px] mb-1'
                   />
                 )}
@@ -141,6 +142,7 @@ const MemberList = ({
                     alt='admin'
                     width={16}
                     height={16}
+                    priority={true}
                     className='absolute w-[16px] h-[16px] bottom-2 right-0 mr-[19px] '
                   />
                 )}

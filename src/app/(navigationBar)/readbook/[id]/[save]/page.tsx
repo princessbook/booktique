@@ -1,8 +1,9 @@
 import { createClient } from '@/utils/supabase/server';
-import React from 'react';
+import React, { Suspense } from 'react';
 import SaveBookInfo from './SaveBookInfo';
 import SaveCard from './SaveCard';
 import { redirect } from 'next/navigation';
+import Loading from '../../../../../components/common/Loading';
 
 const SavePage = async ({ params: { id } }: { params: { id: string } }) => {
   const supabase = createClient();
@@ -20,14 +21,20 @@ const SavePage = async ({ params: { id } }: { params: { id: string } }) => {
     .single();
 
   return (
-    <div className='bg-white h-full'>
-      <SaveBookInfo
-        clubData={club_clubActivities}
-        clubId={id}
-        userId={user?.id}
-      />
-      <SaveCard clubData={club_clubActivities} clubId={id} userId={user?.id} />
-    </div>
+    <Suspense fallback={<Loading />}>
+      <div className='bg-white h-full'>
+        <SaveBookInfo
+          clubData={club_clubActivities}
+          clubId={id}
+          userId={user?.id}
+        />
+        <SaveCard
+          clubData={club_clubActivities}
+          clubId={id}
+          userId={user?.id}
+        />
+      </div>
+    </Suspense>
   );
 };
 

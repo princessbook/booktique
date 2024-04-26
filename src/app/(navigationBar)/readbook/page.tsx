@@ -6,6 +6,7 @@ import blue from '../../../../public/booktiquereadblue.png';
 import { createClient } from '@/utils/supabase/server';
 import ClubList from './ClubList';
 import { redirect } from 'next/navigation';
+import Loading from '../../../components/common/Loading';
 
 const ReadBookPage = async () => {
   const supabase = createClient();
@@ -64,12 +65,16 @@ const ReadBookPage = async () => {
 
   return (
     <ReadBookLayout>
-      <Suspense fallback={<></>}>
+      <Suspense
+        fallback={
+          <>
+            <Loading />
+          </>
+        }>
         {members
           ?.map((club) => club?.club?.archive)
           .filter((item) => item === false).length > 0 ? (
           <>
-            <div></div>
             <Image
               src={blue}
               width={134}
@@ -83,7 +88,6 @@ const ReadBookPage = async () => {
         ) : (
           /* 가입한 북클럽이 없습니다. 북클럽에 가입해서 책 읽어보세요 */
           <div className='flex flex-col'>
-            <div></div>
             <Image
               src={blue}
               width={134}

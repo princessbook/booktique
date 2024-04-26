@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { createClient } from '@/utils/supabase/server';
 import BookInfo from './BookInfo';
 import { redirect } from 'next/navigation';
 import ChatInfo from '@/components/realtime/ChatInfo';
+import Loading from '@/components/common/Loading';
 
 const ReadBookDetail = async ({
   params: { id }
@@ -45,7 +46,12 @@ const ReadBookDetail = async ({
   // }
 
   return (
-    <>
+    <Suspense
+      fallback={
+        <>
+          <Loading />
+        </>
+      }>
       <BookInfo
         // joinClubData={{clubData:joinClubData, clubId:id, clubMembers:joinClubData?.members}}
         // clubData={clubData}
@@ -54,7 +60,7 @@ const ReadBookDetail = async ({
         // clubMembers={clubMembers}
         chat={<ChatInfo id={id} />}
       />
-    </>
+    </Suspense>
   );
 };
 

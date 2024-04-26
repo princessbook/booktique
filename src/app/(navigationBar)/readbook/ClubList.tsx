@@ -272,6 +272,7 @@ const ClubList = ({
                   height={225}
                   src={club.club?.book_cover || ''}
                   alt='북이미지'
+                  priority={true}
                   className='mx-auto w-[144px] h-[225px] object-contain rounded  border border-solid border-blue-200/40'
                 />
                 {/* </div> */}

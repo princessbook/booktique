@@ -68,11 +68,16 @@ const SavePage = async ({ params: { id } }: { params: { id: string } }) => {
 
   return (
     <div className='bg-white h-full'>
-      <SaveBookInfo clubData={club_clubActivities} clubId={id} />
+      <SaveBookInfo
+        clubData={club_clubActivities}
+        clubId={id}
+        userId={user?.id}
+      />
       <SaveCard
         clubData={club_clubActivities}
         // matchingActivities={matchingActivities}
-        id={id}
+        clubId={id}
+        userId={user?.id}
       />
     </div>
   );

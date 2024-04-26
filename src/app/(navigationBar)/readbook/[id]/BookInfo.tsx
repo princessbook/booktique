@@ -22,17 +22,19 @@ import { useRouter } from 'next/navigation';
 const BookInfo = ({
   // clubData,
   clubId,
+  userId,
   // clubMembers,
   chat
 }: {
   // clubData: Tables<'clubs'>[];
   clubId: string;
+  userId: string;
   // clubMembers: Tables<'members'>[];
   chat: React.ReactNode;
 }) => {
   const [activeTab, setActiveTab] = useState('책읽기');
   const [timerVisible, setTimerVisible] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
+  // const [userId, setUserId] = useState<string | null>(null);
   const [endButtonVisible, setEndButtonVisible] = useState(true);
   const [alarmToast, setAlarmToast] = useState(false);
   const [remainTimeToast, setRemainTimeToast] = useState(false);
@@ -42,19 +44,19 @@ const BookInfo = ({
   const resetPage = useMessage((state) => state.resetPage);
   const supabase = createClient();
   const { resetModal } = useModalStore();
-  useEffect(() => {
-    const fetchUserId = async () => {
-      try {
-        const logInId = await getUserId();
-        setUserId(logInId);
-        localStorage.setItem('userId', logInId as string);
-      } catch (error) {
-        console.error('사용자 ID를 가져오는 도중 오류가 발생했습니다:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUserId = async () => {
+  //     try {
+  //       const logInId = await getUserId();
+  //       setUserId(logInId);
+  //       localStorage.setItem('userId', logInId as string);
+  //     } catch (error) {
+  //       console.error('사용자 ID를 가져오는 도중 오류가 발생했습니다:', error);
+  //     }
+  //   };
 
-    fetchUserId();
-  }, []);
+  //   fetchUserId();
+  // }, []);
 
   //승희가 변경중
   const { data, isLoading, isError } = useQuery({

@@ -6,11 +6,11 @@ import blue from '../../../../public/booktiquereadblue.png';
 import { createClient } from '@/utils/supabase/server';
 import ClubList from './ClubList';
 import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
-import { Database } from '@/lib/types/supabase';
+// import { revalidatePath } from 'next/cache';
+// import { Database } from '@/lib/types/supabase';
 
 const ReadBookPage = async () => {
-  revalidatePath('/', 'layout');
+  // revalidatePath('/', 'layout');
   const supabase = createClient();
 
   const {
@@ -115,6 +115,7 @@ const ReadBookPage = async () => {
                   width={138}
                   height={124}
                   alt={'noclub'}
+                  priority={true}
                   className=' w-[138px] h-[124px] mx-auto'
                 />
               </div>

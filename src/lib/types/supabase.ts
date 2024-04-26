@@ -222,6 +222,7 @@ export type Database = {
           id: string;
           is_edit: boolean;
           send_from: string;
+          send_photo_URL: string | null;
           text: string;
         };
         Insert: {
@@ -230,6 +231,7 @@ export type Database = {
           id?: string;
           is_edit?: boolean;
           send_from: string;
+          send_photo_URL?: string | null;
           text: string;
         };
         Update: {
@@ -238,6 +240,7 @@ export type Database = {
           id?: string;
           is_edit?: boolean;
           send_from?: string;
+          send_photo_URL?: string | null;
           text?: string;
         };
         Relationships: [

@@ -1,39 +1,23 @@
 'use client';
-import { Tables } from '@/lib/types/supabase';
-import { createClient } from '@/utils/supabase/client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import EndButton from './EndButton';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { getReadBookPageData } from '@/utils/testAPIs';
 
 interface MemberListProps {
-  // clubMembers: Tables<'members'>[];
   clubId: string;
   endButtonVisible: boolean;
   timerVisible: boolean;
   userId: string | null;
 }
-interface UserProfile extends Tables<'profiles'> {
-  club_activities: {
-    time: number;
-    progress: number;
-  };
-}
-// const MemberList = ({ clubMembers, id }: MemberListProps) => {
+
 const MemberList = ({
-  // clubMembers,
   clubId,
   endButtonVisible,
   timerVisible,
   userId
 }: MemberListProps) => {
-  const supabase = createClient();
-  const [profiles, setProfiles] = useState<UserProfile[]>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const router = useRouter();
-
   // useEffect(() => {
   //   const fetchProfiles = async () => {
   //     try {
@@ -105,10 +89,6 @@ const MemberList = ({
       </div>
     );
   }
-
-  const handleChatting = () => {
-    router.push(`/chat/${clubId}`);
-  };
 
   return (
     <>

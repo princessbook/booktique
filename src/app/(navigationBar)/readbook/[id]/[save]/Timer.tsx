@@ -4,13 +4,7 @@ import { Tables } from '@/lib/types/supabase';
 import useModalStore from '@/store/modalstore';
 import CompleteModal from '../CompleteModal';
 
-const Timer = ({
-  clubId,
-  userId
-}: {
-  clubId: string;
-  userId: string | null;
-}) => {
+const Timer = ({ clubId, userId }: { clubId: string; userId: string }) => {
   const intervalRef = useRef<number | NodeJS.Timeout | undefined>(undefined);
   const [clubActivity, setClubActivity] = useState<Tables<'club_activities'>>();
   const [seconds, setSeconds] = useState<number>(0);
@@ -32,14 +26,11 @@ const Timer = ({
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   };
 
-  // 타이머 시작 및 중지 처리
   useEffect(() => {
     if (isVisible && !isModalOpen)
-      // isModalOpen넣어서 모달뜰떄 중지
       intervalRef.current = setInterval(() => {
         setSeconds((prevSeconds: number) => {
           const timeInSeconds = Math.max(prevSeconds - 1, 0);
-          // const timeInSeconds = Math.max(prevSeconds + 1, 0);
           saveTimeToSupabase(timeInSeconds);
 
           if (timeInSeconds === 0) {
@@ -47,8 +38,6 @@ const Timer = ({
             setIsEndButtonVisible(true);
             clearInterval(intervalRef.current as number);
           }
-
-          // localStorage.setItem('timerSeconds', timeInSeconds.toString());
           return timeInSeconds;
         });
       }, 1000);
@@ -57,19 +46,14 @@ const Timer = ({
       clearInterval(intervalRef.current as number);
     };
   }, [isVisible, isModalOpen, seconds]);
-  // }, [isVisible, seconds]);
 
-  // const saveTimeToSupabase = async (timeInSeconds: number) => {
   const saveTimeToSupabase = async (timeInSeconds: number) => {
     try {
-      localStorage.getItem('userId');
       await supabase
         .from('club_activities')
         .update({ time: timeInSeconds })
-        // 새로고침 후 supabase 통신 중 1초가 지나면 userId가 null값
-        // 2초부터는 정상 출력되는 상황
-        // .eq('user_id', userId as string)  <- 기존 코드
-        .eq('user_id', localStorage.getItem('userId') as string)
+        .eq('user_id', userId)
+
         .eq('club_id', clubId as string);
     } catch (error) {
       console.error('Error updating time in Supabase:', error);
@@ -78,13 +62,12 @@ const Timer = ({
 
   useEffect(() => {
     const fetchClubActivity = async () => {
-      localStorage.getItem('userId');
       try {
         const { data, error } = await supabase
           .from('club_activities')
           .select('*')
           .eq('club_id', clubId)
-          .eq('user_id', localStorage.getItem('userId') as string)
+          .eq('user_id', userId)
           .single();
         if (error) {
           throw error;
@@ -113,10 +96,8 @@ const Timer = ({
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
         clearInterval(intervalRef.current as number);
-        // console.log('타이머를 멈춥니다.');
         setIsVisible(false);
       } else {
-        // console.log('타이머를 다시 시작합니다.');
         setIsVisible(true);
       }
     };

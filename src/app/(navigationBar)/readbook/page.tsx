@@ -6,13 +6,9 @@ import blue from '../../../../public/booktiquereadblue.png';
 import { createClient } from '@/utils/supabase/server';
 import ClubList from './ClubList';
 import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
-import { Database } from '@/lib/types/supabase';
 
 const ReadBookPage = async () => {
-  revalidatePath('/', 'layout');
   const supabase = createClient();
-
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -61,19 +57,11 @@ const ReadBookPage = async () => {
     .from('members')
     .select('club_id, club:clubs(*),club_activities(*)')
     .eq('user_id', user?.id as string);
-  // console.log('members', members);
-  const { data: members1, error: memberErro1 } = await supabase
-    .from('members')
-    .select('club_id, club:clubs(*),club_activities(*)')
-    .eq('user_id', user?.id as string);
-  // members데이터값은 {club_id:'',club:{id:"",name:"",archive:"", ----max_member_count:""}} 이런식으로
-  // const allClubData: Database['public']['Tables']['clubs']['Row'][] = members1
-  //   ?.map((member) => member.club)
-  //   ?.filter(Boolean) as Database['public']['Tables']['clubs']['Row'][];
 
   if (!members) {
     return null;
   }
+
   return (
     <ReadBookLayout>
       <Suspense fallback={<></>}>
@@ -115,6 +103,7 @@ const ReadBookPage = async () => {
                   width={138}
                   height={124}
                   alt={'noclub'}
+                  priority={true}
                   className=' w-[138px] h-[124px] mx-auto'
                 />
               </div>

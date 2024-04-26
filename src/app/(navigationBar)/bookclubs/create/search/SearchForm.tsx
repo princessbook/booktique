@@ -5,10 +5,12 @@ import SearchInput from '../../SearchInput';
 
 const SearchForm = ({
   setSearchKeyword,
-  searchKeyword
+  searchKeyword,
+  performSearch
 }: {
   setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
   searchKeyword: string;
+  performSearch: (keyword: string) => void;
 }) => {
   const handleSearchInputChange = (e: {
     target: { value: SetStateAction<string> };
@@ -19,8 +21,10 @@ const SearchForm = ({
 
   const handleSearchEnter = () => {
     setIsEnter(true);
+    performSearch(searchKeyword);
   };
   const handleSearchClose = () => {
+    performSearch('');
     setSearchKeyword('');
   };
 

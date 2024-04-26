@@ -5,34 +5,29 @@ import { useEffect, useState } from 'react';
 
 import { BookInfo, BookResponse } from '@/lib/types/BookAPI';
 import Image from 'next/image';
+import NoContentMessage from '@/components/common/NoContentMessage';
 
 const SearchResult = ({
   searchKeyword,
   setBookInfo,
   setIsModalOpen,
-  setSearchKeyword
+  setSearchKeyword,
+  bookItems
 }: {
   searchKeyword: string;
   setBookInfo: React.Dispatch<React.SetStateAction<BookInfo | undefined>>;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
+  bookItems: Array<any>;
 }) => {
-  const [bookItems, setBookItems] = useState<BookResponse[]>([]);
-
   //책 검색 로직
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      performSearch(searchKeyword);
-    }, 1000);
+  // useEffect(() => {
+  //   const delayDebounceFn = setTimeout(() => {
+  //     performSearch(searchKeyword);
+  //   }, 100);
 
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchKeyword]);
-
-  const performSearch = async (keyword: string) => {
-    if (!keyword) return;
-    const response = await searchBookKeywords(keyword);
-    setBookItems(response.item);
-  };
+  //   return () => clearTimeout(delayDebounceFn);
+  // }, [searchKeyword]);
 
   //책 상세정보 로직
   const handleSelectBook = async (isbn13: string) => {
@@ -50,13 +45,16 @@ const SearchResult = ({
   };
 
   if (bookItems && bookItems.length === 0) {
-    // console.log('bookItems', bookItems);
+    console.log('bookItems', bookItems);
     return (
       <div className='flex flex-col items-center justify-center mt-10'>
-        <p>검색결과가 없습니다.</p>
+        <NoContentMessage width={125} imgUrl='/no_book.png'>
+          검색 결과가 없습니다
+        </NoContentMessage>
       </div>
     );
   }
+
   return (
     <div className=' text-left bg-white p-4'>
       {searchKeyword && (

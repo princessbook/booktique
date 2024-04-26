@@ -10,7 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/utils/userAPIs/Fns';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Animation from '@/components/common/Animation';
+import Animation from '@/components/common/LoadingAnimation';
 const ProfileDetail = ({ userId }: { userId: string | null }) => {
   const router = useRouter();
 

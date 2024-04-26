@@ -17,7 +17,7 @@ const ChatBackImg = ({ userId }: { userId: string | undefined }) => {
         // 클럽 ID를 사용하여 Supabase에서 해당하는 클럽 데이터를 가져옵니다
         const { data, error } = await supabase
           .from('clubs')
-          .select('*')
+          .select('*,members(*)')
           .eq('id', clubId)
           .single();
 
@@ -38,12 +38,11 @@ const ChatBackImg = ({ userId }: { userId: string | undefined }) => {
     // 클럽 데이터를 가져오는 함수를 호출합니다
     fetchClubData();
   }, []);
+  // console.log(clubData);
   const backgroundStyle = {
     backgroundImage: `url(${clubData?.thumbnail})`,
-
     backgroundSize: 'cover',
     backgroundPosition: 'cover',
-
     height: `chatHight`
   };
   return (

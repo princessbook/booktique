@@ -2,7 +2,6 @@ import React from 'react';
 import { createClient } from '@/utils/supabase/server';
 import BookInfo from './BookInfo';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
 import ChatInfo from '@/components/realtime/ChatInfo';
 
 const ReadBookDetail = async ({
@@ -50,6 +49,7 @@ const ReadBookDetail = async ({
       <BookInfo
         // joinClubData={{clubData:joinClubData, clubId:id, clubMembers:joinClubData?.members}}
         // clubData={clubData}
+        userId={user?.id as string}
         clubId={id}
         // clubMembers={clubMembers}
         chat={<ChatInfo id={id} />}

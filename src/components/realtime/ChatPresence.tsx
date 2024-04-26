@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarGroup } from '@nextui-org/react';
 
 const ChatPresence = ({ userId }: { userId: string | undefined }) => {
-  const [clubData, setClubData] = useState<any>(null);
   const params = useParams();
   const clubId = params.id;
   const supabase = createClient();

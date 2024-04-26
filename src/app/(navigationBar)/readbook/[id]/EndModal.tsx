@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 import readbook_yet_read from '../../../../../public/readbook_yet_read.png';
 import useModalStore from '@/store/modalstore';
 import Link from 'next/link';
@@ -9,20 +8,7 @@ interface ModalProps {
   clubId: string;
 }
 const EndModal = ({ clubId }: ModalProps) => {
-  const router = useRouter();
   const { toggleModal } = useModalStore();
-
-  // const handleStopTimerAndNavigate = () => {
-  //   // alert('현재 테스트 중입니다 조금만 기다려주세요!');
-  //   toggleModal();
-  //   // router.refresh();
-  //   localStorage.removeItem('timerStarted');
-  //   localStorage.removeItem('timerSeconds');
-
-  //   // router.push(`/readbook/${clubId}/save`);
-  //   // resetModal(); // 모달을 닫음
-  //   // 여기 주석했다가 버그발견 책읽기 시작-> ~~ 책 읽기 시작 모달창 등장
-  // };
 
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20'>
@@ -46,10 +32,7 @@ const EndModal = ({ clubId }: ModalProps) => {
             계속 읽기
           </button>
           <Link prefetch href={`/readbook/${clubId}/save`}>
-            <button
-              className='w-[279px] h-[44px] px-4 py-2 text-[#8A9DB3] rounded-full border border-[#DBE3EB] text-[14px]'
-              // onClick={handleStopTimerAndNavigate}
-            >
+            <button className='w-[279px] h-[44px] px-4 py-2 text-[#8A9DB3] rounded-full border border-[#DBE3EB] text-[14px]'>
               그만 읽기
             </button>
           </Link>

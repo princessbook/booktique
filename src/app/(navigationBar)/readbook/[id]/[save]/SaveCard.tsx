@@ -35,12 +35,14 @@ interface ClubData {
 }
 const supabase = createClient();
 const SaveCard = ({
-  id,
-  clubData
+  clubId,
+  clubData,
+  userId
 }: // matchingActivities
 {
-  id: string;
+  clubId: string;
   clubData: ClubData | null;
+  userId: string;
   // matchingActivities: Tables<'club_activities'>[];
 }) => {
   // console.log('matchingActivities', matchingActivities);
@@ -49,9 +51,8 @@ const SaveCard = ({
   const [overPage, setOverPage] = useState(false); // 페이지 초과
   const [invalidInput, setInvalidInput] = useState(false); // 숫자만 입력하게
   const [progressPercentage, setProgressPercentage] = useState(
-    clubData?.club_activities.filter(
-      (club) => club.user_id === localStorage.getItem('userId')
-    )[0].progress
+    clubData?.club_activities.filter((club) => club.user_id === userId)[0]
+      .progress
   ); // 페이지 진행률 상태 추가
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const inputRef = useRef<HTMLInputElement>(null);
@@ -61,13 +62,12 @@ const SaveCard = ({
     inputRef.current?.focus();
     if (clubData?.club_activities) {
       setProgressPercentage(
-        clubData?.club_activities.filter(
-          (club) => club.user_id === localStorage.getItem('userId')
-        )[0].progress
+        clubData?.club_activities.filter((club) => club.user_id === userId)[0]
+          .progress
       );
       setLoading(false); // matchingActivities 로드 완료 시 로딩 상태 변경
     }
-  }, [clubData]);
+  }, [clubData, userId]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
@@ -111,7 +111,7 @@ const SaveCard = ({
     const { data: member, error: getMemberError } = await supabase
       .from('members')
       .select()
-      .eq('club_id', id)
+      .eq('club_id', clubId)
       .eq('user_id', userId)
       .single();
 
@@ -140,7 +140,7 @@ const SaveCard = ({
     const { data: existingData, error: fetchError } = await supabase
       .from('club_activities')
       .select('*')
-      .eq('club_id', id)
+      .eq('club_id', clubId)
       .eq('user_id', userId as string);
 
     if (fetchError) {
@@ -162,7 +162,7 @@ const SaveCard = ({
           last_read: true,
           read_page: recordPage as unknown as number
         })
-        .eq('club_id', id)
+        .eq('club_id', clubId)
         .eq('user_id', userId as string);
 
       if (updateError) {
@@ -180,7 +180,7 @@ const SaveCard = ({
         .from('club_activities')
         .insert([
           {
-            club_id: id,
+            club_id: clubId,
             progress: result,
             user_id: userId as string,
             member_id: member.id,
@@ -247,7 +247,7 @@ const SaveCard = ({
       <input
         value={recordPage}
         onChange={handleInputChange}
-        type='number'
+        type='text'
         pattern='[0-9]*'
         inputMode='numeric'
         placeholder='페이지를 입력해주세요.(숫자만)'

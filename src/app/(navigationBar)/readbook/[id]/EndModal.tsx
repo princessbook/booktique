@@ -32,6 +32,7 @@ const EndModal = ({ clubId }: ModalProps) => {
           alt='end'
           width={144}
           height={144}
+          priority={true}
           className='mt-[38px] mb-[16px] w-[144px] h-[144px]'
         />
         <h1 className=' mb-[32px] font-medium text-[16px] leading-[22px] text-center text-[#3F3E4E]'>

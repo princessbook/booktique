@@ -207,7 +207,7 @@ const BookInfo = ({
   const containerHeight =
     isSingleLine || !timerVisible ? 'h-[102px]' : 'h-[124px]';
 
-  const handleResetAndNavigate = (e: any) => {
+  const handleResetAndNavigate = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     resetPage();
     router.push('/readbook');
@@ -224,6 +224,7 @@ const BookInfo = ({
                   src={close}
                   className='w-[22px] h-[22px] m-[16px]'
                   alt='close'
+                  priority={true}
                 />
               </Link>
             </div>

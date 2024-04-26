@@ -19,7 +19,6 @@ const ChatInput = () => {
   const [messageText, setMessageText] = useState<string>('');
   const [displayName, setDisplayName] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null); //채팅방 파일첨부
-  const [fileName, setFileName] = useState<string>('');
   const [imagePreview, setImagePreview] = useState<string | undefined>();
 
   useEffect(() => {
@@ -75,14 +74,13 @@ const ChatInput = () => {
       console.error(error);
     }
   };
+
   const handleSendMessage = async () => {
     const { data } = await supabase.auth.getUser();
     const userId = data.user?.id;
     if (messageText.trim() || selectedFile) {
       // 이미지 업로드 및 파일 이름 설정
-      const storageImg = selectedFile
-        ? await uploadChatFileStorage(selectedFile)
-        : undefined;
+      const storageImg = await uploadChatFileStorage(selectedFile!);
 
       const newMessage = {
         id: uuidv4(),
@@ -118,15 +116,20 @@ const ChatInput = () => {
           last_read: user?.user_metadata.thumbnail
         }
       };
-
       addMessage(newMessage as Imessage);
       setOptimisticIds(newMessage.id);
-
       // 메시지 전송 후 상태 초기화
       setMessageText('');
       setSelectedFile(null);
       setImagePreview(undefined);
-
+      const { error } = await supabase.from('messages').insert([
+        {
+          text: messageText,
+          club_id: params.id,
+          send_from: userId ?? '',
+          send_photo_URL: storageImg
+        }
+      ]);
       // 콘솔에 메시지 확인
       console.log('전송된 메시지:', newMessage);
     } else {
@@ -152,7 +155,7 @@ const ChatInput = () => {
             id='file-upload'
             className='hidden'
             type='file'
-            accept='.gif, .jpg, .png, .jpeg .jfif'
+            accept='.gif, .jpg, .png, .jpeg'
             onChange={handleFileChange}
           />
         </div>

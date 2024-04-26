@@ -45,26 +45,39 @@ const OtherMessage = ({ message }: { message: Imessage }) => {
             </Button>
           )}
           <Modal
-            className='md:max-w-[375px] bg-slate-800 rounded-3xl'
+            className='md:max-w-[375px] bg-slate-800 rounded-3xl text-white'
             isOpen={isOpen}
             onOpenChange={onOpenChange}>
             <ModalContent className='px-4'>
               {(onClose) => (
                 <>
                   <ModalHeader className='flex flex-col gap-1'>
-                    Modal Title
+                    {message.profiles?.display_name}
+                    {message.profiles?.photo_URL ? (
+                      <Image
+                        width={100}
+                        height={100}
+                        alt='profile'
+                        src={message.profiles?.photo_URL}
+                        className='rounded-full object-cover w-[100px] h-[100px]'
+                      />
+                    ) : (
+                      <Image
+                        src='/defaultImage.svg'
+                        alt='s'
+                        width={100}
+                        height={100}
+                        className='rounded-full object-cover w-[100px] h-[100px]'
+                      />
+                    )}
                   </ModalHeader>
                   <ModalBody>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Nullam pulvinar risus non risus hendrerit venenatis.
-                      Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Nullam pulvinar risus non risus hendrerit venenatis.
-                      Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                    </p>
+                    {message.profiles?.introduction ? (
+                      <p>내 소개: {message.profiles?.introduction}</p>
+                    ) : (
+                      <p>등록된 소개글이 없습니다</p>
+                    )}
+                    <p>E-mail: {message.profiles?.email}</p>
                   </ModalBody>
                 </>
               )}

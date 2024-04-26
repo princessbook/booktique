@@ -4,7 +4,6 @@ import { createClient } from '@/utils/supabase/client';
 import { getUserId } from '@/utils/userAPIs/authAPI';
 import { Tables } from '@/lib/types/supabase';
 import { useRouter } from 'next/navigation';
-// import SaveProgressBar from './SaveProgressBar';
 import ToastUi from '@/common/ToastUi';
 interface ClubData {
   archive?: boolean | null;
@@ -23,38 +22,26 @@ interface ClubData {
   thumbnail?: string | null;
   weekday?: string | null;
   club_activities: Tables<'club_activities'>[];
-  // club_activities: {
-  //   club_id: string | null;
-  //   id: string;
-  //   last_read: boolean | null;
-  //   member_id: string;
-  //   progress: number | null;
-  //   time: number | null;
-  //   user_id: string;
-  // }[];
 }
 const supabase = createClient();
 const SaveCard = ({
   clubId,
   clubData,
   userId
-}: // matchingActivities
-{
+}: {
   clubId: string;
   clubData: ClubData | null;
   userId: string;
-  // matchingActivities: Tables<'club_activities'>[];
 }) => {
-  // console.log('matchingActivities', matchingActivities);
   const [recordPage, setRecordPage] = useState('');
-  const [inputValid, setInputValid] = useState(false); // 입력값 유효성 상태
-  const [overPage, setOverPage] = useState(false); // 페이지 초과
-  const [invalidInput, setInvalidInput] = useState(false); // 숫자만 입력하게
+  const [inputValid, setInputValid] = useState(false);
+  const [overPage, setOverPage] = useState(false);
+  const [invalidInput, setInvalidInput] = useState(false);
   const [progressPercentage, setProgressPercentage] = useState(
     clubData?.club_activities.filter((club) => club.user_id === userId)[0]
       .progress
-  ); // 페이지 진행률 상태 추가
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  );
+  const [loading, setLoading] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -65,7 +52,7 @@ const SaveCard = ({
         clubData?.club_activities.filter((club) => club.user_id === userId)[0]
           .progress
       );
-      setLoading(false); // matchingActivities 로드 완료 시 로딩 상태 변경
+      setLoading(false);
     }
   }, [clubData, userId]);
 
@@ -73,10 +60,9 @@ const SaveCard = ({
     const inputValue = event.target.value;
     const inputValueAsNumber = Number(inputValue);
 
-    // 입력 값이 유효한 숫자인지 확인합니다.
     if (!isNaN(inputValueAsNumber)) {
       setRecordPage(inputValue);
-      setInputValid(!!inputValue.trim()); // 입력 값이 공백이 아닌지 확인하여 유효성 상태를 갱신합니다.
+      setInputValid(!!inputValue.trim());
       setInvalidInput(false);
 
       const inputValueNumber = Math.floor(
@@ -89,14 +75,13 @@ const SaveCard = ({
         setInputValid(false);
       } else {
         setOverPage(false);
-        setProgressPercentage(inputValueNumber); // 진행률을 정상적으로 업데이트합니다.
+        setProgressPercentage(inputValueNumber);
         setInputValid(!!inputValue.trim());
       }
     } else {
-      // 입력 값이 유효한 숫자가 아닌 경우 처리합니다.
       setInvalidInput(true);
-      setProgressPercentage(0); // 진행률을 0%로 재설정합니다.
-      setInputValid(false); // 입력 값이 유효하지 않으면 버튼을 비활성화합니다.
+      setProgressPercentage(0);
+      setInputValid(false);
     }
   };
 
@@ -116,13 +101,12 @@ const SaveCard = ({
       .single();
 
     if (getMemberError || !member) {
-      // console.log('you are not even a member!');
       return;
     }
-    setInputValid(false); // 이걸 false해줘야 저장을 하고도 버튼 비활성화 동작이 일어남
+    setInputValid(false);
     router.refresh();
     if (!/^\d+$/.test(recordPage)) {
-      setInvalidInput(true); // 숫자만 입력해주세요 알림 표시
+      setInvalidInput(true);
       return;
     }
 
@@ -131,12 +115,11 @@ const SaveCard = ({
     );
 
     if (Number(recordPage) > (clubData?.book_page as number)) {
-      setOverPage(true); // 페이지 수 초과 알림 표시
+      setOverPage(true);
       setRecordPage('');
       return;
     }
 
-    // club_activities 테이블에서 해당 club_id와 user_id에 해당하는 행을 조회
     const { data: existingData, error: fetchError } = await supabase
       .from('club_activities')
       .select('*')
@@ -152,9 +135,7 @@ const SaveCard = ({
     router.push('/readbook');
     router.refresh();
 
-    // console.log('existingData', existingData);
     if (existingData && existingData.length > 0) {
-      // 이미 삽입된 데이터가 있다면 해당 행을 업데이트
       const { data: updatedData, error: updateError } = await supabase
         .from('club_activities')
         .update({
@@ -173,9 +154,7 @@ const SaveCard = ({
       setProgressPercentage(result);
       router.refresh();
       router.push('/readbook');
-      // console.log('club_activities 테이블의 행을 업데이트 완료');
     } else {
-      // 삽입된 데이터가 없다면 새로운 행을 삽입(db에서 지우지않는한무조건 있기는함).
       const { data: insertedData, error: insertError } = await supabase
         .from('club_activities')
         .insert([
@@ -191,8 +170,6 @@ const SaveCard = ({
       if (insertError) {
         throw new Error('club_activities 테이블에 삽입하는 중 오류 발생:');
       }
-
-      // console.log('club_activities 테이블에 새로운 행 삽입 완료', insertedData);
     }
     setProgressPercentage(result);
 
@@ -203,8 +180,8 @@ const SaveCard = ({
   const toastStyle = {
     width: '343px',
     height: '50px',
-    top: '48px', // 헤더 48이라 임시로 해놓음
-    left: '50%', // 화면 중앙
+    top: '48px',
+    left: '50%',
     transform: 'translateX(-50%)',
     fontSize: '8px'
   };
@@ -258,13 +235,6 @@ const SaveCard = ({
       <div className='mt-[49px] ml-[16px] text-[16px] leading-[22px] font-bold text-[#3F3E4E]'>
         내 독서 진행률
       </div>
-      {/* <SaveProgressBar
-        progress={progress}
-        recordPage={recordPage}
-        ddd={ddd}
-        clubData={clubData}
-        // matchingActivities={matchingActivities}
-      /> */}
       <div className='w-[343px] h-[70px] bg-[#F5F5F7] px-[24.5px] py-[32px] mt-[16px] mx-auto rounded-[10px]'>
         <div className='w-[294px] h-[6px] mx-auto relative rounded-[10px] '>
           <div
@@ -273,7 +243,6 @@ const SaveCard = ({
               width: `${progressPercentage}%`,
               backgroundImage: 'linear-gradient(to right, #E9FF8F, #59B9FF)'
             }}></div>
-          {/* <div className={`h-full bg-blue-500 rounded-full w-${progress}%`} /> */}
           <div className='w-full h-full bg-white rounded-full'></div>
           <div className='text-end text-subblue text-[14px] mt-1'>
             {progressPercentage}%

@@ -5,11 +5,11 @@ import React from 'react';
 import ClubAdminProfile from '../../app/(navigationBar)/bookclubs/ClubAdminProfile';
 import { addOneMonth, extractDate } from '@/utils/time';
 
-const ClubsCard = (clubs: { clubs: Tables<'clubs'>[] }) => {
+const ClubsCard = (clubs: { clubs: any }) => {
   return (
     <>
       {clubs &&
-        clubs.clubs.map((bookclub, index) => {
+        clubs.clubs.map((bookclub: any, index: any) => {
           const isLastItem = index === clubs.clubs.length - 1;
           return (
             <a key={bookclub.id} href={`/bookclubs/${bookclub.id}`}>

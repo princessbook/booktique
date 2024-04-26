@@ -2,10 +2,11 @@
 import { useEffect, useState } from 'react';
 import SearchForm from './SearchForm';
 import SearchResult from './SearchResult';
-import { BookInfo } from '@/lib/types/BookAPI';
+import { BookInfo, BookResponse } from '@/lib/types/BookAPI';
 import { IoClose } from 'react-icons/io5';
 import HeaderWithBack from '../../../../../components/common/HeaderWithBack';
 import { IoIosArrowBack } from 'react-icons/io';
+import { searchBookKeywords } from '@/utils/bookAPIs/bookAPI';
 type SearchModalProps = {
   setBookInfo: React.Dispatch<React.SetStateAction<BookInfo | undefined>>;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,10 +18,21 @@ const SearchModal = ({
   isModalOpen
 }: SearchModalProps) => {
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [bookItems, setBookItems] = useState<BookResponse[]>([]);
 
   if (!isModalOpen) {
     return;
   }
+
+  const performSearch = async (keyword: string) => {
+    if (!keyword) {
+      setBookItems([]);
+    } else {
+      const response = await searchBookKeywords(keyword);
+      setBookItems(response.item);
+    }
+  };
+
   return (
     <div className='fixed z-3 inset-0 flex items-center justify-center mb-[78px] overflow-y-auto sm:w-full md:w-[375px] mx-auto '>
       <div className='absolute z-10 w-full h-full bg-gray-900 opacity-50 '></div>
@@ -59,9 +71,11 @@ const SearchModal = ({
               <SearchForm
                 searchKeyword={searchKeyword}
                 setSearchKeyword={setSearchKeyword}
+                performSearch={performSearch}
               />
             </div>
             <SearchResult
+              bookItems={bookItems}
               setSearchKeyword={setSearchKeyword}
               setIsModalOpen={setIsModalOpen}
               searchKeyword={searchKeyword}

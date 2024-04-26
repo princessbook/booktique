@@ -100,7 +100,7 @@ const ClubSearch = () => {
           <div
             className='flex overflow-x-auto border-b-2 px-2'
             style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
-            {['책제목', '클럽이름'].map((searchTab, idx) => {
+            {['책제목', '클럽이름', '작가'].map((searchTab, idx) => {
               return (
                 <span
                   onClick={() => handleSearchClick(searchTab)}

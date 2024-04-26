@@ -34,7 +34,7 @@ const ClubSelector = ({ clubs, currentClubId }: Props) => {
         onChange={(event) => {
           router.push(`/my-clubs/${event.target.value}/info`);
         }}
-        className=' p-2 custom-select'>
+        className=' px-4 py-2 custom-select'>
         {clubs.map((club) => {
           const displayText =
             club.name!.length > 20

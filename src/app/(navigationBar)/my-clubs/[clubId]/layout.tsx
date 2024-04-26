@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import ClubSelector from './ClubSelector';
 import useMyClubInfo from '@/hooks/info/useMyClubInfo';
-import Animation from '@/components/common/Animation';
+import Animation from '@/components/common/LoadingAnimation';
 type Props = {
   children: React.ReactNode;
   params: {
@@ -19,8 +19,10 @@ const Layout = ({ children, params }: Props) => {
   const { clubs, isLoading } = useMyClubInfo();
   if (isLoading) {
     return (
-      <div className='h-screen flex justify-center items-center align-middle'>
-        <Animation />
+      <div className='h-screen flex justify-center items-center align-middle '>
+        <div className='w-[250px]'>
+          <Animation />
+        </div>
       </div>
     );
   }

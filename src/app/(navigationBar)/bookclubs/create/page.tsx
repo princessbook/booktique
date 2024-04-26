@@ -427,7 +427,7 @@ const CreateBookPage = () => {
                   alt='미리보기'
                   width={100}
                   height={140}
-                  className='object-cover' // 이미지를 부모 요소에 맞춰서 자릅니다.
+                  className='object-cover h-full' // 이미지를 부모 요소에 맞춰서 자릅니다.
                 />
               ) : (
                 // 미리보기 이미지가 없을 때
@@ -466,7 +466,7 @@ const CreateBookPage = () => {
             style={toastStyle}
           />
         )}
-        <LoadingPopUp />
+        {isSubmit && <LoadingPopUp />}
       </section>
     </div>
   );

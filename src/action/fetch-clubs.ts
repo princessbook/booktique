@@ -5,9 +5,9 @@ import { createClient } from '@/utils/supabase/server';
 export async function fetchClubs(offset: number, page: number = 10) {
   const from = offset * page;
   const to = from + page - 1;
-  console.log('from', from);
   try {
     const supabase = createClient();
+
     const { data: allData, error } = await supabase
       .from('clubs')
       .select('*,members(*,profiles(*))')

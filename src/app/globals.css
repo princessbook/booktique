@@ -173,7 +173,7 @@ input[type='password']::-ms-clear {
 .arrow-icon {
   position: absolute;
   top: 50%;
-  right: 12px;
+  right: 20px;
   transform: translateY(-50%);
   pointer-events: none; /* 아이콘 클릭 방지 */
 }

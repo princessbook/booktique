@@ -19,8 +19,10 @@ const Layout = ({ children, params }: Props) => {
   const { clubs, isLoading } = useMyClubInfo();
   if (isLoading) {
     return (
-      <div className='h-screen flex justify-center items-center align-middle'>
-        <Animation />
+      <div className='h-screen flex justify-center items-center align-middle '>
+        <div className='w-[250px]'>
+          <Animation />
+        </div>
       </div>
     );
   }

@@ -2,7 +2,7 @@
 import { createClient } from '@/utils/supabase/client';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { useMessage } from '@/store/messages';
+import { Avatar, AvatarGroup } from '@nextui-org/react';
 
 const ChatPresence = ({ userId }: { userId: string | undefined }) => {
   const [clubData, setClubData] = useState<any>(null);
@@ -11,32 +11,6 @@ const ChatPresence = ({ userId }: { userId: string | undefined }) => {
   const supabase = createClient();
   const [onlineUsers, setOnlineUsers] = useState(0);
   useEffect(() => {
-    // const fetchClubData = async () => {
-    //   try {
-    //     // 클럽 ID를 사용하여 Supabase에서 해당하는 클럽 데이터를 가져옵니다
-    //     const { data, error } = await supabase
-    //       .from('clubs')
-    //       .select('*')
-    //       .eq('id', clubId)
-    //       .single();
-
-    //     // 에러가 발생하면 에러를 처리합니다
-    //     if (error) {
-    //       throw new Error('클럽 데이터를 가져오는 중 에러가 발생했습니다');
-    //     }
-
-    //     // 데이터가 존재하면 클럽 데이터 상태를 설정합니다
-    //     if (data) {
-    //       setClubData(data);
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
-
-    // // 클럽 데이터를 가져오는 함수를 호출합니다
-    // fetchClubData();
-
     const channel = supabase.channel(params.id[0]);
     channel
       .on('presence', { event: 'sync' }, () => {
@@ -58,7 +32,16 @@ const ChatPresence = ({ userId }: { userId: string | undefined }) => {
   }
   return (
     <div className='flex items-center gap-2  px-2 py-2'>
-      <div className='flex-1'>{clubData?.name}</div>
+      <div className='flex-1'>
+        {/* <AvatarGroup isBordered max={3} total={10} className='z-30'>
+          <Avatar src='https://i.pravatar.cc/150?u=a042581f4e29026024d' />
+          <Avatar src='https://i.pravatar.cc/150?u=a04258a2462d826712d' />
+          <Avatar src='https://i.pravatar.cc/150?u=a042581f4e29026704d' />
+          <Avatar src='https://i.pravatar.cc/150?u=a04258114e29026302d' />
+          <Avatar src='https://i.pravatar.cc/150?u=a04258114e29026702d' />
+          <Avatar src='https://i.pravatar.cc/150?u=a04258114e29026708c' />
+        </AvatarGroup> */}
+      </div>
       <div className='flex items-center gap-2 max-w-[54px]'>
         <div className='h-4 w-4 bg-green-500 rounded-full animate-pulse'></div>
         <h1 className='text-sm text-black font-bold'>{onlineUsers}명</h1>

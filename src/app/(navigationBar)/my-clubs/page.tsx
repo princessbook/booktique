@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import useMyClubInfo from '@/hooks/info/useMyClubInfo';
 import Image from 'next/image';
 type Clubs = Tables<'clubs'>;
-import Animation from '@/components/common/Animation';
+import Animation from '@/components/common/LoadingAnimation';
 type Props = {};
 
 const Page = (props: Props) => {

@@ -32,7 +32,7 @@ const NavigationBar = () => {
               ? 'text-[#35A5F6] mb-[2px]'
               : 'text-[#B2B5B9] mb-[2px]'
           }`}>
-          <Link href='/my-clubs'>
+          <Link href='/my-clubs' prefetch={true}>
             <Image
               src={activeLink === 'my-clubs' ? mybookclubActive : mybookclub}
               alt='mybookclub'
@@ -50,7 +50,7 @@ const NavigationBar = () => {
               ? 'text-[#35A5F6] mb-[2px]'
               : 'text-[#B2B5B9] mb-[2px]'
           }`}>
-          <Link href='/readbook'>
+          <Link href='/readbook' prefetch={true}>
             <Image
               src={activeLink === 'readbook' ? readbookActive : readbook}
               alt='mybookclub'
@@ -68,7 +68,7 @@ const NavigationBar = () => {
               ? 'text-[#35A5F6] mb-[2px]'
               : 'text-[#B2B5B9] mb-[2px]'
           }`}>
-          <Link href='/bookclubs'>
+          <Link href='/bookclubs' prefetch={true}>
             <Image
               src={activeLink === 'bookclubs' ? searchActive : search}
               alt='mybookclub'
@@ -86,7 +86,7 @@ const NavigationBar = () => {
               ? 'text-[#35A5F6] mb-[2px]'
               : 'text-[#B2B5B9] mb-[2px]'
           }`}>
-          <Link href='/mypage'>
+          <Link href='/mypage' prefetch={true}>
             <Image
               src={activeLink === 'mypage' ? mypageActive : mypage}
               alt='mybookclub'

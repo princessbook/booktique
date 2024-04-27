@@ -35,6 +35,7 @@ const Layout = ({ children, params }: Props) => {
         </div>
         <div className='flex flex-row justify-between w-full font-bold'>
           <Link
+            prefetch={true}
             href={`/my-clubs/${params.clubId}/info`}
             className={`flex flex-1 px-2 py-2 focus:outline-none justify-center ${
               isSelected('info')
@@ -45,6 +46,7 @@ const Layout = ({ children, params }: Props) => {
           </Link>
 
           <Link
+            prefetch={true}
             href={`/my-clubs/${params.clubId}/sentences`}
             className={`flex flex-1 px-2 py-2 focus:outline-none justify-center ${
               isSelected('sentences')
@@ -55,6 +57,7 @@ const Layout = ({ children, params }: Props) => {
           </Link>
 
           <Link
+            prefetch={true}
             href={`/my-clubs/${params.clubId}/quizzes`}
             className={`flex flex-1 px-2 py-2 focus:outline-none justify-center ${
               isSelected('quizzes')
@@ -65,6 +68,7 @@ const Layout = ({ children, params }: Props) => {
           </Link>
 
           <Link
+            prefetch={true}
             href={`/my-clubs/${params.clubId}/posts`}
             className={`flex flex-1 px-2 py-2 focus:outline-none justify-center ${
               isSelected('posts')

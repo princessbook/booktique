@@ -38,7 +38,7 @@ const ChatBackImg = ({ userId }: { userId: string | undefined }) => {
     // 클럽 데이터를 가져오는 함수를 호출합니다
     fetchClubData();
   }, []);
-  console.log(clubData);
+  // console.log(clubData);
   const backgroundStyle = {
     backgroundImage: `url(${clubData?.thumbnail})`,
     backgroundSize: 'cover',

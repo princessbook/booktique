@@ -6,13 +6,10 @@ import blue from '../../../../public/booktiquereadblue.png';
 import { createClient } from '@/utils/supabase/server';
 import ClubList from './ClubList';
 import { redirect } from 'next/navigation';
-// import { revalidatePath } from 'next/cache';
-// import { Database } from '@/lib/types/supabase';
+import Loading from '../../../components/common/Loading';
 
 const ReadBookPage = async () => {
-  // revalidatePath('/', 'layout');
   const supabase = createClient();
-
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -61,27 +58,23 @@ const ReadBookPage = async () => {
     .from('members')
     .select('club_id, club:clubs(*),club_activities(*)')
     .eq('user_id', user?.id as string);
-  // console.log('members', members);
-  const { data: members1, error: memberErro1 } = await supabase
-    .from('members')
-    .select('club_id, club:clubs(*),club_activities(*)')
-    .eq('user_id', user?.id as string);
-  // members데이터값은 {club_id:'',club:{id:"",name:"",archive:"", ----max_member_count:""}} 이런식으로
-  // const allClubData: Database['public']['Tables']['clubs']['Row'][] = members1
-  //   ?.map((member) => member.club)
-  //   ?.filter(Boolean) as Database['public']['Tables']['clubs']['Row'][];
 
   if (!members) {
     return null;
   }
+
   return (
     <ReadBookLayout>
-      <Suspense fallback={<></>}>
+      <Suspense
+        fallback={
+          <>
+            <Loading />
+          </>
+        }>
         {members
           ?.map((club) => club?.club?.archive)
           .filter((item) => item === false).length > 0 ? (
           <>
-            <div></div>
             <Image
               src={blue}
               width={134}
@@ -95,7 +88,6 @@ const ReadBookPage = async () => {
         ) : (
           /* 가입한 북클럽이 없습니다. 북클럽에 가입해서 책 읽어보세요 */
           <div className='flex flex-col'>
-            <div></div>
             <Image
               src={blue}
               width={134}

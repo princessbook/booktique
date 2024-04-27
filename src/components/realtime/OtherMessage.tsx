@@ -16,7 +16,7 @@ const OtherMessage = ({ message }: { message: Imessage }) => {
     padding: '10px' // 말풍선 안의 내용과 테두리 사이 간격
   };
   return (
-    <div className='flex gap-2 my-2 px-2'>
+    <div className={`flex gap-2 my-2 px-2 messageAnimation`}>
       <div className='flex'>
         <div className='min-w-[40px]' onClick={toogleModal}>
           {message.profiles?.photo_URL ? (

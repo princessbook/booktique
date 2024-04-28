@@ -31,12 +31,12 @@ const WithdrawalPopup = ({
                 <div className='sm:flex sm:items-start'>
                   <div className='mt-3 text-center'>
                     <h3
-                      className='text-lg font-medium leading-6 text-fontMain'
+                      className='text-[16px] font-medium text-fontMain'
                       id='modal-title'>
                       북클럽을 정말 탈퇴할까요?
                     </h3>
                     <div className='mt-2'>
-                      <p className='text-sm text-fontGray'>
+                      <p className='text-[14px] text-fontGray'>
                         탈퇴하시면 모든 데이터가 삭제됩니다.
                       </p>
                     </div>

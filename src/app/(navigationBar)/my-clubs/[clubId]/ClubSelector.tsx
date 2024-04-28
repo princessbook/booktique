@@ -26,17 +26,23 @@ const ClubSelector = ({ clubs, currentClubId }: Props) => {
   }
   return (
     <div className='font-bold text-[22px] whitespace-nowrap '>
-      <div
-        className='px-4 py-2 rounded cursor-pointer flex items-center max-w-[350px] overflow-hidden'
-        onClick={() => setSelectModalOpen(true)}>
-        <span className='font-bold truncate'>
-          {clubs.find((club) => club.id === currentClubId)?.name}
-        </span>
-        {clubs.length > 1 && (
-          <div className='w-5 h-5'>
-            <IoIosArrowDown className='ml-1' />
-          </div>
-        )}
+      <div className='px-4 py-2 cursor-pointer flex max-w-[350px] '>
+        <div
+          className='flex flex-row items-center overflow-hidden'
+          onClick={() => {
+            if (clubs.length > 1) {
+              setSelectModalOpen(true);
+            }
+          }}>
+          <span className='font-bold truncate'>
+            {clubs.find((club) => club.id === currentClubId)?.name}
+          </span>
+          {clubs.length > 1 && (
+            <div className='w-5 h-5 ml-1'>
+              <IoIosArrowDown />
+            </div>
+          )}
+        </div>
       </div>
 
       <div

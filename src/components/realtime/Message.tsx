@@ -11,7 +11,7 @@ const Message = ({ message }: { message: Imessage }) => {
     padding: '10px' // 말풍선 안의 내용과 테두리 사이 간격
   };
   return (
-    <div className='flex gap-2 w-full justify-end my-3 px-2'>
+    <div className='flex gap-2 w-full justify-end my-3 px-2 messageAnimation'>
       <div>
         <div className='flex items-end'>
           {/* 말풍선 스타일 적용 */}

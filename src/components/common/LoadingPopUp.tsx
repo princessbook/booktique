@@ -20,7 +20,7 @@ const LoadingPopUp = () => {
             <div className='w-[200px]'>
               <LoadingAnimation />
               <p className='items-center text-[16px] text-center relative bottom-3 text-fontMain'>
-                잠시만 기다려 주세요...
+                잠시만 기다려 주세요:-)
               </p>
             </div>
           </div>

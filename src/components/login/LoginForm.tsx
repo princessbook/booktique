@@ -117,10 +117,14 @@ const LoginForm = ({ users }: { users: Users[] }) => {
           <Image src='/sns.png' width={100} height={50} alt='sns' />
         </div>
         <div className='flex justify-center mb-[74px]'>
-          <a className='mr-4' onClick={() => signInWithSocialLogin('google')}>
+          <a
+            className='mr-4 cursor-pointer'
+            onClick={() => signInWithSocialLogin('google')}>
             <Image src='/logo_google.png' width={60} height={60} alt='google' />
           </a>
-          <a className='ml-4' onClick={() => signInWithSocialLogin('kakao')}>
+          <a
+            className='ml-4 cursor-pointer'
+            onClick={() => signInWithSocialLogin('kakao')}>
             <Image src='/login_kakao.png' width={60} height={60} alt='kakao' />
           </a>
         </div>

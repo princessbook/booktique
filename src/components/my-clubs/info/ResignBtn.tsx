@@ -35,11 +35,7 @@ const ResignBtn = ({
 
   return (
     <>
-      <div
-        onClick={() => setIsOpen(true)}
-        className='text-[14px] mt-10 py-2 rounded-full'>
-        탈퇴하기
-      </div>
+      {/* <div onClick={() => setIsOpen(true)}></div> */}
       <WithdrawalPopup
         isOpen={isOpen}
         onClose={() => {

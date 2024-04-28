@@ -83,7 +83,7 @@ const HomeTab = async ({ club }: { club: Clubs | null }) => {
           <p className='mt-8 font-bold'>북클럽 소개</p>
           <p className='mt-4 text-fontMain text-[14px]'>{club?.description}</p>
         </div>
-        <ResignBtn clubId={club.id} />
+        {/* <ResignBtn clubId={club.id} /> */}
       </div>
     </div>
   );

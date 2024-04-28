@@ -4,6 +4,7 @@ import EndButton from './EndButton';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import { getReadBookPageData } from '@/utils/testAPIs';
+import useGetUser from '@/hooks/useQuery/useGetUser';
 
 interface MemberListProps {
   clubId: string;

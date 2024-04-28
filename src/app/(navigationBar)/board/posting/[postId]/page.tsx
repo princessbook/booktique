@@ -86,8 +86,7 @@ const PostingPage = ({ params }: { params: { postId: string } }) => {
     setIsLoading(false);
   };
 
-  if (!clubId) return <>로딩중</>;
-  if (isLoading) return <>로딩중</>;
+  if (!clubId || isLoading) return null;
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 100) {

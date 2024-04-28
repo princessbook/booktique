@@ -1,13 +1,11 @@
 'use client';
 
-import useMyClubInfo from '@/hooks/info/useMyClubInfo';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
-import Image from 'next/image';
-import ResignBtn from '@/components/my-clubs/info/ResignBtn';
 import Modal from '@/components/my-clubs/info/Modal';
 import { useState } from 'react';
+import SelectModal from '@/components/my-clubs/info/SelectModal';
 
 type Props = {
   clubs: { id: string; name: string }[];
@@ -15,38 +13,36 @@ type Props = {
 };
 const ClubSelector = ({ clubs, currentClubId }: Props) => {
   const router = useRouter();
-  const [modalOpen, setModalOpen] = useState(false);
+  const [resignModalOpen, setResignModalOpen] = useState(false); // ResignModal 상태 추가
+  const [selectModalOpen, setSelectModalOpen] = useState(false); // SelectModal 상태 추가
   // TODO: hook으로 만들어서 재사용하던지... 음... 최상단에서 한번만 호출해서 props로 나리던지... memoization을 하던지...
   // const { clubs, isLoading } = useMyClubInfo();
-
+  const handleClubSelect = (clubId: string) => {
+    router.push(`/my-clubs/${clubId}/info`);
+    setSelectModalOpen(false); // 선택 후 모달 닫기
+  };
   if (!clubs || clubs.length === 0) {
     return <div className='h-[49px]'></div>;
   }
   return (
     <div className='font-bold text-[22px] whitespace-nowrap '>
-      <select
-        value={currentClubId || ''}
-        onChange={(event) => {
-          router.push(`/my-clubs/${event.target.value}/info`);
-        }}
-        className=' px-4 py-2 custom-select'>
-        {clubs.map((club) => {
-          const displayText =
-            club.name!.length > 20
-              ? club.name!.substring(0, 16) + '...'
-              : club.name;
-          return (
-            <option key={club.id} value={club.id}>
-              {displayText}
-            </option>
-          );
-        })}
-      </select>
-      {clubs.length > 1 && <IoIosArrowDown className='arrow-icon' />}
+      <div
+        className='px-4 py-2 rounded cursor-pointer flex items-center max-w-[350px] overflow-hidden'
+        onClick={() => setSelectModalOpen(true)}>
+        <span className='font-bold truncate'>
+          {clubs.find((club) => club.id === currentClubId)?.name}
+        </span>
+        {clubs.length > 1 && (
+          <div className='w-5 h-5'>
+            <IoIosArrowDown className='ml-1' />
+          </div>
+        )}
+      </div>
+
       <div
         className='absolute top-0 right-0 h-full flex items-center mr-2'
         onClick={() => {
-          setModalOpen(true);
+          setResignModalOpen(true);
         }}>
         <svg
           width='22'
@@ -61,10 +57,19 @@ const ClubSelector = ({ clubs, currentClubId }: Props) => {
       </div>
       <Modal
         clubId={currentClubId}
-        isModal={modalOpen}
+        isModal={resignModalOpen}
         onClose={() => {
-          setModalOpen(false);
+          setResignModalOpen(false);
         }}
+      />
+      <SelectModal
+        isModal={selectModalOpen}
+        onClose={() => {
+          setSelectModalOpen(false);
+        }}
+        clubs={clubs}
+        currentClubId={currentClubId}
+        onSelectClub={handleClubSelect}
       />
     </div>
   );

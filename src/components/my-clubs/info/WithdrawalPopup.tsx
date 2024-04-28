@@ -47,13 +47,13 @@ const WithdrawalPopup = ({
                 <button
                   onClick={onWithdraw}
                   type='button'
-                  className='w-full h-[44px] inline-flex justify-center rounded-full border-none shadow-sm px-4 py-2 bg-[#FF645A] text-base text-[14px] text-white sm:ml-3 sm:w-auto sm:text-sm'>
+                  className='w-full h-[44px] inline-flex justify-center rounded-full border-none px-4 py-2 bg-[#FF645A] text-[14px] text-white'>
                   탈퇴하기
                 </button>
                 <button
                   onClick={onClose}
                   type='button'
-                  className='mt-3 w-full h-[44px] inline-flex justify-center rounded-full border border-[#DBE3EB] shadow-sm px-4 py-2 bg-white text-base text-[14px] sm:mt-0 sm:w-auto sm:text-sm text-[#8A9DB3]'>
+                  className='mt-3 w-full h-[44px] inline-flex justify-center rounded-full border border-[#DBE3EB] px-4 py-2 bg-white text-base text-[14px] text-[#8A9DB3]'>
                   취소
                 </button>
               </div>

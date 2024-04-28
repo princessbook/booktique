@@ -18,7 +18,7 @@ const BoardDetailPage = ({ params }: { params: { postId: string } }) => {
     };
     getClubId();
   }, []);
-  if (!clubId) return <>클럽 아이디가 없습니다</>;
+  if (!clubId) return null;
 
   return (
     <div className='mb-[78px] overflow-y-auto'>

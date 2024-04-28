@@ -12,6 +12,7 @@ export async function fetchClubs(offset: number, page: number = 10) {
       .from('clubs')
       .select('*,members(*,profiles(*))')
       .order('created_at', { ascending: false })
+      .eq('archive', false)
       .range(from, to);
 
     return allData;

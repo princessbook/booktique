@@ -43,7 +43,7 @@ const ArticleComment = ({ postId }: { postId: string }) => {
 
   if (!data || isLoading) return <div>로딩중</div>;
   return (
-    <div className='flex-1 overflow-auto'>
+    <div className='flex-1 overflow-auto mb-[74px]'>
       <div className=' h-[52px] text-sm text-fontGrayBlue items-center flex border-b-[1px]'>
         <p> 💬댓글 {data.length}</p>
       </div>

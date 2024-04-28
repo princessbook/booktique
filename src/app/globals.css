@@ -207,3 +207,44 @@ input[type='password']::-ms-clear {
 .messageAnimation {
   animation: messageAnimation 0.3s ease;
 }
+
+.custom-dots li button:before {
+  color: #35a5f6 !important;
+}
+
+.custom-dots {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  vertical-align: middle;
+  margin: auto 0;
+  padding: 0;
+}
+
+.custom-dots li {
+  list-style: none;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 6px;
+  padding: 0;
+}
+
+.custom-dots li button {
+  border: none;
+  background: #d1d1d1;
+  color: transparent;
+  cursor: pointer;
+  display: block;
+  height: 8px;
+  width: 8px;
+  border-radius: 100%;
+  padding: 0;
+}
+
+.custom-dots li.slick-active button {
+  background-color: #35a5f6;
+  width: 20px;
+  border-radius: 20px;
+}

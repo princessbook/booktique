@@ -3,7 +3,7 @@
 import { IoIosArrowDown } from 'react-icons/io';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
-import Modal from '@/components/my-clubs/info/Modal';
+import ResignModal from '@/components/my-clubs/info/ResignModal';
 import { useState } from 'react';
 import SelectModal from '@/components/my-clubs/info/SelectModal';
 
@@ -55,7 +55,7 @@ const ClubSelector = ({ clubs, currentClubId }: Props) => {
           <circle cx='11' cy='17' r='2' fill='#8A9DB3' />
         </svg>
       </div>
-      <Modal
+      <ResignModal
         clubId={currentClubId}
         isModal={resignModalOpen}
         onClose={() => {

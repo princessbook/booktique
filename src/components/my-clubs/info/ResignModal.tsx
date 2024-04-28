@@ -1,12 +1,11 @@
 import React from 'react';
-import ResignBtn from './ResignBtn';
 import Image from 'next/image';
 import { useState } from 'react';
 import WithdrawalPopup from './WithdrawalPopup';
 import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-const Modal = ({
+const ResignModal = ({
   isModal,
   onClose,
   clubId
@@ -74,4 +73,4 @@ const Modal = ({
   );
 };
 
-export default Modal;
+export default ResignModal;

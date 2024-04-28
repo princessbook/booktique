@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ArticleTimeStamp from './boardDetail/ArticleTimeStamp';
 import NoContentMessage from '@/components/common/NoContentMessage';
+import LoadingAnimation from '@/components/common/LoadingAnimation';
 
 const Board = ({ clubId }: { clubId: string }) => {
   const {
@@ -19,7 +20,14 @@ const Board = ({ clubId }: { clubId: string }) => {
     staleTime: 1000 * 120
   });
 
-  if (isLoading && !posts && isPending) return <div>로딩중</div>;
+  if (!isLoading && !posts && !isPending)
+    return (
+      <div className='h-screen flex justify-center items-center align-middle '>
+        <div className='w-[250px] mb-[150px]'>
+          <LoadingAnimation />
+        </div>
+      </div>
+    );
 
   if (error) return <div>에러: {error.message}</div>;
 

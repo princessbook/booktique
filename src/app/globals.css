@@ -166,14 +166,14 @@ input[type='password']::-ms-clear {
   position: relative;
   border: 0;
   background: transparent;
-  width: 100%;
+  width: 330px;
   outline: none;
 }
 
 .arrow-icon {
   position: absolute;
   top: 50%;
-  right: 20px;
+  right: 80px;
   transform: translateY(-50%);
   pointer-events: none; /* 아이콘 클릭 방지 */
 }

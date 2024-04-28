@@ -19,21 +19,25 @@ const BookClubsPage = async (props: any) => {
       const { data, error } = await supabase
         .from('clubs')
         .select('*,members(*,profiles(*))')
+
         .order('created_at', { ascending: false })
         .not(
           'book_category',
           'in',
           '("건강/취미","경제경영","과학","에세이","사회과학","소설/시/희곡","여행","역사","예술/대중문화","인문학","자기계발","종교/역학","외국도서")'
         )
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .eq('archive', false);
       bookclubs = data;
     } else {
       bookclubs = null;
       const { data: categoryData, error } = await supabase
         .from('clubs')
         .select('*,members(*,profiles(*))')
+
         .eq('book_category', props.searchParams.category)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .eq('archive', false);
 
       if (error) {
         console.error('Error fetching clubs by category:', error.message);
@@ -49,8 +53,10 @@ const BookClubsPage = async (props: any) => {
       const { data: searchData, error } = await supabase
         .from('clubs')
         .select('*,members(*,profiles(*))')
+
         .or(`book_title.ilike.%${props.searchParams.search}%`)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .eq('archive', false);
 
       if (error) {
         console.error('Error fetching clubs by search term:', error.message);
@@ -64,8 +70,10 @@ const BookClubsPage = async (props: any) => {
       const { data: searchData, error } = await supabase
         .from('clubs')
         .select('*,members(*,profiles(*))')
+
         .or(`name.ilike.%${props.searchParams.search}%`)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .eq('archive', false);
 
       if (error) {
         console.error('Error fetching clubs by search term:', error.message);
@@ -79,9 +87,11 @@ const BookClubsPage = async (props: any) => {
       const { data: searchData, error } = await supabase
         .from('clubs')
         .select('*,members(*,profiles(*))')
+
         .or(`book_author.ilike.%${props.searchParams.search}%`)
 
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .eq('archive', false);
 
       if (error) {
         console.error('Error fetching clubs by search term:', error.message);

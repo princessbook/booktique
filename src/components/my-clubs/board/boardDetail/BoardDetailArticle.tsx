@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import ArticleTimeStamp from './ArticleTimeStamp';
 import { IoIosArrowBack } from 'react-icons/io';
+import useGetUser from '@/hooks/useQuery/useGetUser';
 
 const BoardDetailArticle = ({
   postId,
@@ -55,6 +56,8 @@ const BoardDetailArticle = ({
     staleTime: 1000 * 120
   });
 
+  const { user } = useGetUser();
+
   if (isLoading || !article || !article.profile) return <>로딩중</>;
   if (isError) return <>에러남</>;
 
@@ -71,15 +74,21 @@ const BoardDetailArticle = ({
             자유 게시판
           </p>
           <div className='flex mr-4 gap-1'>
-            <p onClick={() => handleUpdatePost(article.user_id as string)}>
-              수정
-            </p>
-            <p
-              onClick={() =>
-                handleDeletePost(article.id, article.user_id as string)
-              }>
-              삭제
-            </p>
+            {user === article.user_id ? (
+              <div className='flex mr-4 gap-1'>
+                <p onClick={() => handleUpdatePost(article.user_id as string)}>
+                  수정
+                </p>
+                <p
+                  onClick={() =>
+                    handleDeletePost(article.id, article.user_id as string)
+                  }>
+                  삭제
+                </p>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </section>
       </div>

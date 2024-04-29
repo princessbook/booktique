@@ -61,11 +61,11 @@ const ResignModal = ({
     <>
       {isModal && (
         <div
-          className={`fixed w-[375px] mx-auto inset-0 z-50 flex items-end justify-center ${
+          className={`fixed mx-auto inset-0 z-50 flex items-end justify-center ${
             isModal ? '' : 'hidden'
           }`}
           onClick={onClose}>
-          <div className='absolute inset-0 bg-black opacity-50'></div>
+          <div className='absolute inset-0 bg-black opacity-60'></div>
           <div className='bg-white rounded-t-[20px] z-10 relative w-full px-4 py-6 h-[116px]'>
             <div
               className='bg-[#F6F7F9] h-[52px] rounded-[10px] flex items-center px-4'

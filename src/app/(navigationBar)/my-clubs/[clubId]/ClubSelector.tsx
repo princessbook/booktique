@@ -8,7 +8,7 @@ import { useState } from 'react';
 import SelectModal from '@/components/my-clubs/info/SelectModal';
 
 type Props = {
-  clubs: { id: string; name: string }[];
+  clubs: { id: string; name: string; archive: string }[];
   currentClubId: string;
 };
 const ClubSelector = ({ clubs, currentClubId }: Props) => {
@@ -17,6 +17,11 @@ const ClubSelector = ({ clubs, currentClubId }: Props) => {
   const [selectModalOpen, setSelectModalOpen] = useState(false); // SelectModal 상태 추가
   // TODO: hook으로 만들어서 재사용하던지... 음... 최상단에서 한번만 호출해서 props로 나리던지... memoization을 하던지...
   // const { clubs, isLoading } = useMyClubInfo();
+  const ActiveClubs = clubs.filter((club) => !club.archive);
+  const nonActiveClub = !ActiveClubs.map((club) => club.id).includes(
+    currentClubId
+  );
+  const currentClub = clubs.find((club) => club.id === currentClubId);
   const handleClubSelect = (clubId: string) => {
     router.push(`/my-clubs/${clubId}/info`);
     setSelectModalOpen(false); // 선택 후 모달 닫기
@@ -26,41 +31,50 @@ const ClubSelector = ({ clubs, currentClubId }: Props) => {
   }
   return (
     <div className='font-bold text-[22px] whitespace-nowrap '>
-      <div className='px-4 py-2 cursor-pointer flex max-w-[350px] '>
+      <div className='px-4 py-2 flex max-w-[350px] '>
         <div
           className='flex flex-row items-center overflow-hidden'
           onClick={() => {
-            if (clubs.length > 1) {
+            //진행중클럽이 1개이상이여도 현재클럽이 종료되었으면 모달 안뜨게함
+            if (ActiveClubs.length > 1 && !nonActiveClub) {
               setSelectModalOpen(true);
             }
           }}>
-          <span className='font-bold truncate'>
-            {clubs.find((club) => club.id === currentClubId)?.name}
+          <span
+            className={`font-bold truncate ${
+              currentClub && currentClub.archive ? 'text-fontGray' : ''
+            }`}>
+            {currentClub?.name}
           </span>
-          {clubs.length > 1 && (
-            <div className='w-5 h-5 ml-1'>
-              <IoIosArrowDown />
-            </div>
-          )}
+          {
+            //종료된거 눌렀을때 어캐할지 정해야함. 종료된 북클럽이면 진행중인 클럽이 1개 이상이어도 화살표안뜨게함.
+            !nonActiveClub && ActiveClubs.length > 1 && (
+              <div className='w-5 h-5 ml-1'>
+                <IoIosArrowDown />
+              </div>
+            )
+          }
         </div>
       </div>
+      {!nonActiveClub && (
+        <div
+          className='absolute top-0 right-0 h-full flex items-center mr-2'
+          onClick={() => {
+            setResignModalOpen(true);
+          }}>
+          <svg
+            width='22'
+            height='22'
+            viewBox='0 0 22 22'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'>
+            <circle cx='11' cy='5' r='2' fill='#8A9DB3' />
+            <circle cx='11' cy='11' r='2' fill='#8A9DB3' />
+            <circle cx='11' cy='17' r='2' fill='#8A9DB3' />
+          </svg>
+        </div>
+      )}
 
-      <div
-        className='absolute top-0 right-0 h-full flex items-center mr-2'
-        onClick={() => {
-          setResignModalOpen(true);
-        }}>
-        <svg
-          width='22'
-          height='22'
-          viewBox='0 0 22 22'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'>
-          <circle cx='11' cy='5' r='2' fill='#8A9DB3' />
-          <circle cx='11' cy='11' r='2' fill='#8A9DB3' />
-          <circle cx='11' cy='17' r='2' fill='#8A9DB3' />
-        </svg>
-      </div>
       <ResignModal
         clubId={currentClubId}
         isModal={resignModalOpen}
@@ -73,7 +87,7 @@ const ClubSelector = ({ clubs, currentClubId }: Props) => {
         onClose={() => {
           setSelectModalOpen(false);
         }}
-        clubs={clubs}
+        clubs={ActiveClubs}
         currentClubId={currentClubId}
         onSelectClub={handleClubSelect}
       />

@@ -7,7 +7,9 @@ import { getUser, getUserId } from '@/utils/userAPIs/authAPI';
 import { useQuery } from '@tanstack/react-query';
 type Club = Tables<'clubs'>;
 const useMyClubInfo = () => {
-  const [clubs, setClubs] = useState<{ id: string; name: string }[]>([]);
+  const [clubs, setClubs] = useState<
+    { id: string; name: string; archive: string }[]
+  >([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { data: user, isError } = useQuery({
@@ -30,12 +32,11 @@ const useMyClubInfo = () => {
           if (error) throw error;
 
           const clubList =
-            data
-              ?.filter((item: any) => item.clubs?.archive === false)
-              .map((item: any) => ({
-                id: item.club_id,
-                name: item.clubs.name
-              })) || [];
+            data?.map((item: any) => ({
+              id: item.club_id,
+              name: item.clubs.name,
+              archive: item.clubs.archive
+            })) || [];
 
           setClubs(clubList);
           setIsLoading(false);

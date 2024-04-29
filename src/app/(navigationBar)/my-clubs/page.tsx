@@ -15,7 +15,9 @@ const Page = (props: Props) => {
 
   const router = useRouter();
   const { clubs, isLoading } = useMyClubInfo();
-  const club = clubs[0];
+  const nonArchivedClubs = clubs.filter((club) => !club.archive);
+  const club = nonArchivedClubs[0];
+  // const club = clubs[0];
 
   useEffect(() => {
     if (club) {

@@ -7,6 +7,7 @@ import Image from 'next/image';
 
 import BookClubDetailCSR from './BookClubCSR';
 import BackBtn from './BackBtn';
+import JoinPopUp from './joinPopUp';
 
 const BookClubDetail = async (props: { params: { id: string } }) => {
   const id = props.params.id;
@@ -50,7 +51,6 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
           <h1 className='font-bold text-[18px] mb-2 text-fontBlack opacity-80'>
             {bookclub.name}
           </h1>
-          {/* <p>모집중</p> */}
         </div>
         <div className='flex items-center'>
           <div className=' mr-3 w-[78px] r-3  flex-shrink-0 flex items-center justify-center'>
@@ -69,13 +69,6 @@ const BookClubDetail = async (props: { params: { id: string } }) => {
             <h2 className='mb-5 text-[14px] font-bold'>
               {bookclub.book_title}
             </h2>
-            {/* <p>모집기간:</p> */}
-            {/* <p className='text-[14px]'>
-              시작:{extractDate(bookclub.created_at)}
-            </p>
-            <p className='text-[14px]'>
-              종료:{extractDate(addOneMonth(bookclub.created_at))}
-            </p> */}
             <p className=' text-fontBlack text-[12px]'>
               {bookclub.book_author}p
             </p>

@@ -23,7 +23,6 @@ export function LoadMore({}: {}) {
       setIsScroll(false);
       return;
     }
-    // Once the page 8 is reached repeat the process all over again.
     await delay(100);
     setOffset((prev) => prev + 1);
     const newProducts = (await fetchClubs(offset)) ?? [];
@@ -31,14 +30,9 @@ export function LoadMore({}: {}) {
       ...prevProducts,
       ...newProducts
     ]);
-    // setPage(20);
   };
 
   useEffect(() => {
-    // if (clubs && clubs.length > from) {
-    //   return;
-    // }
-
     if (inView) {
       loadMoreClubs();
     }
@@ -48,10 +42,6 @@ export function LoadMore({}: {}) {
     <>
       <div>
         <ClubsCard clubs={clubs} />
-        {/* {beers.map((val, i) => (
-          <div key={i}>{val.book_author}</div>
-           
-        ))} */}
       </div>
       <div
         className='flex justify-center items-center p-4 col-span-1 sm:col-span-2 md:col-span-3'

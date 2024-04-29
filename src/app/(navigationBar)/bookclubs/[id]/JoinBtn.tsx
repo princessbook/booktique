@@ -2,7 +2,8 @@
 import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
+import JoinPopUp from './joinPopUp';
 
 const JoinBtn = ({
   clubId,
@@ -17,6 +18,8 @@ const JoinBtn = ({
 }>) => {
   const supabase = createClient();
   const router = useRouter();
+
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
   const getUserClubs = async (userId: string) => {
     const { data: joinClubs, error } = await supabase
@@ -33,9 +36,9 @@ const JoinBtn = ({
       data: { user }
     } = await supabase.auth.getUser();
     const userClubs = await getUserClubs(user!.id);
-    console.log('userClubs', userClubs);
-    if (userClubs!.length >= 5) {
-      alert('5개 이상의 북클럽에 가입할 수 없습니다.');
+
+    if (userClubs!.length >= 10) {
+      alert('10개 이상의 북클럽에 가입할 수 없습니다.');
       return;
     }
     if (user) {
@@ -44,8 +47,9 @@ const JoinBtn = ({
         .insert([{ club_id: clubId, user_id: user?.id, role: 'member' }]);
 
       setUserIsClubMember(true);
-      setIsJoinOrResign((prev) => !prev);
-      router.refresh();
+
+      //router.refresh();
+      setIsPopUpOpen(true);
       if (error) {
         throw error;
       }
@@ -55,22 +59,29 @@ const JoinBtn = ({
   };
 
   return (
-    // <button
-    //   onClick={handleJoin}
-    //   className='fixed bottom-32 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full bg-blue-500 text-white'>
-    //   {isMember ? '이미참가함' : '참가하기'}
-    // </button>
-    <div className='px-4 fixed bottom-[106px] w-full left-1/2 transform -translate-x-1/2  sm:w-full md:w-[375px]'>
-      {!isMember ? (
-        <div
-          onClick={handleJoin}
-          className='bg-mainblue w-full h-[56px] rounded-xl text-white flex items-center justify-center cursor-pointer'>
-          참가하기
-        </div>
-      ) : (
-        <div className='fixed bottom-32 left-1/2 transform -translate-x-1/2'></div>
-      )}
-    </div>
+    <>
+      <div className='px-4 fixed bottom-[106px] w-full left-1/2 transform -translate-x-1/2  sm:w-full md:w-[375px]'>
+        {!isMember ? (
+          <div
+            onClick={handleJoin}
+            className='bg-mainblue w-full h-[56px] rounded-xl text-white flex items-center justify-center cursor-pointer'>
+            참가하기
+          </div>
+        ) : (
+          <div className='fixed bottom-32 left-1/2 transform -translate-x-1/2'></div>
+        )}
+      </div>
+      <JoinPopUp
+        onClose={() => {
+          setIsPopUpOpen(false);
+          setIsJoinOrResign((prev) => !prev);
+        }}
+        isOpen={isPopUpOpen}
+        onConfirm={() => {
+          router.push(`/my-clubs/${clubId}/info`);
+        }}
+      />
+    </>
   );
 };
 

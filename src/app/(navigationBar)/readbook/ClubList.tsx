@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tables } from '@/lib/types/supabase';
 import Image from 'next/image';
 import Slider from 'react-slick';
@@ -88,13 +88,11 @@ const ClubList = ({
         .eq('club_id', clubId)
         .eq('user_id', userId as string)
         .single();
-
       if (!user_id || !clubId || !member) return;
       const existingActivity = clubActivities?.find(
         (activity) =>
           activity.user_id === user_id && activity.club_id === clubId
       );
-
       if (existingActivity) {
         await supabase
           .from('club_activities')
@@ -119,14 +117,12 @@ const ClubList = ({
           read_page: 0
         }
       ]);
-
       localStorage.removeItem('timerStarted');
       localStorage.removeItem('timerSeconds');
     } catch (error) {
       console.error('클럽 활동 추가 중 오류:', error);
     }
   };
-
   return (
     <>
       <Slider className='custom-slider h-auto' {...settings}>

@@ -25,30 +25,38 @@ const OnboardingPage = () => {
     }
   }, []);
   const skipButton = () => {
-    router.push('/register');
+    router.push('/login');
   };
   if (showSplash) {
     return <Splash />;
   }
   const slidesData = [
     {
-      image: '/onboarding1.svg',
+      image: '/onboarding1.png',
       text: '책 한권을 완벽하게 읽는 방법',
       buttonLabel: '건너뛰기'
     },
     {
-      image: '/onboarding2.svg',
-      text: '약속한 날짜와 시간에 모여 함께 책을 읽어요',
+      image: '/onboarding2.png',
+      text: (
+        <>
+          약속한 날짜와 시간에 모여 <br /> 함께 책을 읽어요
+        </>
+      ),
       buttonLabel: '건너뛰기'
     },
     {
-      image: '/onboarding3.svg',
+      image: '/onboarding3.png',
       text: '책을 읽고 퀴즈를 내거나 맞춰요',
       buttonLabel: '건너뛰기'
     },
     {
-      image: '/onboarding4.svg',
-      text: '취향에 맞는 책을 찾고 북클럽에 가입해보세요'
+      image: '/onboarding4.png',
+      text: (
+        <>
+          취향에 맞는 책을 찾고 <br /> 북클럽에 가입해보세요
+        </>
+      )
     }
   ];
   var settings = {
@@ -63,9 +71,7 @@ const OnboardingPage = () => {
   };
 
   return (
-    <Slider
-      className='custom-slider max-w-[375px] mx-auto h-full'
-      {...settings}>
+    <Slider className='custom-slider max-w-[375px] mx-auto' {...settings}>
       {slidesData.map((slide, index) => (
         <div
           key={index}
@@ -79,19 +85,21 @@ const OnboardingPage = () => {
             </button>
           )}
           <Image
-            className='mt-[88px] mx-auto'
+            className='mt-[150px] mx-auto'
             src={slide.image}
-            width={375}
-            height={378}
+            width={280}
+            height={280}
             alt={`온보딩${index + 1}`}
           />
-          <span className='block mt-36'>{slide.text}</span>
+          <span className='block mt-48 font-bold text-[22px] text-[#292929]'>
+            {slide.text}
+          </span>
           {index === slidesData.length - 1 && (
             <button
               onClick={skipButton}
               className='w-full h-14 rounded-xl mt-8 text-[#E9FF8F] font-bold bg-mainblue'
               type='button'>
-              회원가입하러 가기
+              북티크 시작하기
             </button>
           )}
         </div>

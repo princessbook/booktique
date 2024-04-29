@@ -9,6 +9,7 @@ import Image from 'next/image';
 import ArticleTimeStamp from './ArticleTimeStamp';
 import { getUserId } from '@/utils/userAPIs/authAPI';
 import { useEffect, useState } from 'react';
+import Loading from '@/components/common/Loading';
 
 const ArticleComment = ({ postId }: { postId: string }) => {
   const { data, isLoading, isError } = useQuery({
@@ -41,7 +42,12 @@ const ArticleComment = ({ postId }: { postId: string }) => {
     getUser();
   }, []);
 
-  if (!data || isLoading) return <div>로딩중</div>;
+  if (!data || isLoading)
+    return (
+      <>
+        <Loading />
+      </>
+    );
   return (
     <div className='flex-1 overflow-auto mb-[74px]'>
       <div className=' h-[52px] text-sm text-fontGrayBlue items-center flex border-b-[1px]'>

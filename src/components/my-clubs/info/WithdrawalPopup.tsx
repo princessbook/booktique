@@ -17,7 +17,7 @@ const WithdrawalPopup = ({
             <div
               className='fixed inset-0 transition-opacity'
               aria-hidden='true'>
-              <div className='absolute inset-0 bg-gray-500 opacity-75'></div>
+              <div className='absolute inset-0 bg-black opacity-60'></div>
             </div>
 
             <span
@@ -28,18 +28,16 @@ const WithdrawalPopup = ({
 
             <div className='inline-block align-center bg-white rounded-[20px] text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full w-[327px] h-[224px]'>
               <div className='bg-white px-4 pt-5 '>
-                <div className='sm:flex sm:items-start'>
-                  <div className='mt-3 text-center'>
-                    <h3
-                      className='text-[16px] font-medium text-fontMain'
-                      id='modal-title'>
-                      북클럽을 정말 탈퇴할까요?
-                    </h3>
-                    <div className='mt-2'>
-                      <p className='text-[14px] text-fontGray'>
-                        탈퇴하시면 모든 데이터가 삭제됩니다.
-                      </p>
-                    </div>
+                <div className='mt-3 text-center'>
+                  <h3
+                    className='text-[16px] font-medium text-fontMain'
+                    id='modal-title'>
+                    북클럽을 정말 탈퇴할까요?
+                  </h3>
+                  <div className='mt-2'>
+                    <p className='text-[14px] text-fontGray'>
+                      탈퇴하시면 모든 데이터가 삭제됩니다.
+                    </p>
                   </div>
                 </div>
               </div>

@@ -248,3 +248,11 @@ input[type='password']::-ms-clear {
   width: 20px;
   border-radius: 20px;
 }
+.no_scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no_scroll::-webkit-scrollbar {
+  display: none !important;
+}

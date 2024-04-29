@@ -5,6 +5,8 @@ import { MEMBERS_TABLE } from '@/common/constants/tableNames';
 import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/lib/types/supabase';
 import Members from './Members';
+import JoinPopUp from './joinPopUp';
+import { useRouter } from 'next/navigation';
 
 const BookClubDetailCSR = ({
   id,
@@ -17,6 +19,7 @@ const BookClubDetailCSR = ({
   const [bookclub, setBookClub] = useState<Tables<'clubs'>>();
   const supabase = createClient();
   const [isJoinOrResign, setIsJoinOrResign] = useState(false);
+
   useEffect(() => {
     const fetchClubMembers = async () => {
       const { data, error: membersError } = await supabase

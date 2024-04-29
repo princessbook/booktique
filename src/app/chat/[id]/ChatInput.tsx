@@ -67,7 +67,7 @@ const ChatInput = () => {
       if (error) {
         throw new Error('이미지 업로드 실패', error);
       }
-      console.log(fileName);
+      // console.log(fileName);
       return `${process.env
         .NEXT_PUBLIC_SUPABASE_URL!}/storage/v1/object/public/images/bookclubChat/${fileName}`;
     } catch (error) {
@@ -131,7 +131,7 @@ const ChatInput = () => {
         }
       ]);
       // 콘솔에 메시지 확인
-      console.log('전송된 메시지:', newMessage);
+      // console.log('전송된 메시지:', newMessage);
     } else {
       alert('빈값입니다');
     }

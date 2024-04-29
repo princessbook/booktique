@@ -27,9 +27,12 @@ const SentenceStorage = ({
     [sentenceId: string]: number;
   }>({});
   const [isModal, setIsModal] = useState(false);
+  const [nonArchiveClub, setNonArchiveClub] = useState<boolean | null>(false);
   const [selectedSentences, setSelectedSentences] = useState<string[]>([]);
+
   useEffect(() => {
     fetchData();
+    fetchNonArchiveClub();
   }, [clubId]);
 
   const fetchData = async () => {
@@ -39,7 +42,24 @@ const SentenceStorage = ({
       fetchCommentCounts(sentences);
     }
   };
+  const fetchNonArchiveClub = async () => {
+    if (clubId) {
+      const { data: nonArchiveClubData, error } = await supabase
+        .from('clubs')
+        .select('archive')
+        .eq('id', clubId)
+        .single();
 
+      if (error) {
+        console.error('Error fetching non-archive club data:', error);
+        return;
+      }
+
+      if (nonArchiveClubData) {
+        setNonArchiveClub(nonArchiveClubData?.archive);
+      }
+    }
+  };
   const fetchCommentCounts = async (sentences: Sentences[]) => {
     const newCommentCountMap: { [sentenceId: string]: number } = {};
     for (const sentence of sentences) {
@@ -131,17 +151,21 @@ const SentenceStorage = ({
         </ul>
       )}
       <div className='flex justify-end'>
-        <button
-          onClick={
-            selectedSentences.length > 0
-              ? handleDeleteSelected
-              : handleSentenceSaveBtn
-          }
-          className={`py-[15px] px-[20px] bottom-[110px] fixed text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer ${
-            selectedSentences.length > 0 ? 'bg-red-500' : 'bg-mainblue'
-          }`}>
-          {selectedSentences.length > 0 ? '선택된 문장 삭제' : '문장 공유하기'}
-        </button>
+        {nonArchiveClub ? null : (
+          <button
+            onClick={
+              selectedSentences.length > 0
+                ? handleDeleteSelected
+                : handleSentenceSaveBtn
+            }
+            className={`py-[15px] px-[20px] bottom-[110px] fixed text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer ${
+              selectedSentences.length > 0 ? 'bg-red-500' : 'bg-mainblue'
+            }`}>
+            {selectedSentences.length > 0
+              ? '선택된 문장 삭제'
+              : '문장 공유하기'}
+          </button>
+        )}
       </div>
       <SentenceModal
         bookpage={bookpage}

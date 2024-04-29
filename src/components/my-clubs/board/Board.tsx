@@ -7,7 +7,9 @@ import Link from 'next/link';
 import ArticleTimeStamp from './boardDetail/ArticleTimeStamp';
 import NoContentMessage from '@/components/common/NoContentMessage';
 import LoadingAnimation from '@/components/common/LoadingAnimation';
+import { createClient } from '@/utils/supabase/client';
 
+const supabase = createClient();
 const Board = ({ clubId }: { clubId: string }) => {
   const {
     data: posts,
@@ -19,7 +21,18 @@ const Board = ({ clubId }: { clubId: string }) => {
     queryFn: fetchPosts,
     staleTime: 1000 * 120
   });
-
+  const { data: nonArchiveClub } = useQuery({
+    queryKey: ['club', clubId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('clubs')
+        .select('archive')
+        .eq('id', clubId)
+        .single();
+      if (error) throw error;
+      return data;
+    }
+  });
   if (!isLoading && !posts && !isPending)
     return (
       <div className='h-screen flex justify-center items-center align-middle '>
@@ -97,13 +110,15 @@ const Board = ({ clubId }: { clubId: string }) => {
           </div>
         )
       )}
-      <div className='flex px-4 justify-end w-full'>
-        <Link
-          className='py-[15px] px-[20px] fixed bottom-[110px] text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-mainblue'
-          href={`/board/posting/${crypto.randomUUID()}?clubId=${clubId}`}>
-          글 쓰러가기
-        </Link>
-      </div>
+      {!nonArchiveClub?.archive && (
+        <div className='flex px-4 justify-end w-full'>
+          <Link
+            className='py-[15px] px-[20px] fixed bottom-[110px] text-white rounded-full shadow-lg hover:shadow-xl transition duration-300 font-bold cursor-pointer bg-mainblue'
+            href={`/board/posting/${crypto.randomUUID()}?clubId=${clubId}`}>
+            글 쓰러가기
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

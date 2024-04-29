@@ -255,4 +255,8 @@ input[type='password']::-ms-clear {
 
 .no_scroll::-webkit-scrollbar {
   display: none !important;
+  width: 0;
+  height: 0;
+  background: transparent;
+  -webkit-appearance: none;
 }

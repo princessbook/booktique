@@ -327,13 +327,11 @@ yarn dev
 |                                                       로그인 화면                                                       |                                                     내 북클럽 화면                                                      |
 | :---------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: |
 | <img src="https://github.com/princessbook/booktique/assets/97039528/87863b8b-34b8-41cc-9d07-e0ee000b7edd" width="100%"> | <img src="https://github.com/princessbook/booktique/assets/97039528/18552947-bc07-4639-b1a2-594d66e1f94c" width="100%"> |
-|                                                       책읽기 화면                                                       |                                                    북클럽 찾기 화면                                                     |
+|                                                       책읽기 화면                                                        |                                                    북클럽 찾기 화면                                                      |
 | <img src="https://github.com/princessbook/booktique/assets/97039528/485b44be-da19-4e21-9fea-d416f188035e" width="100%"> | <img src="https://github.com/princessbook/booktique/assets/97039528/80fc67e7-a3c6-4b14-9a00-0b7d559e14ff" width="100%"> |
-
-|  
-| 마이페이지 화면 | 북클럽 찾기 화면 |
+|                                                      마이페이지 화면                                                     |                                                     북클럽 찾기 화면                                                      |
 | <img src="https://github.com/princessbook/booktique/assets/97039528/e502eb87-f0d9-4019-bffd-69e3b947519f" width="100%"> | <img src="https://github.com/princessbook/booktique/assets/97039528/80fc67e7-a3c6-4b14-9a00-0b7d559e14ff" width="100%"> |
-|
+
 
 - React Query를 이용하여 로그인 회원가입 진행합니다.
 

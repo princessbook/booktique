@@ -15,8 +15,6 @@ const ChatMessages = async ({ id }: { id: string }) => {
   const getUser = await supabase.auth.getUser();
   const userId = getUser.data.user?.id;
 
-  console.log('데이터', getUser.data.user);
-
   return (
     <Suspense fallback={'loading...'}>
       <ChatBackImg userId={userId} />

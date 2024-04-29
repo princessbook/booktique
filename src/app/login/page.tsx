@@ -4,7 +4,6 @@ import LoginForm from '@/components/login/LoginForm';
 
 export default async function LoginPage() {
   const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
 
   const { data: users } = await supabase.from('profiles').select('*');
 

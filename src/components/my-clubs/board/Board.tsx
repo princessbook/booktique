@@ -56,7 +56,7 @@ const Board = ({ clubId }: { clubId: string }) => {
         (
           post //FIXME - query는 타입명시 필요
         ) => (
-          <div key={post.id} className=' border-t'>
+          <div key={post.id}>
             <div className='m-4 flex'>
               <Link
                 className='w-full'

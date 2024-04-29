@@ -8,18 +8,18 @@ const SelectModal = ({
   onClose
 }: {
   isModal: boolean;
-  clubs: { id: string; name: string }[];
+  clubs: { id: string; name: string; archive: string }[];
   currentClubId: string;
   onSelectClub: (clubId: string) => void;
   onClose: () => void;
 }) => {
   return (
     <div
-      className={`fixed w-[375px] mx-auto inset-0 z-50 flex items-end justify-center ${
+      className={`fixed mx-auto inset-0 z-50 flex items-end justify-center ${
         isModal ? '' : 'hidden'
       }`}>
       <div
-        className='absolute inset-0 bg-black opacity-50'
+        className='absolute inset-0 bg-black opacity-60'
         onClick={onClose}></div>
       <div className='bg-white rounded-t-[20px] z-10 relative w-full px-4 py-6'>
         <div className='flex mb-6'>

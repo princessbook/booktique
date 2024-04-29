@@ -1,9 +1,5 @@
 import { createClient } from '@/utils/supabase/server';
-import { addOneMonth, extractDate } from '@/utils/time';
 import Link from 'next/link';
-import ClubMembersCount from './ClubMembersCount';
-import Image from 'next/image';
-import ClubAdminProfile from './ClubAdminProfile';
 import ClubSearch from './ClubSearch';
 import NoContentMessage from '@/components/common/NoContentMessage';
 import LoadingAnimation from '@/components/common/LoadingAnimation';

@@ -39,8 +39,13 @@ const HomeTab = async ({ club }: { club: Clubs | null }) => {
   const formattedEndDate = formatDate(endDate);
 
   return (
-    <div className='overflow-y-scroll mb-[78px]'>
+    <div className='no_scroll mb-[78px]'>
       <div className='p-5 text-fontMain'>
+        {/* {club.archive && (
+          <div className='flex w-full items-center text-center mb-2 text-errorRed font-bold'>
+            <p className='w-full'>종료된 북클럽입니다.</p>
+          </div>
+        )} */}
         <p className='text-[16px] font-bold '>함께 읽고 있는 책</p>
         <ClubBook club={club} />
         <div className='mt-8'>

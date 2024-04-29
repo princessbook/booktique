@@ -214,7 +214,7 @@ input[type='password']::-ms-clear {
 
 .custom-dots {
   position: absolute;
-  top: 60%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: inline-block;
@@ -247,4 +247,16 @@ input[type='password']::-ms-clear {
   background-color: #35a5f6;
   width: 20px;
   border-radius: 20px;
+}
+.no_scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no_scroll::-webkit-scrollbar {
+  display: none !important;
+  width: 0;
+  height: 0;
+  background: transparent;
+  -webkit-appearance: none;
 }

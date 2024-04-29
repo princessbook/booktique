@@ -88,7 +88,7 @@ const SentenceModal = ({
 
   return (
     <div
-      className={`fixed w-[375px] mx-auto inset-0 z-50 flex items-end justify-center ${
+      className={`fixed inset-0 z-50 flex items-end justify-center ${
         isModal ? '' : 'hidden'
       }`}>
       <div

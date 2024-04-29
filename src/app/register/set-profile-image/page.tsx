@@ -95,12 +95,11 @@ const AvatarPage = () => {
             ref={imgRef}
             className='hidden'
           />
-
           <button
             className='block mx-auto pt-[107px] text-[17px] font-bold'
             type='button'
             onClick={saveImgFile}>
-            사진 등록
+            프로필 사진을 추가해보세요
           </button>
         </form>
       </div>

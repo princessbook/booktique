@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import ArticleTimeStamp from './ArticleTimeStamp';
 import { IoIosArrowBack } from 'react-icons/io';
 import useGetUser from '@/hooks/useQuery/useGetUser';
+import Loading from '@/components/common/Loading';
 
 const BoardDetailArticle = ({
   postId,
@@ -58,7 +59,12 @@ const BoardDetailArticle = ({
 
   const { user } = useGetUser();
 
-  if (isLoading || !article || !article.profile) return <>로딩중</>;
+  if (isLoading || !article || !article.profile)
+    return (
+      <>
+        <Loading />
+      </>
+    );
   if (isError) return <>에러남</>;
 
   return (

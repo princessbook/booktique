@@ -36,7 +36,7 @@ const JoinBtn = ({
       data: { user }
     } = await supabase.auth.getUser();
     const userClubs = await getUserClubs(user!.id);
-    console.log('userClubs', userClubs);
+
     if (userClubs!.length >= 10) {
       alert('10개 이상의 북클럽에 가입할 수 없습니다.');
       return;

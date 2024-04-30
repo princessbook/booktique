@@ -45,7 +45,7 @@ const SearchResult = ({
   };
 
   if (bookItems && bookItems.length === 0) {
-    console.log('bookItems', bookItems);
+    // console.log('bookItems', bookItems);
     return (
       <div className='flex flex-col items-center justify-center mt-10'>
         <NoContentMessage width={125} imgUrl='/no_book.png'>

@@ -66,7 +66,7 @@ const BoardDetailArticle = ({
       <div className='w-full top-[84px]'>
         <section className='h-[54px] flex items-center justify-between fixed md:max-w-[375px] bg-white border-b-[1px] w-full'>
           <IoIosArrowBack
-            className='ml-4'
+            className='ml-4 cursor-pointer'
             size={25}
             onClick={() => router.push(`/my-clubs/${clubId}/posts`)}
           />
@@ -76,10 +76,13 @@ const BoardDetailArticle = ({
           <div className='flex mr-4 gap-1'>
             {user === article.user_id ? (
               <div className='flex mr-4 gap-1'>
-                <p onClick={() => handleUpdatePost(article.user_id as string)}>
+                <p
+                  className='cursor-pointer'
+                  onClick={() => handleUpdatePost(article.user_id as string)}>
                   수정
                 </p>
                 <p
+                  className='cursor-pointer'
                   onClick={() =>
                     handleDeletePost(article.id, article.user_id as string)
                   }>

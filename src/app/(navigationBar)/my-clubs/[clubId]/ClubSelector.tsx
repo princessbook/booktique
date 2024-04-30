@@ -41,7 +41,7 @@ const ClubSelector = ({ clubs, currentClubId }: Props) => {
             }
           }}>
           <span
-            className={`font-bold truncate ${
+            className={`font-bold truncate cursor-pointer ${
               currentClub && currentClub.archive ? 'text-fontGray' : ''
             }`}>
             {currentClub?.name}
@@ -58,7 +58,7 @@ const ClubSelector = ({ clubs, currentClubId }: Props) => {
       </div>
       {!nonActiveClub && (
         <div
-          className='absolute top-0 right-0 h-full flex items-center mr-2'
+          className='absolute top-0 right-0 h-full flex items-center mr-2 cursor-pointer'
           onClick={() => {
             setResignModalOpen(true);
           }}>

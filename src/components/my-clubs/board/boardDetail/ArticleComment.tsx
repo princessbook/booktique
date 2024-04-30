@@ -50,8 +50,8 @@ const ArticleComment = ({ postId }: { postId: string }) => {
     );
   return (
     <div className='flex-1 overflow-auto mb-[74px]'>
-      <div className=' h-[52px] text-sm text-fontGrayBlue items-center flex border-b-[1px]'>
-        <p> 💬댓글 {data.length}</p>
+      <div className=' h-[52px] px-2 text-sm text-fontGrayBlue items-center flex border-b-[1px]'>
+        <p> 💬 댓글 {data.length}</p>
       </div>
       {data.map((comment) => (
         <div key={comment.id} className='flex items-center gap-1 my-4 mx-4'>
@@ -73,7 +73,7 @@ const ArticleComment = ({ postId }: { postId: string }) => {
             />
           )}
           <div className='gap-1'>
-            <div className='flex gap-1'>
+            <div className='flex gap-1 items-center'>
               <p className=' text-sm'>{comment.profile?.display_name}</p>
               <ArticleTimeStamp created_at={comment.created_at} />
               {userId === comment.user_id ? (

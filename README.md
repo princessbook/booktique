@@ -6,8 +6,9 @@
 
 ## 배포 링크
 
-[Booktique 배포사이트 바로가기](https://booktique.vercel.app/)
-<a href="https://www.booktique.xyz" target="_blank"></a>
+[Booktique 배포사이트 바로가기](https://www.booktique.xyz/)
+<a href="[https://www.booktique.xyz/]" target="_blank"></a>
+
 
 ## 프로젝트 소개
 

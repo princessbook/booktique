@@ -19,6 +19,7 @@ const RegisterForm = () => {
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const passwordConfirmInputRef = useRef<HTMLInputElement>(null);
   const [toastMessage, setToastMessage] = useState<string>('');
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const router = useRouter();
@@ -35,6 +36,8 @@ const RegisterForm = () => {
   }, [email, password, passwordConfirm]);
 
   const handleRegister = async () => {
+    if (isRegistering) return; // 이미 회원가입 중이면 추가 동작을 방지
+    setIsRegistering(true); // 회원가입 시작 시, 버튼 비활성화
     try {
       // 이메일 유효성 검사
       if (!validateEmail(email)) {
@@ -80,6 +83,8 @@ const RegisterForm = () => {
     } catch (error) {
       console.error(error);
       setToastMessage('회원가입에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsRegistering(false);
     }
   };
 

@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/utils/userAPIs/Fns';
 import { createClient } from '@/utils/supabase/client';
 import useRealtimePostgresChanges from '@/hooks/useRealtimePostgresChanges';
+import { Skeleton } from '@nextui-org/react';
 const Profile = ({ userId }: { userId: string | null }) => {
   const {
     data: profiles,
@@ -17,78 +18,21 @@ const Profile = ({ userId }: { userId: string | null }) => {
     queryKey: ['profiles'],
     queryFn: getUserProfile
   });
-
+  if (isLoading) {
+    return (
+      <div className='max-w-[300px] w-full flex items-center gap-3'>
+        <div>
+          <Skeleton className='flex rounded-full w-12 h-12' />
+        </div>
+        <div className='w-full flex flex-col gap-2'>
+          <Skeleton className='h-3 w-3/5 rounded-lg' />
+          <Skeleton className='h-3 w-4/5 rounded-lg' />
+        </div>
+      </div>
+    );
+  }
   const userProfile = profiles?.find((profile) => profile.id === userId);
 
-  // 대연 추가
-  // const supabase = createClient();
-  // const [userClubs, setUserClubs] = useState<string[]>([]);
-  // console.log('userClubs', userClubs);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const { data: members, error } = await supabase
-  //       .from('members')
-  //       .select('club_id')
-  //       .eq('user_id', userId as string);
-  //     console.log('members', members);
-  //     if (error) {
-  //       // 오류 처리
-  //       console.error(
-  //         '멤버 정보를 가져오는 중 오류가 발생했습니다:',
-  //         error.message
-  //       );
-  //     } else {
-  //       // 사용자가 가입한 클럽 id만 배열로
-  //       const clubIds = members.map((membership) => membership.club_id);
-  //       setUserClubs(clubIds);
-  //       // 사용자가 가입한 클럽 정보 배열
-  //       const { data: userClubs, error: clubError } = await supabase
-  //         .from('clubs')
-  //         .select('*')
-  //         .in('id', clubIds);
-  //       if (clubError) {
-  //         console.error(
-  //           '클럽 정보를 가져오는 중 오류가 발생했습니다:',
-  //           clubError.message
-  //         );
-  //       } else {
-  //         console.log('사용자가 가입한 클럽:', userClubs);
-  //       }
-  //     }
-
-  //     // const { data: clubMembers, error: membersError } = await supabase
-  //     //   .from('members')
-  //     //   .select('*')
-  //     //   .eq('club_id', id);
-  //     // if (membersError) {
-  //     //   throw new Error('멤버 정보를 가져오는 도중 오류가 발생했습니다.');
-  //     // }
-  //   };
-  //   fetchData();
-  // }, [supabase, userId]);
-
-  // useRealtimePostgresChanges(
-  //   'post',
-  //   `club_id=in.(${userClubs})`,
-  //   async (payload) => {
-  //     if (payload) {
-  //       console.log('payload', payload);
-  //       setTimeout(async () => {
-  //         const { data: alarm } = await supabase
-  //           .from('alarm')
-  //           .select('*')
-  //           .eq('target_user_id', userId as string)
-  //           .order('created_at', { ascending: true });
-  //         console.log('alarm', alarm);
-  //         if (alarm) {
-  //           alert(alarm[alarm.length - 1]?.content);
-  //         }
-  //       }, 1000); // 1초 지연  지연을 걸지 않았을 때 alarm테이블을 제대로 받아오지 못했음
-  //     }
-  //   }
-  // );
-
-  // 대연 추가
   return (
     <div className='flex flex-col w-full bg-[#F6F7F9] rounded-[10px] p-2'>
       <div className='flex flex-col p-2'>

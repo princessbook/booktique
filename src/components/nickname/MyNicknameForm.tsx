@@ -7,23 +7,19 @@ import { getUserId } from '@/utils/userAPIs/authAPI';
 import Image from 'next/image';
 
 const MyNicknameForm = () => {
-  const [nickname, setNickname] = useState<string | null>(null);
+  const [nickname, setNickname] = useState<string>('');
   const [newNickname, setNewNickname] = useState<string>('');
   const nicknameInputRef = useRef<HTMLInputElement>(null);
   const [charCount, setCharCount] = useState(0);
   const maxChar = 12; // 최대 글자 수
   const router = useRouter();
 
-  const [userId, setuserId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // 띄어쓰기 제거
     const inputText = e.target.value.replace(/\s/g, '');
-    // 최대 글자 수 제한
     if (inputText.length <= maxChar) {
-      // 현재 글자 수 업데이트
       setCharCount(inputText.length);
-      // 입력된 닉네임 업데이트
       setNickname(inputText);
     }
   };
@@ -33,7 +29,7 @@ const MyNicknameForm = () => {
       const supabase = createClient();
       try {
         const fetchUserId = await getUserId();
-        setuserId(fetchUserId);
+        setUserId(fetchUserId);
         const { data, error } = await supabase
           .from('profiles')
           .select('*')
@@ -42,7 +38,8 @@ const MyNicknameForm = () => {
           throw error;
         }
         if (data && data.length > 0) {
-          setNickname(data[0].display_name);
+          setNickname(data[0].display_name!);
+          setCharCount(data[0].display_name!.length); // Set character count based on fetched nickname
         }
       } catch (error) {
         console.error(error);
@@ -50,26 +47,28 @@ const MyNicknameForm = () => {
     };
     fetchUserData();
   }, []);
+
   const handleUpdateNickname = async () => {
+    if (!nickname.trim()) {
+      alert('닉네임을 입력하세요.'); // 빈 값일 때 알림창 띄우기
+      return;
+    }
+
     const supabase = createClient();
-    const {
-      data: { user }
-    } = await supabase.auth.getUser();
     try {
       const { error } = await supabase
         .from('profiles')
         .update({ display_name: nickname })
-        .eq('id', user?.id || '');
+        .eq('id', userId || '');
       if (error) {
         throw error;
       }
-      setNickname(nickname);
-      setNewNickname('');
       router.push(`/register/set-profile-image`);
     } catch (error) {
       console.error(error);
     }
   };
+
   return (
     <div className='mx-[12px] h-full relative'>
       <Image
@@ -92,10 +91,9 @@ const MyNicknameForm = () => {
           name='nickname'
           inputRef={nicknameInputRef}
           placeholder='닉네임'
-          value={nickname || ''}
+          value={nickname}
           onChange={handleNicknameChange}
         />
-
         <div className='text-[12px] absolute right-10 top-1/3 translate-y-[-20%]'>{`${charCount}/${maxChar}`}</div>
       </div>
       <span className='text-[12px] text-[#939393]'>

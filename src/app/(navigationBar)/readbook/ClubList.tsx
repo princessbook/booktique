@@ -143,8 +143,8 @@ const ClubList = ({
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundImage: `url(${club.club?.book_cover})`,
-                    backdropFilter: 'blur(8px)',
-                    opacity: 0.8
+                    backdropFilter: 'blur(8px)'
+                    // opacity: 0.8
                   }}>
                   <div
                     className='flex items-center justify-center h-[100px]'
@@ -154,8 +154,8 @@ const ClubList = ({
                     <div
                       className='flex text-white text-[16px] w-[196px] font-bold break-words line-clamp-2 text-center h-full justify-center items-center '
                       style={{
-                        textShadow: '0px 0px 30px rgba(0, 0, 0, 0.8)',
-                        backdropFilter: 'blur(8px)'
+                        textShadow: '0px 0px 30px rgba(0, 0, 0, 0.8)'
+                        // backdropFilter: 'blur(8px)'
                       }}>
                       {club.club?.name}
                     </div>

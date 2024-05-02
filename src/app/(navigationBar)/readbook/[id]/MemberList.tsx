@@ -113,11 +113,11 @@ const MemberList = ({
                     독서중
                   </div>
                 )}
-                {(member?.club_activities[0]?.progress as number) > 0 && (
+                {/* {(member?.club_activities[0]?.progress as number) > 0 && (
                   <div className='p-1 gap-2 absolute w-[42px] h-[17px] left-[11px] top-[10px] bg-[#269AED] rounded-md text-[11px] leading-[10px] font-medium text-white'>
                     독서중
                   </div>
-                )}
+                )} */}
                 {member.profiles?.photo_URL ? (
                   <Image
                     src={member.profiles.photo_URL}

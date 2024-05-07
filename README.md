@@ -345,7 +345,7 @@ yarn dev
 
 |                                                                                                                 북클럽 찾기                                                                                                                  |                                                     북클럽 만들기                                                      |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/princessbook/booktique/assets/97039528/80fc67e7-a3c6-4b14-9a00-0b7d559e14ff" width="25%"><img src="https://github.com/princessbook/booktique/assets/97039528/1c252691-945a-479c-9587-2fdf39a19c9d" width="25%"> | <img src="https://github.com/princessbook/booktique/assets/97039528/96c5438c-f61b-40ea-abf5-faab68828ec0" width="30%"> |
+| <img src="https://github.com/princessbook/booktique/assets/97039528/80fc67e7-a3c6-4b14-9a00-0b7d559e14ff" width="25%"><img src="https://github.com/princessbook/booktique/assets/97039528/1c252691-945a-479c-9587-2fdf39a19c9d" width="25%"> | <img src="https://github.com/princessbook/booktique/assets/97039528/96c5438c-f61b-40ea-abf5-faab68828ec0" width="50%"> |
 |                                       - 로그인후 해당페이지로 리다이렉트<br />-카테고리별로 북클럽 찾기 가능하고 무한스크롤을 이용하여 <br /> 원하는 북클럽이 나올때까지 렌더링시킬 수 있습니다.<br />                                       |                원하는 책을 파일첨부하고 모집인원수 책에 대한 간단한 소개를한 뒤 북클럽을 만들 수 있다.                 |
 
 ### 3.내 북클럽(정보,문장저장소, 퀴즈, 자유게시판)
@@ -354,5 +354,3 @@ yarn dev
 | :--------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | <img src="https://github.com/princessbook/booktique/assets/97039528/18552947-bc07-4639-b1a2-594d66e1f94c" width="50%"> | <img src="https://github.com/princessbook/booktique/assets/97039528/50981102-0a2c-44c1-bc85-4b8e62995908" width="25%"><img src="https://github.com/princessbook/booktique/assets/97039528/a7f581e1-b781-4e83-9db2-e54439b01626" width="25%"> |
 |                                             sns로그인 또는 email로 로그인                                              |                                                                                            회원가입시 유효성 검사를 마쳐야 회원가입이 되도록 설정                                                                                            |
-
-https://github.com/princessbook/booktique/assets/97039528/96c5438c-f61b-40ea-abf5-faab68828ec0

@@ -203,7 +203,7 @@ const BookInfo = ({
 
   const bookTitle = data?.book_title;
   const titleLength = bookTitle?.length;
-  const isSingleLine = (titleLength as number) <= 40;
+  const isSingleLine = (titleLength as number) <= 23;
   const containerHeight =
     isSingleLine || !timerVisible ? 'h-[102px]' : 'h-[124px]';
 
@@ -229,7 +229,7 @@ const BookInfo = ({
               </Link>
             </div>
             <div className='flex h-[54px] items-center ml-[94px] text-white text-[17px] leading-[26px] font-bold text-center'>
-              책 읽기 종료
+              책 읽기
             </div>
           </div>
         )}
@@ -247,7 +247,7 @@ const BookInfo = ({
           {timerVisible && (
             <div className='my-auto flex flex-col justify-center items-center gap-[8px] w-[295px]'>
               <Timer clubId={clubId} userId={userId as string} />
-              <div className='text-white mx-auto text-[16px] font-bold items-center text-center break-words line-clamp-2'>
+              <div className='flex  text-white mx-auto text-[16px] font-bold items-center text-center break-words line-clamp-2'>
                 {data?.book_title}
               </div>
             </div>

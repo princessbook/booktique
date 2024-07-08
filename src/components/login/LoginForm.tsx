@@ -29,6 +29,12 @@ const LoginForm = ({ users }: { users: Users[] }) => {
     setPassword(inputPassword);
     if (pwdError) setPwdError('');
   };
+  const handleTestLogin = () => {
+    setEmail('test1245@naver.com');
+    setPassword('Qwer123!@');
+    if (usersError) setUsersError('');
+    if (pwdError) setPwdError('');
+  };
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -111,6 +117,11 @@ const LoginForm = ({ users }: { users: Users[] }) => {
           type='submit'>
           로그인
         </button>
+        <div
+          className='cursor-pointer text-center mb-4 font-bold hover:text-mainblue'
+          onClick={handleTestLogin}>
+          테스트계정으로 채우기
+        </div>
         <Image src='/snsTitle.png' width={344} height={24} alt='snstitle' />
 
         <div className='flex justify-center mb-4'>
